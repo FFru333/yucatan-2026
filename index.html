@@ -430,6 +430,7 @@ html{overflow-anchor:none;scroll-behavior:auto}
  .plan{gap:40px}.ph{font-size:26px}
  .cals{grid-template-columns:repeat(2,minmax(0,1fr))}
  .dcol{grid-template-columns:1fr;gap:26px}
+ .maphint{display:none!important}
  .day>summary{padding:12px 14px}.dbody{padding:16px 14px 20px}
  .it{grid-template-columns:24px 54px minmax(0,1fr) 34px}
  .sg{grid-template-columns:auto minmax(0,1fr)}.sg .btn{grid-column:2;justify-self:start}
@@ -997,7 +998,7 @@ function mapSVG(o){
   });
  }
  /* rotte */
- const ids=o.its||[],used={},showH=!mini&&S.f.legs!==false;
+ const ids=o.its||[],used={},showH=!mini&&!o.mob&&S.f.legs!==false;
  const pills=[];
  ids.forEach((id,oi)=>{
   const it=S.its[id],c=computeIt(it),nodes=['cun',...it.stops.map(x=>x.b),'cun'],col=ITCOL[id];
@@ -1030,9 +1031,9 @@ function mapSVG(o){
  ids.forEach((id,oi)=>{
   const c=computeIt(S.its[id]);
   c.st.forEach((st,si)=>{
-   const [x,y]=P(st.b),n=(used[st.b]=(used[st.b]||0)+1)-1,w=(mini?34:70)*k,h=(mini?15:22)*k;
+   const [x,y]=P(st.b),n=(used[st.b]=(used[st.b]||0)+1)-1,w=(mini?26:58)*k,h=(mini?15:22)*k;
    const bx=x+(mini?13:18)*k,by=y-h/2+n*(h+3*k)+(mini?0:3*k);
-   const txt=mini?`${id==='M'?'Mio':id} ${st.n}n`:`${id==='M'?'Mio':id} ${si+1} · ${st.n}n`;
+   const txt=mini?`${st.n}n`:`${si+1} · ${st.n}n`;
    s+=`<g pointer-events="none"><rect x="${bx}" y="${by}" width="${w}" height="${h}" rx="${3*k}" fill="${ITCOL[id]}" stroke="var(--ink)" stroke-width="1.5" vector-effect="non-scaling-stroke"/><text x="${bx+w/2}" y="${by+h/2}" text-anchor="middle" dominant-baseline="central" font-family="DM Mono,monospace" font-weight="500" font-size="${fs(mini?10.5:13)}" style="fill:var(--it-ink)">${txt}</text></g>`;
   });
  });
@@ -1379,7 +1380,8 @@ function curW(){const h=$('#mapsvg'),r=h?h.getBoundingClientRect():{width:800,he
 function drawMap(){
  const host=$('#mapsvg');if(!host)return;
  const r=host.getBoundingClientRect(),cw=r.width||800,ch=r.height||500,w=curW(),h=w*ch/cw;
- host.innerHTML=mapSVG({...mapCtx(),vb:{x:S.cx-w/2,y:S.cy-h/2,w,h},k:w/cw,});
+ const mob=cw<600;
+ host.innerHTML=mapSVG({...mapCtx(),vb:{x:S.cx-w/2,y:S.cy-h/2,w,h},k:(w/cw)*(mob?0.6:1),mob});
 }
 const qdraw=()=>{if(raf)return;raf=requestAnimationFrame(()=>{raf=0;drawMap();});};
 function bindMap(host){
