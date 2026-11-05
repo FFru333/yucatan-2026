@@ -1,0 +1,1495 @@
+<!DOCTYPE html>
+<html lang="it"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" type="image/png" href="icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Yucatán"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>Yucatán, 8–22 dicembre</title>
+<meta name="description" content="Itinerario Yucatán, 8–22 dicembre: giorno per giorno, mappa e luoghi."><meta name="theme-color" content="#23603F">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Public+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: filtri a sinistra, mappa al centro, scheda del luogo a destra. Viste: Il piano, Giorni, Mappa, Modifica. */
+:root{
+  --bg:#EFEADB; --panel:#FFFDF6; --panel-2:#E6EDD9; --ink:#111612; --ink-2:#4B5E50; --line:#CDD2BF; --edge:#111612;
+  --accent:#1D5A3A; --accent-ink:#FFFFFF; --sea:#EDE8D8; --land:#C3D6B8; --border:#1D5A3A; --grid:#A7BBA3;
+  --warn:#111612; --warn-bg:#F7E39A; --ok-bg:#DCE7D2; --shadow:0 14px 34px rgba(17,22,18,.2); --hs:#111612;
+  --band:#1D5A3A; --band-ink:#FFFFFF; --gold:#F2C200; --red:#D9291C; --fret:#F2C200;
+  --it-d:#E8402F; --it-a:#E23B2A; --it-b:#4C7BE0; --it-c:#E0AE12; --it-m:#B07FDB; --it-ink:#111111;
+  --f-cult:#4C4FD0; --f-maya:#E0652A; --f-sera:#D63C8A; --f-mare:#1FA9C2; --f-nat:#5F8A1E; --f-vita:#E3B81F; --f-prat:#8A8A80;
+  --fd:"Anton","Arial Narrow",Impact,system-ui,sans-serif; --fb:"Public Sans","Segoe UI",system-ui,sans-serif; --fm:"DM Mono",ui-monospace,Menlo,monospace;
+  --grain:.12; --grain-mode:multiply; --r:14px;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0A140D; --panel:#12261A; --panel-2:#1D3A29; --ink:#F6F1E2; --ink-2:#B7C4B6; --line:#264232; --edge:#F2C200;
+  --accent:#F2C200; --accent-ink:#111111; --sea:#08110B; --land:#1F4A31; --border:#4C9468; --grid:#2E5A40;
+  --warn:#F2C200; --warn-bg:#3A3208; --ok-bg:#1D3A29; --shadow:0 14px 34px rgba(0,0,0,.6); --hs:#000000;
+  --band:#1D5A3A; --band-ink:#FFFFFF; --red:#FF6A55;
+  --it-d:#FF6A55; --it-a:#FF6A55; --it-b:#7AA4F2; --it-c:#F0C53A; --it-m:#C79BEA; --it-ink:#111111;
+  --f-cult:#8A8DFF; --f-maya:#FF8A4C; --f-sera:#F06AAE; --f-mare:#3CCBE0; --f-nat:#9CCB4A; --f-vita:#F0C53A; --f-prat:#9AA39A;
+  --grain:.08; --grain-mode:screen; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0A140D; --panel:#12261A; --panel-2:#1D3A29; --ink:#F6F1E2; --ink-2:#B7C4B6; --line:#264232; --edge:#F2C200;
+  --accent:#F2C200; --accent-ink:#111111; --sea:#08110B; --land:#1F4A31; --border:#4C9468; --grid:#2E5A40;
+  --warn:#F2C200; --warn-bg:#3A3208; --ok-bg:#1D3A29; --shadow:0 14px 34px rgba(0,0,0,.6); --hs:#000000;
+  --band:#1D5A3A; --band-ink:#FFFFFF; --red:#FF6A55;
+  --it-d:#FF6A55; --it-a:#FF6A55; --it-b:#7AA4F2; --it-c:#F0C53A; --it-m:#C79BEA; --it-ink:#111111;
+  --f-cult:#8A8DFF; --f-maya:#FF8A4C; --f-sera:#F06AAE; --f-mare:#3CCBE0; --f-nat:#9CCB4A; --f-vita:#F0C53A; --f-prat:#9AA39A;
+  --grain:.08; --grain-mode:screen; color-scheme:dark}
+
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html,body{height:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:13px/1.45 var(--fb)}
+h1,h2,h3,p{margin:0}
+h1,h2,h3{font-family:var(--fd);text-wrap:balance}
+button,select,input{font:inherit;color:inherit}
+button{cursor:pointer}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.mono{font-family:var(--fm);font-variant-numeric:tabular-nums}
+#app{height:100%;display:grid;grid-template-rows:auto minmax(0,1fr);gap:12px;padding:12px 16px}
+.top{display:flex;align-items:center;justify-content:space-between;gap:8px 18px;flex-wrap:wrap}
+.top h1{font-size:23px;font-weight:700;letter-spacing:-.015em}
+.top .sum{font-size:12px}
+.tabs{display:flex;border:1.5px solid var(--edge);border-radius:9px;overflow:hidden;background:var(--panel)}
+.tabs button{border:0;background:transparent;padding:7px 16px;font-weight:600}
+.tabs button+button{border-left:1.5px solid var(--edge)}
+.tabs button[aria-pressed=true]{background:var(--accent);color:var(--accent-ink)}
+.panel{background:var(--panel);border:1.5px solid var(--edge);border-radius:10px}
+.body{min-height:0;display:grid;gap:12px}
+.body.v-map{grid-template-columns:304px minmax(0,1fr)}
+.body.v-map.has-detail{grid-template-columns:304px minmax(0,1fr) 392px}
+.body.v-one{grid-template-columns:minmax(0,1fr)}
+
+/* Filtri */
+.filters{overflow:auto;padding:14px;display:flex;flex-direction:column;gap:17px;min-width:0}
+.fld{display:flex;flex-direction:column;gap:7px;border:0;margin:0;padding:0;min-width:0}
+.lab{font:500 11px/1.2 var(--fm);letter-spacing:.07em;text-transform:uppercase;color:var(--ink-2)}
+.row{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.val{font:500 13px var(--fm)}
+input[type=range]{width:100%;accent-color:var(--accent);margin:2px 0}
+input[type=search],input[type=number],select{width:100%;padding:7px 8px;border:1.5px solid var(--edge);border-radius:7px;background:var(--panel);color:var(--ink)}
+.hint{font-size:11.5px;color:var(--ink-2)}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{border:1.5px solid var(--edge);background:transparent;border-radius:999px;padding:3px 10px;line-height:1.3;display:inline-flex;gap:6px;align-items:center}
+.chip:hover{background:var(--panel-2)}
+.chip[aria-pressed=true]{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.dot{width:10px;height:10px;border-radius:50%;border:1.5px solid var(--ink);display:inline-block;flex:none}
+.sq{width:11px;height:11px;border-radius:3px;display:inline-block;flex:none;border:1.5px solid var(--ink)}
+.seg{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;border:1.5px solid var(--edge);border-radius:7px;overflow:hidden}
+.seg button{border:0;background:transparent;padding:6px 8px}
+.seg button+button{border-left:1.5px solid var(--edge)}
+.seg button[aria-pressed=true]{background:var(--accent);color:var(--accent-ink)}
+.chk{display:flex;gap:8px;align-items:flex-start}
+.chk input{margin:2px 0 0;accent-color:var(--accent)}
+.btn{border:1.5px solid var(--accent);background:var(--accent);color:var(--accent-ink);border-radius:7px;padding:6px 12px;font-weight:600}
+.btn.ghost{background:transparent;color:var(--ink);border-color:var(--edge)}
+.btn.sm{padding:3px 9px;font-size:12px}
+.btns{display:flex;gap:8px;flex-wrap:wrap}
+.famh{display:flex;align-items:center;gap:6px;font:500 10.5px var(--fm);text-transform:uppercase;letter-spacing:.06em;color:var(--ink-2);margin-top:2px}
+
+/* Mappa */
+.stage{display:flex;flex-direction:column;gap:10px;min-height:0;min-width:0}
+.mapbox{flex:1 1 auto;min-height:300px;position:relative;overflow:hidden;background:var(--sea)}
+#mapsvg{position:absolute;inset:0}#mapsvg svg{width:100%;height:100%;display:block}
+#mapsvg svg{touch-action:none;cursor:grab;user-select:none}
+#mapsvg svg.drag{cursor:grabbing}
+.land{fill:var(--land);stroke:var(--border);stroke-width:.8;stroke-linejoin:round;vector-effect:non-scaling-stroke}
+.grat{fill:none;stroke:var(--grid);stroke-width:.5;opacity:.4;vector-effect:non-scaling-stroke}
+.gl{fill:var(--ink-2);font-family:var(--fm);opacity:.8}
+.road{fill:none;stroke:var(--grid);stroke-width:1.2;stroke-dasharray:3 4;vector-effect:non-scaling-stroke}
+.reg{fill:var(--ink-2);font-family:var(--fm);letter-spacing:.2em;opacity:.45}
+.rt{fill:none;stroke-linecap:round;vector-effect:non-scaling-stroke}
+.poi{cursor:pointer}
+.poi circle.m{stroke:var(--ink);stroke-width:1.5;vector-effect:non-scaling-stroke}
+.poi.sel circle.m{stroke-width:4}
+.poi.dim{opacity:.22}
+.lbl{font-family:var(--fb);font-weight:600;fill:var(--ink);paint-order:stroke;stroke:var(--sea);stroke-linejoin:round;pointer-events:none}
+.bs rect{fill:var(--ink);stroke:var(--panel);vector-effect:non-scaling-stroke}
+.bs text{font-family:var(--fm);font-weight:500;fill:var(--ink);paint-order:stroke;stroke:var(--sea);stroke-linejoin:round;pointer-events:none}
+.bs.cl{cursor:pointer}
+.zoom{position:absolute;top:10px;right:10px;display:flex;flex-direction:column;border:1.5px solid var(--edge);border-radius:8px;overflow:hidden;background:var(--panel)}
+.zoom button{width:32px;height:32px;border:0;background:transparent;font-size:16px}
+.zoom button+button{border-top:1.5px solid var(--edge)}
+.count{position:absolute;left:10px;top:10px;background:var(--panel);border:1.5px solid var(--edge);border-radius:8px;padding:5px 10px;font-size:12px}
+.legend{flex:none;display:flex;flex-wrap:wrap;gap:4px 14px;font-size:11.5px;align-items:center}
+.legend span{display:inline-flex;align-items:center;gap:5px}
+.list{flex:none;height:176px;overflow:auto}
+.list h3{font:500 11px var(--fm);letter-spacing:.07em;text-transform:uppercase;color:var(--ink-2);padding:9px 12px 5px;position:sticky;top:0;background:var(--panel);z-index:1}
+.lr{display:grid;grid-template-columns:14px minmax(0,1.4fr) minmax(0,1.6fr) 70px 24px;gap:10px;align-items:center;width:100%;text-align:left;border:0;border-top:1px solid var(--line);background:transparent;padding:6px 12px}
+.lr:hover,.lr.sel{background:var(--panel-2)}
+.lr .n{font-weight:600}.lr .z{display:block;font-size:11.5px;color:var(--ink-2);font-weight:400}
+.tg{border:1px solid var(--line);border-radius:999px;padding:0 8px;font-size:11.5px;color:var(--ink-2);white-space:nowrap}
+.tg.hit{background:var(--accent);border-color:var(--accent);color:var(--accent-ink);font-weight:600}
+button.tg{background:transparent;cursor:pointer}
+.tags{display:flex;flex-wrap:wrap;gap:4px}
+.empty{padding:14px 12px;color:var(--ink-2)}
+
+/* Scheda */
+.detail{overflow:auto;padding:16px;display:flex;flex-direction:column;gap:14px;min-width:0}
+.dh{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}
+.eyebrow{font:500 11px var(--fm);letter-spacing:.07em;text-transform:uppercase;color:var(--ink-2)}
+.detail h2{font-size:25px;line-height:1.1;font-weight:700;letter-spacing:-.015em}
+.x{border:1.5px solid var(--edge);background:transparent;border-radius:8px;width:30px;height:30px;font-size:15px;flex:none}
+.detail h3,.sec h3{font:500 11px var(--fm);letter-spacing:.07em;text-transform:uppercase;color:var(--ink-2);margin-bottom:6px}
+.kv{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:8px;overflow:hidden}
+.kv div{background:var(--panel);padding:8px 10px}
+.kv .k{font:500 10.5px var(--fm);letter-spacing:.06em;text-transform:uppercase;color:var(--ink-2)}
+.kv .v{font:600 14px/1.25 var(--fd);margin-top:2px;overflow-wrap:anywhere}
+.bd{display:inline-block;font:500 10px var(--fm);letter-spacing:.04em;text-transform:uppercase;border-radius:5px;padding:0 5px;border:1px solid var(--ink);margin-left:5px;vertical-align:1px}
+.bd.v{background:var(--accent);color:var(--accent-ink)}
+.bd.e{background:transparent;color:var(--ink-2);border-color:var(--ink-2)}
+.links{display:flex;flex-direction:column;gap:5px}
+.links a{display:flex;justify-content:space-between;gap:8px;border:1.5px solid var(--edge);border-radius:8px;padding:6px 10px;text-decoration:none;background:var(--panel)}
+.links a:hover{background:var(--panel-2)}
+.nb{display:grid;grid-template-columns:12px minmax(0,1fr) auto;gap:8px;align-items:center;width:100%;text-align:left;border:0;border-top:1px solid var(--line);background:transparent;padding:6px 2px}
+.nb:hover{background:var(--panel-2)}
+.nb .z{font-size:11.5px;color:var(--ink-2)}
+.sim{height:5px;background:var(--line);border-radius:3px;margin-top:3px}
+.sim i{display:block;height:100%;background:var(--accent);border-radius:3px}
+.note{padding:8px 10px;border:1px solid var(--edge);border-radius:8px;background:var(--warn-bg);font-size:12px}
+.pill{display:inline-flex;align-items:center;gap:5px;border:1.5px solid var(--edge);border-radius:999px;padding:0 9px;font:500 12px var(--fm)}
+
+/* Confronto */
+.cbar{display:flex;gap:14px 20px;flex-wrap:wrap;align-items:center;justify-content:space-between}
+.grid4{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:12px}
+.card{border:1.5px solid var(--edge);border-radius:10px;overflow:hidden;background:var(--panel);display:flex;flex-direction:column}
+.card .ch{padding:9px 12px;color:var(--it-ink);display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.card .ch h3{font-size:17px}
+.card .ch p{font-size:12px;opacity:.92}
+.card .cb{padding:10px 12px;display:flex;flex-direction:column;gap:10px}
+.st{display:grid;grid-template-columns:1fr auto;gap:3px 10px;font-size:12.5px}
+.st b{font-family:var(--fm);font-weight:500;text-align:right}
+.axes{display:grid;grid-template-columns:62px 1fr 22px;gap:4px 8px;align-items:center;font-size:11.5px}
+.axes .bar{height:7px;background:var(--line);border-radius:4px;overflow:hidden}
+.axes .bar i{display:block;height:100%}
+.mini{border:1.5px solid var(--edge);border-radius:7px;overflow:hidden;background:var(--sea)}
+.mini svg{display:block;width:100%;height:auto}
+table.mx{border-collapse:collapse;width:100%;min-width:640px}
+table.mx th,table.mx td{border-top:1px solid var(--line);padding:7px 10px;text-align:left;vertical-align:middle}
+table.mx th{font-weight:500}
+table.mx thead th{border-top:0;font-family:var(--fd);font-size:15px}
+table.mx td.best{background:var(--panel-2);font-weight:600}
+
+/* Costruisci */
+.bld{overflow:auto;padding:14px;display:flex;flex-direction:column;gap:14px;min-width:0}
+.stop{border:1.5px solid var(--edge);border-radius:10px;overflow:hidden;background:var(--panel)}
+.stop .sh{display:grid;grid-template-columns:34px minmax(150px,1.1fr) 90px minmax(0,1.4fr) auto;gap:10px;align-items:center;padding:10px 12px;border-bottom:1.5px solid var(--edge)}
+.stop .idx{width:30px;height:30px;border-radius:7px;border:1.5px solid var(--edge);display:grid;place-items:center;font:600 13px var(--fm);color:#111}
+.nst{display:flex;align-items:center;border:1.5px solid var(--edge);border-radius:7px;overflow:hidden}
+.nst button{border:0;background:transparent;width:28px;height:30px;font-size:15px}
+.nst span{flex:1;text-align:center;font:600 14px var(--fm)}
+.stop .sb{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:14px;padding:12px}
+.leg{display:flex;gap:8px;align-items:center;padding:6px 12px;background:var(--panel-2);font-size:12px;border-bottom:1.5px solid var(--edge)}
+.meter{height:10px;border:1.5px solid var(--edge);border-radius:6px;overflow:hidden;background:var(--panel);display:flex}
+.meter i{display:block;height:100%}
+.sbtn{border:1.5px solid var(--edge);background:transparent;border-radius:7px;width:28px;height:28px}
+.filters>*,.detail>*,.bld>*{flex:none}
+@media (max-width:1100px){.body.v-map,.body.v-map.has-detail{grid-template-columns:1fr}.stop .sh,.stop .sb{grid-template-columns:1fr}}
+@media (prefers-reduced-motion: no-preference){.chip,.lr,.nb,.links a{transition:background .12s}}
+
+/* ---- Maya x Lucha libre: carta risograph, verde giada, giallo senape, rosso/blu delle maschere ---- */
+body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:60;background:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 1.6 -.45'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");opacity:var(--grain);mix-blend-mode:var(--grain-mode)}
+#app{gap:18px}
+.top{position:relative;background:var(--band);color:var(--band-ink);padding:10px 18px;border:2px solid var(--edge);border-radius:6px;box-shadow:4px 4px 0 var(--hs)}
+.top h1{font-size:21px;font-weight:400;letter-spacing:.03em;text-transform:uppercase;display:flex;align-items:center;gap:12px;line-height:1.1}
+.top .sum{color:var(--band-ink);opacity:.82;margin-top:4px}
+.top .tabs{background:transparent;border-color:var(--gold)}
+.top .tabs button{color:var(--band-ink);font-weight:700;text-transform:uppercase;font-size:12px;letter-spacing:.05em}
+.top .tabs button+button{border-left-color:var(--gold)}
+.top .tabs button[aria-pressed=true]{background:var(--gold);color:#111}
+.top .btn.ghost{color:var(--band-ink);border-color:var(--gold);background:transparent}
+.panel,.card,.stop{border-width:2px;border-radius:6px}
+.panel{box-shadow:4px 4px 0 var(--hs)}
+.chip{border-width:2px;border-radius:5px;font-weight:600}
+.tg{border-radius:4px;border-color:var(--ink-2)}
+.btn{border-width:2px;border-radius:5px;font-weight:700;box-shadow:2px 2px 0 var(--hs);transition:transform .08s,box-shadow .08s}
+.btn:hover{transform:translate(1px,1px);box-shadow:1px 1px 0 var(--hs)}
+.btn.ghost{box-shadow:none}
+.seg,.tabs,.nst,.zoom,.count,.x,.sbtn,.links a,input[type=search],input[type=number],select{border-width:2px;border-radius:5px}
+.lab{display:flex;align-items:center;gap:7px;font-weight:500}
+.lab::before{content:"";width:8px;height:8px;flex:none;background:var(--gold);border:1.5px solid var(--edge);transform:rotate(45deg)}
+.chk .lab::before{display:none}
+.detail h2{font-size:21px;line-height:1.15;font-weight:400;letter-spacing:.01em;text-transform:uppercase}
+.card .ch h3{font-size:15px;font-weight:400;letter-spacing:.02em}
+table.mx thead th{font-size:13px;font-weight:400}
+.kv .v{font:700 14px/1.25 var(--fb)}
+.mapbox{border-radius:6px;border:2px solid var(--edge);box-shadow:4px 4px 0 var(--hs);background-image:radial-gradient(var(--grid) 0.9px,transparent 1.1px);background-size:9px 9px;background-color:var(--sea)}
+.land{stroke-width:1.6}
+.note{border-width:2px;border-radius:5px;border-left:8px solid var(--gold)}
+.bd{border-radius:3px}
+.lr:hover,.lr.sel{box-shadow:inset 4px 0 0 var(--gold)}
+::selection{background:var(--gold);color:#111}
+
+/* ---- scroll libero, mappa grande, legenda, misura ---- */
+html,body{height:auto;min-height:100%}
+#app{height:auto;display:flex;flex-direction:column;gap:18px;padding:14px 18px 40px}
+.body{align-items:start}
+.filters,.detail,.bld,.list{overflow:visible;height:auto;max-height:none}
+.list h3{position:static}
+.body.v-map{grid-template-columns:304px minmax(0,1fr)}
+.body.v-map.has-detail{grid-template-columns:304px minmax(0,1fr) 392px}
+.mapbox{flex:none;height:clamp(580px,80vh,900px);min-height:0}
+.mapbox.meas #mapsvg svg{cursor:crosshair}
+.poi circle.m{stroke-width:2}
+.bs rect{stroke-width:2.5px}
+.rt{stroke-linecap:round}
+.land{stroke-width:2}
+.count{font-size:13px;font-weight:500}
+.zoom button{width:38px;height:38px;font-size:19px}
+.mtools{position:static}
+.mbtn{position:absolute;left:10px;top:54px;z-index:2}
+.mbtn{padding:6px 12px;font-size:13px}
+.mpanel{background:var(--panel);border:2px solid var(--edge);border-radius:6px;box-shadow:3px 3px 0 var(--hs);padding:10px 12px;font-size:12.5px;width:340px;position:absolute;right:10px;bottom:58px;z-index:2;display:flex;flex-direction:column;gap:8px}
+.mrow{display:grid;grid-template-columns:34px minmax(0,1fr) auto;gap:8px;align-items:start;border-top:1px solid var(--line);padding-top:6px}
+.mrow:first-of-type{border-top:0;padding-top:0}
+.mrow .mn{font:700 12px var(--fm);background:var(--gold);color:#111;border:1.5px solid var(--ink);border-radius:4px;text-align:center;padding:1px 0}
+.mrow.cun .mn,.mrow.tot .mn{background:transparent;border-color:transparent}
+.mrow .mv{text-align:right;font-size:12.5px;white-space:nowrap}
+.mrow.tot{font-weight:700}
+.maphint{position:absolute;left:10px;bottom:56px;background:var(--panel);border:1.5px solid var(--edge);border-radius:5px;padding:3px 9px;font-size:11.5px;color:var(--ink-2);pointer-events:none}
+.legendp{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:12px 28px;padding:14px 16px;align-items:start}
+.legendp h3{font:500 11px var(--fm);letter-spacing:.07em;text-transform:uppercase;color:var(--ink-2);margin:0 0 6px}
+.lg{display:grid;grid-template-columns:70px minmax(0,1fr);gap:10px;align-items:center;font-size:12.5px;padding:5px 0;border-top:1px solid var(--line)}
+.lg:first-of-type{border-top:0}
+.lgcs{display:flex;flex-wrap:wrap;gap:6px 14px}
+.lgc{display:inline-flex;align-items:center;gap:6px;font-size:12.5px}
+.top{position:relative}
+.mapbox.meas .maphint{display:none}
+.fgrid{display:grid;grid-template-columns:auto minmax(0,1fr) 26px;gap:6px 10px;align-items:center;margin:10px 0}
+.fl{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;white-space:nowrap}
+.fbar{height:9px;background:var(--line);border-radius:3px;overflow:hidden;border:1px solid var(--edge)}
+.fbar i{display:block;height:100%}
+.fn{text-align:right;font-size:12.5px}
+.fstop{display:flex;flex-direction:column;gap:6px;border-top:1.5px solid var(--line);padding-top:10px}
+.fstop:first-child{border-top:0;padding-top:0}
+table.mx a{text-decoration:underline;text-underline-offset:2px}
+/* ---- Il piano ---- */
+.plan{display:flex;flex-direction:column;gap:26px;padding:4px 2px 30px;min-width:0}
+.phero{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:22px;align-items:center;background:var(--band);color:var(--band-ink);border:2px solid var(--edge);border-radius:6px;padding:22px 26px;box-shadow:4px 4px 0 var(--hs)}
+.phero h2{font-size:30px;line-height:1.1;font-weight:400;text-transform:uppercase;margin:6px 0 10px}
+.phero .btn.ghost{color:var(--band-ink);border-color:var(--band-ink);background:transparent}
+.phero p{opacity:.9;max-width:52ch;font-size:14px}
+.eyebrow2{font:500 11px var(--fm);letter-spacing:.09em;text-transform:uppercase;color:var(--gold)}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:10px}
+.stat{background:rgba(255,255,255,.08);border:2px solid var(--gold);border-radius:6px;padding:10px 12px;display:flex;flex-direction:column;gap:2px}
+.stat b{font:400 24px var(--fd);color:var(--gold)}
+.stat span{font-size:12px;opacity:.9}
+.anch{display:flex;flex-wrap:wrap;gap:8px}
+.anch a{border:2px solid var(--edge);border-radius:5px;padding:4px 12px;text-decoration:none;font-weight:600;font-size:12.5px;background:var(--panel)}
+.anch a:hover{background:var(--gold);color:#111}
+.ps{scroll-margin-top:14px}
+.ph{font:400 19px var(--fd);text-transform:uppercase;letter-spacing:.02em;margin-bottom:12px;display:flex;align-items:center;gap:10px}
+.ph::before{content:"";width:12px;height:12px;background:var(--gold);border:2px solid var(--edge);transform:rotate(45deg);flex:none}
+.two{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,4fr);gap:20px;align-items:start}
+.key{display:flex;flex-direction:column;gap:10px;font-size:13px}
+.key h4{font:500 11px var(--fm);letter-spacing:.07em;text-transform:uppercase;color:var(--ink-2);margin:0}
+.two2{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:22px;align-items:start}
+.two2 h4{font:500 11px var(--fm);letter-spacing:.07em;text-transform:uppercase;color:var(--ink-2);margin:0 0 6px}
+.flow{display:flex;align-items:stretch;gap:0;overflow-x:auto;padding:6px 2px 10px}
+.pn{flex:none;border:2px solid var(--edge);border-radius:6px;padding:9px 11px;display:flex;flex-direction:column;gap:2px;color:#111;box-shadow:3px 3px 0 var(--hs)}
+.pn b{font-size:14px}.pn span{font-size:12px}
+.pn.cun{background:var(--ink);color:var(--bg);min-width:96px}
+.hint2{opacity:.75}
+.pl{flex:none;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0 6px;font-size:12px;min-width:74px}
+.pl i{display:block;width:100%;height:0;border-top:3px solid var(--ink);position:relative;margin-top:4px}
+.pl i::after{content:"";position:absolute;right:-2px;top:-7px;border-left:9px solid var(--ink);border-top:5.5px solid transparent;border-bottom:5.5px solid transparent}
+.hs{display:flex;gap:14px;overflow-x:auto;padding:4px 4px 14px;scroll-snap-type:x proximity}
+.bc{flex:none;width:340px;scroll-snap-align:start;border:2px solid var(--edge);border-radius:6px;background:var(--panel);box-shadow:3px 3px 0 var(--hs);display:flex;flex-direction:column}
+.bh{padding:10px 14px;color:#111;border-bottom:2px solid var(--edge);display:flex;flex-direction:column;gap:2px}
+.bh h3{font-size:19px;font-weight:400;text-transform:uppercase}
+.bb{padding:12px 14px;display:flex;flex-direction:column;gap:8px}
+.td{display:grid;grid-template-columns:22px minmax(0,1fr) auto;gap:10px;align-items:start;padding:8px 0;border-top:1px solid var(--line)}
+.td input{margin-top:3px;accent-color:var(--accent)}
+.dec{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:8px;max-width:78ch}
+@media (max-width:1100px){.phero,.two,.two2{grid-template-columns:1fr}}
+html{overflow-anchor:none;scroll-behavior:auto}
+
+.days{display:flex;flex-direction:column;gap:10px}
+.day{border:2px solid var(--edge);border-radius:6px;background:var(--panel);box-shadow:3px 3px 0 var(--hs)}
+.day>summary{list-style:none;cursor:pointer;display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px;padding:10px 14px}
+.day>summary::-webkit-details-marker{display:none}
+.day>summary::before{content:"▸";color:var(--accent);font-size:14px}
+.day[open]>summary::before{content:"▾"}
+.day[open]>summary{border-bottom:1.5px solid var(--line)}
+.dd{font-weight:500;min-width:62px}
+.dtag{font:500 10.5px var(--fm);text-transform:uppercase;letter-spacing:.05em;border:1.5px solid var(--edge);border-radius:4px;padding:1px 6px;background:var(--gold);color:#111}
+.dtag.ev{background:transparent;color:var(--ink)}
+.prog{margin-left:auto;color:var(--ink-2)}
+.dbody{padding:12px 14px 14px;display:flex;flex-direction:column;gap:12px}
+.dbody h4{font:400 13px var(--fd);text-transform:uppercase;letter-spacing:.03em;margin:0 0 6px}
+.dcol{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:18px}
+.trb{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;background:var(--panel-2);border:1.5px solid var(--edge);border-radius:6px;padding:8px 12px}
+.it{display:grid;grid-template-columns:22px minmax(0,1fr) 28px;gap:6px;align-items:center;margin-bottom:6px}
+.it input[type=checkbox]{accent-color:var(--accent);width:18px;height:18px}
+.tin,.dnote,.dpadd,#tripnote{width:100%;border:1.5px solid var(--line);border-radius:5px;background:var(--bg);padding:6px 8px;min-height:36px}
+.dnote,#tripnote{resize:vertical;font:inherit}
+.x{border:0;background:transparent;font-size:18px;line-height:1;color:var(--ink-2);min-width:28px;min-height:28px}
+.pchips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px}
+.pchip{display:inline-flex;align-items:center;gap:6px;border:1.5px solid var(--edge);border-radius:5px;padding:2px 4px 2px 8px;background:var(--bg)}
+.pchip button:not(.x){border:0;background:transparent;font-weight:600;text-align:left}
+.pchip a{font-size:11.5px}
+.tipbox{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px;border-top:1.5px dashed var(--line);padding-top:12px}
+.tips{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
+.tips li{display:grid;grid-template-columns:18px minmax(0,1fr);gap:6px}
+.tripnote{display:flex;flex-direction:column;gap:6px}
+@media (max-width:720px){
+ body{font-size:14px}
+ .top h1{font-size:17px}
+ .top>.btns{width:100%;flex-wrap:wrap;min-width:0}.tabs{flex:1 1 100%;min-width:0}.tabs button{flex:1 1 0;padding:8px 2px;white-space:nowrap;font-size:10.5px;letter-spacing:.02em}
+ .body.v-map,.body.v-map.has-detail{grid-template-columns:minmax(0,1fr)}
+ .body.v-map .stage{order:-1}.body.v-map .chips{flex-wrap:wrap}.body.v-map .panel{min-width:0;max-width:100%}
+ .dcol{grid-template-columns:1fr}
+ .it{grid-template-columns:26px minmax(0,1fr) 34px}
+ .x{min-width:34px;min-height:34px}
+ .bc{width:84vw}
+ .mapbox{height:70vh}
+ .body.v-map .filters{max-height:none}
+}
+
+
+
+/* ===== Arena: tema premium ===== */
+#app{max-width:1520px;margin:0 auto;padding:max(22px,env(safe-area-inset-top)) max(32px,env(safe-area-inset-right)) max(48px,env(safe-area-inset-bottom)) max(32px,env(safe-area-inset-left));gap:22px}
+.top{border:0;border-bottom:6px solid var(--gold);border-radius:var(--r);padding:20px 28px 18px;box-shadow:none}
+.top h1{font-size:36px;font-weight:400;letter-spacing:.02em;line-height:1}
+.top .sum{font:400 11.5px/1.5 var(--fm);opacity:.7;margin-top:8px;max-width:70ch}
+.top .tabs{border:2px solid rgba(246,240,227,.3);border-radius:999px;overflow:hidden}
+.top .tabs button{padding:9px 20px;font:500 12px var(--fm);letter-spacing:.08em;text-transform:uppercase;border-radius:999px}
+.top .tabs button+button{border-left:0}
+.top .tabs button[aria-pressed=true]{background:var(--gold);color:#111}
+.top .btn.ghost{border-color:rgba(246,240,227,.3)}
+.panel,.card,.stop,.day,.bc{border-radius:var(--r);box-shadow:5px 5px 0 var(--hs)}
+.btn{border-radius:999px;padding:8px 18px;box-shadow:none;border-width:2px}
+.btn:hover{transform:none;background:var(--gold);border-color:var(--edge);color:#111;box-shadow:none}
+.btn.sm{padding:4px 12px}
+.btn.ghost:hover{background:var(--gold)}
+.chip{border-width:2px}
+.lab::before{background:var(--gold);border:0;transform:skewX(-14deg);width:8px;height:12px}
+::selection{background:var(--gold);color:#111}
+.phero{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:36px;align-items:end;border:0;border-radius:calc(var(--r) + 6px);padding:56px 52px 44px;position:relative;overflow:hidden;box-shadow:none}
+.phero::before{content:"";position:absolute;left:0;right:0;top:0;height:12px;background:repeating-linear-gradient(135deg,var(--gold) 0 16px,var(--red) 16px 32px)}
+.phero h2{font-size:clamp(38px,5.2vw,76px);line-height:.95;letter-spacing:.005em;margin:10px 0 18px}
+.phero p{font-size:15px;opacity:.82}
+.eyebrow2{color:var(--gold);letter-spacing:.14em}
+.stats{grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:22px}
+.phero .btn:not(.ghost){background:var(--gold);border-color:var(--gold);color:#111}.phero .btn:not(.ghost):hover{background:var(--band-ink);border-color:var(--band-ink)}
+.cals+.hint{margin-top:16px}
+.stat{background:transparent;border:0;border-top:3px solid var(--gold);border-radius:0;padding:12px 0 0}
+.stat b{font-size:38px;line-height:1;color:var(--band-ink);white-space:nowrap}
+.stat span{font:400 11.5px var(--fm);text-transform:uppercase;letter-spacing:.06em;opacity:.7}
+.plan{gap:56px;padding:8px 2px 40px}
+.ph{font-size:32px;letter-spacing:.01em;margin-bottom:18px}
+.ph::before{background:var(--gold);border:0;transform:skewX(-14deg);width:12px;height:26px}
+.anch a{border-width:2px;border-radius:999px}
+.cals{display:grid;grid-template-columns:repeat(auto-fill,minmax(124px,1fr));gap:14px}
+.cal{display:flex;flex-direction:column;align-items:flex-start;gap:2px;text-align:left;padding:14px;background:var(--panel);border:2px solid var(--edge);border-radius:var(--r);box-shadow:4px 4px 0 var(--hs);transition:transform .1s,box-shadow .1s}
+.cal:hover{transform:translate(3px,3px);box-shadow:1px 1px 0 var(--hs)}
+.cal b{font:400 42px/1 var(--fd)}
+.cal i{display:block;width:100%;height:7px;border-radius:4px;background:var(--bc);margin:8px 0 6px}
+.cal .cn{font-weight:700;font-size:13px}
+.cal .on{color:var(--ink);font-weight:500}
+/* giorni */
+.days{gap:16px}
+.day{background:var(--panel);overflow:hidden}
+.day>summary{gap:6px 14px;padding:14px 18px}
+.day>summary::before{order:9;margin-left:auto;font-size:18px}
+.day[open]>summary{border-bottom:2px solid var(--line)}
+.dn1{display:flex;flex-direction:column;align-items:center;min-width:58px;background:var(--ink);color:var(--panel);border-radius:10px;padding:7px 8px 6px}
+.dn1 b{font:400 28px/1 var(--fd)}.dn1 .mono{font-size:10px;text-transform:uppercase;letter-spacing:.08em;opacity:.8}
+.dw{display:flex;flex-direction:column;gap:2px}.dw b{font:400 22px/1.1 var(--fd);text-transform:uppercase;letter-spacing:.01em}
+.dtag{border:0;border-radius:999px;padding:3px 12px;background:var(--gold);color:#111}.dtag.ev{color:var(--ink)}
+.dtag.ev{background:transparent;color:var(--ink);border:2px solid var(--line)}
+.day{scroll-margin-top:14px}
+.dbody{padding:20px 22px 24px;gap:20px}
+.dbody h4{font:400 16px var(--fd);letter-spacing:.04em;margin:0 0 10px}
+.dcol{gap:36px;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr)}
+.trb{border-width:2px;border-radius:12px;padding:12px 16px}
+.it{display:grid;grid-template-columns:24px 62px minmax(0,1fr) 32px;gap:8px;align-items:center;padding:7px 0;border-bottom:1px solid var(--line);margin:0}
+.it.dn .itx{text-decoration:line-through;opacity:.55}
+.itx{min-width:0;display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.thh{text-align:center;font-family:var(--fm);padding:7px 4px!important}
+.tin,.thh,.dnew,.dnote,#tripnote{border:2px solid var(--line);border-radius:10px;background:var(--bg);padding:9px 12px;min-height:40px;width:100%;transition:border-color .12s}
+.tin:focus,.thh:focus,.dnew:focus,.dnote:focus,#tripnote:focus{border-color:var(--ink);outline:0}
+.addrow{display:flex;gap:8px;margin-top:12px}.addrow .btn{flex:none}
+.sgl{display:grid;gap:10px}
+.sg{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:12px;align-items:center;padding:12px 14px;border:2px solid var(--line);border-radius:12px;background:var(--panel);transition:border-color .12s}
+.sg:hover{border-color:var(--ink)}
+.sgb{display:flex;flex-direction:column;gap:2px;min-width:0}
+.sgn{border:0;background:none;padding:0;font-weight:700;font-size:14px;text-align:left;display:inline-flex;align-items:center;gap:8px}
+.sgn:hover{text-decoration:underline;text-underline-offset:3px}
+.mapl{font-size:11.5px;margin-left:4px}
+.more>summary{cursor:pointer;font-weight:700;margin:14px 0 10px}
+.tipd{border-top:2px dashed var(--line);padding-top:14px}.tipd>summary{cursor:pointer;font-weight:700}
+.tipd .tipbox{border:0;padding-top:14px}
+.tripnote{margin-bottom:6px;padding:18px 20px;gap:10px}
+@media (max-width:720px){
+ #app{padding:max(12px,env(safe-area-inset-top)) max(14px,env(safe-area-inset-right)) max(32px,env(safe-area-inset-bottom)) max(14px,env(safe-area-inset-left));gap:16px}
+ .top{padding:16px 16px 14px}.top h1{font-size:27px}
+ .top .tabs button{padding:9px 2px;font-size:10px;letter-spacing:.03em}
+ .phero{padding:34px 22px 26px;gap:22px;grid-template-columns:1fr}.phero h2{font-size:44px}
+ .stat b{font-size:34px}
+ .plan{gap:40px}.ph{font-size:26px}
+ .cals{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .dcol{grid-template-columns:1fr;gap:26px}
+ .day>summary{padding:12px 14px}.dbody{padding:16px 14px 20px}
+ .it{grid-template-columns:24px 54px minmax(0,1fr) 34px}
+ .sg{grid-template-columns:auto minmax(0,1fr)}.sg .btn{grid-column:2;justify-self:start}
+}
+</style></head>
+<body><div id="app"></div>
+<script>
+/* ===== DATI ===== */
+const FAMS={
+  cult:{n:'Cultura',c:'var(--f-cult)'},maya:{n:'Maya',c:'var(--f-maya)'},sera:{n:'Sera',c:'var(--f-sera)'},
+  mare:{n:'Mare e relax',c:'var(--f-mare)'},nat:{n:'Natura',c:'var(--f-nat)'},vita:{n:'Vita locale',c:'var(--f-vita)'},prat:{n:'Pratico',c:'var(--f-prat)'}
+};
+const TAGF={
+  'Arte contemporanea':'cult','Museo':'cult','Architettura':'cult','Street art':'cult','Gallerie':'cult',
+  'Maya':'maya',
+  'Cocktail':'sera','Ballo':'sera','Musica live':'sera','Cena':'sera','Serale':'sera',
+  'Spiaggia':'mare','Isola':'mare','Snorkeling':'mare','Mare':'mare',
+  'Natura':'nat','Cenote':'nat','Laguna':'nat',
+  'Villaggio tipico':'vita','Mercato':'vita','Cibo':'vita','Passeggiata':'vita',
+  'Gratis':'prat','Mezza giornata':'prat','Giornata intera':'prat','Affollato':'prat','Tranquillo':'prat','Trasporti':'prat'
+};
+const gq=q=>'https://www.google.com/search?q='+encodeURIComponent(q);
+const gm=(lat,lon)=>'https://www.google.com/maps/search/?api=1&query='+lat+','+lon;
+
+/* Basi dove dormire. prof = punteggi 0–5, giudizio mio, non misurato. */
+const BASES={
+  cun:{n:'Aeroporto di Cancún',s:'CUN',lat:21.0365,lon:-86.8771,kind:'air'},
+  pm:{n:'Puerto Morelos',lat:20.8478,lon:-86.8758,kind:'coast',prof:{art:1,maya:1,sera:1,relax:4,calma:5},
+    vibe:'Paese di pescatori sulla costa, a pochi minuti dall’aeroporto. Atterraggio morbido, mare, poca vita notturna.'},
+  hol:{n:'Holbox',lat:21.5226,lon:-87.3810,kind:'island',access:'chi',ferry:0.5,prof:{art:2,maya:0,sera:2,relax:5,calma:5},
+    vibe:'Isola senza auto, murales ovunque, serate con musica dal vivo ma niente club. Relax pieno.'},
+  val:{n:'Valladolid',lat:20.6897,lon:-88.2017,kind:'town',prof:{art:2,maya:4,sera:2,relax:1,calma:4},
+    vibe:'Il paese tipico a metà strada: base per Chichén Itzá, Ek Balam e i cenote.'},
+  mer:{n:'Mérida',lat:20.9674,lon:-89.6237,kind:'city',prof:{art:5,maya:3,sera:5,relax:1,calma:2},
+    vibe:'La capitale culturale: MACAY, palazzi, gallerie, cene e musica dal vivo. Uxmal a 1,5 h.'},
+  ism:{n:'Isla Mujeres',lat:21.2318,lon:-86.7456,kind:'island',access:'pj',ferry:0.5,prof:{art:2,maya:0,sera:3,relax:4,calma:3},
+    vibe:'Isola a 30 minuti di traghetto da Cancún, più sviluppata di Holbox; MUSA, il museo subacqueo, è qui davanti.'},
+  tul:{n:'Tulum',lat:20.2110,lon:-87.4650,kind:'coast',prof:{art:2,maya:3,sera:4,relax:4,calma:1},
+    vibe:'Spiaggia, locali e rovine sul mare. È il tipo di turismo che avevate detto di voler evitare.'},
+  bac:{n:'Bacalar',lat:18.6770,lon:-88.3930,kind:'town',prof:{art:0,maya:2,sera:1,relax:4,calma:5},
+    vibe:'Laguna a sud, lontana: circa 4 h dall’aeroporto. Molta calma, poca cultura.'},
+  cam:{n:'Campeche',lat:19.8454,lon:-90.5337,kind:'city',prof:{art:4,maya:3,sera:2,relax:1,calma:4},
+    vibe:'Città murata sul Golfo, tranquilla. Lontana dall’aeroporto (circa 6 h).'}
+};
+const NODES=Object.assign({},BASES,{chi:{n:'Chiquilá',lat:21.43,lon:-87.34},pj:{n:'Puerto Juárez',lat:21.1888,lon:-86.8125}});
+
+/* [a, b, ore, verificato(1/0)] */
+const DRIVE_LIST=[
+ ['cun','pm',0.4,0],['cun','chi',1.9,1],['cun','val',2,1],['cun','mer',3.75,1],['cun','pj',0.4,0],
+ ['cun','tul',1.75,0],['cun','bac',4,0],['cun','cam',6,0],
+ ['pm','chi',1.75,0],['pm','val',2.2,0],['pm','mer',4.1,0],['pm','pj',0.6,0],
+ ['chi','val',2,0],['chi','mer',3.5,1],['chi','pj',1.8,0],
+ ['val','mer',1.75,1],['val','pj',2.2,0],['val','tul',1.9,0],
+ ['mer','pj',4.2,0],['mer','cam',2.1,1],
+ ['bac','mer',5,1],['bac','val',3.8,1],['bac','chi',4.75,0],['bac','pm',3.5,0]
+];
+const DRIVE={};DRIVE_LIST.forEach(([a,b,h,v])=>{DRIVE[[a,b].sort().join('-')]=[h,v];});
+
+const SRC={
+ bac1:'https://vibesite-1i9.pages.dev/blog/things-to-do-in-bacalar/',bac2:'https://blog.komoot.fr/guide/2815534/attractions-in-bacalar',bac3:'https://www.thoroughlytravel.com/?p=32466',bac4:'https://mexicancaribbean.travel/?p=1006',
+ hol1:'https://www.opreismetco.nl/en/?p=46346',hol2:'https://www.saltinourhair.com/mexico/holbox-mexico',hol3:'https://www.viajandoporelmundomundial.com/cosas-que-hacer-isla-holbox-mexico/',
+ pm1:'https://royalresorts.com/blog/?p=64966',pm2:'https://www.barcelo.com/guia-turismo/es/mexico/riviera-maya/que-ver/puerto-morelos/',pm3:'https://www.gvi.co.uk/blog/the-best-things-to-do-in-puerto-morelos/',pm4:'https://ruptura360.mx/lado-b/puerto-morelos-quintana-roo-actividades/',pm5:'https://mexicancaribbean.travel/puerto-morelos/things-to-do/places-to-visit.html',
+ macay:'https://mail.7toucans.com/en/things-to-do-when-traveling/north-america/mexico/merida/2229-yucatan-ateneo-museum-of-contemporary-art/print',
+ macay2:'https://casago.com/merida/things-to-do/museo-de-arte-contemporaneo-ateneo-de-yucatan',
+ free20:'https://yucatantoday.com/en/20-free-things-do-merida',
+ montejo:'https://yucatantoday.com/en/blog/the-henequen-mansions-of-paseo-de-montejo',
+ lpmontejo:'https://www.lonelyplanet.com/mexico/merida/attractions/paseo-de-montejo/a/poi-sig/1563833/361710',
+ rmn:'https://www.rivieramayanews.mx/paseo-de-montejo-historical-and-cultural-splendor-in-merida/',
+ mundo:'https://bidmanager.stategroup.com/explore-merida-s-art-culture-top-5-experiences',
+ luxton:'https://www.emilyluxton.co.uk/?p=33175',
+ milenio:'https://www.milenio.com/content/merida-es-el-destino-ideal-para-las-vacaciones-de-verano',
+ frommers:'https://www.frommers.com/destinations/merida-mexico/nightlife/overview',
+ ctnight:'https://www.theculturetrip.com/north-america/mexico/articles/the-best-spots-for-nightlife-in-merida-mexico',
+ fodors:'https://cdn.fodors.com/world/mexico-and-central-america/mexico/yucatan-and-campeche-states/places/merida/things-to-do/nightlife',
+ ytnight:'https://yucatantoday.com/en/blog/more-than-just-dinner-nightlife-activities-to-do-in-merida',
+ s47:'https://shebuystravel.com/merida-47th-street-downtown-entertainment/',
+ backpack:'https://www.takeyourbackpack.com/backpacking-in-mexico/visit-merida/',
+ uxmal1:'https://audiala.com/en/mexico/yucatan/uxmal',
+ uxmal2:'https://yucatantoday.com/en/uxmal/',
+ uxmal3:'https://maya-explorer-tours-1h3.pages.dev/guide/uxmal-ruins-guide',
+ fees26:'https://www.poresto.com/yucatan/2026/1/7/acceso-a-zonas-arqueologicas-de-yucatan-sube-en-2026-cuanto-cuesta-entrar-a-chichen-itza-uxmal-y-ek-balam.html',
+ feesrmn:'https://www.rivieramayanews.mx/yucatan-imposes-highest-archaeological-fees-in-mexico-for-foreign-tourists/',
+ chihours:'https://maya-explorer-tours-1h3.pages.dev/guide/chichen-itza-opening-hours',
+ fees07:'https://www.poresto.com/yucatan/2026/7/1/cuanto-cuesta-visitar-chichen-itza-y-uxmal-en-vacaciones-inah-actualiza-tarifas-en-yucatan.html',
+ c2m:'https://www.mexicotravelandleisure.com/blog/cancun-to-merida/',
+ holgraf:'https://theculturetrip.com/north-america/central-america/mexico/articles/this-secret-graffiti-island-is-one-of-the-most-colourful-places-in-the-world',
+ holnight:'https://www.traveloffpath.com/move-over-tulum-this-undiscovered-mexican-island-is-the-new-boho-paradise/',
+ holthings:'https://emilyluxton.co.uk/mexico/best-things-to-do-in-holbox',
+ holsalt:'https://www.saltinourhair.com/mexico/holbox-mexico',
+ holgo:'https://vibesite-1i9.pages.dev/blog/cancun-to-holbox/',
+ holbound:'https://www.boundlessroads.com/how-to-get-to-isla-holbox',
+ holstamp:'https://gettingstamped.com/how-to-get-to-isla-holbox-ferry',
+ holzola:'https://www.zola.com/wedding/beccaandlucas2027/faq',
+ musa1:'https://www.thoroughlytravel.com/musa-underwater-museum/',
+ musa2:'https://www.traveldojo.com/cancun-underwater-museum',
+ musa3:'https://www.privilegehotels.com/isla-mujeres/blog/musa',
+ musaf:'https://ww2.aaa.com/tripcanvas/attraction/underwater-museum-of-art-musa-VA12234',
+ camp1:'https://travel.com/regions/north-america/mexico/campeche-mexico-best-things-to-do-top-picks/',
+ camp2:'https://www.mexicotravelandleisure.com/blog/campeche-travel-guide/',
+ camp3:'https://blog.wayro.ai/merida-campeche-road-trip-stops-tolls-drive-time',
+ edzna:'https://mexiconewsdaily.com/mexicolife/edzna-ancient-maya-site/',
+ m2c:'https://www.universal-traveller.com/de/?p=243380'
+};
+
+/* from: ore di guida da una base, [ore, verificato]. isl: isola su cui si trova. gen: descrizione generale, non verificata qui. */
+const POIS=[
+{id:'macay',n:'MACAY, arte contemporanea',zone:'Mérida · Plaza Grande',lat:20.9675,lon:-89.6236,fam:'cult',
+ tags:['Arte contemporanea','Museo','Architettura','Gallerie','Mezza giornata'],
+ txt:'Unico museo di arte contemporanea della penisola, nell’ex palazzo arcivescovile accanto alla cattedrale. Mostre temporanee e grandi murales sulla storia dello Yucatán.',
+ price:'40 MXN secondo una fonte, gratuito secondo un’altra. Verifica.',priceV:0,hours:'Lun–Ven 10–17, sab 10–15 (annuncio di terzi)',hoursV:0,dur:'1,5–2 h',
+ from:{mer:[0.1,0]},
+ links:[['Scheda MACAY',SRC.macay,1],['Costi e indirizzo',SRC.macay2,1],['Mostre in corso: cerca',gq('MACAY Mérida exposiciones diciembre 2026'),0]]},
+{id:'canton',n:'Palacio Cantón',zone:'Mérida · Paseo de Montejo',lat:20.9862,lon:-89.6177,fam:'cult',
+ tags:['Architettura','Museo','Maya','Mezza giornata'],
+ txt:'Villa del 1904–1911 in stile porfiriano, tra gli esempi più riusciti di quell’epoca in Messico. Dentro c’è il Museo regionale di antropologia.',
+ price:'Ingresso: verifica.',priceV:0,hours:'Mar–Dom 8–17',hoursV:1,dur:'1–1,5 h',from:{mer:[0.2,0]},
+ links:[['Ville di Paseo de Montejo',SRC.montejo,1],['Prezzi: cerca',gq('Palacio Cantón Mérida entrada precio'),0]]},
+{id:'paseo',n:'Paseo de Montejo, le ville',zone:'Mérida',lat:20.9990,lon:-89.6150,fam:'cult',
+ tags:['Architettura','Passeggiata','Gratis','Serale'],
+ txt:'Viale ispirato ai boulevard europei, con le ville dell’epoca dell’henequén. La domenica diventa pedonale e ciclabile (biciruta).',
+ price:'Gratis.',priceV:1,hours:'Sempre accessibile',hoursV:0,dur:'1–2 h',from:{mer:[0.3,0]},
+ links:[['Ville dell’henequén',SRC.montejo,1],['Lonely Planet',SRC.lpmontejo,1],['Biciruta e tour',SRC.rmn,1]]},
+{id:'mundomaya',n:'Gran Museo del Mundo Maya',zone:'Mérida nord',lat:21.0270,lon:-89.6040,fam:'maya',pos:1,
+ tags:['Maya','Museo','Mezza giornata'],
+ txt:'Grande museo sulla civiltà Maya, fuori dal centro. Un blog lo abbina a Dzibilchaltún nella stessa mattina.',
+ price:'Ingresso: verifica.',priceV:0,hours:'Verifica.',hoursV:0,dur:'2–3 h',from:{mer:[0.4,0]},
+ links:[['Cultura di Mérida',SRC.mundo,1],['Abbinato a Dzibilchaltún',SRC.luxton,1],['Orari e prezzi: cerca',gq('Gran Museo del Mundo Maya Mérida horario precio'),0]]},
+{id:'santaana',n:'Gallerie di Santa Ana e Santiago',zone:'Mérida · Calle 60',lat:20.9748,lon:-89.6232,fam:'cult',
+ tags:['Gallerie','Arte contemporanea','Passeggiata','Gratis'],
+ txt:'Mérida ha sempre più gallerie d’arte: si passeggia lungo la Calle 60 a Santa Ana e nei dintorni di Santiago.',
+ price:'Ingresso gratuito di norma, verifica per ogni galleria.',priceV:0,hours:'Variabile',hoursV:0,dur:'1–2 h',from:{mer:[0.2,0]},
+ links:[['20 cose gratis a Mérida',SRC.free20,1],['Gallerie: cerca',gq('galerías de arte Mérida Yucatán Santa Ana Calle 60'),0]]},
+{id:'casamontejo',n:'Casa de Montejo',zone:'Mérida · Plaza Grande',lat:20.9672,lon:-89.6240,fam:'cult',
+ tags:['Architettura','Museo','Passeggiata'],
+ txt:'Palazzo del 1540 sulla piazza principale, con facciata scolpita. Dentro c’è un museo, gratuito secondo un blog.',
+ price:'Gratuito secondo un blog. Verifica.',priceV:0,hours:'Verifica.',hoursV:0,dur:'45 min',from:{mer:[0.1,0]},
+ links:[['Sulla piazza',SRC.milenio,1],['Museo gratuito (blog)',SRC.luxton,1]]},
+{id:'santalucia',n:'Parque de Santa Lucía',zone:'Mérida · Calle 60',lat:20.9702,lon:-89.6238,fam:'sera',
+ tags:['Musica live','Serale','Cena','Gratis','Ballo'],
+ txt:'Parco famoso per le serate all’aperto con trova dal vivo e ballerini locali. Arrivate al tramonto per cenare e ascoltare.',
+ price:'Gratis, si paga solo ciò che si consuma.',priceV:0,hours:'Sera',hoursV:0,dur:'2–3 h',from:{mer:[0.1,0]},
+ links:[['Guida a Mérida',SRC.backpack,1],['Programma serale: cerca',gq('Parque Santa Lucía Mérida serenata trova jueves'),0]]},
+{id:'corazon',n:'Corazón de Mérida',zone:'Mérida · Calle 60',lat:20.9690,lon:-89.6237,fam:'sera',
+ tags:['Musica live','Ballo','Serale','Gratis'],
+ txt:'Giovedì, venerdì e sabato sera le strade del centro diventano una festa con musica, danza e artigianato.',
+ price:'Gratis.',priceV:1,hours:'Gio–sab dalle 20 a mezzanotte',hoursV:1,dur:'2–3 h',from:{mer:[0.1,0]},
+ links:[['20 cose gratis a Mérida',SRC.free20,1],['Fodor’s: bar in centro',SRC.fodors,1]]},
+{id:'calle47',n:'Calle 47 e Parque de Santiago',zone:'Mérida · Santiago',lat:20.9745,lon:-89.6285,fam:'sera',pos:1,
+ tags:['Cena','Cocktail','Musica live','Serale'],
+ txt:'Via di ristoranti e locali a tema con musica dal vivo. Casa Dominga unisce food court, bar e concerti in un edificio del 1906.',
+ price:'Dipende dal locale.',priceV:0,hours:'Sera',hoursV:0,dur:'serata',from:{mer:[0.2,0]},
+ links:[['Calle 47, guida',SRC.s47,1],['Fodor’s',SRC.fodors,1],['Altri bar (Yucatán Today)',SRC.ytnight,1]]},
+{id:'mambo',n:'Mambo Café, salsa',zone:'Mérida · Plaza Las Américas',lat:21.0130,lon:-89.5700,fam:'sera',pos:1,
+ tags:['Ballo','Musica live','Serale'],
+ txt:'Indicato come il miglior locale della città per musica dal vivo e DJ di generi latini, dal reggaeton alla salsa. Per ballare davvero è la scelta più chiara.',
+ price:'Ingresso: verifica.',priceV:0,hours:'Verifica.',hoursV:0,dur:'serata',from:{mer:[0.4,0]},
+ links:[['Culture Trip',SRC.ctnight,1],['Frommer’s',SRC.frommers,1],['Eventi e ingresso: cerca',gq('Mambo Café Mérida Plaza Las Américas'),0]]},
+{id:'uxmal',n:'Uxmal',zone:'Puuc · 80 km da Mérida',lat:20.3598,lon:-89.7711,fam:'maya',
+ tags:['Maya','Architettura','Giornata intera'],
+ txt:'Grande città Maya in stile Puuc. Non si può salire sulla Piramide dell’Indovino. C’è anche uno spettacolo di luci serale.',
+ price:'Circa 450–556 MXN per stranieri (dato 2025), più 116 MXN di parcheggio. Verifica 2026.',priceV:0,hours:'Tutti i giorni 8–17',hoursV:1,dur:'3 h',
+ from:{mer:[1.5,1]},
+ links:[['Orari e biglietti',SRC.uxmal1,1],['Parcheggio e spettacolo',SRC.uxmal2,1],['Regole del sito',SRC.uxmal3,1],['Tariffe INAH 2026',SRC.fees26,1]]},
+{id:'dzibil',n:'Dzibilchaltún',zone:'Nord di Mérida',lat:21.0900,lon:-89.5970,fam:'maya',pos:1,
+ tags:['Maya','Natura','Mezza giornata'],
+ txt:'Sito Maya vicino a Mérida; il suo cenote risulta chiuso al pubblico (Por Esto, luglio 2026). Si combina con il Museo del Mundo Maya.',
+ price:'Tariffa INAH: verifica.',priceV:0,hours:'Verifica.',hoursV:0,dur:'2 h',from:{mer:[0.5,0]},
+ links:[['Tariffe INAH, luglio 2026',SRC.fees07,1],['Abbinato al museo',SRC.luxton,1]]},
+{id:'celestun',n:'Celestún',zone:'Golfo · 1 h 15 da Mérida',lat:20.8588,lon:-90.3988,fam:'nat',gen:1,
+ tags:['Natura','Spiaggia','Giornata intera'],
+ txt:'Riserva sul Golfo, nota per i fenicotteri nella stagione fredda. Descrizione generale, da verificare.',
+ price:'Barca per la laguna: verifica.',priceV:0,hours:'Verifica.',hoursV:0,dur:'giornata',from:{mer:[1.25,0]},
+ links:[['Tour e prezzi: cerca',gq('Celestún flamencos tour precio diciembre'),0],['Mappa',gm(20.8588,-90.3988),0]]},
+{id:'progreso',n:'Progreso',zone:'Golfo · 40 min da Mérida',lat:21.2833,lon:-89.6667,fam:'mare',gen:1,
+ tags:['Spiaggia','Cibo','Mezza giornata'],
+ txt:'Città balneare sul Golfo, la spiaggia più vicina a Mérida. Mare meno caraibico. Descrizione generale, da verificare.',
+ price:'Gratis.',priceV:0,hours:'—',hoursV:0,dur:'mezza giornata',from:{mer:[0.7,0]},
+ links:[['Mappa',gm(21.2833,-89.6667),0],['Info: cerca',gq('Progreso Yucatán playa cómo llegar desde Mérida'),0]]},
+{id:'izamal',n:'Izamal',zone:'Tra Mérida e Valladolid',lat:20.9333,lon:-89.0167,fam:'vita',gen:1,
+ tags:['Villaggio tipico','Architettura','Maya','Mezza giornata'],
+ txt:'Paese dalle facciate gialle con un grande convento. Si trova a metà strada fra Mérida e Valladolid. Descrizione generale, da verificare.',
+ price:'—',priceV:0,hours:'—',hoursV:0,dur:'3 h',from:{mer:[1,0],val:[1,0]},
+ links:[['Mappa',gm(20.9333,-89.0167),0],['Info: cerca',gq('Izamal Yucatán qué ver'),0]]},
+{id:'campeche',n:'Campeche, città murata',zone:'Golfo · 2 h da Mérida',lat:19.8454,lon:-90.5337,fam:'cult',
+ tags:['Architettura','Museo','Passeggiata','Cibo','Giornata intera'],
+ txt:'Unica città murata del Messico: fortificazioni del 1600, case colorate, bastioni diventati musei. Da Mérida servono circa 2 h.',
+ price:'Musei e bastioni: verifica.',priceV:0,hours:'Verifica.',hoursV:0,dur:'giornata',from:{mer:[2.1,1]},
+ links:[['Cosa vedere',SRC.camp1,1],['Guida 2026',SRC.camp2,1],['Strada Mérida–Campeche',SRC.camp3,1]]},
+{id:'edzna',n:'Edzná',zone:'Campeche · 1 h dalla città',lat:19.5967,lon:-90.2287,fam:'maya',
+ tags:['Maya','Natura','Giornata intera'],
+ txt:'Sito Maya con piramide a cinque livelli, a circa 1 h da Campeche. Si può fare in giornata anche da Mérida.',
+ price:'Verifica.',priceV:0,hours:'Verifica.',hoursV:0,dur:'3–4 h + strada',from:{mer:[2.5,0]},
+ links:[['Giornata da Mérida',SRC.edzna,1],['Da Campeche',SRC.camp2,1]]},
+{id:'valcentro',n:'Centro di Valladolid',zone:'Valladolid',lat:20.6897,lon:-88.2017,fam:'vita',gen:1,
+ tags:['Villaggio tipico','Cibo','Passeggiata','Architettura','Serale','Tranquillo'],
+ txt:'Piazza centrale, convento di San Bernardino e Calzada de los Frailes con i locali. Descrizione generale, da verificare.',
+ price:'—',priceV:0,hours:'—',hoursV:0,dur:'serata',from:{val:[0,0]},
+ links:[['Mappa',gm(20.6897,-88.2017),0],['Cosa vedere: cerca',gq('Valladolid Yucatán qué hacer Calzada de los Frailes restaurantes'),0]]},
+{id:'chichen',n:'Chichén Itzá',zone:'43 km da Valladolid',lat:20.6843,lon:-88.5678,fam:'maya',
+ tags:['Maya','Giornata intera','Affollato'],
+ txt:'Il sito Maya più famoso della penisola e Patrimonio mondiale. Si visita meglio all’apertura. Da Valladolid sono 43 km, da Mérida circa 1,5 h.',
+ price:'676 MXN per stranieri nel 2026 (105 INAH + 571 stato).',priceV:1,hours:'Tutti i giorni 8–17 (ultimo ingresso 16)',hoursV:0,dur:'3–4 h',
+ from:{val:[0.75,0],mer:[1.5,1]},
+ links:[['Prezzi 2026',SRC.fees26,1],['Prezzi: Riviera Maya News',SRC.feesrmn,1],['Orari',SRC.chihours,1],['Valladolid–Mérida',SRC.c2m,1]]},
+{id:'ekbalam',n:'Ek Balam',zone:'Nord di Valladolid',lat:20.8897,lon:-88.1344,fam:'maya',
+ tags:['Maya','Mezza giornata'],
+ txt:'Sito Maya a nord di Valladolid. Ha la tariffa più alta dello Yucatán: 691 MXN per stranieri nel 2026.',
+ price:'691 MXN per stranieri nel 2026.',priceV:1,hours:'Verifica.',hoursV:0,dur:'2–3 h',from:{val:[0.4,0]},
+ links:[['Tariffe 2026',SRC.fees26,1],['Orari: cerca',gq('Ek Balam horario entrada 2026'),0]]},
+{id:'ikkil',n:'Cenote Ik Kil',zone:'Vicino a Chichén Itzá',lat:20.6606,lon:-88.5519,fam:'nat',gen:1,
+ tags:['Cenote','Natura','Affollato','Mezza giornata'],
+ txt:'Cenote a pochi minuti da Chichén Itzá, comodo per chiudere la visita con un bagno. Descrizione generale, da verificare.',
+ price:'Verifica.',priceV:0,hours:'Verifica.',hoursV:0,dur:'1 h',from:{val:[0.75,0]},
+ links:[['Mappa',gm(20.6606,-88.5519),0],['Prezzi: cerca',gq('Cenote Ik Kil entrada precio'),0]]},
+{id:'suytun',n:'Cenote Suytun',zone:'Vicino a Valladolid',lat:20.6873,lon:-88.1325,fam:'nat',gen:1,pos:1,
+ tags:['Cenote','Natura','Mezza giornata'],
+ txt:'Cenote scenografico con la piattaforma al centro, a pochi minuti da Valladolid. Descrizione generale, da verificare.',
+ price:'Verifica.',priceV:0,hours:'Verifica.',hoursV:0,dur:'1 h',from:{val:[0.2,0]},
+ links:[['Mappa',gm(20.6873,-88.1325),0],['Prezzi: cerca',gq('Cenote Suytun entrada precio horario'),0]]},
+{id:'zaci',n:'Cenote Zací',zone:'Valladolid',lat:20.6925,lon:-88.2060,fam:'nat',gen:1,
+ tags:['Cenote','Natura','Villaggio tipico'],
+ txt:'Cenote dentro la città, vicino al centro. Descrizione generale, da verificare.',
+ price:'Verifica.',priceV:0,hours:'Verifica.',hoursV:0,dur:'45 min',from:{val:[0.05,0]},
+ links:[['Mappa',gm(20.6925,-88.2060),0]]},
+{id:'coba',n:'Cobá',zone:'Verso la costa',lat:20.4949,lon:-87.7365,fam:'maya',gen:1,
+ tags:['Maya','Natura','Mezza giornata'],
+ txt:'Sito Maya immerso nella foresta, tra Valladolid e Tulum. Descrizione generale, da verificare.',
+ price:'Verifica.',priceV:0,hours:'Verifica.',hoursV:0,dur:'2–3 h',from:{val:[1.1,0]},
+ links:[['Mappa',gm(20.4949,-87.7365),0],['Info: cerca',gq('Cobá zona arqueológica horario precio 2026'),0]]},
+{id:'lagartos',n:'Río Lagartos e Las Coloradas',zone:'Costa nord',lat:21.5961,lon:-88.1558,fam:'nat',gen:1,
+ tags:['Natura','Giornata intera'],
+ txt:'Laguna con fenicotteri e saline rosa sulla costa nord. Descrizione generale, da verificare.',
+ price:'Barca: verifica.',priceV:0,hours:'—',hoursV:0,dur:'giornata',from:{val:[1.5,0]},
+ links:[['Mappa',gm(21.5961,-88.1558),0],['Tour: cerca',gq('Río Lagartos Las Coloradas tour desde Valladolid'),0]]},
+{id:'tulumruins',n:'Rovine di Tulum',zone:'Costa · Tulum',lat:20.2150,lon:-87.4290,fam:'maya',
+ tags:['Maya','Mare','Affollato','Mezza giornata'],
+ txt:'Rovine sul mare, molto frequentate. Le fonti sul prezzo sono discordanti.',
+ price:'210 MXN (Por Esto, 2026) oppure 515 MXN (fonte non datata). Verifica.',priceV:0,hours:'Verifica.',hoursV:0,dur:'2 h',from:{},
+ links:[['Tariffe INAH 2026',SRC.fees26,1],['Orari: cerca',gq('Zona arqueológica de Tulum horario precio'),0]]},
+{id:'holpueblo',n:'Holbox, il paese e i murales',zone:'Holbox',lat:21.5226,lon:-87.3810,fam:'cult',isl:'hol',
+ tags:['Isola','Street art','Spiaggia','Musica live','Cibo','Tranquillo','Serale'],
+ txt:'Isola senza auto con murales nati dal festival di arte pubblica del 2014. Le serate sono musica dal vivo nei locali sulla spiaggia, senza club.',
+ price:'Gratis.',priceV:0,hours:'—',hoursV:0,dur:'giorni',from:{hol:[0,0]},
+ links:[['Isola dei graffiti',SRC.holgraf,1],['Serate di Holbox',SRC.holnight,1],['Cosa fare',SRC.holthings,1],['Bar sulla spiaggia',SRC.holsalt,1]]},
+{id:'holtour',n:'Banco di sabbia e tour delle tre isole',zone:'Holbox',lat:21.5385,lon:-87.5240,fam:'mare',isl:'hol',pos:1,
+ tags:['Mare','Natura','Isola','Snorkeling','Mezza giornata'],
+ txt:'Tour in barca verso Punta Mosquito e le isolette della laguna; il banco di sabbia si raggiunge anche a piedi.',
+ price:'Tour: verifica con più operatori.',priceV:0,hours:'—',hoursV:0,dur:'mezza giornata',from:{hol:[0.3,0]},
+ links:[['Cosa fare a Holbox',SRC.holthings,1],['Tour e punta Mosquito',gq('Holbox tour tres islas Punta Mosquito precio'),0]]},
+{id:'chiquila',n:'Chiquilá, traghetto e parcheggio',zone:'Imbarco per Holbox',lat:21.4300,lon:-87.3400,fam:'prat',
+ tags:['Trasporti'],
+ txt:'Qui si lascia l’auto. Parcheggi custoditi vicino al molo: 50–150 MXN al giorno secondo le fonti. Traghetti ogni 30 minuti, circa 25–30 minuti di traversata.',
+ price:'Parcheggio 50–150 MXN/giorno (fonti discordanti). Traghetto 170–200 MXN a persona.',priceV:0,hours:'Traghetti dalle 6:30 alle 21:30 (fonte di terzi)',hoursV:0,dur:'—',from:{hol:[0.5,1]},
+ links:[['Cancún–Holbox, costi',SRC.holgo,1],['Parcheggio e strada',SRC.holbound,1],['Auto a Chiquilá',SRC.holstamp,1],['Orari traghetti',SRC.holzola,1]]},
+{id:'pmtown',n:'Puerto Morelos, il paese',zone:'Costa · 20 min dall’aeroporto',lat:20.8478,lon:-86.8758,fam:'mare',gen:1,
+ tags:['Spiaggia','Villaggio tipico','Cibo','Tranquillo'],
+ txt:'Paese di pescatori a pochi minuti da Cancún, tranquillo. Descrizione generale, da verificare.',
+ price:'—',priceV:0,hours:'—',hoursV:0,dur:'giorni',from:{pm:[0,0]},
+ links:[['Mappa',gm(20.8478,-86.8758),0],['Info: cerca',gq('Puerto Morelos qué hacer restaurantes playa'),0]]},
+{id:'pmreef',n:'Barriera di Puerto Morelos',zone:'Costa',lat:20.8500,lon:-86.8400,fam:'mare',gen:1,
+ tags:['Snorkeling','Mare','Natura','Mezza giornata'],
+ txt:'Barriera corallina vicina alla riva, adatta allo snorkeling. Descrizione generale, da verificare.',
+ price:'Tour: verifica.',priceV:0,hours:'—',hoursV:0,dur:'mezza giornata',from:{pm:[0.2,0]},
+ links:[['Tour: cerca',gq('Puerto Morelos snorkel arrecife tour precio'),0]]},
+{id:'ismtown',n:'Isla Mujeres, il centro',zone:'Isla Mujeres',lat:21.2318,lon:-86.7456,fam:'mare',isl:'ism',
+ tags:['Isola','Cibo','Serale','Spiaggia'],
+ txt:'Si arriva con il traghetto Ultramar da Puerto Juárez in circa 30 minuti.',
+ price:'Traghetto: verifica.',priceV:0,hours:'Verifica.',hoursV:0,dur:'giorni',from:{ism:[0,0]},
+ links:[['Traghetto e MUSA',SRC.musaf,1],['Orari traghetto: cerca',gq('Ultramar Puerto Juárez Isla Mujeres horarios'),0]]},
+{id:'ismnorte',n:'Playa Norte',zone:'Isla Mujeres',lat:21.2420,lon:-86.7440,fam:'mare',isl:'ism',
+ tags:['Spiaggia','Isola'],
+ txt:'La spiaggia più nota dell’isola, vicino agli altri punti di interesse.',
+ price:'Gratis.',priceV:0,hours:'—',hoursV:0,dur:'mezza giornata',from:{ism:[0.1,0]},
+ links:[['Cosa vedere',SRC.musa2,1],['Mappa',gm(21.2420,-86.7440),0]]},
+{id:'musa1',n:'MUSA Manchones, sculture sott’acqua',zone:'Isla Mujeres',lat:21.1900,lon:-86.7500,fam:'cult',isl:'ism',pos:1,
+ tags:['Arte contemporanea','Snorkeling','Mare','Mezza giornata'],
+ txt:'Museo subacqueo di arte contemporanea con più di 500 sculture in tre siti tra Cancún e Isla Mujeres. Si visita solo con un tour in barca.',
+ price:'Immersione da Isla Mujeres: 2250 MXN (per brevettati). Snorkeling: verifica.',priceV:1,hours:'Tour di norma 8–17',hoursV:0,dur:'mezza giornata',from:{ism:[0.4,0]},
+ links:[['Come visitarlo',SRC.musa1,1],['Scheda MUSA',SRC.musa2,1],['Da Isla Mujeres',SRC.musa3,1]]},
+{id:'musa2',n:'MUSA Punta Nizuc, snorkeling',zone:'Cancún sud',lat:21.0580,lon:-86.7800,fam:'cult',pos:1,
+ tags:['Arte contemporanea','Snorkeling','Mare','Mezza giornata'],
+ txt:'Sito poco profondo del MUSA, adatto a chi fa snorkeling, più vicino a Cancún che a Isla Mujeres.',
+ price:'Tour: verifica.',priceV:0,hours:'Tour di norma 8–17',hoursV:0,dur:'mezza giornata',from:{pm:[0.6,0]},
+ links:[['Come visitarlo',SRC.musa1,1],['Scheda MUSA',SRC.musa2,1]]},
+{id:'cancunhz',n:'Cancún, zona hotel',zone:'Cancún',lat:21.1330,lon:-86.7450,fam:'prat',gen:1,
+ tags:['Affollato','Spiaggia'],
+ txt:'L’epicentro del turismo di massa, qui solo come riferimento. Non adatta come base per voi.',
+ price:'—',priceV:0,hours:'—',hoursV:0,dur:'—',from:{},links:[['Mappa',gm(21.1330,-86.7450),0]]},
+{id:'playa',n:'Playa del Carmen',zone:'Riviera Maya',lat:20.6296,lon:-87.0739,fam:'prat',gen:1,
+ tags:['Affollato','Spiaggia','Ballo','Serale'],
+ txt:'Altra zona di grande turismo, con locali e ballo. Solo come riferimento.',
+ price:'—',priceV:0,hours:'—',hoursV:0,dur:'—',from:{},links:[['Mappa',gm(20.6296,-87.0739),0]]},
+{id:'bacalar',n:'Laguna di Bacalar',zone:'Sud · circa 4 h dall’aeroporto',lat:18.6770,lon:-88.3930,fam:'nat',gen:1,
+ tags:['Laguna','Natura','Tranquillo','Giornata intera'],
+ txt:'Laguna di colori diversi, molto tranquilla. Troppo lontana per una gita, ha senso solo come base. Descrizione generale, da verificare.',
+ price:'—',priceV:0,hours:'—',hoursV:0,dur:'—',from:{bac:[0.2,0]},
+ links:[['Mappa',gm(18.6770,-88.3930),0],['Info: cerca',gq('Bacalar laguna qué hacer alojamiento'),0]]},
+{id:'bfuerte',n:'Fuerte de San Felipe',zone:'Bacalar · paese',lat:18.6786,lon:-88.3897,fam:'cult',pos:1,
+ tags:['Architettura','Museo','Mezza giornata'],
+ txt:'Forte del 1733 costruito contro i pirati, con un piccolo museo e la vista sulla laguna.',
+ price:'65 MXN secondo una fonte, da verificare.',priceV:0,hours:'—',hoursV:0,dur:'1 h',from:{bac:[0.1,0]},
+ links:[['Laguna e forte',SRC.bac1,1],['Elenco di cose da fare',SRC.bac2,1]]},
+{id:'bazul',n:'Cenote Azul',zone:'Bacalar · circa 5 km a sud',lat:18.6571,lon:-88.4033,fam:'nat',pos:1,
+ tags:['Cenote','Natura','Mezza giornata'],
+ txt:'Cenote aperto e profondo, separato dalla laguna: si nuota e si fa snorkeling. Una fonte lo consiglia da novembre ad aprile.',
+ price:'50–100 MXN secondo una fonte, da verificare.',priceV:0,hours:'—',hoursV:0,dur:'2 h',from:{bac:[0.2,0]},
+ links:[['Guida a Bacalar',SRC.bac1,1],['Cenote Azul',SRC.bac3,1]]},
+{id:'bcanale',n:'Canal de los Piratas',zone:'Bacalar · laguna',lat:18.6990,lon:-88.3866,fam:'nat',pos:1,
+ tags:['Natura','Laguna','Gratis','Mezza giornata'],
+ txt:'Canale poco profondo che unisce la laguna al Río Hondo: si nuota e si arriva in kayak o in barca.',
+ price:'Gratis secondo una fonte; barca o kayak a parte.',priceV:0,hours:'—',hoursV:0,dur:'2 h',from:{bac:[0.2,0]},
+ links:[['Il canale',SRC.bac4,1],['Guida a Bacalar',SRC.bac1,1]]},
+{id:'bstroma',n:'Stromatoliti di Bacalar',zone:'Bacalar · Los Rápidos e Cocalitos',lat:18.6720,lon:-88.3880,fam:'nat',pos:1,
+ tags:['Natura','Laguna','Mezza giornata'],
+ txt:'Formazioni antichissime costruite da microrganismi, visibili a Los Rápidos e al Cenote Cocalitos.',
+ price:'Spesso incluso nei giri in barca o kayak (da verificare).',priceV:0,hours:'—',hoursV:0,dur:'1–2 h',from:{bac:[0.2,0]},
+ links:[['Dove vederle',SRC.bac3,1]]},
+{id:'hmosquito',n:'Punta Mosquito',zone:'Holbox · estremo est',lat:21.5330,lon:-87.3500,fam:'mare',isl:'hol',pos:1,
+ tags:['Mare','Natura','Isola','Gratis','Mezza giornata'],
+ txt:'Banco di sabbia che emerge con la bassa marea, poco frequentato. Controlla la marea prima di andare.',
+ price:'A piedi gratis; in barca circa 150 MXN a testa secondo una fonte.',priceV:0,hours:'Dipende dalla marea.',hoursV:0,dur:'2–3 h',from:{hol:[0.3,0]},
+ links:[['Punta Mosquito e la marea',SRC.hol1,1],['Costi e giri',SRC.hol2,1]]},
+{id:'hcocos',n:'Punta Cocos',zone:'Holbox · estremo ovest',lat:21.5250,lon:-87.4030,fam:'mare',isl:'hol',pos:1,
+ tags:['Spiaggia','Isola','Natura','Tranquillo','Gratis','Mezza giornata','Serale'],
+ txt:'Spiaggia all’estremo ovest, a circa 2,5 km dal paese: tramonto e amache in acqua. Di notte si parla di bioluminescenza, ma la stagione è da verificare.',
+ price:'Gratis.',priceV:0,hours:'—',hoursV:0,dur:'2 h',from:{hol:[0.4,0]},
+ links:[['Punta Cocos',SRC.hol3,1],['Altre cose da fare',SRC.hol2,1]]},
+{id:'pmjardin',n:'Jardín Botánico Dr. Alfredo Barrera',zone:'Puerto Morelos · 2 km a sud',lat:20.8300,lon:-86.8880,fam:'nat',pos:1,
+ tags:['Natura','Maya','Mezza giornata'],
+ txt:'Grande giardino botanico nella giungla costiera, con sentieri e qualche rovina maya.',
+ price:'Da verificare.',priceV:0,hours:'Lun–ven 8–16, sab 8–14 secondo una fonte, da verificare.',hoursV:0,dur:'2–3 h',from:{pm:[0.1,0]},
+ links:[['Orari e consigli',SRC.pm1,1],['Il giardino',SRC.pm2,1]]},
+{id:'pmcenotes',n:'Ruta de los Cenotes',zone:'Puerto Morelos · entroterra',lat:20.8570,lon:-86.9250,fam:'nat',pos:1,
+ tags:['Cenote','Natura','Giornata intera'],
+ txt:'Strada di circa 32 km nella giungla con molti cenote: Siete Bocas, Verde Lucero, Kin-Ha, La Noria.',
+ price:'Un biglietto per ogni cenote, da verificare.',priceV:0,hours:'—',hoursV:0,dur:'mezza o intera giornata',from:{pm:[0.3,0]},
+ links:[['La Ruta',SRC.pm3,1],['Elenco dei cenote',SRC.pm4,1]]},
+{id:'pmfaro',n:'Faro inclinato',zone:'Puerto Morelos · lungomare',lat:20.8478,lon:-86.8758,fam:'cult',pos:1,
+ tags:['Passeggiata','Gratis','Architettura','Tranquillo'],
+ txt:'Il faro storto sul lungomare, danneggiato da un uragano nel 1967. Non si sale più, ma è un bel punto per una passeggiata.',
+ price:'Gratis.',priceV:0,hours:'—',hoursV:0,dur:'30 min',from:{pm:[0,0]},
+ links:[['Cosa vedere',SRC.pm5,1]]}
+];
+
+const ALLTAGS=Object.keys(TAGF);
+
+const ITS0={
+ D:{id:'D',name:'Il piano · deciso',sub:'Valladolid, Mérida, Holbox, Bacalar, Riviera Maya',stops:[{b:'val',n:2},{b:'mer',n:3},{b:'hol',n:4},{b:'bac',n:3},{b:'pm',n:2}],carAt:-1}
+};
+const IT_IDS=['D'];
+const EVENTS=[
+ {from:4,to:5,label:'12 dic, Guadalupe'},
+ {from:8,to:14,label:'Posadas, dal 16'},
+ {from:12,to:15,label:'Alta stagione, dal 20'}
+];
+
+/* cosa si fa da ogni base: sintesi mia a partire dai luoghi della scheda */
+const BASEDO={
+ val:'Chichén Itzá ed Ek Balam in giornata, cenote (Suytún, Zací, Ik Kil), paese coloniale da girare a piedi. Mare: nessuno, la costa è a circa 2 h.',
+ mer:'Città da vivere a piedi: MACAY, Paseo de Montejo, palazzi, gallerie, cene e musica dal vivo. In giornata Uxmal e Celestún (fenicotteri, mangrovie in barca o kayak, spiaggia sul Golfo).',
+ hol:'Spiaggia, kayak e giri in barca, banco di sabbia e tour delle tre isole, murales, cene con musica dal vivo. Niente auto sull’isola.',
+ pm:'Villaggio di pescatori con spiaggia tranquilla e la barriera corallina per lo snorkeling. Aeroporto e Cancún a pochi minuti.',
+ ism:'Isola vicina a Cancún, più turistica di Holbox. MUSA, il museo subacqueo, per snorkeling e immersioni.',
+ tul:'Rovine sul mare, spiagge e locali. È il turismo che avevate detto di voler evitare.',
+ bac:'Laguna dai sette colori, kayak e paese tranquillo. Lontano da tutto: circa 4 h da Cancún.',
+ cam:'Città coloniale murata sul Golfo, architettura e fortificazioni.'
+};
+/* note sulle tratte: solo dati trovati in fonti, il resto è marcato stima */
+const LEGNOTE={
+ 'cun-val':['~160 km sulla 180D a pedaggio, 1 h 50–2 h 15','https://maya-explorer-tours-1h3.pages.dev/transfers/cancun-airport-to-valladolid'],
+ 'mer-val':['~160 km sulla 180D, 1,5–2 h','https://vibesite-1i9.pages.dev/blog/merida-to-valladolid/'],
+ 'chi-mer':['~283–306 km, 3,5–4 h di auto','https://www.wanderlustchloe.com/?p=44348'],
+ 'chi-cun':['~139 km, circa 2 h','https://www.hostelz.com/hostel/389508-Mayan-Villas-Hotel'],
+ 'cun-mer':['~308 km sulla 180D, circa 3 h 45','https://www.transfeero.com/es/traslados-del-aeropuerto-internacional-cancun-cun/traslados-de-aeropuerto-internacional-de-cancun-a-merida/'],
+ 'bac-mer':['~331–347 km, 4 h 10–5 h 20 a seconda della fonte','https://blog.wayro.ai/merida-bacalar-road-trip-where-stop-way'],
+ 'bac-val':['~264 km, 3 h 45–3 h 55','https://1map.com/routes/mx-valladolid-8082_to_mx-bacalar-45258'],
+ 'bac-chi':['Tempo non verificato: stima mia (un servizio di transfer indica circa 5 h fino a Holbox)','https://vipholbox.rezdy.com/catalog/425159/private-transfers?lang=en'],
+ 'bac-pm':['Tempo non verificato: stima mia',''],
+ 'chi-pm':['Tempo non verificato: stima mia',''],
+ 'cun-pm':['Tempo non verificato: stima mia','']
+};
+const FERRYNOTE=['Traghetto 20–25 min, uno ogni 30 min (da Holbox dalle 5:00 alle 20:30). Orario ridotto il 24, 25 e 31 dic.','https://travelyucatan.com/holbox-ferry/'];
+
+/* punteggi 0–5 su cosa si fa da ogni base: giudizio mio, non misurato */
+const BASEFOCUS={
+ val:{mare:0,nat:4,cult:3,maya:5,sera:2,vita:4},
+ mer:{mare:1,nat:3,cult:5,maya:3,sera:5,vita:4},
+ hol:{mare:5,nat:5,cult:1,maya:0,sera:3,vita:4},
+ pm:{mare:4,nat:3,cult:1,maya:1,sera:1,vita:4},
+ ism:{mare:4,nat:3,cult:2,maya:0,sera:3,vita:2},
+ tul:{mare:4,nat:2,cult:1,maya:3,sera:4,vita:1},
+ bac:{mare:2,nat:5,cult:0,maya:2,sera:1,vita:3},
+ cam:{mare:1,nat:1,cult:5,maya:2,sera:2,vita:3}
+};
+
+
+/* ===== PROGRAMMA GIORNO PER GIORNO (testi miei, da modificare nell'app) ===== */
+const DAYS_DEF=[
+ {p:['valcentro']},
+ {p:['chichen','ikkil','suytun']},
+ {p:['ekbalam','paseo']},
+ {p:['macay','casamontejo','santaana','santalucia']},
+ {p:['uxmal','calle47']},
+ {p:['chiquila','holpueblo']},
+ {p:['holtour']},
+ {p:['holpueblo','hcocos','hmosquito']},
+ {p:['holpueblo']},
+ {p:['chiquila']},
+ {p:['bacalar','bcanale','bfuerte']},
+ {p:['bazul','bstroma','bacalar']},
+ {p:['pmtown']},
+ {p:['pmreef','pmjardin','pmcenotes','pmfaro']},
+ {p:[]}
+];
+/* kind: 'f' = c'è una fonte con link, 'm' = giudizio mio, non verificato */
+const BASETIPS={
+ val:{do:[['Contanti in pesos per i pedaggi della 180D','https://travellemming.com/cancun-to-valladolid/','f'],['Chichén Itzá appena aprono: meno gente e meno caldo','','m']],
+  dont:[['Ik Kil nelle ore centrali: nei dati è segnato come affollato','','m']],
+  know:[['Valladolid e Mérida sono nello stato di Yucatán, Holbox, Bacalar e Puerto Morelos nel Quintana Roo. Mérida ha 1 ora in meno di Bacalar: controlla l’orologio quando cambi stato.','https://www.rome2rio.com/s/bacalar/merida','f']]},
+ mer:{do:[['Cena e musica dal vivo in centro: Santa Lucía e Calle 47','','m'],['Lucha libre: le funzioni sono eventi singoli, cerca il cartellone di dicembre','https://www.posta.com.mx/yucatan/habra-lucha-en-yucatan-cmll-regresa-a-merida/vl2019750','f']],
+  dont:[['Uxmal e Celestún nella stessa giornata: sono direzioni diverse','','m'],['Fissare la serata di lucha libre prima di vedere una data confermata','','m']],know:[]},
+ hol:{do:[['Lascia l’auto nel parcheggio recintato di Chiquilá','https://old.media-azi.md/get-holbox-1kin.html','f'],['Traghetto da Holbox dalle 5:00 alle 20:30, uno ogni 30 min','https://www.universal-traveller.com/?p=103412','f']],
+  dont:[['Portare l’auto sull’isola: non si può','https://vtour1.ocus.com/post/how-do-you-get-to-holbox','f'],['Arrivare a Chiquilá dopo le 20:30: l’ultimo traghetto è già partito','https://www.universal-traveller.com/?p=103412','f']],know:[]},
+ bac:{do:[['Kayak o barca sulla laguna, meglio al mattino','','m']],
+  dont:[['Partire da Holbox nel pomeriggio: il trasferimento è lungo (circa 5 h, stima)','https://vipholbox.rezdy.com/catalog/425159/private-transfers?lang=en','f']],know:[]},
+ pm:{do:[['Snorkeling sulla barriera','','m'],['Prenota presto: l’alta stagione parte intorno al 20 dic (da verificare)','','m']],
+  dont:[['Contare sul tempo della mattina del 22: KLM consiglia di arrivare 3 ore prima','','m']],know:[]}
+};
+const TRIP_NOTE_DEF='Lucha libre\nDanzadores spirits\n';
+/* ===== UTIL ===== */
+const $=(s,r=document)=>r.querySelector(s);
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const rad=x=>x*Math.PI/180;
+const km=(a,b)=>{const R=6371,dl=rad(b.lat-a.lat),dn=rad(b.lon-a.lon);const h=Math.sin(dl/2)**2+Math.cos(rad(a.lat))*Math.cos(rad(b.lat))*Math.sin(dn/2)**2;return 2*R*Math.asin(Math.sqrt(h));};
+const fmtW=h=>h<0.08?'in zona':fmtH(h);
+const fmtH=h=>{const m=Math.round(h*60);if(m<60)return m+' min';const a=Math.floor(m/60),b=m%60;return a+' h'+(b?' '+String(b).padStart(2,'0'):'');};
+const POI=Object.fromEntries(POIS.map(p=>[p.id,p]));
+const ITCOL={D:'var(--it-d)',A:'var(--it-a)',B:'var(--it-b)',C:'var(--it-c)',M:'var(--it-m)'};
+const BCOL={pm:'#A8E6EF',hol:'#7CC8DD',val:'#F2C200',mer:'#F08A7E',ism:'#A5E3C0',tul:'#F6A6CC',bac:'#9FD08A',cam:'#E7D1A0'};
+const FAMORDER=['cult','maya','sera','mare','nat','vita','prat'];
+const AXES=[['art','Arte'],['maya','Maya'],['sera','Sera'],['relax','Relax'],['calma','Calma']];
+const clone=o=>JSON.parse(JSON.stringify(o));
+
+/* date: 8 dic 2026 = giorno 0 */
+const D0=Date.UTC(2026,11,8),WD=['dom','lun','mar','mer','gio','ven','sab'],MO=['gen','feb','mar','apr','mag','giu','lug','ago','set','ott','nov','dic'];
+const dt=o=>new Date(D0+o*864e5);
+const iso=o=>dt(o).toISOString().slice(0,10);
+const dshort=o=>dt(o).getUTCDate()+' '+MO[dt(o).getUTCMonth()];
+const dwd=o=>WD[dt(o).getUTCDay()];
+
+/* ===== STATO ===== */
+const KEY='yuc-mappa-4',KEY_OLD=['yuc-mappa-3','yuc-mappa-2'];
+const PX_=lon=>(lon+91.3)*Math.cos(20.3*Math.PI/180)*200,PY_=lat=>(21.95-lat)*200;
+const S={view:'plan',todo:{},sel:null,dtab:'near',th:'',
+ f:{q:'',tags:[],mode:'any',itin:{D:true,A:false,B:false,C:false,M:false},reach:1.5,radIt:'',rad:2,labels:true,road:true,legs:true,hide:false,onlyWish:false},
+ wish:[],its:clone(ITS0),bld:'D',
+ days:{},trip:TRIP_NOTE_DEF,dopen:{0:true},cx:0,cy:0,vbw:0,drag:0,meas:{on:false,pts:[]},toMap:0,toTop:0};
+S.cx=PX_(-88.2);S.cy=PY_(20.1);
+(function load(){
+ try{let raw=localStorage.getItem(KEY),old=false;if(!raw){for(const k of KEY_OLD){raw=localStorage.getItem(k);if(raw){old=k;break;}}}const r=JSON.parse(raw||'null');if(!r)return;if(old){delete r.days;if(old==='yuc-mappa-2')delete r.its;}
+  if(r.days&&typeof r.days==='object')S.days=r.days;if(typeof r.trip==='string')S.trip=r.trip;
+  if(r.todo&&typeof r.todo==='object')S.todo=r.todo;if(r.f)Object.assign(S.f,r.f);if(Array.isArray(r.wish))S.wish=r.wish.filter(id=>POI[id]);
+  if(r.its)for(const id of IT_IDS){const it=r.its[id];if(it&&Array.isArray(it.stops)&&it.stops.every(s=>BASES[s.b]&&s.n>=1)&&it.stops.length){S.its[id]=Object.assign(S.its[id],{stops:it.stops,carAt:typeof it.carAt==='number'?it.carAt:-1});}}
+  if(r.th)S.th=r.th;
+ }catch(e){}
+})();
+function save(){try{localStorage.setItem(KEY,JSON.stringify({todo:S.todo,f:S.f,wish:S.wish,its:S.its,th:S.th,days:S.days,trip:S.trip}));}catch(e){}}
+
+/* ===== TEMPI ===== */
+function drive(a,b){if(a===b)return{h:0,v:1};const d=DRIVE[[a,b].sort().join('-')];if(d)return{h:d[0],v:!!d[1]};
+ return{h:Math.round(km(NODES[a],NODES[b])*1.35/75*4)/4,v:false};}
+function legBetween(x,y,byCar){
+ const bx=BASES[x],by=BASES[y],ax=bx.access||x,ay=by.access||y,d=drive(ax,ay);
+ let h=d.h,ferry=false;if(bx.ferry){h+=bx.ferry;ferry=true;}if(by.ferry){h+=by.ferry;ferry=true;}
+ if(!byCar)h+=0.5;
+ return{h:Math.round(h*100)/100,v:d.v&&byCar,ferry,byCar};
+}
+function estHours(p,bid){
+ const b=BASES[bid];if(p.from&&p.from[bid])return{h:p.from[bid][0],v:!!p.from[bid][1]};
+ let h=km(p,b)*1.35/70;if((p.isl||'')!==(b.kind==='island'?bid:''))h+=0.8;
+ return{h:Math.round(h*4)/4,v:false};
+}
+function computeIt(it){
+ let off=0;const st=it.stops.map((s,i)=>{const o={...s,i,from:off,to:off+s.n,base:BASES[s.b]};off+=s.n;return o;});
+ const total=off,nodes=['cun',...it.stops.map(s=>s.b),'cun'],legs=[];
+ for(let i=0;i<nodes.length-1;i++){
+  const byCar=(i-1)>=it.carAt;
+  const L=legBetween(nodes[i],nodes[i+1],byCar);
+  legs.push({...L,from:nodes[i],to:nodes[i+1],day:i===0?0:st[i-1].to});
+ }
+ const hAll=legs.reduce((a,l)=>a+l.h,0),hCar=legs.filter(l=>l.byCar).reduce((a,l)=>a+l.h,0);
+ const hasCar=it.carAt<st.length,pick=hasCar?(it.carAt<0?0:st[it.carAt].from):null;
+ const idle=hasCar?st.filter(s=>s.i>=it.carAt&&s.base.kind==='island').reduce((a,s)=>a+s.n,0):0;
+ const ax={};AXES.forEach(([k])=>{ax[k]=total?st.reduce((a,s)=>a+s.n*(s.base.prof?s.base.prof[k]:0),0)/total:0;});
+ const sumN=fn=>st.filter(s=>s.base.prof&&fn(s.base.prof)).reduce((a,s)=>a+s.n,0);
+ const peakN=st.reduce((a,s)=>a+Math.max(0,s.to-Math.max(s.from,12)),0);
+ return{st,total,legs,hAll,hCar,hasCar,pick,carDays:hasCar?total-pick:0,idle,ax,changes:st.length-1,
+  last:legs[legs.length-1],ferries:legs.filter(l=>l.ferry).length,
+  relaxN:sumN(p=>p.relax>=4),artN:sumN(p=>p.art>=4),seraN:sumN(p=>p.sera>=4),peakN,allV:legs.every(l=>l.v)};
+}
+
+/* ===== MAPPA SVG ===== */
+const LON0=-91.3,LAT1=21.95,SC=200,CK=Math.cos(rad(20.3)),VBW=994,VBH=770;
+const PX=lon=>(lon-LON0)*CK*SC,PY=lat=>(LAT1-lat)*SC;
+const pth=pts=>'M'+pts.map(([la,lo])=>PX(lo).toFixed(1)+','+PY(la).toFixed(1)).join('L')+'Z';
+const LAND=[[17,-93],[18.4,-93],[18.65,-91.9],[18.78,-91.48],[19.35,-90.72],[19.65,-90.68],[19.85,-90.53],[20.3,-90.45],[20.58,-90.45],[20.86,-90.4],[21.16,-90.03],[21.28,-89.66],[21.34,-89.27],[21.39,-88.89],[21.5,-88.55],[21.57,-88.22],[21.6,-88.0],[21.55,-87.7],[21.5,-87.45],[21.6,-87.07],[21.3,-86.8],[21.16,-86.77],[20.99,-86.77],[20.85,-86.87],[20.63,-87.07],[20.21,-87.43],[19.78,-87.47],[19.3,-87.43],[18.72,-87.7],[18.27,-87.84],[17.5,-88.1],[17,-88.2]];
+const ISL=[
+ [[21.545,-87.6],[21.565,-87.45],[21.56,-87.25],[21.53,-87.17],[21.495,-87.25],[21.495,-87.45],[21.5,-87.58]],
+ [[21.275,-86.745],[21.255,-86.72],[21.2,-86.735],[21.17,-86.75],[21.21,-86.77],[21.26,-86.765]],
+ [[20.58,-86.97],[20.45,-86.8],[20.3,-86.82],[20.26,-86.95],[20.4,-87.03]]];
+const ROAD=[[21.04,-86.88],[21.0,-87.1],[20.95,-87.45],[20.8,-87.95],[20.69,-88.2],[20.685,-88.57],[20.8,-89.0],[20.9,-89.35],[20.97,-89.62]];
+const P=id=>{const n=NODES[id];return[PX(n.lon),PY(n.lat)];};
+
+function curve(a,b,off){
+ const mx=(a[0]+b[0])/2,my=(a[1]+b[1])/2,dx=b[0]-a[0],dy=b[1]-a[1],d=Math.hypot(dx,dy)||1;
+ const c=[mx-dy/d*off*d*0.14,my+dx/d*off*d*0.14];
+ const at=t=>{const x=(1-t)**2*a[0]+2*(1-t)*t*c[0]+t*t*b[0],y=(1-t)**2*a[1]+2*(1-t)*t*c[1]+t*t*b[1];
+  const tx=2*(1-t)*(c[0]-a[0])+2*t*(b[0]-c[0]),ty=2*(1-t)*(c[1]-a[1])+2*t*(b[1]-c[1]);return{x,y,ang:Math.atan2(ty,tx)*180/Math.PI};};
+ const m=at(.62);
+ return{d:`M${a[0].toFixed(1)},${a[1].toFixed(1)}Q${c[0].toFixed(1)},${c[1].toFixed(1)} ${b[0].toFixed(1)},${b[1].toFixed(1)}`,x:m.x,y:m.y,ang:m.ang,at,len:d};
+}
+const XY=(lat,lon)=>[PX(lon),PY(lat)];
+function measSegs(){
+ const pts=S.meas.pts,out=[];
+ for(let i=1;i<pts.length;i++){
+  const A=pts[i-1],B=pts[i],d=km(A,B);let h,v=false;
+  if(A.bid&&B.bid&&A.bid!==B.bid){const L=legBetween(A.bid,B.bid,true);h=L.h;v=L.v;}else h=Math.round(d*1.35/75*12)/12;
+  out.push({A,B,d,h,v,i});
+ }
+ return out;
+}
+function niceKm(t){const L=[1,2,5,10,20,25,50,100,200,250,500];let r=L[0];for(const x of L)if(x<=t)r=x;return r;}
+
+function mapSVG(o){
+ const vb=o.vb,k=o.k,mini=!!o.mini,fs=n=>(n*k).toFixed(1),kk=mini?1:k;
+ let s=`<svg xmlns="http://www.w3.org/2000/svg" viewBox="${vb.x.toFixed(1)} ${vb.y.toFixed(1)} ${vb.w.toFixed(1)} ${vb.h.toFixed(1)}" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Mappa schematica dello Yucatán">`;
+ s+=`<rect x="-3000" y="-3000" width="7000" height="7000" fill="var(--sea)"/>`;
+ for(let la=19;la<=21;la++)s+=`<path class="grat" d="M${PX(-95)},${PY(la)}L${PX(-84)},${PY(la)}"/>`;
+ for(let lo=-91;lo<=-87;lo++)s+=`<path class="grat" d="M${PX(lo)},${PY(16)}L${PX(lo)},${PY(24)}"/>`;
+ s+=`<path class="land" d="${pth(LAND)}"/>`;
+ ISL.forEach(p=>{s+=`<path class="land" d="${pth(p)}"/>`;});
+ if(!mini){
+  for(let la=19;la<=21;la++)s+=`<text class="gl" x="${PX(-91.18)}" y="${PY(la)-3*k}" font-size="${fs(11)}">${la}°N</text>`;
+  for(let lo=-91;lo<=-87;lo++)s+=`<text class="gl" x="${PX(lo)+3*k}" y="${PY(18.2)}" font-size="${fs(11)}">${Math.abs(lo)}°O</text>`;
+ }
+ s+=`<text class="reg" x="${PX(-90.6)}" y="${PY(21.65)}" font-size="${fs(mini?11:14)}">GOLFO DEL MESSICO</text>`;
+ s+=`<text class="reg" x="${PX(-86.95)}" y="${PY(19.5)}" font-size="${fs(mini?11:14)}" transform="rotate(-90 ${PX(-86.55)} ${PY(19.5)})">MAR DEI CARAIBI</text>`;
+ s+=`<text class="reg" x="${PX(-89.6)}" y="${PY(20.45)}" font-size="${fs(mini?10:13)}">YUCATÁN</text>`;
+ s+=`<text class="reg" x="${PX(-88.6)}" y="${PY(19.1)}" font-size="${fs(mini?10:13)}">QUINTANA ROO</text>`;
+ if(o.road)s+=`<path class="road" d="M${ROAD.map(([la,lo])=>PX(lo).toFixed(1)+','+PY(la).toFixed(1)).join('L')}"/>`;
+ /* luoghi */
+ if(o.pois){
+  if(o.sel&&o.sel.t==='p'){
+   const sp=POI[o.sel.id];
+   o.near.forEach(q=>{s+=`<path d="M${PX(sp.lon)},${PY(sp.lat)}L${PX(q.lon)},${PY(q.lat)}" stroke="var(--ink)" stroke-width="1.6" stroke-dasharray="4 4" fill="none" vector-effect="non-scaling-stroke" opacity=".7"/>`;});
+  }
+  o.pois.forEach(({p,dim})=>{
+   const x=PX(p.lon),y=PY(p.lat),sel=o.sel&&o.sel.t==='p'&&o.sel.id===p.id,r=(p.fam==='prat'?7:9)*k;
+   s+=`<g class="poi ${sel?'sel':''} ${dim?'dim':''}" data-poi="${p.id}"><circle cx="${x}" cy="${y}" r="${15*k}" fill="transparent"/>`;
+   if(sel)s+=`<circle cx="${x}" cy="${y}" r="${17*k}" fill="none" stroke="var(--ink)" stroke-width="3" vector-effect="non-scaling-stroke"/>`;
+   s+=`<circle class="m" cx="${x}" cy="${y}" r="${r}" fill="${FAMS[p.fam].c}"/>`;
+   if(S.wish.includes(p.id))s+=`<text x="${x}" y="${y-r-3*k}" text-anchor="middle" font-size="${fs(17)}" style="fill:var(--accent);stroke:var(--panel);stroke-width:2.5px;paint-order:stroke">★</text>`;
+   if(o.labels&&!mini&&(sel||o.vb.w<520))s+=`<text class="lbl" x="${x+r+4*k}" y="${y+4*k}" font-size="${fs(12.5)}" stroke-width="${4*k}">${esc(p.n.length>28?p.n.slice(0,27)+'…':p.n)}</text>`;
+   s+=`</g>`;
+  });
+ }
+ /* rotte */
+ const ids=o.its||[],used={},showH=!mini&&S.f.legs!==false;
+ const pills=[];
+ ids.forEach((id,oi)=>{
+  const it=S.its[id],c=computeIt(it),nodes=['cun',...it.stops.map(x=>x.b),'cun'],col=ITCOL[id];
+  const off=(oi-(ids.length-1)/2)*(mini?0.9:1.25);
+  for(let i=0;i<nodes.length-1;i++){
+   const a=nodes[i],b=nodes[i+1];if(a===b)continue;
+   const A=P(a),B=P(b);if(Math.hypot(A[0]-B[0],A[1]-B[1])<2)continue;
+   const cv=curve(A,B,off||0.0001),leg=c.legs[i];
+   const sw=mini?3:6*k,da=leg.ferry?(mini?'2 7':`0.1 ${(11*k).toFixed(1)}`):'';
+   s+=`<path class="rt" pointer-events="none" d="${cv.d}" stroke="${col}" stroke-width="${sw}" ${da?`stroke-dasharray="${da}"`:''} opacity=".95"/>`;
+   const ar=mini?5:8*k,ah=mini?4.5:7*k;
+   s+=`<path pointer-events="none" d="M${(-ar).toFixed(1)},${(-ah).toFixed(1)}L${ar.toFixed(1)},0L${(-ar).toFixed(1)},${ah.toFixed(1)}Z" fill="${col}" stroke="var(--ink)" stroke-width="1.2" vector-effect="non-scaling-stroke" transform="translate(${cv.x.toFixed(1)} ${cv.y.toFixed(1)}) rotate(${cv.ang.toFixed(0)})"/>`;
+   if(showH){const q=cv.at(.3);pills.push({x:q.x,y:q.y,col,txt:(leg.ferry?'⛴ ':'')+(leg.v?'':'≈ ')+fmtH(leg.h)});}
+  }
+ });
+ /* basi */
+ const bset=new Set(['cun']);ids.forEach(id=>S.its[id].stops.forEach(x=>bset.add(x.b)));
+ if(o.allBases)Object.keys(BASES).forEach(b=>bset.add(b));
+ bset.forEach(b=>{
+  const [x,y]=P(b),B=BASES[b],r=(mini?(b==='cun'?9:10):(b==='cun'?15:12))*(mini?k:k);
+  s+=`<g class="bs ${o.clickBases?'cl':''}" ${o.clickBases?`data-base="${b}"`:''}>`;
+  s+=b==='cun'?`<path d="M${x},${y-r}L${x+r},${y}L${x},${y+r}L${x-r},${y}Z" style="fill:var(--ink);stroke:var(--panel);stroke-width:2.5px"/>`:`<rect x="${x-r}" y="${y-r}" width="${2*r}" height="${2*r}" rx="${3*k}"/>`;
+  if(o.labels||mini)s+=`<text x="${x-r-5*k}" y="${y-r-1*k}" text-anchor="end" font-size="${fs(mini?10:14)}" stroke-width="${4*k}">${esc(b==='cun'?(mini?'CUN':'✈ CUN'):B.n)}</text>`;
+  s+=`</g>`;
+ });
+ /* ore sulle tratte */
+ pills.forEach(p=>{const w=(p.txt.length*7.6+14)*k,h=20*k;
+  s+=`<g pointer-events="none"><rect x="${(p.x-w/2).toFixed(1)}" y="${(p.y-h/2).toFixed(1)}" width="${w.toFixed(1)}" height="${h.toFixed(1)}" rx="${4*k}" fill="var(--panel)" stroke="${p.col}" stroke-width="2.2" vector-effect="non-scaling-stroke"/><text x="${p.x.toFixed(1)}" y="${p.y.toFixed(1)}" text-anchor="middle" dominant-baseline="central" font-family="DM Mono,monospace" font-weight="500" font-size="${fs(12)}" style="fill:var(--ink)">${esc(p.txt)}</text></g>`;});
+ /* etichette tappa */
+ ids.forEach((id,oi)=>{
+  const c=computeIt(S.its[id]);
+  c.st.forEach((st,si)=>{
+   const [x,y]=P(st.b),n=(used[st.b]=(used[st.b]||0)+1)-1,w=(mini?34:70)*k,h=(mini?15:22)*k;
+   const bx=x+(mini?13:18)*k,by=y-h/2+n*(h+3*k)+(mini?0:3*k);
+   const txt=mini?`${id==='M'?'Mio':id} ${st.n}n`:`${id==='M'?'Mio':id} ${si+1} · ${st.n}n`;
+   s+=`<g pointer-events="none"><rect x="${bx}" y="${by}" width="${w}" height="${h}" rx="${3*k}" fill="${ITCOL[id]}" stroke="var(--ink)" stroke-width="1.5" vector-effect="non-scaling-stroke"/><text x="${bx+w/2}" y="${by+h/2}" text-anchor="middle" dominant-baseline="central" font-family="DM Mono,monospace" font-weight="500" font-size="${fs(mini?10.5:13)}" style="fill:var(--it-ink)">${txt}</text></g>`;
+  });
+ });
+ if(!mini){
+  /* misura */
+  const ms=S.meas.pts;
+  if(ms.length){
+   const pp=ms.map(q=>XY(q.lat,q.lon));
+   if(pp.length>1)s+=`<path d="M${pp.map(q=>q.map(v=>v.toFixed(1)).join(',')).join('L')}" fill="none" stroke="var(--sea)" stroke-width="${8*k}" stroke-linecap="round" stroke-linejoin="round"/><path d="M${pp.map(q=>q.map(v=>v.toFixed(1)).join(',')).join('L')}" fill="none" stroke="var(--ink)" stroke-width="${4*k}" stroke-dasharray="${10*k} ${7*k}" stroke-linecap="butt" stroke-linejoin="round"/>`;
+   measSegs().forEach(g=>{const m=[(PX(g.A.lon)+PX(g.B.lon))/2,(PY(g.A.lat)+PY(g.B.lat))/2],t=Math.round(g.d)+' km',w=(t.length*8+14)*k,h=21*k;
+    s+=`<g pointer-events="none"><rect x="${(m[0]-w/2).toFixed(1)}" y="${(m[1]-h/2).toFixed(1)}" width="${w.toFixed(1)}" height="${h.toFixed(1)}" rx="${4*k}" fill="var(--ink)"/><text x="${m[0].toFixed(1)}" y="${m[1].toFixed(1)}" text-anchor="middle" dominant-baseline="central" font-family="DM Mono,monospace" font-weight="500" font-size="${fs(13)}" style="fill:var(--bg)">${t}</text></g>`;});
+   pp.forEach((q,i)=>{s+=`<g pointer-events="none"><circle cx="${q[0].toFixed(1)}" cy="${q[1].toFixed(1)}" r="${12*k}" fill="var(--gold)" stroke="var(--ink)" stroke-width="2.5" vector-effect="non-scaling-stroke"/><text x="${q[0].toFixed(1)}" y="${q[1].toFixed(1)}" text-anchor="middle" dominant-baseline="central" font-family="DM Mono,monospace" font-weight="700" font-size="${fs(13)}" fill="#111">${i+1}</text></g>`;});
+  }
+  /* scala */
+  const kmU=111.19/SC,n=niceKm(vb.w*kmU*0.16),len=n/kmU,sx=vb.x+22*k,sy=vb.y+vb.h-34*k;
+  s+=`<g pointer-events="none"><path d="M${sx},${sy-5*k}V${sy}H${sx+len}V${sy-5*k}" fill="none" stroke="var(--sea)" stroke-width="6" vector-effect="non-scaling-stroke"/><path d="M${sx},${sy-5*k}V${sy}H${sx+len}V${sy-5*k}" fill="none" stroke="var(--ink)" stroke-width="2.5" vector-effect="non-scaling-stroke"/><text x="${sx}" y="${sy-9*k}" font-family="DM Mono,monospace" font-weight="500" font-size="${fs(12)}" style="fill:var(--ink);paint-order:stroke;stroke:var(--sea);stroke-width:${3*k}px">${n} km</text></g>`;
+ }
+ return s+'</svg>';
+}
+
+/* ===== FILTRI ===== */
+function matchPoi(p){
+ const f=S.f;
+ if(f.q&&!(p.n+' '+p.zone+' '+p.txt+' '+p.tags.join(' ')).toLowerCase().includes(f.q.toLowerCase()))return false;
+ if(f.tags.length){const has=t=>p.tags.includes(t);if(f.mode==='all'?!f.tags.every(has):!f.tags.some(has))return false;}
+ if(f.onlyWish&&!S.wish.includes(p.id))return false;
+ if(f.radIt){const it=S.its[f.radIt];if(Math.min(...it.stops.map(s=>estHours(p,s.b).h))>f.rad)return false;}
+ return true;
+}
+const activeIts=()=>IT_IDS.filter(i=>S.f.itin[i]);
+function nearest(p,n,ex){return POIS.filter(q=>q.id!==p.id&&(!ex||!ex(q))).map(q=>({q,d:km(p,q)})).sort((a,b)=>a.d-b.d).slice(0,n);}
+function jacc(a,b){const A=a.tags.filter(t=>TAGF[t]!=='prat'),B=b.tags.filter(t=>TAGF[t]!=='prat');const i=A.filter(t=>B.includes(t)).length,u=new Set([...A,...B]).size;return u?i/u:0;}
+
+/* ===== HTML: badge e tag ===== */
+const bdV='<span class="bd v">verificato</span>',bdE='<span class="bd e">stima</span>',bdC='<span class="bd e">da verificare</span>';
+const tagBtn=(t,hit)=>`<button class="tg ${hit?'hit':''}" data-act="tag" data-t="${esc(t)}">${esc(t)}</button>`;
+const dotF=f=>`<i class="dot" style="background:${FAMS[f].c}"></i>`;
+const hl=(txt,v)=>esc(txt)+(v?bdV:bdC);
+
+function filtersHTML(){
+ const f=S.f,groups=FAMORDER.map(fm=>{
+  const ts=ALLTAGS.filter(t=>TAGF[t]===fm);if(!ts.length)return'';
+  return`<div class="famh">${dotF(fm)}${FAMS[fm].n}</div><div class="chips">${ts.map(t=>`<button class="chip" aria-pressed="${f.tags.includes(t)}" data-act="tag" data-t="${esc(t)}">${esc(t)} <span class="mono hint">${POIS.filter(p=>p.tags.includes(t)).length}</span></button>`).join('')}</div>`;
+ }).join('');
+ return`<div class="fld"><label class="lab" for="q">Cerca</label><input id="q" type="search" placeholder="nome, zona, parola" value="${esc(f.q)}"></div>
+ <div class="fld"><div class="row"><span class="lab">Tipo di attività</span><button class="btn ghost sm" data-act="cleartags">azzera</button></div>
+  <div class="seg" role="group" aria-label="Combinazione tag"><button data-act="mode" data-m="any" aria-pressed="${f.mode==='any'}">Basta uno</button><button data-act="mode" data-m="all" aria-pressed="${f.mode==='all'}">Tutti insieme</button></div>${groups}</div>
+ <div class="fld"><span class="lab">Raggio di gita</span>
+  <label class="chk"><input type="checkbox" id="radIt" ${f.radIt?'checked':''}>Limita alle ore di guida dalle mie basi</label>
+  <div class="row"><input id="rad" type="range" min="0.25" max="3.5" step="0.25" value="${f.rad}" ${f.radIt?'':'disabled'} aria-label="Ore di guida massime"><span class="val" id="radv">${fmtH(f.rad)}</span></div>
+  <p class="hint">Ore di guida stimate dalla base più vicina dell’itinerario.</p></div>
+ <div class="fld"><span class="lab">Mostra</span>
+  <label class="chk"><input type="checkbox" data-k="labels" ${f.labels?'checked':''}>Nomi sulla mappa</label>
+  <label class="chk"><input type="checkbox" data-k="legs" ${f.legs!==false?'checked':''}>Ore sulle tratte</label>
+  <label class="chk"><input type="checkbox" data-k="road" ${f.road?'checked':''}>Autostrada 180D (schema)</label>
+  <label class="chk"><input type="checkbox" data-k="hide" ${f.hide?'checked':''}>Nascondi i luoghi esclusi</label>
+  <label class="chk"><input type="checkbox" data-k="onlyWish" ${f.onlyWish?'checked':''}>Solo i miei preferiti (${S.wish.length})</label></div>
+ <div class="btns"><button class="btn ghost" data-act="reset">Azzera filtri</button></div>`;
+}
+
+function listItems(){
+ const rows=POIS.map(p=>({p,m:matchPoi(p)}));
+ return rows;
+}
+function centerHTML(){
+ const rows=listItems(),ok=rows.filter(r=>r.m),f=S.f;
+ let ordered=ok.map(r=>r.p);
+ if(f.radIt){const it=S.its[f.radIt];const hh=p=>Math.min(...it.stops.map(s=>estHours(p,s.b).h));ordered.sort((a,b)=>hh(a)-hh(b));}
+ else ordered.sort((a,b)=>FAMORDER.indexOf(a.fam)-FAMORDER.indexOf(b.fam)||a.n.localeCompare(b.n));
+ const lr=ordered.map(p=>{
+  const sel=S.sel&&S.sel.t==='p'&&S.sel.id===p.id;
+  let right=p.dur;if(f.radIt){const it=S.its[f.radIt];right='≈ '+fmtW(Math.min(...it.stops.map(s=>estHours(p,s.b).h)));}
+  return`<button class="lr ${sel?'sel':''}" data-act="sel" data-id="${p.id}">${dotF(p.fam)}<span class="n">${esc(p.n)}<span class="z">${esc(p.zone)}</span></span><span class="tags">${p.tags.slice(0,3).map(t=>`<span class="tg ${f.tags.includes(t)?'hit':''}">${esc(t)}</span>`).join('')}</span><span class="mono hint">${esc(right)}</span><span>${S.wish.includes(p.id)?'★':''}</span></button>`;
+ }).join('');
+ 
+ return`<div class="mapbox panel ${S.meas.on?'meas':''}" id="mapbox"><div id="mapsvg"></div><div class="count mono">${ok.length} di ${POIS.length} luoghi</div>${mapTools()}
+  <div class="zoom"><button data-act="zin" aria-label="Ingrandisci">+</button><button data-act="zout" aria-label="Riduci">−</button><button data-act="zreset" aria-label="Vista intera">⌂</button></div></div>
+  <div class="legend"><span class="hint">Vai a:</span>${[['mer','Mérida'],['val','Valladolid'],['hol','Holbox'],['pm','Costa nord'],['ism','Isla Mujeres']].map(([b,n])=>`<button class="chip" data-act="goto" data-b="${b}" style="padding:1px 9px">${n}</button>`).join('')}<button class="chip" data-act="zreset" style="padding:1px 9px">Vista itinerari</button><button class="chip" data-act="zall" style="padding:1px 9px">Tutta la penisola</button></div>${legendHTML()}
+  <div class="list panel" id="list"><h3>Luoghi (${ok.length})</h3>${lr||'<p class="empty">Nessun luogo con questi filtri. Allarga il raggio o togli un tag.</p>'}</div>`;
+}
+
+
+function mapTools(){
+ const m=S.meas,segs=measSegs();
+ let h=`<div class="mtools"><button class="btn sm ${m.on?'':'ghost'} mbtn" data-act="mtool" aria-pressed="${m.on}">${m.on?'● Misura attiva':'Misura distanze'}</button>`;
+ if(m.on){
+  h+=`<div class="mpanel">`;
+  if(!m.pts.length)h+=`<p><b>Clicca sulla mappa</b>, su un luogo o su una base per mettere il punto 1, poi il 2, il 3… Ti dico km e tempo in auto tra un punto e l’altro.</p>`;
+  else{
+   h+=segs.map(g=>`<div class="mrow"><span class="mn">${g.i}→${g.i+1}</span><span class="mt">${esc(g.A.name)} → ${esc(g.B.name)}</span><span class="mono mv">${Math.round(g.d)} km<br>${g.v?'':'≈ '}${fmtH(g.h)}${g.v?bdV:bdE}</span></div>`).join('');
+   if(segs.length>1){const D=segs.reduce((a,g)=>a+g.d,0),H=segs.reduce((a,g)=>a+g.h,0);h+=`<div class="mrow tot"><span class="mn"></span><span class="mt">Totale</span><span class="mono mv">${Math.round(D)} km<br>≈ ${fmtH(H)}</span></div>`;}
+   const last=m.pts[m.pts.length-1],dc=km(NODES.cun,last);
+   h+=`<div class="mrow cun"><span class="mn">✈</span><span class="mt">Dal punto ${m.pts.length} all’aeroporto CUN</span><span class="mono mv">${Math.round(dc)} km<br>≈ ${fmtH(dc*1.35/75)}${bdE}</span></div>`;
+   if(m.pts.length===1)h+=`<p class="hint">Aggiungi un secondo punto per misurare un tratto.</p>`;
+  }
+  h+=`<p class="hint">Km in linea d’aria. Tempo in auto: km × 1,35 ÷ 75 km/h, salvo tratte tra due basi dove ho il dato (“verificato”). Il traffico e i controlli non sono inclusi.</p>
+  <div class="btns"><button class="btn ghost sm" data-act="mundo" ${m.pts.length?'':'disabled'}>Annulla ultimo</button><button class="btn ghost sm" data-act="mclear" ${m.pts.length?'':'disabled'}>Azzera</button><button class="btn ghost sm" data-act="mtool">Chiudi</button></div></div>`;
+ }
+ return h+`</div><div class="maphint">Trascina = sposta · Ctrl + rotella o + / − = zoom · la pagina scorre libera</div>`;
+}
+function legendHTML(){
+ const sv=(inner,w=58)=>`<svg viewBox="0 0 ${w} 20" width="${w}" height="20" aria-hidden="true">${inner}</svg>`;
+ const L=(i,t)=>`<div class="lg">${i}<span>${t}</span></div>`;
+ const A='var(--it-a)';
+ const lines=
+  L(sv(`<path d="M3 10H49" stroke="${A}" stroke-width="6" stroke-linecap="round"/><path d="M34 3l13 7-13 7z" fill="${A}" stroke="var(--ink)" stroke-width="1.2"/>`),'<b>Linea piena + freccia</b>: trasferimento da una base alla successiva. La freccia dà il verso.')+
+  L(sv(`<path d="M3 10H49" stroke="${A}" stroke-width="6" stroke-linecap="round" stroke-dasharray="0.1 11"/>`),'<b>Linea a puntini</b>: tratta con traghetto (isole).')+
+  L(sv(`<rect x="3" y="2" width="50" height="16" rx="4" fill="var(--panel)" stroke="${A}" stroke-width="2.2"/><text x="28" y="10.5" text-anchor="middle" dominant-baseline="central" font-family="DM Mono,monospace" font-size="10.5" fill="var(--ink)">≈ 2 h 30</text>`),'<b>Etichetta sulla linea</b>: ore stimate della tratta (≈ = stima, senza ≈ = verificata).')+
+  L(sv(`<path d="M3 10H53" stroke="var(--ink-2)" stroke-width="2.4" stroke-dasharray="7 5"/>`),'<b>Tratteggio sottile</b>: autostrada 180D (schema) o i 4 luoghi più vicini al selezionato.')+
+  L(sv(`<path d="M3 10H53" stroke="var(--ink)" stroke-width="4" stroke-dasharray="9 6"/>`),'<b>Tratteggio nero spesso</b>: la tua misura (vedi “Misura distanze”).');
+ const sym=
+  L(sv(`<path d="M16 2l12 8-12 8-12-8z" fill="var(--ink)" stroke="var(--panel)" stroke-width="2"/>`,32),'<b>Rombo ✈ CUN</b>: aeroporto di Cancún. Si arriva qui l’8 dic (15:05) e si riparte il 22 dic (16:55): è l’inizio e la fine di ogni itinerario.')+
+  L(sv(`<rect x="6" y="2" width="16" height="16" rx="3" fill="var(--ink)" stroke="var(--panel)" stroke-width="2"/>`,32),'<b>Quadrato</b>: base dove si dorme (clicca per la scheda).')+
+  L(sv(`<rect x="2" y="1" width="64" height="18" rx="3" fill="var(--it-b)" stroke="var(--ink)" stroke-width="1.5"/><text x="34" y="10.5" text-anchor="middle" dominant-baseline="central" font-family="DM Mono,monospace" font-size="11" fill="#111">B 2 · 4n</text>`,68),'<b>Etichetta colorata</b>: itinerario (A, B, C), numero della tappa, notti. “B 2 · 4n” = itinerario B, seconda base, 4 notti.')+
+  L(sv(`<circle cx="16" cy="10" r="7" fill="var(--f-maya)" stroke="var(--ink)" stroke-width="2"/>`,32),'<b>Cerchio</b>: luogo da visitare, il colore è il tipo (sotto).')+
+  L(sv(`<circle cx="16" cy="10" r="9" fill="var(--gold)" stroke="var(--ink)" stroke-width="2"/><text x="16" y="10.5" text-anchor="middle" dominant-baseline="central" font-family="DM Mono,monospace" font-size="11" font-weight="700" fill="#111">1</text>`,32),'<b>Cerchio giallo numerato</b>: punto di misura.');
+ const col=IT_IDS.map(i=>`<span class="lgc"><i class="sq" style="background:${ITCOL[i]}"></i>${i==='M'?'Il mio':S.its[i].name.split(' · ')[0]}</span>`).join('');
+ const fam=FAMORDER.map(fm=>`<span class="lgc">${dotF(fm)}${FAMS[fm].n}</span>`).join('');
+ return`<section class="legendp panel" aria-label="Legenda"><div><h3>Linee</h3>${lines}</div><div><h3>Simboli</h3>${sym}</div><div><h3>Colori</h3><p class="hint">Itinerari</p><div class="lgcs">${col}</div><p class="hint" style="margin-top:10px">Tipo di luogo</p><div class="lgcs">${fam}</div></div></section>`;
+}
+
+function sources(l){return l.map(([t,u,v])=>`<a href="${esc(u)}" target="_blank" rel="noopener noreferrer"><span>${esc(t)}</span><span>${v?bdV:bdC}</span></a>`).join('');}
+function detailPoi(p){
+ const wish=S.wish.includes(p.id),f=S.f;
+ const where=IT_IDS.map(i=>{const it=S.its[i];let best=null;it.stops.forEach(s=>{const e=estHours(p,s.b);if(!best||e.h<best.e.h)best={s,e};});
+  return`<div class="row" style="padding:3px 0"><span><i class="sq" style="background:${ITCOL[i]}"></i> ${i==='M'?'Il mio':i}: da ${esc(BASES[best.s.b].n)}</span><span class="mono">${fmtW(best.e.h)}${best.e.v?bdV:bdE}</span></div>`;}).join('');
+ const near=nearest(p,7).map(({q,d})=>{
+  const same=(q.isl||'')===(p.isl||'');const mn=d*1.35/70*60,t=same&&d<90?(mn<5?' · < 5 min':` · ≈ ${fmtH(mn/60)}`):(!same?' · via traghetto':'');
+  return`<button class="nb" data-act="sel" data-id="${q.id}">${dotF(q.fam)}<span>${esc(q.n)}<br><span class="z">${esc(q.zone)}</span></span><span class="mono hint">${d<10?d.toFixed(1):Math.round(d)} km${t}</span></button>`;}).join('');
+ const alt=POIS.filter(q=>q.id!==p.id).map(q=>({q,j:jacc(p,q)})).filter(x=>x.j>0).sort((a,b)=>b.j-a.j).slice(0,7).map(({q,j})=>{
+  const sh=q.tags.filter(t=>p.tags.includes(t)&&TAGF[t]!=='prat');
+  return`<button class="nb" data-act="sel" data-id="${q.id}">${dotF(q.fam)}<span>${esc(q.n)}<br><span class="z">${esc(q.zone)} · ${sh.map(esc).join(', ')}</span><span class="sim"><i style="width:${Math.round(j*100)}%"></i></span></span><span class="mono hint">${Math.round(j*100)}%</span></button>`;}).join('');
+ return`<div class="dh"><div><div class="eyebrow">${esc(p.zone)}</div><h2>${esc(p.n)}</h2></div><div class="btns"><button class="x" data-act="wish" data-id="${p.id}" aria-pressed="${wish}" title="Preferito" aria-label="Preferito">${wish?'★':'☆'}</button><button class="x" data-act="close" aria-label="Chiudi">✕</button></div></div>
+ <div class="tags">${p.tags.map(t=>tagBtn(t,f.tags.includes(t))).join('')}</div>
+ <p>${esc(p.txt)}</p>${p.pos?'<p class="note">Posizione sulla mappa approssimata.</p>':''}${p.gen?'<p class="note">Descrizione generale, non verificata in questa sessione.</p>':''}
+ <div class="kv"><div><div class="k">Prezzo</div><div class="v">${hl(p.price,p.priceV)}</div></div><div><div class="k">Orari</div><div class="v">${hl(p.hours,p.hoursV)}</div></div><div><div class="k">Durata</div><div class="v">${esc(p.dur)}</div></div><div><div class="k">Tipo</div><div class="v">${FAMS[p.fam].n}</div></div></div>
+ <div class="sec"><h3>Si raggiunge da</h3>${where}</div>
+ <div class="sec"><h3>Link e prezzi</h3><div class="links">${sources(p.links)}<a href="${esc(gm(p.lat,p.lon))}" target="_blank" rel="noopener noreferrer"><span>Apri su Google Maps</span><span>↗</span></a></div></div>
+ <div class="sec"><div class="seg" role="tablist"><button data-act="dtab" data-v="near" aria-pressed="${S.dtab==='near'}">Nei dintorni</button><button data-act="dtab" data-v="alt" aria-pressed="${S.dtab==='alt'}">Alternative simili</button></div>
+ <div style="margin-top:6px">${S.dtab==='near'?near:alt||'<p class="empty">Nessuna alternativa con tag in comune.</p>'}</div></div>`;
+}
+function hotelLinks(bid,from,to){
+ const b=BASES[bid],ci=iso(from),co=iso(to);
+ return[['Booking',`https://www.booking.com/searchresults.html?ss=${encodeURIComponent(b.n+', Messico')}&checkin=${ci}&checkout=${co}&group_adults=2&no_rooms=1`],
+  ['Airbnb',`https://www.airbnb.it/s/${encodeURIComponent(b.n)}--Messico/homes?checkin=${ci}&checkout=${co}&adults=2`],
+  ['Hotel su Google Maps',`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent('hotel '+b.n+' Messico')}`]];
+}
+const profBars=pr=>`<div class="axes">${AXES.map(([k,n])=>`<span>${n}</span><span class="bar"><i style="width:${pr[k]*20}%;background:var(--accent)"></i></span><span class="mono">${pr[k]}</span>`).join('')}</div>`;
+function detailBase(bid){
+ const b=BASES[bid];if(bid==='cun')return`<div class="dh"><div><div class="eyebrow">Arrivo e partenza</div><h2>${esc(b.n)}</h2></div><button class="x" data-act="close" aria-label="Chiudi">✕</button></div><p>Si arriva l’8 dicembre alle 15:05 e si riparte il 22 alle 16:55.</p>`;
+ const c=computeIt(S.its.D),st=c.st.find(x=>x.b===bid),from=st?st.from:0,to=st?st.to:4;
+ const near=POIS.map(p=>({p,e:estHours(p,bid)})).filter(x=>x.p.fam!=='prat').sort((a,b)=>a.e.h-b.e.h).slice(0,9);
+ return`<div class="dh"><div><div class="eyebrow">Base · ${esc(b.kind==='island'?'isola':b.kind==='city'?'città':b.kind==='coast'?'costa':'paese')}</div><h2>${esc(b.n)}</h2></div><button class="x" data-act="close" aria-label="Chiudi">✕</button></div>
+ <p>${esc(b.vibe)}</p><p class="note">Punteggi da 0 a 5: giudizio mio, non misurato.</p>${profBars(b.prof)}
+ <div class="sec"><h3>Cerca alloggio (date dell’itinerario D, ${dshort(from)}–${dshort(to)})</h3><div class="links">${hotelLinks(bid,from,to).map(([t,u])=>`<a href="${esc(u)}" target="_blank" rel="noopener noreferrer"><span>${t}</span><span>↗</span></a>`).join('')}</div><p class="hint" style="margin-top:6px">Sono ricerche, nessun prezzo verificato. Cambiate le date sul sito.</p></div>
+ ${focusBlock(bid)}`;
+}
+
+
+function reachBy(bid,h){const o={};FAMORDER.forEach(f=>o[f]=[]);POIS.forEach(p=>{const e=estHours(p,bid);if(e.h<=h)o[p.fam].push({p,e});});FAMORDER.forEach(f=>o[f].sort((a,b)=>a.e.h-b.e.h));return o;}
+const REACHES=[[1,'1 h'],[1.5,'1 h 30'],[2.25,'2 h 15']];
+const reachChips=()=>`<div class="chips">${REACHES.map(([h,t])=>`<button class="chip" data-act="reach" data-h="${h}" aria-pressed="${S.f.reach===h}">entro ${t}</button>`).join('')}</div>`;
+const FOCUSF=FAMORDER.filter(f=>f!=='prat');
+const FN={mare:'Mare',nat:'Natura',cult:'Cultura',maya:'Maya',sera:'Sera',vita:'Vita locale'};
+function judgeBars(bid){const f=BASEFOCUS[bid];if(!f)return'';return`<div class="fgrid">${Object.keys(FN).map(k=>`<span class="fl">${dotF(k)}${FN[k]}</span><span class="fbar"><i style="width:${f[k]*20}%;background:${FAMS[k].c}"></i></span><span class="mono fn">${f[k]}</span>`).join('')}</div>`;}
+function focusBlock(bid){
+ const r=reachBy(bid,S.f.reach||1.5);
+ const rows=FOCUSF.map(f=>{const n=r[f].length;return`<span class="fl">${dotF(f)}${FAMS[f].n}</span><span class="fbar"><i style="width:${Math.min(n,8)*12.5}%;background:${FAMS[f].c}"></i></span><span class="mono fn">${n}</span>`;}).join('');
+ const lists=FOCUSF.filter(f=>r[f].length).map(f=>`<div class="famh">${dotF(f)}${FAMS[f].n}</div>${r[f].slice(0,5).map(({p,e})=>`<button class="nb" data-act="sel" data-id="${p.id}">${dotF(p.fam)}<span>${esc(p.n)}<br><span class="z">${esc(p.tags.slice(0,3).join(' · '))}</span></span><span class="mono hint">${fmtW(e.h)}${e.v?'':'*'}</span></button>`).join('')}${r[f].length>5?`<p class="hint">e altri ${r[f].length-5}</p>`:''}`).join('');
+ return`<div class="sec"><h3>Cosa si fa da qui</h3>${BASEDO[bid]?`<p>${esc(BASEDO[bid])}</p><p class="hint" style="margin-top:4px">Sintesi mia dai luoghi della scheda.</p>`:''}${judgeBars(bid)}<p class="hint">Punteggi da 0 a 5: giudizio mio, non misurato.</p></div>
+ <div class="sec"><h3>Luoghi raggiungibili</h3>${reachChips()}<div class="fgrid">${rows}</div><p class="hint">Numero di luoghi del mio database entro il tempo scelto. Per Holbox e Puerto Morelos ne ho pochi: il numero non misura quanto c’è da fare. * = tempo stimato.</p>${lists}</div>`;
+}
+function movesHTML(ids){
+ let h='';
+ ids.forEach(id=>{
+  const it=S.its[id],c=computeIt(it),nodes=['cun',...it.stops.map(x=>x.b),'cun'];
+  h+=`<article class="card" style="margin-bottom:12px"><div class="ch" style="background:${ITCOL[id]}"><div><h3>${esc(itName(id))}</h3><p>${esc(it.sub)}</p></div><span class="mono">${fmtH(c.hAll)}${c.allV?'':'*'} in totale</span></div><div style="overflow:auto"><table class="mx"><thead><tr><th>Giorno</th><th>Tratta</th><th>Ore</th><th>Tipo</th><th>Dato</th><th>Note</th></tr></thead><tbody>`;
+  nodes.slice(0,-1).forEach((a,i)=>{
+   const b=nodes[i+1];if(a===b)return;const L=c.legs[i];if(!L)return;
+   const day=i<c.st.length?c.st[i].from:c.total,ax=BASES[a].access||a,ay=BASES[b].access||b;
+   const n=LEGNOTE[[ax,ay].sort().join('-')],notes=[];
+   if(n)notes.push(n[1]?`<a href="${esc(n[1])}" target="_blank" rel="noopener noreferrer">${esc(n[0])} ↗</a>`:esc(n[0]));
+   if(L.ferry)notes.push(`<a href="${esc(FERRYNOTE[1])}" target="_blank" rel="noopener noreferrer">${esc(FERRYNOTE[0])} ↗</a>`);
+   if(!L.byCar)notes.push('Senza auto: +30 min di attesa e coincidenze (stima)');
+   h+=`<tr><td class="mono">${dshort(day)}</td><td><b>${esc(a==='cun'?'Aeroporto CUN':BASES[a].n)}</b> → <b>${esc(b==='cun'?'Aeroporto CUN':BASES[b].n)}</b></td><td class="mono">${L.v?'':'≈ '}${fmtH(L.h)}</td><td>${L.ferry?'Auto + traghetto':L.byCar?'Auto':'Navetta o bus'}</td><td>${L.v?bdV:bdE}</td><td style="font-size:12px">${notes.join('<br>')||'—'}</td></tr>`;
+  });
+  h+=`</tbody></table></div></article>`;
+ });
+ return h+`<p class="hint">“Verificato” = ho trovato un tempo in una fonte (spesso un intervallo, qui metto il valore medio). “Stima” = mia, da controllare. Il traffico e le soste non sono inclusi.</p>`;
+}
+
+
+/* ===== IL PIANO (panoramica) ===== */
+const DAYPLAN={
+ val:[['Si arriva, si ritira l’auto e si guida fino a qui. Cena in centro.',['valcentro']],['Chichén Itzá appena aprono i cancelli, poi il cenote Ik Kil.',['chichen','ikkil']],['Ek Balam e un cenote (Suytún o Zací).',['ekbalam','suytun','zaci']]],
+ mer:[['Arrivo, passeggiata in centro e cena.',['paseo','santaana']],['Giorno di città: arte contemporanea, palazzi, gallerie.',['macay','casamontejo','santaana']],['Uxmal in giornata.',['uxmal']],['Celestún: barca tra mangrovie e fenicotteri, spiaggia sul Golfo.',['celestun']],['Alternativa: Izamal, Dzibilchaltún o Progreso.',['izamal','dzibil','progreso']]],
+ hol:[['Arrivo sull’isola, tramonto sulla spiaggia, cena.',['holpueblo']],['Giro in barca: banco di sabbia e tre isole.',['holtour']],['Kayak o SUP, murales e musica dal vivo.',['holpueblo']],['Giorno libero e relax.',['holpueblo']],['Giorno libero.',[]]],
+ pm:[['Arrivo, passeggiata nel paese, cena di pesce.',['pmtown']],['Snorkeling sulla barriera.',['pmreef']],['Relax. Alternative: MUSA a Cancún sud o Isla Mujeres.',['musa1','ismtown']],['Giorno libero.',[]]]
+};
+const TODO=[
+ ['auto','Auto a noleggio dall’aeroporto di Cancún (ritiro 8 dic, riconsegna 22 dic)','https://www.google.com/search?q='+encodeURIComponent('noleggio auto aeroporto Cancún'),'Confronta assicurazione e deposito'],
+ ['hotels','Hotel nelle 5 basi (link nel piano qui sotto)','',''],
+ ['chichen','Biglietti e tariffe dei siti archeologici (Chichén Itzá, Uxmal, Ek Balam)',SRC.fees26,'Tariffe INAH 2026'],
+ ['pedaggi','Contanti in pesos per i pedaggi della 180D','https://travellemming.com/cancun-to-valladolid/','Una fonte segnala che servono contanti'],
+ ['park','Parcheggio a Chiquilá per i 4 giorni a Holbox (13–17 dic)','https://www.google.com/search?q='+encodeURIComponent('estacionamiento Chiquilá ferry Holbox'),'Costo da verificare'],
+ ['ferry','Orari del traghetto il 13 e il 17 dic','https://travelyucatan.com/holbox-ferry/','Cambiano con il meteo'],
+ ['fuso','Fuso orario Yucatán / Quintana Roo (potrebbe esserci un’ora di differenza)','https://www.google.com/search?q='+encodeURIComponent('Yucatán Quintana Roo time zone difference'),'Da verificare per dicembre 2026'],
+ ['celestun','Tour o barca a Celestún (fenicotteri da dicembre)','https://championtraveler.com/dates/best-time-to-visit-celestun-mx/','Periodo migliore da verificare']
+];
+function planHTML(){
+ const it=S.its.D,c=computeIt(it),nodes=['cun',...it.stops.map(x=>x.b),'cun'];
+ const stat=(n,l)=>`<div class="stat"><b>${n}</b><span>${l}</span></div>`;
+ const nodeBox=(st)=>`<div class="pn" style="background:${BCOL[st.b]};min-width:${96+st.n*18}px"><b>${esc(st.base.n)}</b><span class="mono">${st.n} notti</span><span class="mono hint2">${dshort(st.from)}–${dshort(st.to)}</span></div>`;
+ const cunBox=l=>`<div class="pn cun"><b>✈ CUN</b><span class="mono hint2">${l}</span></div>`;
+ const legChip=(L)=>`<div class="pl"><span class="mono">${L.ferry?'⛴ ':''}${L.v?'':'≈ '}${fmtH(L.h)}</span><i></i></div>`;
+ let flow=cunBox('arrivo 8 dic · 15:05');
+ c.st.forEach((st,i)=>{flow+=legChip(c.legs[i])+nodeBox(st);});
+ flow+=legChip(c.legs[c.legs.length-1])+cunBox('volo 22 dic · 16:55');
+ const map=mapSVG({vb:{x:70,y:30,w:900,h:470},k:1.7,mini:true,its:['D'],road:false,labels:true});
+ /* basi */
+ const cards=c.st.map((st,i)=>{
+  const bid=st.b,near=POIS.map(p=>({p,e:estHours(p,bid)})).filter(x=>x.p.fam!=='prat').sort((a,b)=>a.e.h-b.e.h).slice(0,4);
+  return`<article class="bc"><div class="bh" style="background:${BCOL[bid]}"><span class="mono">${i+1} · ${dshort(st.from)}–${dshort(st.to)}</span><h3>${esc(st.base.n)}</h3><span class="mono">${st.n} notti</span></div>
+  <div class="bb"><p>${esc(st.base.vibe)}</p><p class="hint">${esc(BASEDO[bid]||'')}</p>${judgeBars(bid)}
+  <div class="famh">Vicino a ${esc(st.base.n)}</div>${near.map(({p,e})=>`<button class="nb" data-act="gomap" data-id="${p.id}">${dotF(p.fam)}<span>${esc(p.n)}</span><span class="mono hint">${fmtW(e.h)}${e.v?'':'*'}</span></button>`).join('')}
+  <div class="famh">Alloggio, date ${dshort(st.from)}–${dshort(st.to)}</div><div class="btns">${hotelLinks(bid,st.from,st.to).map(([t,u])=>`<a class="btn ghost sm" href="${esc(u)}" target="_blank" rel="noopener noreferrer">${t} ↗</a>`).join('')}</div></div></article>`;}).join('');
+ /* calendario */
+ let strip='';
+ for(let d=0;d<=c.total;d++){const st=c.st.find(x=>d>=x.from&&d<x.to),n=getDay(d).items.length;
+  strip+=`<button class="cal" data-act="goday" data-d="${d}" style="--bc:${st?BCOL[st.b]:'#8a8478'}"><span class="mono">${dwd(d)}</span><b>${dshort(d).split(' ')[0]}</b><i></i><span class="cn">${esc(st?SHORT[st.b]||st.base.n:'CUN')}</span><span class="mono ${n?'on':'hint'}">${n?n+(n===1?' attività':' attività'):'da decidere'}</span></button>`;}
+ const todo=TODO.map(([k,t,u,n])=>`<label class="td"><input type="checkbox" data-act="todo" data-k="${k}" ${S.todo[k]?'checked':''}><span>${esc(t)}${n?`<br><span class="hint">${esc(n)}</span>`:''}</span>${u?`<a class="btn ghost sm" href="${esc(u)}" target="_blank" rel="noopener noreferrer">Link ↗</a>`:'<span></span>'}</label>`).join('');
+ const hot=c.st.map(st=>`<div class="td"><span></span><span>${esc(st.base.n)}, ${dshort(st.from)}–${dshort(st.to)}</span><span class="btns">${hotelLinks(st.b,st.from,st.to).slice(0,2).map(([t,u])=>`<a class="btn ghost sm" href="${esc(u)}" target="_blank" rel="noopener noreferrer">${t} ↗</a>`).join('')}</span></div>`).join('');
+ return`<div class="phero"><div><div class="eyebrow2">Il piano · deciso</div><h2>${c.st.map(x=>esc(x.base.n)).join(', ')}</h2><p>Arrivo a Cancún l’8 dicembre con l’auto subito. Cosa fare ogni giorno lo decidi tu nella pagina Giorni; notti e ordine si cambiano in Modifica.</p><div class="btns" style="margin-top:12px"><button class="btn" data-act="view" data-v="days">Apri giorno per giorno</button><a class="btn ghost" href="${esc(tripDirUrl(c))}" target="_blank" rel="noopener noreferrer">Tutto il giro su Google Maps ↗</a></div></div>
+  <div class="stats">${stat(c.total,'notti')}${stat(c.st.length,'basi')}${stat(c.changes,'cambi di hotel')}${stat('≈ '+fmtH(c.hAll),'di trasferimenti')}${stat(c.ferries,'traghetti')}</div></div>
+ <nav class="anch"><a href="#p-giro">Il giro</a><a href="#p-basi">Le basi</a><a href="#p-mov">Spostamenti</a><a href="#p-giorni">I tuoi giorni</a><a href="#p-todo">Da prenotare</a><a href="#p-dec">Da decidere</a></nav>
+ <section id="p-giro" class="ps"><h3 class="ph">Il giro in un colpo d’occhio</h3><div class="flow">${flow}</div><div class="two" style="margin-top:14px"><div class="mini">${map}</div><div class="key"><h4>Come si legge</h4><p><b style="color:var(--it-d)">Linea rosa</b> = itinerario D, nell’ordine delle tappe.</p><p><b>⛴</b> = tratta con traghetto. <b>≈</b> = tempo stimato da me, senza ≈ ho trovato una fonte.</p><p><b>◆ CUN</b> = aeroporto: si arriva l’8 dic alle 15:05 e si riparte il 22 alle 16:55.</p><p class="hint">Per confrontarlo con A, B e C, o per misurare distanze, vai su “Confronto” e “Mappa”.</p></div></div></section>
+ <section id="p-basi" class="ps"><h3 class="ph">Le basi</h3><div class="hs">${cards}</div><p class="hint">Scorri di lato. Punteggi 0–5 = giudizio mio. I luoghi “vicino a” sono ordinati per tempo stimato (*).</p></section>
+ <section id="p-mov" class="ps"><h3 class="ph">Spostamenti</h3>${movesHTML(['D'])}</section>
+ <section id="p-giorni" class="ps"><h3 class="ph">I tuoi giorni</h3><div class="cals">${strip}</div><p class="hint">Tocca un giorno per scegliere cosa fare dai suggerimenti o scrivere le tue attività.</p></section>
+ <section id="p-todo" class="ps"><h3 class="ph">Da prenotare e da controllare</h3><div class="two2"><div><h4>Da fare</h4>${todo}</div><div><h4>Alloggi per base</h4>${hot}<p class="hint">Sono ricerche con le date già inserite, senza prezzi verificati.</p></div></div></section>
+ <section id="p-dec" class="ps"><h3 class="ph">Da decidere</h3><ul class="dec"><li><b>17 dicembre, Holbox → Bacalar:</b> è il tratto più lungo (circa 5 h di auto più traghetto, stima mia). Parti col primo traghetto utile e conta quel giorno come giornata di viaggio.</li><li><b>Riviera Maya, 20–22 dic:</b> la base è Puerto Morelos (vicino all’aeroporto). Alta stagione intorno al 20 dic, prenota presto.</li><li><b>Hotel e auto:</b> restano da prenotare (vedi sotto).</li></ul></section>`;
+}
+
+/* ===== CONFRONTO ===== */
+const SHORT={pm:'P. Morelos',hol:'Holbox',val:'Valladolid',mer:'Mérida',ism:'I. Mujeres',tul:'Tulum',bac:'Bacalar',cam:'Campeche'};
+const itName=id=>S.its[id].name;
+
+/* ===== COSTRUISCI ===== */
+function bldHTML(){
+ const id=S.bld,it=S.its[id],c=computeIt(it);
+ const meter=c.st.map(s=>`<i style="width:${s.n/Math.max(14,c.total)*100}%;background:${BCOL[s.b]};border-right:1.5px solid var(--edge)" title="${esc(s.base.n)} ${s.n}"></i>`).join('');
+ const bopts=sel=>Object.keys(BASES).filter(b=>b!=='cun').map(b=>`<option value="${b}" ${b===sel?'selected':''}>${esc(BASES[b].n)}</option>`).join('');
+ const carOpts=`<option value="-1" ${it.carAt===-1?'selected':''}>Dall’aeroporto, giorno 1</option>${it.stops.map((s,i)=>`<option value="${i}" ${it.carAt===i?'selected':''}>Da ${esc(BASES[s.b].n)}</option>`).join('')}<option value="99" ${it.carAt>=it.stops.length?'selected':''}>Nessuna auto</option>`;
+ let h=`<div class="cbar"><div><h3 class="lab">Modifica l’itinerario</h3><span class="hint">Cambia notti, ordine e basi. Il piano, i giorni e la mappa si aggiornano.</span></div><div class="btns"><button class="btn ghost" data-act="restore">Ripristina l’itinerario deciso</button></div></div>
+ <div class="panel" style="padding:12px;display:grid;gap:10px"><div class="row"><h2 style="font-size:20px">${esc(it.name)}</h2><span class="pill">${c.total} di 14 notti${c.total<14?`, ne mancano ${14-c.total}`:c.total>14?`, ${c.total-14} in più`:''}</span></div><div class="meter">${meter}</div>
+ <div class="row" style="flex-wrap:wrap;justify-content:flex-start;gap:14px"><label class="row" style="gap:8px"><span class="lab">Auto</span><select id="carAt" style="width:auto">${carOpts}</select></label><span class="hint">${c.hasCar?`${c.carDays} giorni di noleggio, ${c.idle} notti con l’auto ferma. Il ritiro e la riconsegna all’aeroporto evitano il supplemento di sola andata (da confermare col noleggio).`:'Senza auto: tutte le tratte con bus, shuttle o transfer.'}</span></div></div>`;
+ c.st.forEach((s,i)=>{
+  const prev=i?BASES[it.stops[i-1].b].n:'Aeroporto di Cancún',leg=c.legs[i];
+  const trips=POIS.filter(p=>p.fam!=='prat').map(p=>({p,e:estHours(p,s.b)})).filter(x=>x.e.h<=2.25).sort((a,b)=>a.e.h-b.e.h).slice(0,7);
+  h+=`<div class="stop"><div class="leg"><span>${esc(prev)} → ${esc(s.base.n)}</span><b class="mono">${fmtH(leg.h)}</b>${leg.v?bdV:bdE}<span>${leg.byCar?'in auto':'senza auto, +30 min di coincidenze'}${leg.ferry?', con traghetto':''}</span></div>
+  <div class="sh"><span class="idx" style="background:${BCOL[s.b]}">${i+1}</span><select class="bsel" data-i="${i}" aria-label="Base ${i+1}">${bopts(s.b)}</select>
+  <div class="nst"><button data-act="nminus" data-i="${i}" aria-label="Una notte in meno">−</button><span>${s.n} n</span><button data-act="nplus" data-i="${i}" aria-label="Una notte in più">+</button></div>
+  <span class="mono">${dshort(s.from)} → ${dshort(s.to)} · ${dwd(s.from)}–${dwd(s.to)}</span>
+  <div class="btns"><button class="sbtn" data-act="up" data-i="${i}" aria-label="Sposta su" ${i?'':'disabled'}>↑</button><button class="sbtn" data-act="down" data-i="${i}" aria-label="Sposta giù" ${i<c.st.length-1?'':'disabled'}>↓</button><button class="sbtn" data-act="rm" data-i="${i}" aria-label="Togli la base" ${c.st.length>1?'':'disabled'}>✕</button></div></div>
+  <div class="sb"><div style="display:grid;gap:8px;align-content:start"><p>${esc(s.base.vibe)}</p>${profBars(s.base.prof)}<div class="links">${hotelLinks(s.b,s.from,s.to).map(([t,u])=>`<a href="${esc(u)}" target="_blank" rel="noopener noreferrer"><span>${t}, ${dshort(s.from)}–${dshort(s.to)}</span><span>↗</span></a>`).join('')}</div><p class="hint">Link di ricerca, nessun prezzo verificato.</p></div>
+  <div><h3 class="lab" style="margin-bottom:6px">Gite da qui (fino a 2 h 15)</h3>${trips.map(({p,e})=>`<button class="nb" data-act="gomap" data-id="${p.id}">${dotF(p.fam)}<span>${esc(p.n)}<br><span class="z">${esc(p.tags.slice(0,3).join(' · '))}</span></span><span class="mono hint">${fmtW(e.h)}${e.v?'':'*'}</span></button>`).join('')||'<p class="empty">Niente nel raggio.</p>'}<p class="hint">* tempo stimato</p></div></div></div>`;
+ });
+ const ll=c.last;
+ h+=`<div class="leg panel"><span>${esc(BASES[it.stops[it.stops.length-1].b].n)} → Aeroporto di Cancún, il ${dshort(c.total)}</span><b class="mono">${fmtH(ll.h)}</b>${ll.v?bdV:bdE}<span>volo alle 16:55, presentarsi 3 ore prima circa</span></div>
+ <div class="panel" style="padding:12px;display:flex;gap:10px;flex-wrap:wrap;align-items:center"><span class="lab">Aggiungi una base</span><select id="addBase" style="width:auto">${bopts('')}</select><span class="hint">Entra con 1 notte, poi regola.</span></div>`;
+ const w=S.wish.map(id=>POI[id]).filter(Boolean);
+ h+=`<div class="panel" style="padding:12px"><h3 class="lab" style="margin-bottom:6px">I miei luoghi (★) rispetto a questo itinerario</h3>${w.length?w.map(p=>{let best=null;c.st.forEach(s=>{const e=estHours(p,s.b);if(!best||e.h<best.e.h)best={s,e};});return`<button class="nb" data-act="gomap" data-id="${p.id}">${dotF(p.fam)}<span>${esc(p.n)}</span><span class="mono hint">da ${esc(best.s.base.n)} · ${fmtH(best.e.h)}${best.e.v?'':'*'}</span></button>`;}).join(''):'<p class="empty">Nessun preferito. Segna con la stella i luoghi dalla mappa.</p>'}</div>`;
+ return h;
+}
+
+/* ===== PAGINA ===== */
+
+/* ===== GIORNI ===== */
+function getDay(d){const x=S.days[d];return x&&Array.isArray(x.items)?x:{items:[],note:''};}
+function ensDay(d){if(!S.days[d]||!Array.isArray(S.days[d].items))S.days[d]={items:[],note:''};return S.days[d];}
+function dayBase(d,c){const st=c.st.find(x=>d>=x.from&&d<x.to);return st?st.b:c.st[c.st.length-1].b;}
+function suggestFor(d,c,dd){
+ const base=dayBase(d,c),have=new Set(dd.items.map(i=>i.p).filter(Boolean));
+ const pick=((DAYS_DEF[d]||{}).p||[]).filter(id=>POI[id]&&!have.has(id));
+ const near=POIS.filter(p=>p.fam!=='prat'&&!have.has(p.id)&&!pick.includes(p.id)).map(p=>({p,e:estHours(p,base)})).sort((a,b)=>a.e.h-b.e.h).slice(0,16);
+ const all=pick.map(id=>({p:POI[id],e:estHours(POI[id],base)})).concat(near);
+ return{first:all.slice(0,8),more:all.slice(8)};
+}
+const dirUrl=(a,b,wps)=>'https://www.google.com/maps/dir/?api=1&origin='+a.lat+','+a.lon+'&destination='+b.lat+','+b.lon+(wps&&wps.length?'&waypoints='+wps.map(w=>w.lat+','+w.lon).join('|'):'')+'&travelmode=driving';
+const accNode=bid=>NODES[(BASES[bid]||{}).access||bid]||BASES[bid];
+function tripDirUrl(c){const ids=c.st.map(x=>x.b);return dirUrl(BASES.cun,BASES.cun,ids.map(accNode));}
+function tipList(arr,ic){return arr.length?`<ul class="tips">${arr.map(([t,u,k])=>`<li><span class="ti">${ic}</span><span>${esc(t)} ${u?`<a href="${esc(u)}" target="_blank" rel="noopener noreferrer">fonte ↗</a>`:`<span class="hint">mio giudizio</span>`}</span></li>`).join('')}</ul>`:'';}
+function dayHTML(d,c){
+ const st=c.st.find(x=>d>=x.from&&d<x.to),dd=getDay(d),first=st&&d===st.from,last=d===c.total;
+ const where=st?st.base.n:'Aeroporto CUN',ev=EVENTS.filter(e=>e.from===d).map(e=>e.label),n=dd.items.length,done=dd.items.filter(x=>x.done).length;
+ let tr='';
+ if(first||last){
+  const i=last?c.legs.length-1:st.i,L=c.legs[i],a=last?c.st[c.st.length-1].b:(i===0?'cun':c.st[i-1].b),b=last?'cun':st.b;
+  const ax=accNode(a),bx=accNode(b),ln=LEGNOTE[[BASES[a].access||a,BASES[b].access||b].sort().join('-')];
+  tr=`<div class="trb"><div><b>${esc(a==='cun'?'Aeroporto CUN':BASES[a].n)} → ${esc(b==='cun'?'Aeroporto CUN':BASES[b].n)}</b><br><span class="mono">${L.v?'':'≈ '}${fmtH(L.h)}${L.ferry?' con traghetto':''}</span> <span class="hint">${L.v?'tempo da fonte':'stima mia'}${ln&&ln[1]?` · <a href="${esc(ln[1])}" target="_blank" rel="noopener noreferrer">fonte ↗</a>`:''}</span>${L.ferry?`<br><span class="hint">${esc(FERRYNOTE[0])} <a href="${esc(FERRYNOTE[1])}" target="_blank" rel="noopener noreferrer">fonte ↗</a></span>`:''}</div><a class="btn ghost sm" href="${esc(dirUrl(ax,bx))}" target="_blank" rel="noopener noreferrer">Percorso su Google Maps ↗</a></div>`;
+ }
+ const items=dd.items.map((x,i)=>{const q=x.p&&POI[x.p];
+  return`<div class="it ${x.done?'dn':''}"><input type="checkbox" data-act="ddone" data-d="${d}" data-i="${i}" ${x.done?'checked':''} aria-label="Fatto"><input class="thh" type="text" inputmode="numeric" maxlength="5" data-d="${d}" data-i="${i}" value="${esc(x.h||'')}" placeholder="ora" aria-label="Ora">
+  <div class="itx">${q?`<button class="sgn" data-act="gomap" data-id="${q.id}">${dotF(q.fam)}${esc(x.t||q.n)}</button><a class="mapl" href="${esc(gm(q.lat,q.lon))}" target="_blank" rel="noopener noreferrer">Maps ↗</a>`:`<input class="tin" type="text" data-d="${d}" data-i="${i}" value="${esc(x.t)}" placeholder="Attività" aria-label="Attività">`}</div>
+  <button class="x" data-act="ddel" data-d="${d}" data-i="${i}" aria-label="Elimina" title="Elimina">×</button></div>`;}).join('');
+ const sg=suggestFor(d,c,dd);
+ const card=({p,e})=>`<div class="sg">${dotF(p.fam)}<div class="sgb"><button class="sgn" data-act="gomap" data-id="${p.id}">${esc(p.n)}</button><span class="hint">${p.dur&&p.dur!=='—'?esc(p.dur)+' · ':''}${e.v?'':'≈ '}${fmtW(e.h)} dalla base</span></div><button class="btn sm" data-act="sadd" data-d="${d}" data-id="${p.id}" aria-label="Aggiungi ${esc(p.n)} al giorno">+ Aggiungi</button></div>`;
+ let tips='';
+ if(first&&BASETIPS[st.b]){const T=BASETIPS[st.b];tips=`<details class="tipd"><summary>Consigli per ${esc(st.base.n)}</summary><div class="tipbox"><div><h4>Da fare</h4>${tipList(T.do,'✔')}</div><div><h4>Da evitare</h4>${tipList(T.dont,'✖')}</div>${T.know.length?`<div><h4>Da sapere</h4>${tipList(T.know,'ℹ')}</div>`:''}</div><div class="btns" style="margin-top:8px">${hotelLinks(st.b,st.from,st.to).map(([t,u])=>`<a class="btn ghost sm" href="${esc(u)}" target="_blank" rel="noopener noreferrer">${t} ↗</a>`).join('')}</div></details>`;}
+ return`<details class="day" data-d="${d}" ${S.dopen[d]?'open':''}><summary><span class="dn1"><b>${dshort(d).split(' ')[0]}</b><span class="mono">${dwd(d)}</span></span><span class="dw"><b>${esc(where)}</b><span class="mono hint">${n?`${done}/${n} fatte`:'Da decidere'}</span></span>${first&&d>0?'<span class="dtag">trasferimento</span>':''}${d===0?'<span class="dtag">arrivo</span>':''}${last?'<span class="dtag">volo 16:55</span>':''}${ev.length?`<span class="dtag ev">${esc(ev[0])}?</span>`:''}</summary>
+ <div class="dbody">${tr}<div class="dcol"><div class="dprog"><h4>Il tuo programma</h4>${items||'<p class="hint">Ancora niente. Scegli dai suggerimenti o scrivi tu.</p>'}<div class="addrow"><input class="dnew" type="text" data-d="${d}" placeholder="Scrivi un’attività…" maxlength="160" aria-label="Nuova attività"><button class="btn" data-act="dnew" data-d="${d}">Aggiungi</button></div>
+ <h4 style="margin-top:16px">Note</h4><textarea class="dnote" data-d="${d}" rows="3" placeholder="Prenotazioni, orari, idee…">${esc(dd.note||'')}</textarea></div>
+ <div class="dsug"><h4>Suggerimenti vicino a ${esc(where)}</h4><div class="sgl">${sg.first.map(card).join('')||'<p class="hint">Hai già aggiunto tutto.</p>'}</div>${sg.more.length?`<details class="more"><summary>Altri luoghi vicini</summary><div class="sgl">${sg.more.map(card).join('')}</div></details>`:''}<p class="hint">Tempi stimati dalla base, quelli con ≈ non sono verificati. Nessuna scelta è fatta per te.</p></div></div>${tips}</div></details>`;
+}
+function daysHTML(){
+ const c=computeIt(S.its.D);let h='';
+ for(let d=0;d<=c.total;d++)h+=dayHTML(d,c);
+ return`<div class="phero"><div><div class="eyebrow2">Giorno per giorno</div><h2>${c.total+1} giorni, ${dshort(0)} – ${dshort(c.total)}</h2><p>Decidi tu cosa fare: scegli dai suggerimenti di ogni giorno o scrivi la tua attività. Tutto resta salvato in questo browser.</p>
+ <div class="btns" style="margin-top:12px"><a class="btn" href="${esc(tripDirUrl(c))}" target="_blank" rel="noopener noreferrer">Tutto il giro su Google Maps ↗</a><button class="btn ghost" data-act="dopenall">Apri tutti</button><button class="btn ghost" data-act="dcloseall">Chiudi tutti</button></div></div>
+ </div><div class="tripnote panel"><h3 class="lab">Note del viaggio</h3><textarea id="tripnote" rows="4" placeholder="Idee, cose da non perdere…">${esc(S.trip)}</textarea><p class="hint">Salvate in questo browser. Lucha libre e danzadores spirits sono già qui: date e dettagli sono da trovare.</p></div>
+<div class="days">${h}</div>
+ <p class="hint">Le tratte segnate con “stima mia” non sono verificate. Se cambi le notti in Modifica, le attività restano legate alle date: ricontrolla i giorni di trasferimento. <button class="btn ghost sm" data-act="dreset">${S.cfm?'Conferma: svuota tutti i giorni':'Svuota tutti i giorni'}</button></p>`;
+}
+function headHTML(){
+ const tabs=[['plan','Il piano'],['days','Giorni'],['map','Mappa'],['bld','Modifica']];
+ return`<header class="top"><div><h1>Yucatán, 8–22 dicembre</h1><p class="sum">14 notti · andata 8 dic ore 15:05, ritorno 22 dic ore 16:55 · mappa schematica, tempi in auto stimati salvo dove c’è “verificato”</p></div>
+ <div class="btns"><nav class="tabs" aria-label="Viste">${tabs.map(([k,n])=>`<button data-act="view" data-v="${k}" aria-pressed="${S.view===k}">${n}</button>`).join('')}</nav><button class="btn ghost" data-act="theme" aria-label="Cambia tema">${S.th==='dark'?'Scuro':S.th==='light'?'Chiaro':'Tema auto'}</button></div></header>`;
+}
+function bodyHTML(){
+ if(S.view==='plan')return`<div class="body v-one"><section class="plan">${planHTML()}</section></div>`;
+ if(S.view==='days')return`<div class="body v-one"><section class="plan">${daysHTML()}</section></div>`;
+ if(S.view==='map'){
+  const sel=S.sel,det=sel?(sel.t==='p'?detailPoi(POI[sel.id]):detailBase(sel.id)):'';
+  return`<div class="body v-map ${sel?'has-detail':''}"><aside class="filters panel" id="left">${filtersHTML()}</aside><section class="stage" id="center">${centerHTML()}</section>${sel?`<aside class="detail panel" id="detail">${det}</aside>`:''}</div>`;
+ }
+ return`<div class="body v-one"><section class="bld panel">${bldHTML()}</section></div>`;
+}
+function mapCtx(){
+ const sp=S.sel&&S.sel.t==='p'?POI[S.sel.id]:null;
+ return{its:activeIts(),pois:POIS.map(p=>({p,dim:!matchPoi(p)})).filter(x=>!(S.f.hide&&x.dim)),labels:S.f.labels,road:S.f.road,sel:S.sel,near:sp?nearest(sp,4).map(x=>x.q):[],clickBases:true,allBases:true};
+}
+let raf=0;
+function curW(){const h=$('#mapsvg'),r=h?h.getBoundingClientRect():{width:800,height:500};return S.vbw||Math.min(1250,Math.max(720,640*(r.width||800)/(r.height||500)));}
+function drawMap(){
+ const host=$('#mapsvg');if(!host)return;
+ const r=host.getBoundingClientRect(),cw=r.width||800,ch=r.height||500,w=curW(),h=w*ch/cw;
+ host.innerHTML=mapSVG({...mapCtx(),vb:{x:S.cx-w/2,y:S.cy-h/2,w,h},k:w/cw,});
+}
+const qdraw=()=>{if(raf)return;raf=requestAnimationFrame(()=>{raf=0;drawMap();});};
+function bindMap(host){
+ if(!host)return;
+ host.onpointerdown=e=>{S.drag=0;host._p={x:e.clientX,y:e.clientY,cx:S.cx,cy:S.cy,cap:false};};
+ host.onpointermove=e=>{const p=host._p;if(!p)return;const dx=e.clientX-p.x,dy=e.clientY-p.y;S.drag=Math.max(S.drag,Math.hypot(dx,dy));if(S.drag<4)return;
+  if(!p.cap){try{host.setPointerCapture(e.pointerId);}catch(_){}p.cap=true;host.firstChild&&host.firstChild.classList.add('drag');}
+  const u=curW()/host.getBoundingClientRect().width;S.cx=p.cx-dx*u;S.cy=p.cy-dy*u;qdraw();};
+ host.onpointerup=host.onpointercancel=e=>{host._p=null;try{host.releasePointerCapture(e.pointerId);}catch(_){}};
+ host.addEventListener('wheel',e=>{if(!(e.ctrlKey||e.metaKey))return;e.preventDefault();const r=host.getBoundingClientRect(),w=curW(),h=w*r.height/r.width,fx=(e.clientX-r.left)/r.width,fy=(e.clientY-r.top)/r.height;
+  const wx=S.cx-w/2+fx*w,wy=S.cy-h/2+fy*h,nw=Math.min(1600,Math.max(110,w*Math.exp(e.deltaY*0.0015))),nh=nw*r.height/r.width;
+  S.vbw=nw;S.cx=wx-(fx-0.5)*nw;S.cy=wy-(fy-0.5)*nh;qdraw();},{passive:false});
+}
+function render(){
+ const y=window.scrollY,ap=$('#app');if(ap)ap.style.minHeight=ap.offsetHeight+'px';
+ if(S.th)document.documentElement.dataset.theme=S.th;else delete document.documentElement.dataset.theme;
+ $('#app').innerHTML=headHTML()+bodyHTML();
+ S.toMap=0;if(S.toDay!=null){const el=document.querySelector('.day[data-d="'+S.toDay+'"]');S.toDay=null;S.toTop=0;if(el)el.scrollIntoView({block:'start'});}else if(S.toTop){S.toTop=0;window.scrollTo({top:0,behavior:'instant'});}else window.scrollTo({top:y,behavior:'instant'});
+ if(ap)ap.style.minHeight='';
+ const host=$('#mapsvg');if(host){bindMap(host);drawMap();}
+ save();
+}
+function updateCenter(){
+ const c=$('#center');if(!c)return;
+ c.innerHTML=centerHTML();const host=$('#mapsvg');bindMap(host);drawMap();save();
+}
+
+/* ===== EVENTI ===== */
+function stepNights(it,i,d){const n=it.stops[i].n+d;if(n>=1&&n<=14)it.stops[i].n=n;}
+function selPoi(id){S.sel={t:'p',id};if(S.view!=='map')S.view='map';const p=POI[id];if(p){S.cx=PX_(p.lon);S.cy=PY_(p.lat);if(!S.vbw||S.vbw>700)S.vbw=620;}}
+document.addEventListener('click',e=>{
+ if(S.meas.on&&e.target.closest('#mapsvg')){
+  if(S.drag>4){S.drag=0;return;}
+  S.drag=0;const svg=$('#mapsvg svg');if(!svg)return;
+  const tp=e.target.closest('[data-poi],[data-base]');let pt;
+  if(tp&&tp.dataset.poi){const q=POI[tp.dataset.poi];pt={lat:q.lat,lon:q.lon,name:q.n};}
+  else if(tp&&tp.dataset.base){const b=BASES[tp.dataset.base];pt={lat:b.lat,lon:b.lon,name:b.n,bid:tp.dataset.base};}
+  else{const q=svg.createSVGPoint();q.x=e.clientX;q.y=e.clientY;const r=q.matrixTransform(svg.getScreenCTM().inverse());
+   const lon=r.x/(CK*SC)+LON0,lat=LAT1-r.y/SC;let nb=null,nd=1e9;Object.keys(BASES).forEach(id=>{const d=km({lat,lon},BASES[id]);if(d<nd){nd=d;nb=id;}});
+   pt={lat,lon,name:'Punto '+(S.meas.pts.length+1)+(nd<40?' (vicino a '+BASES[nb].n+')':'')};}
+  S.meas.pts.push(pt);render();return;
+ }
+ const t=e.target.closest('[data-act],[data-poi],[data-base]');if(!t)return;
+ if(S.drag>4&&t.closest('#mapsvg')){S.drag=0;return;}
+ S.drag=0;
+ const d=t.dataset;
+ if(d.poi){S.sel={t:'p',id:d.poi};render();return;}
+ if(d.base){S.sel={t:'b',id:d.base};render();return;}
+ const it=S.its[S.bld],f=S.f;
+ if(d.act!=='dreset')S.cfm=false;
+ switch(d.act){
+  case'view':S.view=d.v;S.toTop=1;break;
+  case'reach':f.reach=+d.h;break;
+  case'todo':S.todo[d.k]=!S.todo[d.k];break;
+  case'ddone':{const x=ensDay(+d.d).items[+d.i];if(x)x.done=!x.done;break;}
+  case'ddel':ensDay(+d.d).items.splice(+d.i,1);break;
+  case'dnew':{const el=document.querySelector('.dnew[data-d="'+d.d+'"]'),v=el?el.value.trim():'';if(!v)return;ensDay(+d.d).items.push({t:v,done:false});break;}
+  case'sadd':{const q=POI[d.id];if(q)ensDay(+d.d).items.push({t:q.n,p:q.id,done:false});break;}
+  case'goday':S.view='days';S.dopen[d.d]=true;S.toDay=d.d;break;
+  case'dopenall':for(let i=0;i<=14;i++)S.dopen[i]=true;break;
+  case'dcloseall':S.dopen={};break;
+  case'dreset':if(S.cfm){S.days={};S.cfm=false;}else{S.cfm=true;}break;
+  case'mtool':S.meas.on=!S.meas.on;break;
+  case'mundo':S.meas.pts.pop();break;
+  case'mclear':S.meas.pts=[];break;
+  case'theme':S.th=S.th===''?'light':S.th==='light'?'dark':'';break;
+  case'tag':{const i=f.tags.indexOf(d.t);if(i<0)f.tags.push(d.t);else f.tags.splice(i,1);break;}
+  case'cleartags':f.tags=[];break;
+  case'mode':f.mode=d.m;break;
+  case'reset':Object.assign(f,{q:'',tags:[],mode:'any',radIt:'',rad:2,hide:false,onlyWish:false,reach:1.5});break;
+  case'sel':selPoi(d.id);S.toMap=1;break;
+  case'gomap':selPoi(d.id);S.toTop=1;break;
+  case'wish':{const i=S.wish.indexOf(d.id);if(i<0)S.wish.push(d.id);else S.wish.splice(i,1);break;}
+  case'close':S.sel=null;break;
+  case'dtab':S.dtab=d.v;break;
+  case'zin':S.vbw=Math.max(110,curW()*0.72);qdraw();return;
+  case'zout':S.vbw=Math.min(1600,curW()/0.72);qdraw();return;
+  case'goto':{const b=BASES[d.b];S.cx=PX_(b.lon);S.cy=PY_(b.lat);S.vbw=d.b==='pm'?420:210;qdraw();return;}
+  case'zreset':S.cx=PX_(-88.2);S.cy=PY_(20.1);S.vbw=0;qdraw();return;
+  case'zall':S.cx=PX_(-89.3);S.cy=PY_(19.6);S.vbw=1250;qdraw();return;
+  case'nplus':stepNights(it,+d.i,1);break;
+  case'nminus':stepNights(it,+d.i,-1);break;
+  case'up':{const i=+d.i;if(i>0){[it.stops[i-1],it.stops[i]]=[it.stops[i],it.stops[i-1]];}break;}
+  case'down':{const i=+d.i;if(i<it.stops.length-1){[it.stops[i+1],it.stops[i]]=[it.stops[i],it.stops[i+1]];}break;}
+  case'rm':if(it.stops.length>1){it.stops.splice(+d.i,1);if(it.carAt>=it.stops.length&&it.carAt!==99)it.carAt=-1;}break;
+  case'restore':S.its[S.bld]=clone(ITS0[S.bld==='M'?'D':S.bld]);S.its[S.bld].id=S.bld;if(S.bld==='M'){S.its.M.name='Il mio';S.its.M.sub='Copia di D, da modificare';}break;
+  default:return;
+ }
+ render();
+});
+document.addEventListener('input',e=>{
+ const t=e.target;
+ if(t.id==='q'){S.f.q=t.value;updateCenter();}
+ if(t.classList.contains('thh')){const x=ensDay(+t.dataset.d).items[+t.dataset.i];if(x){x.h=t.value;save();}}
+ if(t.classList.contains('tin')){const x=ensDay(+t.dataset.d).items[+t.dataset.i];if(x){x.t=t.value;save();}}
+ if(t.classList.contains('dnote')){ensDay(+t.dataset.d).note=t.value;save();}
+ if(t.id==='tripnote'){S.trip=t.value;save();}
+ if(t.id==='rad'){S.f.rad=+t.value;const v=$('#radv');if(v)v.textContent=fmtH(S.f.rad);updateCenter();}
+});
+document.addEventListener('change',e=>{
+ const t=e.target,it=S.its[S.bld];
+ if(t.id==='radIt'){S.f.radIt=t.checked?'D':'';render();}
+ else if(t.dataset.k){S.f[t.dataset.k]=t.checked;render();}
+ else if(t.classList.contains('bsel')){it.stops[+t.dataset.i].b=t.value;render();}
+ else if(t.id==='carAt'){it.carAt=+t.value;render();}
+ else if(t.id==='addBase'&&t.value){it.stops.push({b:t.value,n:1});render();}
+});
+document.addEventListener('toggle',e=>{const t=e.target;if(t.classList&&t.classList.contains('day')){if(t.open)S.dopen[t.dataset.d]=true;else delete S.dopen[t.dataset.d];}},true);
+document.addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target.classList&&e.target.classList.contains('dnew')){e.preventDefault();const b=document.querySelector('[data-act="dnew"][data-d="'+e.target.dataset.d+'"]');if(b)b.click();}});
+window.addEventListener('resize',()=>{drawMap();});
+render();
+if('serviceWorker' in navigator&&location.protocol.startsWith('http'))window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));
+</script></body></html>
