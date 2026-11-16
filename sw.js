@@ -1,4 +1,4 @@
-const V='yuc-v20',CORE=['./','index.html','manifest.webmanifest','icon-192.png','icon-180.png'];
+const V='yuc-v21',CORE=['./','index.html','manifest.webmanifest','icon-192.png','icon-180.png'];
 self.addEventListener('install',e=>{e.waitUntil(caches.open(V).then(c=>c.addAll(CORE.map(u=>new Request(u,{cache:'reload'})))).then(()=>self.skipWaiting()));});
 self.addEventListener('activate',e=>{e.waitUntil(caches.keys().then(k=>Promise.all(k.filter(x=>x!==V).map(x=>caches.delete(x)))).then(()=>self.clients.claim()));});
 /* Cache first, aggiorna in background: la pagina e i font compaiono subito, anche al refresh */
