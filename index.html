@@ -1902,7 +1902,7 @@ function edDetail(e){
  const opts=Array.from({length:15},(_,d)=>`<option value="${d}" ${d===S.edDay?'selected':''}>${dshort(d)}</option>`).join('');
  const d=S.edDay;
  const gs=e.groups.map(([g,list])=>`<h5 class="tier">${esc(g)} <span class="mono">${list.length}</span></h5><ul class="ideas">${list.map(([n,note,area,fl])=>{const on=hasItem(d,n);
-  return`<li class="idea"><div class="cit"><b>${esc(n)}</b><span class="mono pill tag">${esc(area)}</span></div><p>${esc(note)}</p>${fl==='p'?'<p class="hint">Private on that trip, not open to visit. Check before planning around it.</p>':''}<div class="cia"><a href="${esc(edMaps(n,area))}" target="_blank" rel="noopener noreferrer">Maps ↗</a><button class="btn sm ${on?'ghost':''}" data-act="gadd" data-d="${d}" data-n="${esc(n)}" ${on||fl==='p'?'disabled':''}>${on?'✓ in the day':fl==='p'?'—':'+ Add'}</button></div></li>`;}).join('')}</ul>`).join('');
+  return`<li class="idea"><div class="cit"><b>${esc(n)}</b><span class="mono pill tag">${esc(area)}</span></div><p>${esc(note)}</p>${galHTML({name:n,q:n+' '+area+' Yucatán'})}${fl==='p'?'<p class="hint">Private on that trip, not open to visit. Check before planning around it.</p>':''}<div class="cia"><a href="${esc(edMaps(n,area))}" target="_blank" rel="noopener noreferrer">Maps ↗</a><a href="${esc('https://www.google.com/search?tbm=isch&q='+encodeURIComponent(n+' '+area+' Yucatán'))}" target="_blank" rel="noopener noreferrer">Photos ↗</a><button class="btn sm ${on?'ghost':''}" data-act="gadd" data-d="${d}" data-n="${esc(n)}" ${on||fl==='p'?'disabled':''}>${on?'✓ in the day':fl==='p'?'—':'+ Add'}</button></div></li>`;}).join('')}</ul>`).join('');
  return`<button class="btn sm back" data-act="edback">← Editorial</button>
  <div class="edhero ${t.on?'on':'pend'} hero-img" data-gk="${imgKey(t.spec.key)}" data-spec="${esc(JSON.stringify(t.spec))}" style="${t.bg}"><span class="hi"><span class="hm">${esc(e.by)} · ${esc(e.date)}</span><span class="hn">${esc(e.title)}</span></span></div>
  <div class="edwrap"><div class="edintro"><p>${esc(e.blurb)}</p><p class="hint">By ${esc(e.author)}. <a href="${esc(e.url)}" target="_blank" rel="noopener noreferrer">Read the original ↗</a> Hours and opening days not checked.</p>
@@ -1951,6 +1951,13 @@ async function findPage(q,name,any){
  const j=await jget(u),pg=Object.values((j.query&&j.query.pages)||{}).sort((a,b)=>a.index-b.index);
  return any?(pg[0]||null):(pg.find(p=>titleOk(p.title,name))||null);
 }
+async function commonsPhotos(q,name){
+ const u='https://commons.wikimedia.org/w/api.php?action=query&generator=search&gsrnamespace=6&gsrsearch='+encodeURIComponent(q)+'&gsrlimit=10&prop=imageinfo&iiprop=url&iiurlwidth=330&format=json&origin=*';
+ const j=await jget(u),pg=Object.values((j.query&&j.query.pages)||{}).sort((a,b)=>a.index-b.index),out=[];
+ pg.forEach(p=>{const ii=p.imageinfo&&p.imageinfo[0];if(!ii||!ii.thumburl||BADIMG.test(p.title)||!titleOk(p.title,name))return;
+  out.push({t:ii.thumburl,m:sized(ii.thumburl,960),f:ii.descriptionurl||'https://commons.wikimedia.org/wiki/'+p.title.replace(/ /g,'_'),n:p.title.replace(/^File:/,'').replace(/\.[a-z]+$/i,'').replace(/_/g,' ')});});
+ return out;
+}
 /* spec: {name, q, title?, n?:max, cap?} -> array of photos */
 async function loadPhotos(key,spec){
  if(spec.parts)return loadPhotos2(key,spec);
@@ -1966,6 +1973,7 @@ async function loadPhotos2(key,spec){
    if(spec.one){photos=thumb?[thumb]:(await mediaOf(title)).slice(0,1);}
    else{photos=await mediaOf(title);if(thumb&&!photos.length)photos=[thumb];}
   }
+ if(!photos.length)photos=await commonsPhotos(spec.q||spec.name,spec.name);
  }catch(_){IMGC[key]={ts:Date.now(),fail:1};return null;}
  photos=photos.slice(0,spec.n||8);
  if(spec.cap)photos.forEach(p=>{p.c=spec.cap;});
@@ -2426,10 +2434,9 @@ function hasItem(d,t){return getDay(d).items.some(x=>x.t===t);}
 function itemHTML(it,scope,key,day,place){
  const[t,dtl,meta,q,u]=it,on=hasItem(day,t);
  return`<li class="ci"><div class="cit"><b>${esc(t)}</b>${meta?`<span class="mono pill">${esc(meta)}</span>`:''}</div>${dtl?`<p>${esc(dtl)}</p>`:''}${galHTML({name:t,q:t+' '+place})}
- <div class="cia">${qBd(q)}${u?`<a href="${esc(u)}" target="_blank" rel="noopener noreferrer">source ↗</a>`:''}<a href="${esc(SMAP(t+' '+place))}" target="_blank" rel="noopener noreferrer">Maps ↗</a><button class="btn sm ${on?'ghost':''}" data-act="stadd" data-s="${scope}" data-k="${key}" data-d="${day}" ${on?'disabled':''}>${on?'✓ in the day':'+ day'}</button></div></li>`;
+ <div class="cia">${qBd(q)}${u?`<a href="${esc(u)}" target="_blank" rel="noopener noreferrer">source ↗</a>`:''}<a href="${esc(SMAP(t+' '+place))}" target="_blank" rel="noopener noreferrer">Maps ↗</a><a href="${esc('https://www.google.com/search?tbm=isch&q='+encodeURIComponent(t+' '+place))}" target="_blank" rel="noopener noreferrer">Photos ↗</a><button class="btn sm ${on?'ghost':''}" data-act="stadd" data-s="${scope}" data-k="${key}" data-d="${day}" ${on?'disabled':''}>${on?'✓ in the day':'+ day'}</button></div></li>`;
 }
 function spotGal(name,bid,tag){
- if(tag==='eat'||tag==='night'||tag==='shop')return'';
  return galHTML({name,q:name+' '+(GPLACE[bid]||'')});
 }
 function homeHTML(){
@@ -2618,13 +2625,13 @@ function guideHTML(bid,cur,d){
  let h='';
  if(G.tips&&G.tips.length)h+=`<div class="gtips"><h5>Good to know</h5><ul>${G.tips.map(([t,u])=>`<li>${esc(t)}${u?` <a href="${esc(u)}" target="_blank" rel="noopener noreferrer">source ↗</a>`:''}</li>`).join('')}</ul></div>`;
  (G.groups||[]).forEach(([title,list])=>{
-  h+=`<h5 class="tier">${esc(title)}</h5><ul class="ideas">${list.map(([n,note,u,q])=>{const on=has(n);return`<li class="idea"><div class="cit"><b>${esc(n)}</b></div><p>${esc(note)}</p>${spotGal(n,bid,cur)}<div class="cia">${q==='?'?qBd('?'):''}${u?`<a href="${esc(u)}" target="_blank" rel="noopener noreferrer">source ↗</a>`:''}<a href="${esc(gmaps(n,bid))}" target="_blank" rel="noopener noreferrer">Maps ↗</a><button class="btn sm ${on?'ghost':''}" data-act="gadd" data-d="${d}" data-n="${esc(n)}" ${on?'disabled':''}>${on?'✓ in the day':'+ Add'}</button></div></li>`;}).join('')}</ul>`;
+  h+=`<h5 class="tier">${esc(title)}</h5><ul class="ideas">${list.map(([n,note,u,q])=>{const on=has(n);return`<li class="idea"><div class="cit"><b>${esc(n)}</b></div><p>${esc(note)}</p>${spotGal(n,bid,cur)}<div class="cia">${q==='?'?qBd('?'):''}${u?`<a href="${esc(u)}" target="_blank" rel="noopener noreferrer">source ↗</a>`:''}<a href="${esc(gmaps(n,bid))}" target="_blank" rel="noopener noreferrer">Maps ↗</a><a href="${esc('https://www.google.com/search?tbm=isch&q='+encodeURIComponent(n+' '+(GPLACE[bid]||'')))}" target="_blank" rel="noopener noreferrer">Photos ↗</a><button class="btn sm ${on?'ghost':''}" data-act="gadd" data-d="${d}" data-n="${esc(n)}" ${on?'disabled':''}>${on?'✓ in the day':'+ Add'}</button></div></li>`;}).join('')}</ul>`;
  });
  return h;
 }
 function topHTML(bid,d){
  const T=GTOP[bid]||[],dd=getDay(d),lab=Object.fromEntries(MACROS);
- return`<ol class="ideas toplist">${T.map(([tag,n,note,u,q,mq],i)=>{const on=dd.items.some(x=>x.t===n);return`<li class="idea"><div class="cit"><b><span class="rk">${i+1}</span>${esc(n)}</b><span class="mono pill tag">${esc(lab[tag]||tag)}</span></div><p>${esc(note)}</p>${spotGal(mq||n,bid,tag)}<div class="cia">${q==='?'?qBd('?'):''}${u?`<a href="${esc(u)}" target="_blank" rel="noopener noreferrer">source ↗</a>`:''}<a href="${esc(gmaps(mq||n,bid))}" target="_blank" rel="noopener noreferrer">Maps ↗</a><button class="btn sm ${on?'ghost':''}" data-act="gadd" data-d="${d}" data-n="${esc(n)}" ${on?'disabled':''}>${on?'✓ in the day':'+ Add'}</button></div></li>`;}).join('')}</ol>`;
+ return`<ol class="ideas toplist">${T.map(([tag,n,note,u,q,mq],i)=>{const on=dd.items.some(x=>x.t===n);return`<li class="idea"><div class="cit"><b><span class="rk">${i+1}</span>${esc(n)}</b><span class="mono pill tag">${esc(lab[tag]||tag)}</span></div><p>${esc(note)}</p>${spotGal(mq||n,bid,tag)}<div class="cia">${q==='?'?qBd('?'):''}${u?`<a href="${esc(u)}" target="_blank" rel="noopener noreferrer">source ↗</a>`:''}<a href="${esc(gmaps(mq||n,bid))}" target="_blank" rel="noopener noreferrer">Maps ↗</a><a href="${esc('https://www.google.com/search?tbm=isch&q='+encodeURIComponent((mq||n)+' '+(GPLACE[bid]||'')))}" target="_blank" rel="noopener noreferrer">Photos ↗</a><button class="btn sm ${on?'ghost':''}" data-act="gadd" data-d="${d}" data-n="${esc(n)}" ${on?'disabled':''}>${on?'✓ in the day':'+ Add'}</button></div></li>`;}).join('')}</ol>`;
 }
 function ideasHTML(d,c,dd,bid){
  const G0=GUIDE[bid]||{},names=G0.allNames||[],cur=S.idea[d]||'top';
