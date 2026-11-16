@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<html lang="en"><head><meta charset="utf-8"><style>html{background:#C42B2B}</style><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" type="image/png" href="icon-192.png">
 <meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Yucatán"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <title>Yucatán, 8–22 December</title>
@@ -1933,7 +1933,7 @@ window.addEventListener('resize',()=>{drawMap();});
    for(let i=0;i<5;i++)setTimeout(drop,i*60);
    setTimeout(()=>el.classList.add('splat-go'),650);
    setTimeout(()=>{el.classList.add('out');move(0,SPRING);},2000);
-   setTimeout(async()=>{try{const rs=await navigator.serviceWorker.getRegistrations();await Promise.all(rs.map(r=>r.unregister()));const ks=await caches.keys();await Promise.all(ks.map(k=>caches.delete(k)));}catch(_){}location.reload();},2850);
+   setTimeout(async()=>{try{const r=await fetch(location.pathname,{cache:'reload'});if(r.ok){const ks=await caches.keys();await Promise.all(ks.map(async k=>{const c=await caches.open(k);await c.put(new Request(location.pathname),r.clone());await c.put(new Request(new URL('index.html',location.href).href),r.clone());}));}if(navigator.serviceWorker){const rg=await navigator.serviceWorker.getRegistration();if(rg)rg.update().catch(()=>{});}}catch(_){}location.reload();},2850);
   }else{move(0,SPRING);setTimeout(()=>{if(!busy)el.classList.remove('on','shake','ready');},650);}};
  addEventListener('touchend',end);addEventListener('touchcancel',end);
 })();
