@@ -435,6 +435,55 @@ html{overflow-anchor:none;scroll-behavior:auto}
  .it{grid-template-columns:24px 54px minmax(0,1fr) 34px}
  .sg{grid-template-columns:auto minmax(0,1fr)}.sg .btn{grid-column:2;justify-self:start}
 }
+
+/* ===== Tappe e tratti ===== */
+.route{display:flex;flex-direction:column;gap:0}
+.rn{align-self:flex-start;border:2px solid var(--edge);border-radius:999px;background:var(--panel);padding:8px 16px;display:flex;gap:10px;align-items:baseline;box-shadow:3px 3px 0 var(--hs)}
+.rn b{font-family:var(--fd);letter-spacing:.04em;font-weight:400;font-size:18px}
+.rleg{display:flex;gap:12px;align-items:center;margin:0 0 0 22px;padding:10px 14px 10px 22px;border:0;border-left:4px dashed var(--accent);background:transparent;color:var(--ink);font:inherit;text-align:left;cursor:pointer;min-height:48px}
+.rleg .mono{font-size:12px;color:var(--ink-2);white-space:nowrap}.rleg .go{margin-left:auto;color:var(--red);font-weight:700}
+.rleg:hover span:nth-child(2){text-decoration:underline}
+.rst{display:flex;gap:14px;align-items:stretch;width:100%;text-align:left;border:2px solid var(--edge);border-radius:var(--r);background:var(--panel);color:var(--ink);font:inherit;padding:0;cursor:pointer;box-shadow:5px 5px 0 var(--hs);overflow:hidden}
+.rst:active{transform:translate(2px,2px);box-shadow:3px 3px 0 var(--hs)}
+.rnum{display:flex;align-items:center;justify-content:center;min-width:48px;background:var(--bc);color:#111;font-family:var(--fd);font-size:26px;border-right:2px solid var(--edge)}
+.rmain{display:flex;flex-direction:column;gap:3px;padding:12px 0;flex:1;min-width:0}
+.rmain b{font-family:var(--fd);font-weight:400;font-size:26px;letter-spacing:.02em;text-transform:uppercase;line-height:1.05}
+.rmain .mono{font-size:12px;color:var(--ink-2)}.rvibe{font-size:13.5px;color:var(--ink-2);line-height:1.35}
+.chips2{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.chipc{font-size:12px;border:1.5px solid var(--edge);border-radius:999px;padding:3px 9px;background:var(--bg)}
+.rst .go{align-self:center;padding:0 16px;font-weight:700;color:var(--red);white-space:nowrap}
+.back{margin-bottom:12px}
+.sthead{border:2px solid var(--edge);border-radius:var(--r);background:var(--bc,var(--gold));color:#111;padding:18px 18px 16px;box-shadow:5px 5px 0 var(--hs);margin-bottom:12px}
+.sthead.legh{--bc:var(--gold)}
+.sthead h2{font-family:var(--fd);font-weight:400;font-size:clamp(34px,8vw,56px);letter-spacing:.02em;text-transform:uppercase;line-height:1;margin:6px 0}
+.sthead p{margin:0;max-width:60ch}.sthead .mono{font-size:12px;color:#111}
+.addbar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:12px 0}
+.addbar label{font-size:13px;font-weight:700}
+.addbar select{font:inherit;border:2px solid var(--edge);border-radius:999px;background:var(--panel);color:var(--ink);padding:9px 14px;min-height:44px}
+.jump{display:flex;gap:8px;overflow-x:auto;padding:4px 2px 10px;margin:0 -2px;position:sticky;top:0;background:var(--bg);z-index:3;scrollbar-width:none}
+.jump::-webkit-scrollbar{display:none}
+.jump a{flex:none;display:flex;gap:8px;align-items:center;border:2px solid var(--edge);border-radius:999px;padding:8px 14px;background:var(--panel);color:var(--ink);text-decoration:none;font-weight:700;font-size:13.5px;min-height:40px}
+.jump a i{font-style:normal;font-size:11px;background:var(--ink);color:var(--bg);border-radius:999px;padding:1px 7px}
+.cgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(310px,1fr));gap:16px;align-items:start;margin:8px 0 20px}
+.cb{border:2px solid var(--edge);border-radius:var(--r);background:var(--panel);box-shadow:5px 5px 0 var(--hs);overflow:hidden;scroll-margin-top:64px}
+.cb header{display:flex;justify-content:space-between;align-items:baseline;gap:10px;padding:10px 14px;background:var(--hc,var(--accent));color:var(--hk,#fff);border-bottom:2px solid var(--edge)}
+.cb header h4{font-family:var(--fd);font-weight:400;font-size:22px;letter-spacing:.04em;text-transform:uppercase;margin:0}
+.cb header .mono{font-size:11px;opacity:.85}
+.cb-core{--hc:var(--red)}.cb-see{--hc:var(--accent)}.cb-reach{--hc:#111612}.cb-eat{--hc:var(--gold);--hk:#111}.cb-trad{--hc:#7A2F12}.cb-buy{--hc:#1D5A3A}.cb-chill{--hc:#5C8F6B}.cb-eve{--hc:#111612;--hk:var(--gold)}.cb-care{--hc:#F7E39A;--hk:#111}
+.cb ul{list-style:none;margin:0;padding:0}
+.ci{padding:12px 14px;border-top:1.5px solid var(--line)}.ci:first-child{border-top:0}
+.cit{display:flex;gap:10px;align-items:baseline;justify-content:space-between}
+.cit b{font-size:15.5px;line-height:1.25}.pill{font-size:11px;border:1.5px solid var(--edge);border-radius:999px;padding:2px 8px;white-space:nowrap;background:var(--gold);color:#111}
+.ci p{margin:4px 0 0;font-size:13.5px;color:var(--ink-2);line-height:1.45}
+.cia{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:8px;font-size:12.5px}
+.cia a{color:var(--accent);font-weight:600}.cia .btn{margin-left:auto}
+.cia .btn[disabled]{opacity:.7;cursor:default}
+@media (max-width:720px){
+ .sthead .btns{flex-wrap:wrap}.sthead .btn{white-space:normal}
+ .cgrid{grid-template-columns:minmax(0,1fr)}
+ .rst .go{display:none}.rmain b{font-size:23px}.rleg{margin-left:20px}
+ .sthead{padding:16px 14px}
+}
 </style></head>
 <body><div id="app"></div>
 <script>
@@ -860,6 +909,273 @@ const BASETIPS={
   dont:[['Contare sul tempo della mattina del 22: KLM consiglia di arrivare 3 ore prima','','m']],know:[]}
 };
 const TRIP_NOTE_DEF='Lucha libre\nDanzadores spirits\n';
+/* ===== TAPPE E TRATTI =====
+   voce = [titolo, dettaglio, meta, q, url]
+   q: 'f' = c'è una fonte (url), 'm' = giudizio mio, '?' = da verificare
+   meta = tempo in auto da qui (stima mia salvo fonte) o distanza/orario */
+const CATS=[
+ ['core','Da non perdere','Le cose che fanno il posto'],
+ ['see','Da visitare','In paese, a piedi'],
+ ['reach','Da raggiungere','In auto dalla base'],
+ ['eat','Cibo da provare','Dove e cosa'],
+ ['trad','Tradizioni','Cultura viva, non folklore'],
+ ['buy','Da comprare','Artigianato vero'],
+ ['chill','Lato chill','Ritmo lento'],
+ ['eve','Sera ed eventi','Dopo le 19'],
+];
+const STOPS={
+val:{
+ core:[
+  ['Longaniza e lomitos','Valladolid è citata come l’unico comune con tre piatti originali: lomitos, longaniza ed escabeche.','','f','https://www.rivieramayanews.mx/valladolid-wins-national-award-culinary-experience-2026-tianguis-turistico/'],
+  ['Cenote Zací','In pieno centro, a 10 minuti a piedi dal parco. Zací è il nome maya della città.','10 min a piedi','f','https://www.viajeroscallejeros.com/que-hacer-en-valladolid-mexico/amp/'],
+  ['Ek Balam','Sito maya più tranquillo di Chichén Itzá, con stucchi sulle facciate.','25–30 min','f','https://www.geekyexplorer.com/valladolid-mexico/'],
+ ],
+ see:[
+  ['Calzada de los Frailes','Via acciottolata di circa 700 m con botteghe, caffè e locali, fino al convento.','700 m','f','https://www.viajeroscallejeros.com/que-hacer-en-valladolid-mexico/amp/'],
+  ['Convento di San Bernardino de Siena','Fondato nel 1552 nel barrio di Sisal. Dentro c’è un museo sulla Guerra de Castas, secondo una guida (da verificare all’ingresso).','10 min a piedi','f','https://www.elviajedesofi.com/que-ver-en-valladolid-yucatan-mexico-pueblo-magico/amp/'],
+  ['Parco centrale e chiesa di San Servacio','Giro della piazza; le sedie “tú y yo” per guardare la vita del posto.','centro','f','https://www.odigootravel.com/travel-blog/cancun/things-to-do/how-to-explore-valladolid-like-a-local'],
+ ],
+ reach:[
+  ['Chichén Itzá','Meglio all’apertura: più fresco e meno gente (mio giudizio).','45 min','f','https://www.geekyexplorer.com/valladolid-mexico/'],
+  ['Cenote Suytún, Oxman, Samula','Citati da una guida come cenote da fare sulla via del ritorno da Chichén Itzá.','15–30 min (stima)','?','https://ryo.co/es/articulos/mexico/valladolid/valladolid-3-dias/'],
+  ['Cenote Hubiku','Vicino a Ek Balam; si abbina bene alla giornata.','25–35 min (stima)','?','https://daytrip.com/en/day-trips/from-cancun/ek-balam-cenote-hubiku-valladolid-mexico'],
+  ['Cobá','Dalla guida di viaggio compare come gita da Valladolid; tempo non verificato.','da verificare','?',''],
+  ['Río Lagartos e Las Coloradas','Laghi rosa e fenicotteri; compare negli itinerari in auto. Distanza non verificata.','da verificare','?','https://www.viajeroscallejeros.com/ruta-peninsula-de-yucatan-coche-14-dias/amp/'],
+ ],
+ eat:[
+  ['Mercato Municipal Donato Bates','Il cuore della vita locale: chiles, tortillas fatte a mano, tamales colados, longaniza.','centro','f','https://www.odigootravel.com/travel-blog/cancun/things-to-do/how-to-explore-valladolid-like-a-local'],
+  ['Longaniza di Valladolid','Affumicata e rossa di achiote. Si mangia in tacos o con le uova; in origine era di cervo, oggi di maiale.','','f','https://www.posta.com.mx/yucatan/donde-probar-la-mejor-longaniza-de-yucatan/vl2254612'],
+  ['Cochinita pibil e pibihuajes','Tra i piatti importanti della cucina di Valladolid secondo un food blog.','','f','https://www.willflyforfood.net/valladolid-restaurants/'],
+ ],
+ trad:[
+  ['Guerra de Castas','Nel 1847 la città fu al centro di una guerra durata circa 50 anni; il museo è nel convento.','','f','https://www.elviajedesofi.com/que-ver-en-valladolid-yucatan-mexico-pueblo-magico/amp/'],
+  ['Barrio di Sisal','Rimase un villaggio indigeno fino all’Ottocento: il convento nasce lì per evangelizzare.','','f','https://sailingstonetravel.com/?p=59799'],
+  ['Temazcal vicino a Valladolid','Esistono, ma sono prodotti turistici: chiedi chi lo guida prima di prenotare. “Sciamano autentico” è marketing.','','?',''],
+ ],
+ buy:[
+  ['Ricami, huipil, guayabera','Artigianato tipico di Valladolid: abiti ricamati, hamacas, gioielli, cuoio, pietra scolpita.','','f','https://www.mexicodesconocido.com.mx/valladolid-yucatan-pueblos-magicos-mexico.html'],
+  ['Mercado de Artesanías','Hamacas e bluse ricamate.','centro','f','https://www.odigootravel.com/travel-blog/cancun/things-to-do/how-to-explore-valladolid-like-a-local'],
+  ['Cioccolato artigianale','Souvenir consigliato dalla guida; c’è un museo, Choco-Story.','centro','f','https://escapadas.mexicodesconocido.com.mx/que-hacer-en-valladolid-pueblo-magico-yucatan/'],
+ ],
+ chill:[
+  ['Calzada de los Frailes al tramonto','Le botteghe e i caffè aperti, luce bassa.','','f','https://escapadas.mexicodesconocido.com.mx/que-hacer-en-valladolid-pueblo-magico-yucatan/'],
+  ['Una sedia “tú y yo” in piazza','Non serve altro.','','f','https://www.odigootravel.com/travel-blog/cancun/things-to-do/how-to-explore-valladolid-like-a-local'],
+  ['Bagno al Cenote Zací','Dopo il caldo del pomeriggio.','','f','https://www.viajeroscallejeros.com/que-hacer-en-valladolid-mexico/amp/'],
+ ],
+ eve:[
+  ['Noches de la Heroica Valladolid','Videomapping gratuito sulla facciata del convento. Una guida riporta le 21:00 in spagnolo e le 21:25 in inglese: verifica gli orari.','21:00','?','https://loudavymkrokem.cz/es/valladolid-mexico-que-ver/'],
+ ],
+ care:[
+  ['Contanti in pesos per i pedaggi sulla 180D.','','f','https://travellemming.com/cancun-to-valladolid/'],
+  ['Ik Kil nelle ore centrali è affollato: meglio i cenote meno noti.','','m',''],
+ ]},
+mer:{
+ core:[
+  ['Mercato Lucas de Gálvez','Il mercato storico, circa 2.000 venditori (fonte editoriale). Domenica mattina: cochinita pibil.','centro','f','https://tablejourney.com/mexico/merida/markets/mercado-san-benito/'],
+  ['Fiesta guadalupana a San Cristóbal','La festa più grande dello Yucatán, programma speciale l’11 e il 12 dicembre, calle 50 tra 67 e 69. Orari 2026 da verificare. È devozione, non spettacolo: vestiti sobrio.','sab 12 dic','f','https://yucatan.com.mx/imagen/2026/10/30/san-cristobal-se-prepara-para-los-festejos-a-la-virgen-guadalupe.html'],
+  ['Serenata Yucateca','Parque de Santa Lucía, ogni giovedì alle 21:00.','gio 10 dic','f','https://posta.com.mx/mexico/semana-meridana-que-hacer-de-lunes-a-domingo-en-merida/vl1561215'],
+ ],
+ see:[
+  ['Centro storico a piedi','Plaza Grande, cattedrale e dintorni.','centro','m',''],
+  ['Mercato San Benito','Accanto al Lucas de Gálvez: sarti, cuoio e taquerie fino a tarda notte.','centro','f','https://www.yucatan.com.mx/merida/2026/07/09/mercados-centro-historico-de-merida-identidad-y-cultura.html'],
+ ],
+ reach:[
+  ['Izamal','La città gialla, circa 1 ora da Mérida (e da Chichén Itzá).','≈ 1 h','f','https://www.viajandoporelmundomundial.com/que-ver-en-izamal-mexico/'],
+  ['Dzibilchaltún','Sito maya a nord; la mappa regionale lo dà a 24 km.','24 km','f','https://www.mexicodesconocido.com.mx/viajes_por_carretera/ruta-maya-colonial'],
+  ['Kimbilá','Ricami e moda artigianale, circa 1 ora (dal rapporto).','≈ 1 h','f','https://yucatantoday.com/en/blog/kimbila-yucatan-artisanal-fashion-guayaberas'],
+  ['Celestún, Uxmal e Ruta Puuc','Compaiono negli itinerari standard; sono direzioni diverse, una al giorno. Tempi non verificati.','da verificare','?',''],
+ ],
+ eat:[
+  ['Cochinita pibil, la domenica','Al Lucas de Gálvez, poi parti per Holbox.','dom 13 dic','f','https://www.posta.com.mx/mexico/3-lugares-en-el-centro-de-merida-para-desayunar-rico-con-menos-de-100-pesos/vl1753811'],
+  ['Panuchos e salbutes al Santa Ana','Calle 47 x 60 y 58. Banchi aperti dalle 6 fino a metà mattina; a 80 pesos circa (fonte editoriale).','mattina','f','https://tablejourney.com/mexico/merida/budget-eating/'],
+  ['Mercato Santiago','Calle 57 x 70 y 72. Cochinita e lechón al banco.','centro','f','https://tablejourney.com/mexico/merida/cuisine/street-food/'],
+  ['Taquerie del San Benito','Poc chuc, cochinita, lechón: aperte fino a tarda notte.','sera','f','https://www.yucatan.com.mx/merida/2026/07/09/mercados-centro-historico-de-merida-identidad-y-cultura.html'],
+  ['La Chaya Maya','Sopa de lima, poc chuc, panuchos, tortillas sul comal. Fonte debole, incrocia.','','?','https://tablejourney.com/mexico/merida/dish/salbutes/'],
+ ],
+ trad:[
+  ['Serenata Yucateca','Musica e danza tradizionali nel parco, il giovedì.','21:00','f','https://posta.com.mx/mexico/semana-meridana-que-hacer-de-lunes-a-domingo-en-merida/vl1561215'],
+  ['Vaquería yucateca','Lunedì alle 21:00 al Palazzo Municipale, gratis. L’ho tolta: è un balletto coreografato e lunedì sei già a Holbox.','lun 14 dic','f','https://yucatantoday.com/en/blog/yucatecan-traditions-vaqueria-and-jarana/'],
+  ['Lucha libre','Eventi occasionali nello Yucatán (CMLL a Mérida nel 2025). Per dicembre non ho una data: non contarci.','biglietti: tusboletos.mx','?','https://www.posta.com.mx/yucatan/habra-lucha-en-yucatan-cmll-regresa-a-merida/vl2019750'],
+ ],
+ buy:[
+  ['Guayabera','Il capo simbolo di Mérida; ricamo di Kimbilá.','','f','https://yucatantoday.com/en/blog/kimbila-yucatan-artisanal-fashion-guayaberas'],
+  ['Jipijapa (cappello)','Si fa a Becal, Campeche, patrimonio UNESCO.','','f','https://www.frommers.com/destinations/merida-mexico/shopping/overview'],
+  ['Sandali “chillonas”, ricami maya','Dal rapporto: Múul Meyaj e Kukul Boutik come negozi di artigianato.','','f','https://www.frommers.com/destinations/merida-mexico/shopping/overview'],
+ ],
+ chill:[
+  ['Mercato Slow Food del sabato','Earth Market in Calle 33-D con produttori locali (fonte editoriale, orari da verificare).','sab','?','https://tablejourney.com/mexico/merida/markets/mercado-lucas-de-galvez/'],
+  ['Mattina lenta in centro','Mercati prima delle 11, poi ombra.','','m',''],
+ ],
+ eve:[
+  ['Serenata a Santa Lucía','Giovedì 10 dicembre, 21:00.','gio 10','f','https://posta.com.mx/mexico/semana-meridana-que-hacer-de-lunes-a-domingo-en-merida/vl1561215'],
+  ['Festa guadalupana, sabato 12','Programma speciale, in passato strade chiuse e antorchistas. Orari 2026 da verificare.','sab 12','f','https://www.posta.com.mx/mexico/dia-de-la-virgen-de-guadalupe-que-calles-cerraran-durante-su-celebracion/vl1725120'],
+ ],
+ care:[
+  ['Guadalupe è una devozione: niente foto in faccia ai pellegrini, vestiti sobrio.','','m',''],
+  ['Tatuatori: ho solo elenchi di prenotazione, zero qualità verificata.','','?',''],
+ ]},
+hol:{
+ core:[
+  ['Isola a piedi e murales','Il paese non ha attrazioni storiche: il bello sono i murales e il ritmo.','','f','https://www.barcelo.com/guia-turismo/es/mexico/riviera-maya/que-ver/holbox/'],
+  ['Punta Cocos','Acqua bassa e tramonti; si raggiunge dal paese per l’interno o lungo la spiaggia.','a piedi/golf cart','f','https://www.viajeroscallejeros.com/isla-de-holbox/amp/'],
+  ['Tour delle tre isole','Con le cooperative di pescatori: Isla Pasión, uccelli e, se è stagione, fenicotteri.','mezza giornata','f','https://www.geckoroutes.com/es/mexico/cosas-que-hacer-en-holbox-mexico/'],
+ ],
+ see:[
+  ['Murales del paese','Percorso a piedi tra le strade.','','f','https://www.viajeroscallejeros.com/isla-de-holbox/amp/'],
+ ],
+ reach:[
+  ['Chiquilá e traghetto','Traghetto di circa 25 minuti. Da Mérida a Chiquilá 306 km e 3,5–4 h in auto.','25 min','f','https://www.wanderlustchloe.com/merida-to-isla-holbox/'],
+  ['Kayak tra le mangrovie','Vita selvatica, mattina.','','f','https://www.geckoroutes.com/es/mexico/cosas-que-hacer-en-holbox-mexico/'],
+ ],
+ eat:[
+  ['Pesce e frutti di mare','La cucina gira intorno al pescato e alle ricette yucatecas; cochinita ma anche pizza all’aragosta.','','f','https://www.barcelo.com/guia-turismo/es/?p=602424'],
+  ['Painapol','Porzioni abbondanti, prezzo giusto secondo una guida.','','f','https://www.geckoroutes.com/es/mexico/cosas-que-hacer-en-holbox-mexico/'],
+ ],
+ trad:[
+  ['Isola di pescatori','Gran parte della popolazione vive di pesca o turismo.','','f','https://loudavymkrokem.cz/es/?p=133746'],
+  ['Sessioni con “curanderas”','Presso Casa Las Tortugas, secondo un blog. Prodotto wellness: chiedi cosa è.','','?','https://bemytravelmuse.com/isla-holbox-guide'],
+ ],
+ buy:[
+  ['Amache e artigianato locale','Nelle botteghe del paese; niente di verificato qui.','','?',''],
+ ],
+ chill:[
+  ['Amache sulla spiaggia','Le “hamacas” famose delle spiagge.','','f','https://loudavymkrokem.cz/es/?p=133746'],
+  ['Kitesurf (da guardare)','Con i primi nortes la stagione parte.','','f','https://www.cancuntripinsider.com/guides/es-mx/holbox-en-noviembre'],
+ ],
+ eve:[
+  ['Passeggiata serale','Dicembre: picco delle feste verso la fine del mese (guida editoriale).','','f','https://www.cancuntripinsider.com/guides/es-mx/holbox-en-noviembre'],
+  ['Bioluminescenza','A dicembre una guida la dà fuori stagione (picco giugno–ottobre); un’altra scrive marzo–novembre. Non contarci.','','?','https://www.cancuntripinsider.com/guides/es-mx/holbox-en-noviembre'],
+ ],
+ care:[
+  ['Squalo balena: fuori stagione (giugno–metà settembre).','','f','https://www.cancuntripinsider.com/guides/es-mx/holbox-en-noviembre'],
+  ['Dicembre: nortes forti, mare mosso certi giorni.','','f','https://www.cancuntripinsider.com/guides/es-mx/mejor-epoca-para-visitar-isla-holbox'],
+  ['Lascia l’auto nel parcheggio recintato di Chiquilá.','','f','https://old.media-azi.md/get-holbox-1kin.html'],
+ ]},
+bac:{
+ core:[
+  ['Laguna dei sette colori','Il motivo per cui si viene. Barca o kayak, dal paese.','','f','https://www.geckoroutes.com/es/mexico/bacalar/'],
+  ['Mercato Municipal José María Morelos','Frutta, verdure, cibo locale; aperto circa 7:30–19.','centro','f','https://www.hmdb.org/m.asp?m=134889'],
+ ],
+ see:[
+  ['Forte di San Felipe e il centro','Dai punti già nella mappa.','centro','m',''],
+ ],
+ reach:[
+  ['Chacchoben','Zona archeologica sulla via per Limones.','da verificare','?','https://www.trenmaya.gob.mx/images/granguiainah.pdf'],
+  ['Mahahual','Costa a sud-est; tempo non verificato.','da verificare','?','https://www.trenmaya.gob.mx/images/granguiainah.pdf'],
+  ['Calakmul, Dzibanché, Kohunlich','Giornate lunghe, da itinerari su forum: lascia stare salvo voglia specifica.','da verificare','?','https://www.losviajeros.com/foros.php?p=6480019'],
+ ],
+ eat:[
+  ['Sotobichay','Tamal con chaya: la cucina è influenzata da Yucatán e Campeche.','','f','https://www.hmdb.org/m.asp?m=134889'],
+  ['Pibipollo','Si prepara per Todos Santos, non a dicembre.','','f','https://www.hmdb.org/m.asp?m=134889'],
+  ['Comedor Doña Mary','Comida corrida a 80–100 MXN, menu del giorno (fonte editoriale 2026).','','?','https://www.mexicotravelandleisure.com/blog/best-restaurants-bacalar/'],
+  ['Panuchos e salbutes al mercato','Piccola zona cibo; economica.','','f','https://www.mexicotravelandleisure.com/blog/best-restaurants-bacalar/'],
+ ],
+ trad:[
+  ['Cucina mista','Yucatán, Campeche e Belize.','','f','https://www.mexicodesconocido.com.mx/bacalar-guia-basica-de-atractivos-turisticos.html'],
+ ],
+ buy:[
+  ['Artigianato nel paese','Ci sono negozi; qualità non verificata.','','?','https://www.mexicodesconocido.com.mx/bacalar-guia-basica-de-atractivos-turisticos.html'],
+ ],
+ chill:[
+  ['Una giornata sulla laguna','Senza programma.','','m',''],
+ ],
+ eve:[
+  ['Cena con vista laguna','Piatti di pesce e ceviche: 200–600 MXN.','','?','https://www.mexicotravelandleisure.com/blog/best-restaurants-bacalar/'],
+ ],
+ care:[
+  ['Bacalar si è gentrificata: il mercato è rimasto locale.','','?','https://www.mexicotravelandleisure.com/blog/best-restaurants-bacalar/'],
+ ]},
+pm:{
+ core:[
+  ['Faro inclinato','Si inclinò dopo l’uragano Beulah del 1967: simbolo del paese.','centro','f','https://www.barcelo.com/guia-turismo/es/?p=671693'],
+  ['Mercato artigiani','Colectivo de Artesanos: gioielli, ricami, amache. Qualche affare.','centro','f','https://www.fodors.com/world/mexico-and-central-america/mexico/the-riviera-maya/things-to-do/shopping/reviews/colectivo-de-artesanos-de-puerto-morelos-144063'],
+ ],
+ see:[
+  ['Piazza principale','Bar, musica dal vivo, pesce.','centro','f','https://www.palladiumhotelgroup.com/pt/guia-turistico/mexico/riviera-maya/o-que-ver/puerto-morelos'],
+ ],
+ reach:[
+  ['Ruta de los Cenotes','Escursione citata dalla guida di zona; tempo non verificato.','da verificare','?','https://www.barcelo.com/guia-turismo/es/?p=671693'],
+  ['Snorkeling nel parco della barriera','Parque Nacional Arrecife de Puerto Morelos.','','f','https://www.trenmaya.gob.mx/images/granguiainah.pdf'],
+ ],
+ eat:[
+  ['Tacos, cochinita, ceviche','Cucina yucateca di strada e di mare.','','f','https://www.cancuntripinsider.com/guides/es-mx/tour-gastronomico-puerto-morelos'],
+ ],
+ trad:[
+  ['Mercato settimanale','A ovest della piazza, accanto alla chiesa su Avenida Tulum: pane, piatti caseri, artigiani.','','f','https://www.myguide-mexico.com/travel-articles/best-playa-del-carmen-and-riviera-maya-markets-food-handicrafts-art-fashion'],
+  ['Jungle Market','Donne maya con artigianato e colazione.','','?','https://www.myguide-mexico.com/travel-articles/best-playa-del-carmen-and-riviera-maya-markets-food-handicrafts-art-fashion'],
+ ],
+ buy:[
+  ['Huipil, borse, bluse','Tavoli con abiti ispirati alla cultura maya.','','f','https://locogringo.com/node/682'],
+ ],
+ chill:[
+  ['Spiaggia e piazza','Pueblo di pescatori che ha tenuto il suo fascino.','','f','https://www.barcelo.com/guia-turismo/es/?p=671693'],
+ ],
+ eve:[
+  ['Cena in piazza','Musica dal vivo nei bar.','','f','https://www.palladiumhotelgroup.com/pt/guia-turistico/mexico/riviera-maya/o-que-ver/puerto-morelos'],
+ ],
+ care:[
+  ['Alta stagione verso il 20 dicembre: prenota presto.','','m',''],
+ ]},
+};
+const LEGS={
+'cun-val':{intro:'8 dicembre: atterri alle 15:05, ritiri l’auto. Non contare su soste lunghe: arrivi con luce bassa.',
+ on:[
+  ['Cena a Valladolid','Prima sera: piazza, un tavolo, a letto presto.','','m',''],
+  ['Videomapping al convento','Se riesci ad arrivare in tempo (orari da verificare).','21:00','?','https://loudavymkrokem.cz/es/valladolid-mexico-que-ver/'],
+ ],
+ more:[
+  ['Ek Balam','Da fare un altro giorno, sono 25–30 minuti da Valladolid.','25–30 min','f','https://www.geekyexplorer.com/valladolid-mexico/'],
+ ],
+ care:['Contanti in pesos per i pedaggi sulla 180D.']},
+'val-mer':{intro:'10 dicembre. Strada verso Izamal e poi Mérida: due ore piene con una sosta bella nel mezzo.',
+ on:[
+  ['Chichén Itzá','45 minuti da Valladolid; se vuoi, all’apertura.','+45 min','f','https://www.geekyexplorer.com/valladolid-mexico/'],
+  ['Izamal','Convento di San Antonio de Padua (1561), costruito su una piramide maya; mercato davanti al convento con antojitos e marquesitas.','1 h da Mérida','f','https://www.viajandoporelmundomundial.com/que-ver-en-izamal-mexico/'],
+  ['Kinich Kakmó','Piramide a tre isolati dal convento.','in centro','f','https://www.barcelo.com/guia-turismo/es/mexico/riviera-maya/que-ver/izamal/'],
+  ['Ristorante Kinich','Più di 40 cuoche tradizionali, piatti con i processi originali.','a pranzo','f','https://forbes.com.mx/?p=433522'],
+ ],
+ more:[
+  ['Cenote Yokdzonot','Citato in un itinerario con Chichén Itzá.','da verificare','?','https://www.kimkim.com/c/active-yucatan-road-trip-10-days'],
+  ['Videomapping a Izamal','Lunedì–sabato alle 20:30 (guida editoriale).','20:30','?','https://maddysavenue.com/things-to-do-in-izamal-mexico'],
+ ],
+ care:['Izamal è piccolo: 2–3 ore bastano.']},
+'mer-hol':{intro:'13 dicembre: circa 306 km fino a Chiquilá, 3,5–4 h in auto, poi 25 minuti di traghetto.',
+ on:[
+  ['Cochinita al Lucas de Gálvez','Domenica mattina, prima di partire.','mattina','f','https://www.posta.com.mx/mexico/3-lugares-en-el-centro-de-merida-para-desayunar-rico-con-menos-de-100-pesos/vl1753811'],
+  ['Pranzo a Valladolid','Longaniza o lomitos, a metà strada (la deviazione la verifichi sulla mappa).','da verificare','?','https://www.rivieramayanews.mx/valladolid-wins-national-award-culinary-experience-2026-tianguis-turistico/'],
+ ],
+ more:[
+  ['Cenote lungo la 180','Da cercare sulla mappa.','','?',''],
+ ],
+ care:['Controlla gli orari dell’ultimo traghetto Chiquilá–Holbox prima di partire.','Lascia l’auto nel parcheggio recintato di Chiquilá.']},
+'hol-bac':{intro:'17 dicembre: la giornata più lunga. Circa 5 h di auto più traghetto (stima mia). Il percorso passa per Valladolid e la 295.',
+ on:[
+  ['Valladolid','Pausa pranzo.','sulla via','m',''],
+  ['Felipe Carrillo Puerto','Ex Chan Santa Cruz. Santuario de la Cruz Parlante, dove cattolicesimo e cultura maya si fondono. La 295 collega Valladolid a Felipe Carrillo Puerto.','verificare sulla mappa','f','https://escapadas.mexicodesconocido.com.mx/atractivos/felipe-carrillo-puerto/'],
+  ['Tihosuco','Museo della Guerra de Castas, nella Ruta Guerra de Castas.','da verificare','?','https://l21.mx/category/turismo/page/49'],
+ ],
+ more:[
+  ['Cobá','Se parti presto da Chiquilá.','da verificare','?','https://kimkim.com/c/riviera-maya-road-trip-13-days'],
+ ],
+ care:['Conta questo giorno come viaggio: arrivo previsto nel pomeriggio.']},
+'bac-pm':{intro:'20 dicembre: da Bacalar a Puerto Morelos lungo la 307, con le soste più utili del giro.',
+ on:[
+  ['Felipe Carrillo Puerto','Santuario de la Cruz Parlante, Calle 60 n. 788. Orari non trovati: chiedi sul posto.','metà strada','f','https://www.atlasobscura.com/places/santuario-de-la-cruz-parlante-speaking-cross'],
+  ['Muyil','Sito maya con passerella verso Sian Ka’an. Ingresso circa 5 dollari in contanti.','13 km a sud di Tulum','f','https://daytrip.com/es/day-trips/from-tulum/muyil-sian-ka-an'],
+  ['Comedor El Chanclas / ristorante Muyil','Cibo regionale a bordo strada.','sulla 307','f','https://escapadas.mexicodesconocido.com.mx/ruta-tulum-carrillo-puerto-entrada-al-paraiso-del-mundo-maya/'],
+ ],
+ more:[
+  ['Laguna Kaan Luum','16 minuti da Tulum.','+16 min','f','https://escapadas.mexicodesconocido.com.mx/ruta-tulum-carrillo-puerto-entrada-al-paraiso-del-mundo-maya/'],
+  ['Tulum','Se hai ancora energie.','','m',''],
+ ],
+ care:['Tulum a dicembre è affollata: meglio solo Muyil.']},
+'pm-cun':{intro:'22 dicembre: volo alle 16:55. Mattina tranquilla vicino all’aeroporto.',
+ on:[
+  ['Colazione al mercato di Puerto Morelos','Poi riconsegna dell’auto con calma.','mattina','m',''],
+ ],
+ more:[],
+ care:['Riconsegna l’auto con un buon margine prima delle 16:55.']},
+};
 /* ===== UTIL ===== */
 const $=(s,r=document)=>r.querySelector(s);
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -1243,38 +1559,65 @@ const TODO=[
  ['fuso','Fuso orario Yucatán / Quintana Roo (potrebbe esserci un’ora di differenza)','https://www.google.com/search?q='+encodeURIComponent('Yucatán Quintana Roo time zone difference'),'Da verificare per dicembre 2026'],
  ['celestun','Tour o barca a Celestún (fenicotteri da dicembre)','https://championtraveler.com/dates/best-time-to-visit-celestun-mx/','Periodo migliore da verificare']
 ];
-function planHTML(){
- const it=S.its.D,c=computeIt(it),nodes=['cun',...it.stops.map(x=>x.b),'cun'];
+const SMAP=q=>'https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(q);
+const qBd=q=>q==='f'?'<span class="bd v">fonte</span>':q==='?'?'<span class="bd e">da verificare</span>':'<span class="bd e">mio giudizio</span>';
+function dayOpts(from,to,c,sel){let o='';for(let d=from;d<=Math.min(to,c.total);d++)o+=`<option value="${d}" ${d===sel?'selected':''}>${dwd(d)} ${dshort(d)}</option>`;return o;}
+function hasItem(d,t){return getDay(d).items.some(x=>x.t===t);}
+function itemHTML(it,scope,key,day,place){
+ const[t,dtl,meta,q,u]=it,on=hasItem(day,t);
+ return`<li class="ci"><div class="cit"><b>${esc(t)}</b>${meta?`<span class="mono pill">${esc(meta)}</span>`:''}</div>${dtl?`<p>${esc(dtl)}</p>`:''}
+ <div class="cia">${qBd(q)}${u?`<a href="${esc(u)}" target="_blank" rel="noopener noreferrer">fonte ↗</a>`:''}<a href="${esc(SMAP(t+' '+place))}" target="_blank" rel="noopener noreferrer">Maps ↗</a><button class="btn sm ${on?'ghost':''}" data-act="stadd" data-s="${scope}" data-k="${key}" data-d="${day}" ${on?'disabled':''}>${on?'✓ nel giorno':'+ giorno'}</button></div></li>`;
+}
+function homeHTML(){
+ const it=S.its.D,c=computeIt(it);
  const stat=(n,l)=>`<div class="stat"><b>${n}</b><span>${l}</span></div>`;
- const nodeBox=(st)=>`<div class="pn" style="background:${BCOL[st.b]};min-width:${96+st.n*18}px"><b>${esc(st.base.n)}</b><span class="mono">${st.n} notti</span><span class="mono hint2">${dshort(st.from)}–${dshort(st.to)}</span></div>`;
- const cunBox=l=>`<div class="pn cun"><b>✈ CUN</b><span class="mono hint2">${l}</span></div>`;
- const legChip=(L)=>`<div class="pl"><span class="mono">${L.ferry?'⛴ ':''}${L.v?'':'≈ '}${fmtH(L.h)}</span><i></i></div>`;
- let flow=cunBox('arrivo 8 dic · 15:05');
- c.st.forEach((st,i)=>{flow+=legChip(c.legs[i])+nodeBox(st);});
- flow+=legChip(c.legs[c.legs.length-1])+cunBox('volo 22 dic · 16:55');
- const map=mapSVG({vb:{x:70,y:30,w:900,h:470},k:1.7,mini:true,its:['D'],road:false,labels:true});
- /* basi */
- const cards=c.st.map((st,i)=>{
-  const bid=st.b,near=POIS.map(p=>({p,e:estHours(p,bid)})).filter(x=>x.p.fam!=='prat').sort((a,b)=>a.e.h-b.e.h).slice(0,4);
-  return`<article class="bc"><div class="bh" style="background:${BCOL[bid]}"><span class="mono">${i+1} · ${dshort(st.from)}–${dshort(st.to)}</span><h3>${esc(st.base.n)}</h3><span class="mono">${st.n} notti</span></div>
-  <div class="bb"><p>${esc(st.base.vibe)}</p><p class="hint">${esc(BASEDO[bid]||'')}</p>${judgeBars(bid)}
-  <div class="famh">Vicino a ${esc(st.base.n)}</div>${near.map(({p,e})=>`<button class="nb" data-act="gomap" data-id="${p.id}">${dotF(p.fam)}<span>${esc(p.n)}</span><span class="mono hint">${fmtW(e.h)}${e.v?'':'*'}</span></button>`).join('')}
-  <div class="famh">Alloggio, date ${dshort(st.from)}–${dshort(st.to)}</div><div class="btns">${hotelLinks(bid,st.from,st.to).map(([t,u])=>`<a class="btn ghost sm" href="${esc(u)}" target="_blank" rel="noopener noreferrer">${t} ↗</a>`).join('')}</div></div></article>`;}).join('');
- /* calendario */
+ let route=`<div class="rn rcun"><b>✈ CUN</b><span class="mono">arrivo 8 dic · 15:05</span></div>`;
+ const legBtn=i=>{const L=c.legs[i],K=L.from+'-'+L.to,n=LEGS[K]?LEGS[K].on.length:0,A=L.from==='cun'?'Aeroporto':BASES[L.from].n,B=L.to==='cun'?'Aeroporto':BASES[L.to].n;
+  return`<button class="rleg" data-act="leg" data-i="${i}"><span class="mono">${L.ferry?'⛴ ':''}${L.v?'':'≈ '}${fmtH(L.h)}</span><span>${esc(A)} → ${esc(B)}</span><span class="mono go">${n?n+' soste →':'→'}</span></button>`;};
+ route+=legBtn(0);
+ c.st.forEach((st,i)=>{
+  const S0=STOPS[st.b],core=S0?S0.core.slice(0,3).map(x=>`<span class="chipc">${esc(x[0])}</span>`).join(''):'';
+  route+=`<button class="rst" data-act="stop" data-b="${st.b}" style="--bc:${BCOL[st.b]}"><span class="rnum mono">${i+1}</span><span class="rmain"><b>${esc(st.base.n)}</b><span class="mono">${dshort(st.from)}–${dshort(st.to)} · ${st.n} notti</span><span class="rvibe">${esc(st.base.vibe)}</span><span class="chips2">${core}</span></span><span class="go">Apri →</span></button>`;
+  route+=legBtn(i+1);
+ });
+ route+=`<div class="rn rcun"><b>✈ CUN</b><span class="mono">volo 22 dic · 16:55</span></div>`;
  let strip='';
  for(let d=0;d<=c.total;d++){const st=c.st.find(x=>d>=x.from&&d<x.to),n=getDay(d).items.length;
-  strip+=`<button class="cal" data-act="goday" data-d="${d}" style="--bc:${st?BCOL[st.b]:'#8a8478'}"><span class="mono">${dwd(d)}</span><b>${dshort(d).split(' ')[0]}</b><i></i><span class="cn">${esc(st?SHORT[st.b]||st.base.n:'CUN')}</span><span class="mono ${n?'on':'hint'}">${n?n+(n===1?' attività':' attività'):'da decidere'}</span></button>`;}
+  strip+=`<button class="cal" data-act="goday" data-d="${d}" style="--bc:${st?BCOL[st.b]:'#8a8478'}"><span class="mono">${dwd(d)}</span><b>${dshort(d).split(' ')[0]}</b><i></i><span class="cn">${esc(st?SHORT[st.b]||st.base.n:'CUN')}</span><span class="mono ${n?'on':'hint'}">${n?n+' att.':'da decidere'}</span></button>`;}
  const todo=TODO.map(([k,t,u,n])=>`<label class="td"><input type="checkbox" data-act="todo" data-k="${k}" ${S.todo[k]?'checked':''}><span>${esc(t)}${n?`<br><span class="hint">${esc(n)}</span>`:''}</span>${u?`<a class="btn ghost sm" href="${esc(u)}" target="_blank" rel="noopener noreferrer">Link ↗</a>`:'<span></span>'}</label>`).join('');
- const hot=c.st.map(st=>`<div class="td"><span></span><span>${esc(st.base.n)}, ${dshort(st.from)}–${dshort(st.to)}</span><span class="btns">${hotelLinks(st.b,st.from,st.to).slice(0,2).map(([t,u])=>`<a class="btn ghost sm" href="${esc(u)}" target="_blank" rel="noopener noreferrer">${t} ↗</a>`).join('')}</span></div>`).join('');
- return`<div class="phero"><div><div class="eyebrow2">Il piano · deciso</div><h2>${c.st.map(x=>esc(x.base.n)).join(', ')}</h2><p>Arrivo a Cancún l’8 dicembre con l’auto subito. Cosa fare ogni giorno lo decidi tu nella pagina Giorni; notti e ordine si cambiano in Modifica.</p><div class="btns" style="margin-top:12px"><button class="btn" data-act="view" data-v="days">Apri giorno per giorno</button><a class="btn ghost" href="${esc(tripDirUrl(c))}" target="_blank" rel="noopener noreferrer">Tutto il giro su Google Maps ↗</a></div></div>
-  <div class="stats">${stat(c.total,'notti')}${stat(c.st.length,'basi')}${stat(c.changes,'cambi di hotel')}${stat('≈ '+fmtH(c.hAll),'di trasferimenti')}${stat(c.ferries,'traghetti')}</div></div>
- <nav class="anch"><a href="#p-giro">Il giro</a><a href="#p-basi">Le basi</a><a href="#p-mov">Spostamenti</a><a href="#p-giorni">I tuoi giorni</a><a href="#p-todo">Da prenotare</a><a href="#p-dec">Da decidere</a></nav>
- <section id="p-giro" class="ps"><h3 class="ph">Il giro in un colpo d’occhio</h3><div class="flow">${flow}</div><div class="two" style="margin-top:14px"><div class="mini">${map}</div><div class="key"><h4>Come si legge</h4><p><b style="color:var(--it-d)">Linea rosa</b> = itinerario D, nell’ordine delle tappe.</p><p><b>⛴</b> = tratta con traghetto. <b>≈</b> = tempo stimato da me, senza ≈ ho trovato una fonte.</p><p><b>◆ CUN</b> = aeroporto: si arriva l’8 dic alle 15:05 e si riparte il 22 alle 16:55.</p><p class="hint">Per confrontarlo con A, B e C, o per misurare distanze, vai su “Confronto” e “Mappa”.</p></div></div></section>
- <section id="p-basi" class="ps"><h3 class="ph">Le basi</h3><div class="hs">${cards}</div><p class="hint">Scorri di lato. Punteggi 0–5 = giudizio mio. I luoghi “vicino a” sono ordinati per tempo stimato (*).</p></section>
- <section id="p-mov" class="ps"><h3 class="ph">Spostamenti</h3>${movesHTML(['D'])}</section>
- <section id="p-giorni" class="ps"><h3 class="ph">I tuoi giorni</h3><div class="cals">${strip}</div><p class="hint">Tocca un giorno per scegliere cosa fare dai suggerimenti o scrivere le tue attività.</p></section>
- <section id="p-todo" class="ps"><h3 class="ph">Da prenotare e da controllare</h3><div class="two2"><div><h4>Da fare</h4>${todo}</div><div><h4>Alloggi per base</h4>${hot}<p class="hint">Sono ricerche con le date già inserite, senza prezzi verificati.</p></div></div></section>
- <section id="p-dec" class="ps"><h3 class="ph">Da decidere</h3><ul class="dec"><li><b>17 dicembre, Holbox → Bacalar:</b> è il tratto più lungo (circa 5 h di auto più traghetto, stima mia). Parti col primo traghetto utile e conta quel giorno come giornata di viaggio.</li><li><b>Riviera Maya, 20–22 dic:</b> la base è Puerto Morelos (vicino all’aeroporto). Alta stagione intorno al 20 dic, prenota presto.</li><li><b>Hotel e auto:</b> restano da prenotare (vedi sotto).</li></ul></section>`;
+ return`<div class="phero"><div><div class="eyebrow2">Dirty Sanchez · 8–22 dicembre</div><h2>Tappa per tappa</h2><p>Apri una tappa per vedere cosa fare, mangiare e comprare. Apri un tratto per cosa c’è lungo la strada. Le attività le scegli tu.</p><div class="btns" style="margin-top:12px"><button class="btn" data-act="view" data-v="days">Giorno per giorno</button><a class="btn ghost" href="${esc(tripDirUrl(c))}" target="_blank" rel="noopener noreferrer">Giro su Google Maps ↗</a></div></div>
+  <div class="stats">${stat(c.total,'notti')}${stat(c.st.length,'tappe')}${stat('≈ '+fmtH(c.hAll),'di auto e barca')}</div></div>
+ <section class="ps"><h3 class="ph">Le tappe</h3><div class="route">${route}</div></section>
+ <section id="p-giorni" class="ps"><h3 class="ph">I tuoi giorni</h3><div class="cals">${strip}</div></section>
+ <section id="p-todo" class="ps"><h3 class="ph">Da prenotare e da controllare</h3>${todo}<p class="hint">Alberghi in aggiornamento (se ne occupa Marina). Auto: ritiro l’8 dic all’aeroporto, riconsegna il 22.</p></section>`;
+}
+function backBtn(){return'<button class="btn ghost sm back" data-act="view" data-v="plan">← Tutte le tappe</button>';}
+function stopHTML(){
+ const c=computeIt(S.its.D),st=c.st.find(x=>x.b===S.cur);
+ if(!st||!STOPS[st.b])return backBtn()+'<p class="hint">Tappa non trovata.</p>';
+ const D=STOPS[st.b],day=S.addDay!=null&&S.addDay>=st.from&&S.addDay<=Math.min(st.to,c.total)?S.addDay:st.from,place=st.base.n;
+ const chips=CATS.filter(([k])=>D[k]&&D[k].length).map(([k,n])=>`<a href="#c-${k}">${n}<i>${D[k].length}</i></a>`).join('');
+ const blocks=CATS.filter(([k])=>D[k]&&D[k].length).map(([k,n,sub])=>`<section class="cb cb-${k}" id="c-${k}"><header><h4>${n}</h4><span class="mono">${sub}</span></header><ul>${D[k].map((x,i)=>itemHTML(x,'s',st.b+'|'+k+'|'+i,day,place)).join('')}</ul></section>`).join('');
+ const care=D.care&&D.care.length?`<section class="cb cb-care"><header><h4>Attenzione</h4></header><ul>${D.care.map(x=>`<li class="ci"><p>${esc(x[0])}</p><div class="cia">${qBd(x[2])}${x[3]?`<a href="${esc(x[3])}" target="_blank" rel="noopener noreferrer">fonte ↗</a>`:''}</div></li>`).join('')}</ul></section>`:'';
+ return`${backBtn()}<div class="sthead" style="--bc:${BCOL[st.b]}"><span class="mono">tappa ${st.i+1} · ${dshort(st.from)}–${dshort(st.to)} · ${st.n} notti</span><h2>${esc(place)}</h2><p>${esc(st.base.vibe)}</p></div>
+ <div class="addbar"><label for="addday">Aggiungi al giorno</label><select id="addday">${dayOpts(st.from,st.to,c,day)}</select><button class="btn ghost sm" data-act="stmap" data-b="${st.b}">Sulla mappa</button></div>
+ <nav class="jump">${chips}</nav><div class="cgrid">${blocks}${care}</div>
+ <section class="ps"><h3 class="ph">Alloggio</h3><div class="btns">${hotelLinks(st.b,st.from,st.to).map(([t,u])=>`<a class="btn ghost sm" href="${esc(u)}" target="_blank" rel="noopener noreferrer">${t} ↗</a>`).join('')}</div><p class="hint">Se ne occupa Marina: queste sono solo ricerche con le date.</p></section>
+ <p class="hint">Ogni voce ha il suo stato: “fonte” se ho un link, “da verificare” se non ho trovato conferme, “mio giudizio” se è mia valutazione. I tempi con ≈ sono stime.</p>`;
+}
+function legHTML(){
+ const c=computeIt(S.its.D),L=c.legs[S.cur];
+ if(!L)return backBtn();
+ const K=L.from+'-'+L.to,D=LEGS[K],A=L.from==='cun'?'Aeroporto CUN':BASES[L.from].n,B=L.to==='cun'?'Aeroporto CUN':BASES[L.to].n;
+ const day=S.addDay!=null&&S.addDay>=L.day&&S.addDay<=Math.min(L.day+1,c.total)?S.addDay:L.day;
+ const a=accNode(L.from),b=accNode(L.to);
+ if(!D)return`${backBtn()}<div class="sthead"><h2>${esc(A)} → ${esc(B)}</h2><p>Per questo tratto non ho ancora contenuti: l’ordine delle tappe è stato cambiato.</p></div>`;
+ const place=B;
+ const sec=(k,n,arr)=>arr.length?`<section class="cb cb-${k==='on'?'see':'chill'}"><header><h4>${n}</h4></header><ul>${arr.map((x,i)=>itemHTML(x,'l',K+'|'+k+'|'+i,day,place)).join('')}</ul></section>`:'';
+ return`${backBtn()}<div class="sthead legh"><span class="mono">${dwd(L.day)} ${dshort(L.day)} · ${L.v?'':'≈ '}${fmtH(L.h)}${L.ferry?' con traghetto':''}</span><h2>${esc(A)} → ${esc(B)}</h2><p>${esc(D.intro)}</p><div class="btns" style="margin-top:10px"><a class="btn sm" href="${esc(dirUrl(a,b))}" target="_blank" rel="noopener noreferrer">Percorso su Maps ↗</a></div></div>
+ <div class="addbar"><label for="addday">Aggiungi al giorno</label><select id="addday">${dayOpts(L.day,L.day+1,c,day)}</select></div>
+ <div class="cgrid">${sec('on','Soste lungo la strada',D.on)}${sec('more','Se vuoi di più',D.more)}${D.care&&D.care.length?`<section class="cb cb-care"><header><h4>Attenzione</h4></header><ul>${D.care.map(x=>`<li class="ci"><p>${esc(x)}</p></li>`).join('')}</ul></section>`:''}</div>
+ <p class="hint">I tempi di sosta con ≈ sono stime. Cosa sia davvero sulla tua strada lo conferma Google Maps al momento.</p>`;
 }
 
 /* ===== CONFRONTO ===== */
@@ -1333,7 +1676,7 @@ function dayHTML(d,c){
  if(first||last){
   const i=last?c.legs.length-1:st.i,L=c.legs[i],a=last?c.st[c.st.length-1].b:(i===0?'cun':c.st[i-1].b),b=last?'cun':st.b;
   const ax=accNode(a),bx=accNode(b),ln=LEGNOTE[[BASES[a].access||a,BASES[b].access||b].sort().join('-')];
-  tr=`<div class="trb"><div><b>${esc(a==='cun'?'Aeroporto CUN':BASES[a].n)} → ${esc(b==='cun'?'Aeroporto CUN':BASES[b].n)}</b><br><span class="mono">${L.v?'':'≈ '}${fmtH(L.h)}${L.ferry?' con traghetto':''}</span> <span class="hint">${L.v?'tempo da fonte':'stima mia'}${ln&&ln[1]?` · <a href="${esc(ln[1])}" target="_blank" rel="noopener noreferrer">fonte ↗</a>`:''}</span>${L.ferry?`<br><span class="hint">${esc(FERRYNOTE[0])} <a href="${esc(FERRYNOTE[1])}" target="_blank" rel="noopener noreferrer">fonte ↗</a></span>`:''}</div><a class="btn ghost sm" href="${esc(dirUrl(ax,bx))}" target="_blank" rel="noopener noreferrer">Percorso su Google Maps ↗</a></div>`;
+  tr=`<div class="trb"><div><b>${esc(a==='cun'?'Aeroporto CUN':BASES[a].n)} → ${esc(b==='cun'?'Aeroporto CUN':BASES[b].n)}</b><br><span class="mono">${L.v?'':'≈ '}${fmtH(L.h)}${L.ferry?' con traghetto':''}</span> <span class="hint">${L.v?'tempo da fonte':'stima mia'}${ln&&ln[1]?` · <a href="${esc(ln[1])}" target="_blank" rel="noopener noreferrer">fonte ↗</a>`:''}</span>${L.ferry?`<br><span class="hint">${esc(FERRYNOTE[0])} <a href="${esc(FERRYNOTE[1])}" target="_blank" rel="noopener noreferrer">fonte ↗</a></span>`:''}</div><a class="btn ghost sm" href="${esc(dirUrl(ax,bx))}" target="_blank" rel="noopener noreferrer">Percorso su Maps ↗</a></div>`;
  }
  const items=dd.items.map((x,i)=>{const q=x.p&&POI[x.p];
   return`<div class="it ${x.done?'dn':''}"><input type="checkbox" data-act="ddone" data-d="${d}" data-i="${i}" ${x.done?'checked':''} aria-label="Fatto"><input class="thh" type="text" inputmode="numeric" maxlength="5" data-d="${d}" data-i="${i}" value="${esc(x.h||'')}" placeholder="ora" aria-label="Ora">
@@ -1358,12 +1701,14 @@ function daysHTML(){
  <p class="hint">Le tratte segnate con “stima mia” non sono verificate. Se cambi le notti in Modifica, le attività restano legate alle date: ricontrolla i giorni di trasferimento. <button class="btn ghost sm" data-act="dreset">${S.cfm?'Conferma: svuota tutti i giorni':'Svuota tutti i giorni'}</button></p>`;
 }
 function headHTML(){
- const tabs=[['plan','Il piano'],['days','Giorni'],['map','Mappa'],['bld','Modifica']];
+ const tabs=[['plan','Tappe'],['days','Giorni'],['map','Mappa'],['bld','Modifica']];
  return`<header class="top"><div><h1>Yucatán, 8–22 dicembre</h1><p class="sum">14 notti · andata 8 dic ore 15:05, ritorno 22 dic ore 16:55 · mappa schematica, tempi in auto stimati salvo dove c’è “verificato”</p></div>
- <div class="btns"><nav class="tabs" aria-label="Viste">${tabs.map(([k,n])=>`<button data-act="view" data-v="${k}" aria-pressed="${S.view===k}">${n}</button>`).join('')}</nav><button class="btn ghost" data-act="theme" aria-label="Cambia tema">${S.th==='dark'?'Scuro':S.th==='light'?'Chiaro':'Tema auto'}</button></div></header>`;
+ <div class="btns"><nav class="tabs" aria-label="Viste">${tabs.map(([k,n])=>`<button data-act="view" data-v="${k}" aria-pressed="${S.view===k||(k==='plan'&&(S.view==='stop'||S.view==='leg'))}">${n}</button>`).join('')}</nav><button class="btn ghost" data-act="theme" aria-label="Cambia tema">${S.th==='dark'?'Scuro':S.th==='light'?'Chiaro':'Tema auto'}</button></div></header>`;
 }
 function bodyHTML(){
- if(S.view==='plan')return`<div class="body v-one"><section class="plan">${planHTML()}</section></div>`;
+ if(S.view==='plan')return`<div class="body v-one"><section class="plan">${homeHTML()}</section></div>`;
+ if(S.view==='stop')return`<div class="body v-one"><section class="plan">${stopHTML()}</section></div>`;
+ if(S.view==='leg')return`<div class="body v-one"><section class="plan">${legHTML()}</section></div>`;
  if(S.view==='days')return`<div class="body v-one"><section class="plan">${daysHTML()}</section></div>`;
  if(S.view==='map'){
   const sel=S.sel,det=sel?(sel.t==='p'?detailPoi(POI[sel.id]):detailBase(sel.id)):'';
@@ -1434,6 +1779,10 @@ document.addEventListener('click',e=>{
  if(d.act!=='dreset')S.cfm=false;
  switch(d.act){
   case'view':S.view=d.v;S.toTop=1;break;
+  case'stop':S.view='stop';S.cur=d.b;S.addDay=null;S.toTop=1;break;
+  case'leg':S.view='leg';S.cur=+d.i;S.addDay=null;S.toTop=1;break;
+  case'stmap':S.sel={t:'b',id:d.b};S.view='map';S.toTop=1;{const b=BASES[d.b];S.cx=PX_(b.lon);S.cy=PY_(b.lat);S.vbw=d.b==='pm'?420:260;}break;
+  case'stadd':{const[id,k,i]=d.k.split('|');const src=d.s==='s'?STOPS[id][k][+i]:LEGS[id][k][+i];if(src)ensDay(+d.d).items.push({t:src[0],done:false});break;}
   case'reach':f.reach=+d.h;break;
   case'todo':S.todo[d.k]=!S.todo[d.k];break;
   case'ddone':{const x=ensDay(+d.d).items[+d.i];if(x)x.done=!x.done;break;}
@@ -1483,6 +1832,7 @@ document.addEventListener('input',e=>{
 });
 document.addEventListener('change',e=>{
  const t=e.target,it=S.its[S.bld];
+ if(t.id==='addday'){S.addDay=+t.value;render();return;}
  if(t.id==='radIt'){S.f.radIt=t.checked?'D':'';render();}
  else if(t.dataset.k){S.f[t.dataset.k]=t.checked;render();}
  else if(t.classList.contains('bsel')){it.stops[+t.dataset.i].b=t.value;render();}
