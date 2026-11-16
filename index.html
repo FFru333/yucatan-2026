@@ -4,7 +4,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Yucatán"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <title>Yucatán, 8–22 December</title>
 <meta name="description" content="Yucatán itinerary, 8–22 December: day by day, map and places."><meta name="theme-color" content="#C42B2B">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Public+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=block">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Public+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=block">
 <style>
 /* Layout: filters left, map centre, place card right. Views: Stops, Days, Map, Edit. */
 :root{
@@ -1932,7 +1932,7 @@ window.addEventListener('resize',()=>{drawMap();});
    for(let i=0;i<5;i++)setTimeout(drop,i*60);
    setTimeout(()=>el.classList.add('splat-go'),650);
    setTimeout(()=>{el.classList.add('out');move(0,SPRING);},2000);
-   setTimeout(async()=>{try{const rs=await navigator.serviceWorker.getRegistrations();await Promise.all(rs.map(r=>r.unregister()));const ks=await caches.keys();await Promise.all(ks.map(k=>caches.delete(k)));}catch(_){}location.reload();},2550);
+   setTimeout(async()=>{try{const rs=await navigator.serviceWorker.getRegistrations();await Promise.all(rs.map(r=>r.unregister()));const ks=await caches.keys();await Promise.all(ks.map(k=>caches.delete(k)));}catch(_){}location.reload();},2850);
   }else{move(0,SPRING);setTimeout(()=>{if(!busy)el.classList.remove('on','shake','ready');},650);}};
  addEventListener('touchend',end);addEventListener('touchcancel',end);
 })();
