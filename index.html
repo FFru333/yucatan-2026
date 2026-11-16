@@ -615,6 +615,9 @@ details.tdl>summary{cursor:pointer;font:700 18px var(--fd);list-style:none;paddi
 /* overview + gear */
 .navrow{display:flex;gap:10px;align-items:center;flex:1 1 100%;min-width:0}
 .navrow .tabs{flex:1 1 0;min-width:0}
+.top .navrow .tabs{overflow-x:auto;overflow-y:hidden;scrollbar-width:none;-webkit-overflow-scrolling:touch;scroll-snap-type:x proximity;-webkit-mask-image:linear-gradient(90deg,#000 calc(100% - 22px),transparent);mask-image:linear-gradient(90deg,#000 calc(100% - 22px),transparent);padding-right:10px}
+.top .navrow .tabs::-webkit-scrollbar{display:none}
+.top .navrow .tabs button{flex:none;padding:11px 16px;font-size:11.5px;letter-spacing:.06em;scroll-snap-align:center;white-space:nowrap}
 .gear{flex:none;width:40px;height:40px;border-radius:50%;display:grid;place-items:center;border:2px solid var(--gold);background:transparent;color:var(--band-ink);padding:0}
 .gear[aria-pressed=true]{background:var(--gold);color:#111}
 .ovw{display:grid;gap:10px;padding-top:12px}
@@ -2784,6 +2787,7 @@ function render(){
  S.toMap=0;if(S.toDay!=null){const el=document.querySelector('.day[data-d="'+S.toDay+'"]');S.toDay=null;S.toTop=0;if(el)el.scrollIntoView({block:'start'});}else if(S.toTop){S.toTop=0;window.scrollTo({top:0,behavior:'instant'});}else window.scrollTo({top:y,behavior:'instant'});
  if(ap)ap.style.minHeight='';
  const host=$('#mapsvg');if(host){bindMap(host);drawMap();}
+ {const tb=document.querySelector('.top .tabs'),on=tb&&tb.querySelector('[aria-pressed=true]');if(on)tb.scrollLeft=on.offsetLeft-(tb.clientWidth-on.offsetWidth)/2;}
  save();
 }
 function updateCenter(){
