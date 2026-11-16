@@ -348,7 +348,7 @@ html{overflow-anchor:none;scroll-behavior:auto}
 
 
 /* ===== Arena: tema premium ===== */
-#app{max-width:1520px;margin:0 auto;padding:max(22px,env(safe-area-inset-top)) max(32px,env(safe-area-inset-right)) max(48px,env(safe-area-inset-bottom)) max(32px,env(safe-area-inset-left));gap:22px}
+#app{max-width:1520px;margin:0 auto;padding:calc(22px + env(safe-area-inset-top)) max(32px,env(safe-area-inset-right)) max(48px,env(safe-area-inset-bottom)) max(32px,env(safe-area-inset-left));gap:22px}
 .top{border:0;border-bottom:6px solid var(--gold);border-radius:var(--r);padding:20px 28px 18px;box-shadow:none}
 .top h1{font-size:36px;font-weight:400;letter-spacing:.02em;line-height:1}
 .top .sum{font:400 11.5px/1.5 var(--fm);opacity:.7;margin-top:8px;max-width:70ch}
@@ -422,7 +422,7 @@ html{overflow-anchor:none;scroll-behavior:auto}
 .tipd .tipbox{border:0;padding-top:14px}
 .tripnote{margin-bottom:6px;padding:18px 20px;gap:10px}
 @media (max-width:720px){
- #app{padding:max(12px,env(safe-area-inset-top)) max(14px,env(safe-area-inset-right)) max(32px,env(safe-area-inset-bottom)) max(14px,env(safe-area-inset-left));gap:16px}
+ #app{padding:calc(18px + env(safe-area-inset-top)) max(14px,env(safe-area-inset-right)) max(32px,env(safe-area-inset-bottom)) max(14px,env(safe-area-inset-left));gap:16px}
  .top{padding:16px 16px 14px}.top h1{font-size:27px}
  .top .tabs button{padding:9px 2px;font-size:10px;letter-spacing:.03em}
  .phero{padding:34px 22px 26px;gap:22px;grid-template-columns:1fr}.phero h2{font-size:44px}
