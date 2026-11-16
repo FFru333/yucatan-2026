@@ -612,6 +612,29 @@ details.tdl>summary{cursor:pointer;font:700 18px var(--fd);list-style:none;paddi
 .phero::before{height:8px!important}
 .phero .tripline b{font-size:24px}
 .phero .tripline{margin:6px 0 0}
+/* editorial */
+.edh{font-size:30px;line-height:1.05;text-transform:uppercase;margin:6px 0 8px}
+.edwrap{background:var(--panel);border:2px solid var(--edge);border-radius:16px;padding:4px 14px 14px;color:var(--ink)}
+.edlist{border-top:0}.edrow:last-child{border-bottom:0}
+.edlead{font-size:14px;line-height:1.5;opacity:.9;max-width:52ch}
+.edfoot{margin-top:10px;color:#fff;opacity:.85}
+.edhero+.edwrap{margin-top:0}
+.edrow{display:grid;grid-template-columns:30px 1fr 96px;gap:12px;align-items:start;width:100%;text-align:left;border:0;border-bottom:2px solid var(--edge);background:transparent;color:inherit;padding:16px 0}
+.edno{font-size:12px;color:var(--ink-2);padding-top:4px}
+.edmain{display:flex;flex-direction:column;gap:6px;min-width:0}
+.edby{font-size:11px;letter-spacing:.07em;text-transform:uppercase;color:var(--ink-2)}
+.edti{font:700 25px/1.02 var(--fd);text-transform:uppercase;letter-spacing:.005em}
+.edbl{font-size:13px;line-height:1.45;color:var(--ink-2)}
+.edmeta{font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--accent)}
+.edth{position:relative;display:block;width:96px;height:128px;border-radius:10px;border:2px solid var(--edge);overflow:hidden;background:linear-gradient(160deg,var(--accent),#111) center/cover no-repeat;color:#fff;transition:transform .15s}
+.edth .mg{position:absolute;left:8px;bottom:6px;font:700 34px/1 var(--fd);opacity:.9}
+.edth.on .mg{display:none}
+.edrow:active .edth,.edrow:hover .edth{transform:translateY(-2px)}
+.edhero{margin:12px 0;border-radius:16px;border:2px solid var(--edge);min-height:200px}
+.edintro{margin:10px 0 4px}.edintro p{font-size:14px;line-height:1.5}
+.edday{display:inline-flex;align-items:center;gap:8px;margin-top:8px;font:500 12px var(--fm);text-transform:uppercase;letter-spacing:.06em}
+.edday select{width:auto;padding:6px 8px}
+.tier .mono{font-size:11px;color:var(--ink-2);margin-left:6px}
 </style>
 <script>(function(){var d=document.documentElement,ok=0,done=function(){if(ok)return;ok=1;d.classList.add('fok')};setTimeout(done,2500);
 addEventListener('load',function(){if(!document.fonts||!document.fonts.load){done();return}
@@ -1791,6 +1814,100 @@ const PLACES={
   hero:{name:'Puerto Morelos',q:'Puerto Morelos Quintana Roo',any:1,n:5},
   hl:[['Mesoamerican Reef','Mesoamerican Barrier Reef System'],['Cenotes','Cenote']]}
 };
+/* ===== EDITORIAL: itineraries and picks from magazines and curators =====
+   Only places named on the source page. Notes are my paraphrase of the page, not quotes.
+   item = [name, note, area, flag]   flag: 'p' = private on that trip, not open to the public (to verify) */
+const EDITORIAL=[
+ {id:'cabana-merida',no:'01',by:'Cabana',author:'Susana Ordovás',date:'30 Nov 2023',
+  title:'A weekend in Mérida',day:3,
+  blurb:'Cabana is a design and interiors magazine. Its Mérida weekend: where to sleep, eat, shop and wander in the old centre.',
+  url:'https://cabanamagazine.com/blogs/travel/a-weekend-in-merida',
+  cover:{name:'Casa Montejo',q:'Casa Montejo Mérida'},
+  groups:[
+   ['Eat and drink',[
+    ['Picheta','Restaurant on a roof terrace over the cathedral. Her tip: drinks at sunset, then downstairs to eat.','Mérida'],
+    ['Apoala','Chef-owned, in Santa Lucía park: Mexican food with Oaxacan and Yucatecan influences.','Mérida'],
+    ['Kool Kaab','Café and tortillería in Parque Santa Ana built around heritage Maya milpa corn. Simple lunch.','Mérida'],
+    ['Huniik','Chef-run, seats up to 16, open kitchen with no walls designed by Jorge Pardo.','Mérida'],
+    ['Oliva Enoteca','Italian in an old casona with an open kitchen (carbonara, Fiorentina). High end.','Mérida']]],
+   ['See',[
+    ['Casa Montejo','Restored 16th-century house of the conquistador Montejo, now exhibitions and a folk-craft shop.','Mérida'],
+    ['Paseo de Montejo','Avenue of faded henequen-boom mansions. Her tip: leave time to look at the abandoned ones.','Mérida'],
+    ['Palacio Cantón','Beaux Arts mansion with the regional anthropology museum and a big Maya collection.','Mérida'],
+    ['Montejo 495','One of the 1912 Cámara Twin Houses, recently opened to the public.','Mérida'],
+    ['Cementerio General de Mérida','Over 25,000 vaults and mausoleums in mixed styles. Her tip: it explains the city’s culture.','Mérida']]],
+   ['Shop',[
+    ['Mercado Lucas de Gálvez','Historic market from 1888, over 2,000 stalls of food, crafts and textiles. She rates it highly.','Mérida'],
+    ['Casa T’HÓN','Concept shop in an early-19th-century mansion: textiles, guayaberas, soaps. Courtyard café with palms.','Mérida'],
+    ['Taller Maya','Contemporary Yucatecan crafts in a shop built around an ancient tree. Quiet courtyard.','Mérida'],
+    ['Coqui Coqui Mérida','Fragrance brand’s shop in a 1903 townhouse. Her tip: try orange blossom and flor de mayo.','Mérida'],
+    ['Casa Mo Gallery','Showroom of midcentury design and vintage furniture.','Mérida'],
+    ['Plaza Carmesí','Restored colonial building with a Mexican crafts store and an English-language bookshop.','Mérida']]],
+   ['Stay (reference only, hotels are with Marina)',[
+    ['Casa Lecanda','Seven-room boutique hotel in a late-19th-century house off Paseo Montejo. Patio with dipping pool.','Mérida'],
+    ['Casa Olivia','Historic hotel with vintage French-influenced décor and a mirrored oak bar.','Mérida'],
+    ['L’Epicerie','Single suite above Coqui Coqui near Santa Lucía park: four-poster bed, twin French bathtubs.','Mérida']]]]},
+ {id:'prior-caravan',no:'02',by:'PRIOR × Cabana Caravan',author:'Susana Ordovás (host)',date:'17–21 Jan 2024',
+  title:'Yucatán’s Threads of Richness',day:1,
+  blurb:'A guided 4-night trip run by PRIOR with Cabana. Haciendas, artisans and private houses. The page gives the stops but not which day is which.',
+  url:'https://priorworld.com/trips/yucatans-threads-of-richness',
+  cover:{name:'Izamal',q:'Izamal Yucatán convent'},
+  groups:[
+   ['Route stops',[
+    ['Iglesia de Santo Domingo de Guzmán, Uayma','17th-century church with a colourful façade, built partly with stones from nearby Maya temples.','Uayma'],
+    ['Valladolid artisans','Meet embroidery and pottery artisans and commission pieces. The page names no workshop.','Valladolid'],
+    ['Izamal','“Pueblo mágico” mixing Maya, colonial and modern Mexican history. Studios of sisal designers and makers of colourful animal figures.','Izamal'],
+    ['Coqui Coqui Casa de los Santos','Private lunch on the trip, in a house of religious artefacts and colonial art. Perfumes and candles for sale.','Izamal','p'],
+    ['Hacienda Uayalceh','Crumbling but striking hacienda, featured in Cabana’s Yucatán issue.','Yucatán','p']]],
+   ['Base and dinner',[
+    ['Hacienda San Antonio Millet','The group’s base near Mérida (Tixkokob): 11 rooms, hand-stencilled walls, former henequen estate.','Tixkokob'],
+    ['La Casa Mágica','Dinner at the former home of the artist James Brown, hosted by his daughter. A group event, not a public visit.','Mérida','p']]]]},
+ {id:'prior-state',no:'03',by:'PRIOR',author:'PRIOR team',date:'5 Oct 2023',
+  title:'A Mérida state of mind',day:4,
+  blurb:'PRIOR’s Mérida primer: hacienda hotels, a few tables worth the trip and the ruins that are less crowded.',
+  url:'https://priorworld.com/editorial/a-merida-state-of-mind',
+  cover:{name:'Uxmal',q:'Uxmal Governor’s Palace'},
+  groups:[
+   ['Eat and drink',[
+    ['Ánima','Open-fire restaurant under chef Ted Habiger, with a red-lit entrance.','Mérida'],
+    ['Pueblo Pibil','Maya-style dishes in Tixkokob: underground-cooked meats, longaniza.','Tixkokob'],
+    ['Taquería La Lupita','Casual taco stand inside Mercado de Santiago. Closes early afternoon.','Mérida']]],
+   ['See',[
+    ['Uxmal','Pre-Hispanic Maya city with the Governor’s Palace and detailed stone carving. Described as less crowded than Chichén Itzá.','Uxmal'],
+    ['Izamal','The “Yellow City”, between Mérida and Chichén Itzá.','Izamal'],
+    ['Hacienda Yaxcopoil','17th-century hacienda, cattle ranch then henequen estate, with a museum of pre-Columbian pieces.','Yaxcopoil']]],
+   ['Shop',[
+    ['Coqui Coqui Mérida','Design shop on Calle 55: hammocks, ceramics, textiles, makers working in the backyard.','Mérida'],
+    ['Mercado de Santiago','Covered market with a pale blue Art Deco façade, craft and food stalls.','Mérida']]],
+   ['Stay (reference only)',[
+    ['Cigno','Adults-only hotel in a 19th-century hacienda in central Mérida: cenote-style pool, speakeasy in the old cistern.','Mérida'],
+    ['Club de Patos','Former duck-hunting lodge on the Sisal coast, now a nine-room modernist hotel.','Sisal'],
+    ['Hacienda San Antonio Millet','Restored henequen-era hacienda with tiles, folk art and gardens.','Tixkokob']]]]}
+];
+const edMaps=(n,a)=>'https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(n+' '+a+' Yucatán');
+const edCount=e=>e.groups.reduce((s,g)=>s+g[1].length,0);
+function edThumb(e,cls){
+ const spec={...e.cover,key:'ed-'+e.id,any:1},c=IMGC[imgKey(spec.key)],bg=c&&c.ph&&c.ph[0]?`background-image:url('${esc(c.ph[0].m)}')`:'';
+ return{spec,bg,on:!!bg};
+}
+function editorialHTML(){
+ if(S.ed){const e=EDITORIAL.find(x=>x.id===S.ed);if(e)return edDetail(e);}
+ const rows=EDITORIAL.map(e=>{const t=edThumb(e);
+  return`<button class="edrow" data-act="edopen" data-e="${e.id}"><span class="edno mono">${e.no}</span><span class="edmain"><span class="edby mono">${esc(e.by)} · ${esc(e.date)}</span><span class="edti">${esc(e.title)}</span><span class="edbl">${esc(e.blurb)}</span><span class="edmeta mono">${edCount(e)} places →</span></span><span class="edth ${t.on?'on':'pend'}" data-gk="${imgKey(t.spec.key)}" data-spec="${esc(JSON.stringify(t.spec))}" style="${t.bg}"><span class="mg">${esc(e.no)}</span></span></button>`;}).join('');
+ return`<div class="phero"><div><div class="eyebrow2">Editorial</div><h2 class="edh">What the magazines suggest</h2><p class="edlead">Itineraries and picks from design magazines and curators, only places named on their pages. Open one, check it, add what you like to a day.</p></div></div>
+ <section class="ps"><div class="edwrap"><div class="edlist">${rows}</div></div><p class="hint edfoot">Cover images are Wikipedia photos of a place from each piece, not the magazines’ own pictures. All three are about Mérida and nearby: no Holbox or Bacalar here.</p></section>`;
+}
+function edDetail(e){
+ const t=edThumb(e);
+ const opts=Array.from({length:15},(_,d)=>`<option value="${d}" ${d===S.edDay?'selected':''}>${dshort(d)}</option>`).join('');
+ const d=S.edDay;
+ const gs=e.groups.map(([g,list])=>`<h5 class="tier">${esc(g)} <span class="mono">${list.length}</span></h5><ul class="ideas">${list.map(([n,note,area,fl])=>{const on=hasItem(d,n);
+  return`<li class="idea"><div class="cit"><b>${esc(n)}</b><span class="mono pill tag">${esc(area)}</span></div><p>${esc(note)}</p>${fl==='p'?'<p class="hint">Private on that trip, not open to visit. Check before planning around it.</p>':''}<div class="cia"><a href="${esc(edMaps(n,area))}" target="_blank" rel="noopener noreferrer">Maps ↗</a><button class="btn sm ${on?'ghost':''}" data-act="gadd" data-d="${d}" data-n="${esc(n)}" ${on||fl==='p'?'disabled':''}>${on?'✓ in the day':fl==='p'?'—':'+ Add'}</button></div></li>`;}).join('')}</ul>`).join('');
+ return`<button class="btn sm back" data-act="edback">← Editorial</button>
+ <div class="edhero ${t.on?'on':'pend'} hero-img" data-gk="${imgKey(t.spec.key)}" data-spec="${esc(JSON.stringify(t.spec))}" style="${t.bg}"><span class="hi"><span class="hm">${esc(e.by)} · ${esc(e.date)}</span><span class="hn">${esc(e.title)}</span></span></div>
+ <div class="edwrap"><div class="edintro"><p>${esc(e.blurb)}</p><p class="hint">By ${esc(e.author)}. <a href="${esc(e.url)}" target="_blank" rel="noopener noreferrer">Read the original ↗</a> Hours and opening days not checked.</p>
+ <label class="edday">Add to <select id="edday" aria-label="Day to add to">${opts}</select></label></div>${gs}</div>`;
+}
 /* ===== PHOTOS: fetched live from Wikipedia / Wikimedia Commons (free-licence images), cached on the phone =====
    Nothing is bundled: if the network or Wikipedia has nothing for a spot, no photo strip is shown. */
 const IMGK='yuc-img-3';
@@ -1865,7 +1982,7 @@ const IMGIO='IntersectionObserver' in window?new IntersectionObserver(es=>es.for
 }),{rootMargin:'300px'}):null;
 function imgScan(){
  document.querySelectorAll('.gal.pend:not([data-o])').forEach(el=>{el.dataset.o='1';if(IMGIO)IMGIO.observe(el);});
- document.querySelectorAll('.hero-img.pend:not([data-o])').forEach(el=>{
+ document.querySelectorAll('.hero-img.pend:not([data-o]),.edth.pend:not([data-o])').forEach(el=>{
   el.dataset.o='1';const key=el.dataset.gk;let spec;try{spec=JSON.parse(el.dataset.spec);}catch(_){return;}
   photosFor(key,spec).then(ph=>{if(ph&&ph[0]){el.style.backgroundImage='url("'+ph[0].m+'")';el.classList.remove('pend');el.classList.add('on');}});
  });
@@ -1923,7 +2040,7 @@ const dwd=o=>WD[dt(o).getUTCDay()];
 /* ===== STATE ===== */
 const KEY='yuc-mappa-4',KEY_OLD=['yuc-mappa-3','yuc-mappa-2'];
 const PX_=lon=>(lon+91.3)*Math.cos(20.3*Math.PI/180)*200,PY_=lat=>(21.95-lat)*200;
-const S={view:'plan',todo:{},sel:null,dtab:'near',th:'',
+const S={view:'plan',ed:null,edDay:3,todo:{},sel:null,dtab:'near',th:'',
  f:{q:'',tags:[],mode:'any',itin:{D:true,A:false,B:false,C:false,M:false},reach:1.5,radIt:'',rad:2,labels:true,road:true,legs:true,hide:false,onlyWish:false},
  wish:[],its:clone(ITS0),bld:'D',
  days:{},stay:{},idea:{},imore:{},stayMsg:{},stayEdit:{},trip:TRIP_NOTE_DEF,dopen:{0:true},cx:0,cy:0,vbw:0,drag:0,meas:{on:false,pts:[]},toMap:0,toTop:0};
@@ -2545,7 +2662,7 @@ function daysHTML(){
 }
 const THEMES=[['','Rojo','#C42B2B'],['green','Selva','#1D5A3A'],['black','Noche','#0B0B0B'],['blue','Cenote','#14708C']];
 function headHTML(){
- const tabs=[['plan','Places'],['days','Days'],['map','Map'],['bld','Edit']];
+ const tabs=[['plan','Places'],['days','Days'],['map','Map'],['ed','Editorial'],['bld','Edit']];
  return`<header class="top"><div><h1 class="logo" aria-label="Dirty Sanchez"><span class="lt">Dirty Sanchez</span>${HATSVG('somb')}<svg class="mus" viewBox="0 0 200 70"><path d="M100 22c-10-9-24-12-40-9C40 16 26 26 18 38c-5 8-3 17 4 19 4 1 8-1 9-5 2-6 8-9 16-9 17 1 38 4 53-3Z M100 22c10-9 24-12 40-9 20 3 34 13 42 25 5 8 3 17-4 19-4 1-8-1-9-5-2-6-8-9-16-9-17 1-38 4-53-3Z"/><path d="M62 22c14-3 28 0 38 6M138 22c-14-3-28 0-38 6" class="hl2"/></svg><svg class="drop" viewBox="0 0 10 16" style="left:4%;top:-0.2em;width:0.16em;transform:rotate(20deg)"><path d="M5 0C5 0 10 8 10 11a5 5 0 0 1-10 0C0 8 5 0 5 0Z"/><ellipse cx="3.3" cy="10" rx="1.1" ry="1.8" class="hl"/></svg><svg class="drop" viewBox="0 0 10 16" style="left:24%;top:0.95em;width:0.12em;transform:rotate(-15deg)"><path d="M5 0C5 0 10 8 10 11a5 5 0 0 1-10 0C0 8 5 0 5 0Z"/><ellipse cx="3.3" cy="10" rx="1.1" ry="1.8" class="hl"/></svg><svg class="drop" viewBox="0 0 10 16" style="left:46%;top:-0.28em;width:0.13em;transform:rotate(10deg)"><path d="M5 0C5 0 10 8 10 11a5 5 0 0 1-10 0C0 8 5 0 5 0Z"/><ellipse cx="3.3" cy="10" rx="1.1" ry="1.8" class="hl"/></svg><svg class="drop" viewBox="0 0 10 16" style="left:63%;top:1.02em;width:0.18em;transform:rotate(-25deg)"><path d="M5 0C5 0 10 8 10 11a5 5 0 0 1-10 0C0 8 5 0 5 0Z"/><ellipse cx="3.3" cy="10" rx="1.1" ry="1.8" class="hl"/></svg><svg class="drop" viewBox="0 0 10 16" style="left:80%;top:-0.18em;width:0.14em;transform:rotate(30deg)"><path d="M5 0C5 0 10 8 10 11a5 5 0 0 1-10 0C0 8 5 0 5 0Z"/><ellipse cx="3.3" cy="10" rx="1.1" ry="1.8" class="hl"/></svg><svg class="drop" viewBox="0 0 10 16" style="left:96%;top:0.7em;width:0.2em;transform:rotate(12deg)"><path d="M5 0C5 0 10 8 10 11a5 5 0 0 1-10 0C0 8 5 0 5 0Z"/><ellipse cx="3.3" cy="10" rx="1.1" ry="1.8" class="hl"/></svg><svg class="drop" viewBox="0 0 10 16" style="left:88%;top:0.98em;width:0.1em;transform:rotate(0deg)"><path d="M5 0C5 0 10 8 10 11a5 5 0 0 1-10 0C0 8 5 0 5 0Z"/><ellipse cx="3.3" cy="10" rx="1.1" ry="1.8" class="hl"/></svg><svg class="drop" viewBox="0 0 10 16" style="left:14%;top:1.05em;width:0.1em;transform:rotate(25deg)"><path d="M5 0C5 0 10 8 10 11a5 5 0 0 1-10 0C0 8 5 0 5 0Z"/><ellipse cx="3.3" cy="10" rx="1.1" ry="1.8" class="hl"/></svg><svg class="drop" viewBox="0 0 10 16" style="left:34%;top:0.62em;width:0.1em;transform:rotate(-8deg)"><path d="M5 0C5 0 10 8 10 11a5 5 0 0 1-10 0C0 8 5 0 5 0Z"/><ellipse cx="3.3" cy="10" rx="1.1" ry="1.8" class="hl"/></svg><svg class="drop" viewBox="0 0 10 16" style="left:71%;top:0.1em;width:0.09em;transform:rotate(15deg)"><path d="M5 0C5 0 10 8 10 11a5 5 0 0 1-10 0C0 8 5 0 5 0Z"/><ellipse cx="3.3" cy="10" rx="1.1" ry="1.8" class="hl"/></svg><svg class="drop" viewBox="0 0 10 16" style="left:57%;top:0.8em;width:0.13em;transform:rotate(5deg)"><path d="M5 0C5 0 10 8 10 11a5 5 0 0 1-10 0C0 8 5 0 5 0Z"/><ellipse cx="3.3" cy="10" rx="1.1" ry="1.8" class="hl"/></svg></h1></div>
  <div class="btns"><nav class="tabs" aria-label="Views">${tabs.map(([k,n])=>`<button data-act="view" data-v="${k}" aria-pressed="${S.view===k||(k==='plan'&&(S.view==='stop'||S.view==='leg'))}">${n}</button>`).join('')}</nav><div class="swatches" role="group" aria-label="Theme colour">${THEMES.map(([k,n,c])=>`<button class="sw" style="--c:${c}" data-act="theme" data-th="${k}" aria-label="${n}" aria-pressed="${(S.th||'')===k}"></button>`).join('')}</div></div></header>`;
 }
@@ -2553,6 +2670,7 @@ function bodyHTML(){
  if(S.view==='plan')return`<div class="body v-one"><section class="plan">${homeHTML()}</section></div>`;
  if(S.view==='stop')return`<div class="body v-one"><section class="plan">${stopHTML()}</section></div>`;
  if(S.view==='leg')return`<div class="body v-one"><section class="plan">${legHTML()}</section></div>`;
+ if(S.view==='ed')return`<div class="body v-one"><section class="plan">${editorialHTML()}</section></div>`;
  if(S.view==='days')return`<div class="body v-one"><section class="plan">${daysHTML()}</section></div>`;
  if(S.view==='map'){
   const sel=S.sel,det=sel?(sel.t==='p'?detailPoi(POI[sel.id]):detailBase(sel.id)):'';
@@ -2590,7 +2708,7 @@ function render(){
  if(S.th)document.documentElement.dataset.theme=S.th;else delete document.documentElement.dataset.theme;
  {const m=document.querySelector('meta[name=theme-color]');const c=(THEMES.find(t=>t[0]===(S.th||''))||THEMES[0])[2];if(m)m.content=c;}
  $('#app').innerHTML=headHTML()+bodyHTML();
- try{sessionStorage.setItem('yuc-nav',JSON.stringify({view:S.view,cur:S.cur,sel:S.sel,bld:S.bld,dtab:S.dtab,cx:S.cx,cy:S.cy,vbw:S.vbw}));}catch(_){}
+ try{sessionStorage.setItem('yuc-nav',JSON.stringify({view:S.view,ed:S.ed,cur:S.cur,sel:S.sel,bld:S.bld,dtab:S.dtab,cx:S.cx,cy:S.cy,vbw:S.vbw}));}catch(_){}
  S.toMap=0;if(S.toDay!=null){const el=document.querySelector('.day[data-d="'+S.toDay+'"]');S.toDay=null;S.toTop=0;if(el)el.scrollIntoView({block:'start'});}else if(S.toTop){S.toTop=0;window.scrollTo({top:0,behavior:'instant'});}else window.scrollTo({top:y,behavior:'instant'});
  if(ap)ap.style.minHeight='';
  const host=$('#mapsvg');if(host){bindMap(host);drawMap();}
@@ -2625,7 +2743,9 @@ document.addEventListener('click',e=>{
  const it=S.its[S.bld],f=S.f;
  if(d.act!=='dreset')S.cfm=false;
  switch(d.act){
-  case'view':S.view=d.v;S.toTop=1;break;
+  case'view':S.view=d.v;S.toTop=1;if(d.v==='ed')S.ed=null;break;
+  case'edopen':{const e=EDITORIAL.find(x=>x.id===d.e);if(e){S.ed=e.id;S.edDay=e.day;S.view='ed';S.toTop=1;}break;}
+  case'edback':S.ed=null;S.toTop=1;break;
   case'stop':S.view='stop';S.cur=d.b;S.addDay=null;S.toTop=1;break;
   case'leg':S.view='leg';S.cur=+d.i;S.addDay=null;S.toTop=1;break;
   case'stmap':S.sel={t:'b',id:d.b};S.view='map';S.toTop=1;{const b=BASES[d.b];S.cx=PX_(b.lon);S.cy=PY_(b.lat);S.vbw=d.b==='pm'?420:260;}break;
@@ -2687,6 +2807,7 @@ document.addEventListener('input',e=>{
 });
 document.addEventListener('change',e=>{
  const t=e.target,it=S.its[S.bld];
+ if(t.id==='edday'){S.edDay=+t.value;render();return;}
  if(t.id==='addday'){S.addDay=+t.value;render();return;}
  if(t.id==='radIt'){S.f.radIt=t.checked?'D':'';render();}
  else if(t.dataset.k){S.f[t.dataset.k]=t.checked;render();}
@@ -2737,9 +2858,9 @@ window.addEventListener('resize',()=>{drawMap();});
 /* Il refresh ricarica la pagina corrente, non riparte dalla home */
 (function(){
  try{const n=JSON.parse(sessionStorage.getItem('yuc-nav')||'null');
-  if(n&&['plan','stop','leg','days','map','bld'].includes(n.view)){
+  if(n&&['plan','stop','leg','days','map','ed','bld'].includes(n.view)){
    const okStop=n.view!=='stop'||(n.cur&&STOPS[n.cur]),okLeg=n.view!=='leg'||typeof n.cur==='number';
-   if(okStop&&okLeg){S.view=n.view;if(n.cur!=null)S.cur=n.cur;if(n.sel&&(n.sel.t==='p'?POI[n.sel.id]:BASES[n.sel.id]))S.sel=n.sel;
+   if(okStop&&okLeg){S.view=n.view;if(n.ed&&typeof EDITORIAL!=='undefined'&&EDITORIAL.some(x=>x.id===n.ed))S.ed=n.ed;if(n.cur!=null)S.cur=n.cur;if(n.sel&&(n.sel.t==='p'?POI[n.sel.id]:BASES[n.sel.id]))S.sel=n.sel;
     if(n.bld&&S.its[n.bld])S.bld=n.bld;if(n.dtab)S.dtab=n.dtab;if(typeof n.cx==='number'&&n.cx){S.cx=n.cx;S.cy=n.cy;S.vbw=n.vbw||0;}}}
   const y=+sessionStorage.getItem('yuc-y')||0;
   render();
