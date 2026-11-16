@@ -553,6 +553,10 @@ body{background-color:var(--page);background-image:url("data:image/svg+xml,%3Csv
 .pill.tag{background:var(--ink);color:var(--panel);border-color:var(--ink)}
 .topptr{margin:2px 0 8px}
 .lnk{background:none;border:0;padding:0;font:inherit;font-weight:700;color:var(--accent);text-decoration:underline}
+.dplanbox{margin:10px 0 14px;padding:12px 14px;border:2px solid var(--ink);border-radius:12px;background:var(--panel)}
+.dplanbox h4{margin:0 0 8px}
+.dplan{width:100%;box-sizing:border-box;border:0;background:transparent;color:inherit;font:400 14px/1.55 var(--fb,inherit);resize:none;overflow:hidden;padding:0;outline:none}
+.dplanbox .btn{margin-top:8px}
 .gtips{margin:6px 0 4px;padding:12px 14px;border:2px solid var(--gold);border-radius:12px;background:var(--panel)}
 .gtips h5{margin:0 0 6px;font:500 11px var(--fm);letter-spacing:.08em;text-transform:uppercase;color:var(--ink-2)}
 .gtips ul{margin:0;padding:0 0 0 16px;display:grid;gap:6px;font-size:13px;line-height:1.45}
@@ -1592,6 +1596,137 @@ pm:[
   GUIDE[b].allNames=[...seen];
  }
 })();
+/* ===== DAYSTORY: my proposed story for each day (editable in the app, key = day index, 0 = 8 Dec) =====
+   Places and hours come from the guides linked in the day's category lists. "(est.)" = my estimate, not verified. */
+const DAYSTORY={
+0:`Tue 8 Dec · Cancún → Valladolid
+
+You land at 15:05. Collect the bags, pick up the car and allow a good hour at the desk and the exit; it always takes longer than you think (est.). Then drive to Valladolid on the 180D toll road: about 160 km, 1 h 50 to 2 h 15. Keep pesos in hand for the tolls. You will probably arrive around 19:30–20:00 (est.), so tonight is simple.
+
+Check in, drop the bags and walk to the main park. For dinner, two good options. Echate un Taco for cochinita and lomitos (open until 22, closed Sunday). Or La Selva for panuchos and salbutes (evenings, closed Thursday). If you want something quick and local, Sabrositacos for al pastor, open from 18:30. Nena Nena is closed on Tuesdays, skip it tonight.
+
+After dinner, take the walk down Calzada de los Frailes. Mezcalería Don Trejo (no. 212) has a garden and live music. La Joyita Cantina is the easier one: a terrace on the arches across from the park, margarita or mezcal and people-watching. Before bed, a marquesita from the park carts and a look at the convent lit up.`,
+1:`Wed 9 Dec · Chichén Itzá and the cenote
+
+Start with a proper local breakfast at Loncheria Olich (open Mon–Sat 8–13): longaniza de Valladolid, huevos motuleños, agua de chaya con piña. Burrito Amor is closed on Wednesdays, so Olich it is.
+
+Then go to Chichén Itzá, 45 min away, and be there at opening: the tour buses arrive later and the heat builds. Ik Kil is the postcard cenote but it fills up at midday, so on the way back I would rather swim at Suytún or at Cenote Zací in town.
+
+Lunch back in Valladolid, one of two ways: Loncheria Canul in the Bazar Municipal for pollo en escabeche, or Echate un Taco again if you want a table. Rest, then in the late afternoon walk to Cenote Zací (10 min from the park) and cool off before the light goes.
+
+Dinner at La Selva if you did not go on Tuesday, or Taqueria Ebeneezer for pibihuajes at the market (open from 5). Drinks: Los Frappes, at the end of the Calzada, for live music on the rooftop, or the Calle 40 bars where the locals go. Convent video-mapping show on the way home.`,
+2:`Thu 10 Dec · Ek Balam, then Mérida
+
+Breakfast at Las Tortolas (7–14): torta cubana with longaniza, ham, breaded pork and egg. Then Ek Balam, 25–30 min away: quieter than Chichén and the façades still show their stucco. Go early and be done by late morning.
+
+Drive to Mérida after: 1.5 to 2 h on the 180D. Check in, take a break, then in the afternoon walk Paseo de Montejo, the boulevard of 19th-century mansions. If there is time, the Museo Palacio Cantón is on it.
+
+Tonight is the one to plan around: Thursday has a free traditional show at Parque de Santa Lucía, and the arcades around it are full of restaurants, so eat there. If you want something more serious, La Chaya Maya for cochinita and sopa de lima. After: Murciégalo Mezcalería (Calle 57 #500, look for the green neon bat) for mezcal cocktails, or La Fundación Mezcalería (open late, DJ sets).`,
+3:`Fri 11 Dec · Historic centre
+
+Breakfast at Nuevo San Fernando Cochinita y Lechón (Av. Cupules 506, 7–12): the real thing, about 100–200 MXN. Go early.
+
+Morning in the centre: Plaza Grande, the cathedral and Museo Casa Montejo (Calle 63 #508 x 60), the 16th-century mansion with the plateresque façade. Then the Gran Museo del Mundo Maya (Calle 60 Norte) if you want the Maya background before Uxmal tomorrow. MACAY (contemporary art) was listed as temporarily closed: check before you walk over.
+
+Lunch at Mercado 60 (Calle 41 x 58 y 60), a hall of vendors where you can try a bit of everything, or Wayan’e for the panucho institution.
+
+Afternoon off: pool, siesta, or shopping on Calle 60 and around Santa Lucía.
+
+Dinner: Manjar Blanco for cochinita and Yucatecan cooking, or La Chaya Maya if you skipped it yesterday. Friday is a busy night in the cantinas: El Cardenal (jukebox, closes at 22), La Negrita (live band every day), El Lucero del Alba (free botanas with drinks).`,
+4:`Sat 12 Dec · Uxmal, then an easy evening
+
+12 Dec is the day of the Virgin of Guadalupe: expect processions and crowds around the churches, and some places may run different hours (my take, verify locally).
+
+Leave early for Uxmal and plan to be there at opening. Check the drive time on the stop page: it is a day trip, not a quick detour. Eat something light there and be back in Mérida mid-afternoon.
+
+Late afternoon: rest, or Fonart at the end of Paseo de Montejo for crafts.
+
+Dinner: if you want one special night, K’u’uk (Itzimná) does an 11-course tasting menu of modern Yucatecan food: book ahead. Otherwise Calle 47 for dinner and live music. Drinks: El Viento (vinyl bar inside ÁNIMA, Calle 47 #461) or Esmeralda Tap Room for craft beer inside the La Plancha market.`,
+5:`Sun 13 Dec · Mérida → Holbox
+
+Early breakfast at Mercado Lucas de Gálvez: on Sundays the cochinita pibil is the thing, about 40–80 MXN for a full plate. Go early, it sells out.
+
+Then the drive to Chiquilá: 3.5–4 h by car. Leave by about 10:00 so you reach the ferry in daylight (my take). Leave the car in the fenced car park at Chiquilá: cars are not allowed on Holbox. Ferries run from 5:00 to 20:30, about every 30 minutes; never arrive after 20:30.
+
+On the island drop the bags and go straight to the beach for the end of the day. Sunset at Playa Holbox, then easy tacos at Las Panchas by the sea. Tomorrow starts properly.`,
+6:`Mon 14 Dec · The boat tour
+
+Breakfast at Painapol (fruit bowl, avocado toast). No reservations, so arrive early. Then the boat tour from your list. Check the conditions with the operator: in December the water can look grey on cloudy days, and whale sharks and the summer bioluminescence are out of season.
+
+Lunch: Barba Negra for fish tacos in the Foodie Market, or Ceviches La Chingada for big plates of ceviche.
+
+Afternoon at the beach: Playa Holbox, or a beach club if you want a lounger (check the minimum spend first).
+
+Dinner: Roots Pizza a Leña. The signature is the lobster pizza, and lobster season runs until 29 Feb. Drinks afterwards at The Hot Corner, barefoot bar on the sand with live music and DJs.`,
+7:`Tue 15 Dec · Mosquito and Cocos
+
+Morning to Punta Mosquito: sandbank at the eastern end with flamingos and wading birds. About 20 min by golf cart or bike. Little shade and no facilities, so bring water. Check the tide, and shuffle your feet in the water for stingrays.
+
+Lunch back in town: Tierra Mia for coffee and bagels, or Maiztro Holbox for brunch and birria tacos.
+
+Late afternoon: Punta Cocos for sunset. West-facing and quieter than the main beach, about 30 min on foot but quicker by bike or golf cart.
+
+Dinner: Milpa does a seasonal five-course tasting menu. Book it today, ideally this morning. Drinks at Luuma (open-air, sand floors, live music).`,
+8:`Wed 16 Dec · A slow day
+
+Nothing booked. Sleep late, then a walk around the centre for the street murals (the Holbox letters are the sunset meeting point). Breakfast at Arte Sano (mostly vegan: chilaquiles, hibiscus tacos) or Tierra Mia.
+
+Afternoon at a beach club: Serenity Beach Club or La Playa de Ñaña. Both have sunbeds, food and drinks. Check the minimum spend.
+
+Dinner: Piedrasanta for ceviche and cocktails in a garden with fairy lights. Capitán Capitán Beach Club next to the pier for a drink after, livelier at weekends.
+
+The Posadas start around today in the area: expect some local festivities (from the event list).`,
+9:`Thu 17 Dec · Holbox → Bacalar
+
+Long travel day. The first ferry leaves Holbox at 5:00 and they run every 30 min until 20:30. Take an early one: the transfer to Bacalar is about 5 h (my estimate, from a transfer service). Collect the car at Chiquilá.
+
+Arrive in the afternoon. Check in and then go straight to the free public docks on Avenida 7: they face west and the lagoon turns amber and pink around 17:30–18:30.
+
+Dinner: La Playita (lagoon garden and pier, book a sunset table in high season) or Mr. Tacos by the plaza if you are tired (cash only). Thursday night Macario has DJ nights if you want a drink.`,
+10:`Fri 18 Dec · The lagoon
+
+The lagoon is calmest before about 8 am, wind picks up by 11. So start with a sunrise kayak or paddleboard from Avenida 7 (about 100–150 MXN an hour), then breakfast at Picaflor (garden café, 8–16) or Mango y Chile next to the fort.
+
+Mid-morning: the lagoon boat tour from Muelle Municipal (Calle 1). About 800–1,500 MXN per person and negotiable. The stops include the stromatolites and the Canal de los Piratas.
+
+Lunch: Los de Atlixco for tacos al pastor, or Kai Pez for ceviche on the pier below the fort.
+
+Afternoon: Fort San Felipe and its piracy museum (65 MXN, open Tue–Sun, check closing time). The battlements give lagoon views.
+
+Dinner: Nixtamal (wood-fire cooking in a garden) or Savora Bakalal for the terrace on the plaza at sunset.`,
+11:`Sat 19 Dec · Cenotes
+
+One guide lists an artisan market in the plaza on Saturday around 8–13; another mentions Sunday. Check locally and go first thing if it is on: honey, hot sauces, hammocks.
+
+Then Cenote Azul, the open cenote about 5 km south (best Nov to Apr, about 50–100 MXN, taxi about 80–120 MXN each way). There is a restaurant on site for lunch. In the afternoon Los Rápidos (about 150 MXN) for a float, or Cenote Cocalitos, a protected eco-park where the stromatolites are visible.
+
+Dinner: Jaguara if you want the splurge (aguachiles and tacos with swings in the water), or Waah Cocina if you want something easy. Last night in Bacalar: finish on the docks.`,
+12:`Sun 20 Dec · Bacalar → Puerto Morelos
+
+Last swim at a public dock, breakfast at El Manatí (garden, murals, vegan-friendly) or Waah Cocina. Leave late morning. Bacalar to Puerto Morelos is about 4 h (my estimate, not verified); high season starts around today, so expect more traffic and fuller tables.
+
+Check in, then a first walk through the town square. Sunset on the beach.
+
+Dinner: Blue Morelos for the seafood grill: tuna is the specialty. Early night, tomorrow is the reef.`,
+13:`Mon 21 Dec · Reef day
+
+Book the reef snorkel for early morning and check sargassum before you choose a beach day. The reef is only about 15 min by boat from the pier. Dive shops charge about $30–45 for snorkel tours, and the local fishing cooperative is considered one of the best.
+
+Breakfast after the swim at Mangata (French toast, eggs, waffles) or Local Coffee + Shop for the best coffee in town. For something near the beach, Ojo de Agua is a small underwater cenote just off the beach.
+
+Lunch at El Charro (birria tacos, fajitas).
+
+Afternoon: the Ruta de los Cenotes, the jungle road west of the highway. Boca del Puma is at km 16 (open 9–17 per one guide). Bring water shoes and repellent.
+
+Last dinner: Blue Morelos if you did not go yet, or The Port Hut for tacos, fajitas and seafood.`,
+14:`Tue 22 Dec · Fly home
+
+Your flight leaves at 16:55 and KLM advises arriving 3 hours early, so be at the airport by about 14:00 (my take). Leave Puerto Morelos by late morning with a margin for fuel and returning the car.
+
+Morning: coffee at Local Coffee + Shop or a croissant from Belleville Panadería, and one last swim if you have time.
+
+Drop the car, check in, go.`
+};
 /* ===== UTIL ===== */
 const $=(s,r=document)=>r.querySelector(s);
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -2198,6 +2333,11 @@ function ideasHTML(d,c,dd,bid){
  const o=stayOrigin(bid);
  return`<h4>What do you feel like?</h4><nav class="macros" aria-label="Type of activity">${chips}</nav>${h||'<p class="hint">Nothing here for this base yet.</p>'}${!more&&list.length>LIM?`<button class="btn ghost sm" data-act="imore" data-d="${d}" data-m="${cur}">Show all ${list.length}</button>`:''}<p class="hint">Each place appears in one section only. Tips and places come from the linked guides; hours and closing days are as the guide listed them, so check before going. The distance list below is sorted by distance first, then by how much it matters. ${o.exact?'Distances start from your stay where I have coordinates; “Route from stay” gives the exact time in Maps.':'Distances start from the centre of '+esc(BASES[bid].n)+'. Add your stay above to make them exact.'} Times with ≈ are estimates.</p>`;
 }
+function planHTML(d){
+ const dd=getDay(d),def=DAYSTORY[d]||'',cur=typeof dd.plan==='string'?dd.plan:def;
+ const rows=Math.min(40,Math.ceil(cur.length/36)+(cur.match(/\n/g)||[]).length+1);
+ return`<div class="dplanbox"><h4>Proposed plan</h4><textarea class="dplan" data-d="${d}" rows="${rows}" aria-label="Proposed plan for the day, editable">${esc(cur)}</textarea>${typeof dd.plan==='string'&&dd.plan!==def&&def?`<button class="btn ghost sm" data-act="plreset" data-d="${d}">Restore my proposal</button>`:''}</div>`;
+}
 function dayHTML(d,c){
  const st=c.st.find(x=>d>=x.from&&d<x.to),dd=getDay(d),first=st&&d===st.from,last=d===c.total;
  const where=st?st.base.n:'CUN Airport',ev=EVENTS.filter(e=>e.from===d).map(e=>e.label),n=dd.items.length,done=dd.items.filter(x=>x.done).length;
@@ -2216,7 +2356,7 @@ function dayHTML(d,c){
  let tips='';
  if(first&&BASETIPS[st.b]){const T=BASETIPS[st.b];tips=`<details class="tipd"><summary>Tips for ${esc(st.base.n)}</summary><div class="tipbox"><div><h4>Do</h4>${tipList(T.do,'✔')}</div><div><h4>Avoid</h4>${tipList(T.dont,'✖')}</div>${T.know.length?`<div><h4>Good to know</h4>${tipList(T.know,'ℹ')}</div>`:''}</div><div class="btns" style="margin-top:8px">${hotelLinks(st.b,st.from,st.to).map(([t,u])=>`<a class="btn ghost sm" href="${esc(u)}" target="_blank" rel="noopener noreferrer">${t} ↗</a>`).join('')}</div></details>`;}
  return`<details class="day" data-d="${d}" ${S.dopen[d]?'open':''}><summary><span class="dn1"><b>${dshort(d).split(' ')[0]}</b><span class="mono">${dwd(d)}</span></span><span class="dw"><b>${esc(where)}</b><span class="mono hint">${n?`${done}/${n} done`:'To decide'}</span></span>${first&&d>0?'<span class="dtag">transfer</span>':''}${d===0?'<span class="dtag">arrival</span>':''}${last?'<span class="dtag">flight 16:55</span>':''}${ev.length?`<span class="dtag ev">${esc(ev[0])}?</span>`:''}</summary>
- <div class="dbody">${stayHTML(dayBase(d,c))}${tr}<div class="dcol"><div class="dprog"><h4>Your plan</h4>${items||'<p class="hint">Nothing yet. Pick from the suggestions or write your own.</p>'}<div class="addrow"><input class="dnew" type="text" data-d="${d}" placeholder="Write an activity…" maxlength="160" aria-label="New activity"><button class="btn" data-act="dnew" data-d="${d}">Add</button></div>
+ <div class="dbody">${stayHTML(dayBase(d,c))}${tr}${planHTML(d)}<div class="dcol"><div class="dprog"><h4>Your plan</h4>${items||'<p class="hint">Nothing yet. Pick from the suggestions or write your own.</p>'}<div class="addrow"><input class="dnew" type="text" data-d="${d}" placeholder="Write an activity…" maxlength="160" aria-label="New activity"><button class="btn" data-act="dnew" data-d="${d}">Add</button></div>
  <h4 style="margin-top:16px">Notes</h4><textarea class="dnote" data-d="${d}" rows="3" placeholder="Bookings, times, ideas…">${esc(dd.note||'')}</textarea></div>
  <div class="dsug">${ideasHTML(d,c,dd,dayBase(d,c))}</div></div>${tips}</div></details>`;
 }
@@ -2318,6 +2458,7 @@ document.addEventListener('click',e=>{
   case'ddone':{const x=ensDay(+d.d).items[+d.i];if(x)x.done=!x.done;break;}
   case'ddel':ensDay(+d.d).items.splice(+d.i,1);break;
   case'dnew':{const el=document.querySelector('.dnew[data-d="'+d.d+'"]'),v=el?el.value.trim():'';if(!v)return;ensDay(+d.d).items.push({t:v,done:false});break;}
+  case'plreset':{const x=ensDay(+d.d);delete x.plan;break;}
   case'gadd':{const v=d.n;if(v)ensDay(+d.d).items.push({t:v,done:false});break;}
   case'icat':S.idea[+d.d]=d.m;break;
   case'imore':S.imore[d.d+'|'+d.m]=true;break;
@@ -2362,6 +2503,7 @@ document.addEventListener('input',e=>{
  if(t.id==='q'){S.f.q=t.value;updateCenter();}
  if(t.classList.contains('thh')){const x=ensDay(+t.dataset.d).items[+t.dataset.i];if(x){x.h=t.value;save();}}
  if(t.classList.contains('tin')){const x=ensDay(+t.dataset.d).items[+t.dataset.i];if(x){x.t=t.value;save();}}
+ if(t.classList.contains('dplan')){ensDay(+t.dataset.d).plan=t.value;t.rows=1;t.style.height='auto';t.style.height=t.scrollHeight+'px';save();return;}
  if(t.classList.contains('dnote')){ensDay(+t.dataset.d).note=t.value;save();}
  if(t.id==='tripnote'){S.trip=t.value;save();}
  if(t.id==='rad'){S.f.rad=+t.value;const v=$('#radv');if(v)v.textContent=fmtH(S.f.rad);updateCenter();}
@@ -2427,6 +2569,13 @@ window.addEventListener('resize',()=>{drawMap();});
   if(y){window.scrollTo({top:y,behavior:'instant'});requestAnimationFrame(()=>window.scrollTo({top:y,behavior:'instant'}));}
  }catch(e){render();}
  let t=0;addEventListener('scroll',()=>{if(t)return;t=requestAnimationFrame(()=>{t=0;try{sessionStorage.setItem('yuc-y',String(Math.round(window.scrollY)));}catch(_){}});},{passive:true});
+})();
+/* auto-fit the plan textareas (open days only) */
+(function(){
+ const fit=()=>document.querySelectorAll('details[open] .dplan').forEach(t=>{t.rows=1;t.style.height='auto';t.style.height=t.scrollHeight+'px';});
+ document.addEventListener('toggle',e=>{if(e.target.matches&&e.target.matches('details.day'))fit();},true);
+ const app=document.getElementById('app');if(app)new MutationObserver(()=>requestAnimationFrame(fit)).observe(app,{childList:true,subtree:true});
+ window.addEventListener('resize',fit);
 })();
 if('serviceWorker' in navigator&&location.protocol.startsWith('http'))window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));
 </script></body></html>
