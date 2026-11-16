@@ -2425,7 +2425,7 @@ function dayOpts(from,to,c,sel){let o='';for(let d=from;d<=Math.min(to,c.total);
 function hasItem(d,t){return getDay(d).items.some(x=>x.t===t);}
 function itemHTML(it,scope,key,day,place){
  const[t,dtl,meta,q,u]=it,on=hasItem(day,t);
- return`<li class="ci"><div class="cit"><b>${esc(t)}</b>${meta?`<span class="mono pill">${esc(meta)}</span>`:''}</div>${dtl?`<p>${esc(dtl)}</p>`:''}
+ return`<li class="ci"><div class="cit"><b>${esc(t)}</b>${meta?`<span class="mono pill">${esc(meta)}</span>`:''}</div>${dtl?`<p>${esc(dtl)}</p>`:''}${galHTML({name:t,q:t+' '+place})}
  <div class="cia">${qBd(q)}${u?`<a href="${esc(u)}" target="_blank" rel="noopener noreferrer">source ↗</a>`:''}<a href="${esc(SMAP(t+' '+place))}" target="_blank" rel="noopener noreferrer">Maps ↗</a><button class="btn sm ${on?'ghost':''}" data-act="stadd" data-s="${scope}" data-k="${key}" data-d="${day}" ${on?'disabled':''}>${on?'✓ in the day':'+ day'}</button></div></li>`;
 }
 function spotGal(name,bid,tag){
