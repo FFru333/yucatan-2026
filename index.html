@@ -1802,6 +1802,7 @@ function render(){
  const y=window.scrollY,ap=$('#app');if(ap)ap.style.minHeight=ap.offsetHeight+'px';
  if(S.th)document.documentElement.dataset.theme=S.th;else delete document.documentElement.dataset.theme;
  $('#app').innerHTML=headHTML()+bodyHTML();
+ try{sessionStorage.setItem('yuc-nav',JSON.stringify({view:S.view,cur:S.cur,sel:S.sel,bld:S.bld,dtab:S.dtab,cx:S.cx,cy:S.cy,vbw:S.vbw}));}catch(_){}
  S.toMap=0;if(S.toDay!=null){const el=document.querySelector('.day[data-d="'+S.toDay+'"]');S.toDay=null;S.toTop=0;if(el)el.scrollIntoView({block:'start'});}else if(S.toTop){S.toTop=0;window.scrollTo({top:0,behavior:'instant'});}else window.scrollTo({top:y,behavior:'instant'});
  if(ap)ap.style.minHeight='';
  const host=$('#mapsvg');if(host){bindMap(host);drawMap();}
@@ -1937,6 +1938,18 @@ window.addEventListener('resize',()=>{drawMap();});
  addEventListener('touchend',end);addEventListener('touchcancel',end);
 })();
 
-render();
+/* Il refresh ricarica la pagina corrente, non riparte dalla home */
+(function(){
+ try{const n=JSON.parse(sessionStorage.getItem('yuc-nav')||'null');
+  if(n&&['plan','stop','leg','days','map','bld'].includes(n.view)){
+   const okStop=n.view!=='stop'||(n.cur&&STOPS[n.cur]),okLeg=n.view!=='leg'||typeof n.cur==='number';
+   if(okStop&&okLeg){S.view=n.view;if(n.cur!=null)S.cur=n.cur;if(n.sel&&(n.sel.t==='p'?POI[n.sel.id]:BASES[n.sel.id]))S.sel=n.sel;
+    if(n.bld&&S.its[n.bld])S.bld=n.bld;if(n.dtab)S.dtab=n.dtab;if(typeof n.cx==='number'&&n.cx){S.cx=n.cx;S.cy=n.cy;S.vbw=n.vbw||0;}}}
+  const y=+sessionStorage.getItem('yuc-y')||0;
+  render();
+  if(y){window.scrollTo({top:y,behavior:'instant'});requestAnimationFrame(()=>window.scrollTo({top:y,behavior:'instant'}));}
+ }catch(e){render();}
+ let t=0;addEventListener('scroll',()=>{if(t)return;t=requestAnimationFrame(()=>{t=0;try{sessionStorage.setItem('yuc-y',String(Math.round(window.scrollY)));}catch(_){}});},{passive:true});
+})();
 if('serviceWorker' in navigator&&location.protocol.startsWith('http'))window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));
 </script></body></html>
