@@ -615,9 +615,13 @@ details.tdl>summary{cursor:pointer;font:700 18px var(--fd);list-style:none;paddi
 /* overview + gear */
 .navrow{display:flex;gap:10px;align-items:center;flex:1 1 100%;min-width:0}
 .navrow .tabs{flex:1 1 0;min-width:0}
-.top .navrow .tabs{overflow-x:auto;overflow-y:hidden;scrollbar-width:none;-webkit-overflow-scrolling:touch;scroll-snap-type:x proximity;-webkit-mask-image:linear-gradient(90deg,#000 calc(100% - 22px),transparent);mask-image:linear-gradient(90deg,#000 calc(100% - 22px),transparent);padding-right:10px}
+.top .navrow .tabs{overflow-x:auto;overflow-y:hidden;scrollbar-width:none;-webkit-overflow-scrolling:touch;-webkit-mask-image:linear-gradient(90deg,#000 calc(100% - 22px),transparent);mask-image:linear-gradient(90deg,#000 calc(100% - 22px),transparent);padding-right:10px}
 .top .navrow .tabs::-webkit-scrollbar{display:none}
-.top .navrow .tabs button{flex:none;padding:11px 16px;font-size:11.5px;letter-spacing:.06em;scroll-snap-align:center;white-space:nowrap}
+.top .navrow .tabs button{flex:none;padding:11px 16px;font-size:11.5px;letter-spacing:.06em;white-space:nowrap;transition:background-color .2s,color .2s}
+.swr{position:relative;overflow:hidden;border-radius:10px}
+.swd{position:absolute;right:0;top:0;bottom:0;width:76px;border:0;background:#B3261E;color:#fff;display:grid;place-items:center;padding:0}
+.sw-in{position:relative;border-radius:10px;background:var(--panel);transition:transform .2s ease;touch-action:pan-y;will-change:transform}
+.swr .td{margin:0}
 .gear{flex:none;width:40px;height:40px;border-radius:50%;display:grid;place-items:center;border:2px solid var(--gold);background:transparent;color:var(--band-ink);padding:0}
 .gear[aria-pressed=true]{background:var(--gold);color:#111}
 .ovw{display:grid;gap:10px;padding-top:12px}
@@ -2726,12 +2730,13 @@ const APPS=[['airalo','Airalo','eSIM for Mexico, set up before flying'],['gmaps'
 function overviewHTML(){
  const c=computeIt(S.its.D),O=S.ov;
  const hot=c.st.map(st=>{const h=O.hot[st.b]||{};return`<div class="hcard" style="--bc:${BCOL[st.b]}"><div class="hh"><b>${esc(st.base.n)}</b><span class="mono">${dwd(st.from)} ${dshort(st.from)} – ${dshort(st.to)} · ${st.n} nights</span></div><input class="ovh" data-hb="${st.b}" data-hf="name" type="text" value="${esc(h.name||'')}" placeholder="Hotel name" aria-label="Hotel in ${esc(st.base.n)}"><textarea class="ovh" data-hb="${st.b}" data-hf="ref" rows="2" placeholder="Booking ref, address, check-in time…" aria-label="Notes for ${esc(st.base.n)}">${esc(h.ref||'')}</textarea>${stayHTML(st.b,1)}</div>`;}).join('');
- const apps=APPS.map(([k,n,d])=>`<label class="td"><input type="checkbox" data-act="ovapp" data-k="${k}" ${O.apps[k]?'checked':''}><span>${esc(n)}<br><span class="hint">${esc(d)}</span></span><span></span></label>`).join('')+O.xapps.map((n,i)=>`<label class="td"><input type="checkbox" data-act="ovapp" data-k="x${i}" ${O.apps['x'+i]?'checked':''}><span>${esc(n)}</span><button class="btn ghost sm" data-act="ovxdel" data-i="${i}" type="button">Remove</button></label>`).join('');
+ const swr=(k,inner)=>`<div class="swr"><button class="swd" data-act="ovappdel" data-k="${esc(k)}" aria-label="Delete" type="button"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4h8v2M6 6l1 14h10l1-14M10 11v5M14 11v5"/></svg></button><div class="sw-in">${inner}</div></div>`;
+ const apps=APPS.filter(x=>!(O.hide||{})[x[0]]).map(([k,n,d])=>swr(k,`<label class="td"><input type="checkbox" data-act="ovapp" data-k="${k}" ${O.apps[k]?'checked':''}><span>${esc(n)}<br><span class="hint">${esc(d)}</span></span><span></span></label>`)).join('')+O.xapps.map(n=>swr('x:'+n,`<label class="td"><input type="checkbox" data-act="ovapp" data-k="x:${esc(n)}" ${O.apps['x:'+n]?'checked':''}><span>${esc(n)}</span><span></span></label>`)).join('');
  return`<div class="phero"><div><div class="eyebrow2">Overview</div><h2 class="edh">Before you go</h2><p class="edlead">Flights, hotels, apps and notes in one place. Everything here is yours to edit and stays on this phone. Hotels you enter also show up on the stop and day pages.</p></div></div>
  <section class="ps"><div class="edwrap ovw"><h3 class="lab">Flights</h3><textarea class="ovt" data-ov="fl1" rows="3">${esc(O.fl1)}</textarea><textarea class="ovt" data-ov="fl2" rows="3">${esc(O.fl2)}</textarea><textarea class="ovt" data-ov="ref" rows="2" placeholder="Booking reference, flight numbers, seats…">${esc(O.ref)}</textarea><p class="hint">Dates and times from what you told me, not from a ticket. Check against your booking.</p></div></section>
  <section class="ps"><div class="edwrap ovw"><h3 class="lab">Hotels</h3><p class="hint">One per stop, following your itinerary. Add the Maps link to make distances start from it.</p>${hot}</div></section>
  <section class="ps"><div class="edwrap ovw"><h3 class="lab">Car</h3><textarea class="ovt" data-ov="car" rows="2">${esc(O.car)}</textarea></div></section>
- <section class="ps"><div class="edwrap ovw"><h3 class="lab">Apps to download</h3>${apps}<div class="stayform"><input id="xapp" type="text" placeholder="Add an app or a to-do" autocomplete="off"><button class="btn sm" data-act="ovxadd" type="button">Add</button></div><p class="hint">A starting list of my suggestions, not a verified requirement.</p></div></section>
+ <section class="ps"><div class="edwrap ovw"><h3 class="lab">Apps to download</h3>${apps}<div class="stayform"><input id="xapp" type="text" placeholder="Add an app or a to-do" autocomplete="off"><button class="btn sm" data-act="ovxadd" type="button">Add</button></div><p class="hint">A starting list of my suggestions, not a verified requirement. Swipe a row left to delete it.</p></div></section>
  <section class="ps"><div class="edwrap ovw"><h3 class="lab">Notes</h3><textarea class="ovt" data-ov="notes" rows="5" placeholder="Insurance, passport, contacts, anything important…">${esc(O.notes)}</textarea></div></section>`;
 }
 const THEMES=[['','Rojo','#C42B2B'],['green','Selva','#1D5A3A'],['black','Noche','#0B0B0B'],['blue','Cenote','#14708C']];
@@ -2782,12 +2787,19 @@ function render(){
  if(S.th==='dark')S.th='black';if(S.th==='light')S.th='';
  if(S.th)document.documentElement.dataset.theme=S.th;else delete document.documentElement.dataset.theme;
  {const m=document.querySelector('meta[name=theme-color]');const c=(THEMES.find(t=>t[0]===(S.th||''))||THEMES[0])[2];if(m)m.content=c;}
- $('#app').innerHTML=headHTML()+bodyHTML();
+ {const ap2=$('#app'),hd=ap2.querySelector(':scope>header.top');
+  if(hd){
+   hd.querySelectorAll('.tabs [data-v]').forEach(b=>{const v=b.dataset.v;b.setAttribute('aria-pressed',String(S.view===v||(v==='plan'&&(S.view==='stop'||S.view==='leg'))));});
+   const g=hd.querySelector('.gear');if(g)g.setAttribute('aria-pressed',String(S.view==='bld'));
+   hd.querySelectorAll('.sw[data-th]').forEach(b=>b.setAttribute('aria-pressed',String((S.th||'')===b.dataset.th)));
+   while(hd.nextSibling)hd.nextSibling.remove();
+   hd.insertAdjacentHTML('afterend',bodyHTML());
+  }else ap2.innerHTML=headHTML()+bodyHTML();}
  try{sessionStorage.setItem('yuc-nav',JSON.stringify({view:S.view,ed:S.ed,cur:S.cur,sel:S.sel,bld:S.bld,dtab:S.dtab,cx:S.cx,cy:S.cy,vbw:S.vbw}));}catch(_){}
  S.toMap=0;if(S.toDay!=null){const el=document.querySelector('.day[data-d="'+S.toDay+'"]');S.toDay=null;S.toTop=0;if(el)el.scrollIntoView({block:'start'});}else if(S.toTop){S.toTop=0;window.scrollTo({top:0,behavior:'instant'});}else window.scrollTo({top:y,behavior:'instant'});
  if(ap)ap.style.minHeight='';
  const host=$('#mapsvg');if(host){bindMap(host);drawMap();}
- {const tb=document.querySelector('.top .tabs'),on=tb&&tb.querySelector('[aria-pressed=true]');if(on)tb.scrollLeft=on.offsetLeft-(tb.clientWidth-on.offsetWidth)/2;}
+ {const tb=document.querySelector('.top .tabs'),on=tb&&tb.querySelector('[aria-pressed=true]');if(on){const L=Math.max(0,on.offsetLeft-(tb.clientWidth-on.offsetWidth)/2);if(Math.abs(tb.scrollLeft-L)>2)tb.scrollTo({left:L,behavior:'smooth'});}}
  save();
 }
 function updateCenter(){
@@ -2824,8 +2836,8 @@ document.addEventListener('click',e=>{
   case'gkeysave':{const v=(document.getElementById('gkey')||{}).value.trim();if(v){try{localStorage.setItem('yuc-gkey',v);}catch(_){}IMGC={};imgSave();S.imgmsg='Key saved, cache cleared. Tap Test photos.';}break;}
   case'gkeyoff':try{localStorage.removeItem('yuc-gkey');}catch(_){}IMGC={};imgSave();S.imgmsg='Key removed.';break;
   case'ovapp':S.ov.apps[d.k]=t.checked;save();return;
-  case'ovxadd':{const i=document.getElementById('xapp'),v=i?i.value.trim():'';if(v)S.ov.xapps.push(v);break;}
-  case'ovxdel':S.ov.xapps.splice(+d.i,1);S.ov.apps={};break;
+  case'ovxadd':{const i=document.getElementById('xapp'),v=i?i.value.trim():'';if(v&&!S.ov.xapps.includes(v))S.ov.xapps.push(v);break;}
+  case'ovappdel':{const k=d.k;if(k.startsWith('x:')){S.ov.xapps=S.ov.xapps.filter(x=>'x:'+x!==k);delete S.ov.apps[k];}else{(S.ov.hide||(S.ov.hide={}))[k]=true;}break;}
   case'imgclear':IMGC={};imgSave();S.imgmsg='Cache cleared. Open Places to reload photos.';break;
   case'imgtest':{S.imgmsg='Testing…';const m=document.getElementById('imgmsg');if(m)m.textContent=S.imgmsg;(async()=>{let out=[];if(GKEY()){try{const ph=await googlePhotos('Picheta Mérida Yucatán');out.push('Google OK · '+ph.length+' photos');if(ph[0])await new Promise(res=>{const im=new Image();im.onload=()=>{out.push('image OK '+im.naturalWidth+'px');res();};im.onerror=()=>{out.push('image FAILED');res();};im.src=ph[0].t;});}catch(e){out.push('ERROR '+e.message);}S.imgmsg=out.join(' · ');const m3=document.getElementById('imgmsg');if(m3)m3.textContent=S.imgmsg;return;}try{const r=await fetch(WAPI+'w/api.php?action=query&generator=search&gsrsearch=Casa%20Montejo&gsrlimit=1&prop=pageimages&piprop=thumbnail&pithumbsize=330&format=json&origin=*');out.push('API '+r.status);const j=await r.json();const p=Object.values(j.query.pages)[0];out.push(p.title);const u=p.thumbnail&&p.thumbnail.source;if(u){await new Promise(res=>{const im=new Image();im.onload=()=>{out.push('image OK '+im.naturalWidth+'px');res();};im.onerror=()=>{out.push('image FAILED');res();};im.src=u;});}else out.push('no thumbnail');}catch(e){out.push('ERROR '+e.message);}S.imgmsg=out.join(' · ');const m2=document.getElementById('imgmsg');if(m2)m2.textContent=S.imgmsg;})();return;}
   case'edback':S.ed=null;S.toTop=1;break;
@@ -2959,6 +2971,20 @@ window.addEventListener('resize',()=>{drawMap();});
  document.addEventListener('toggle',e=>{const t=e.target;if(!t.matches)return;if(t.matches('details.day'))fit();if(t.matches('details.tdl'))S.todoOpen=t.open;},true);
  const app=document.getElementById('app');if(app)new MutationObserver(()=>requestAnimationFrame(fit)).observe(app,{childList:true,subtree:true});
  window.addEventListener('resize',fit);
+})();
+
+/* swipe left to reveal delete (iPhone style) */
+(function(){
+ const W=76;let row=null,x0=0,y0=0,base=0,drag=0,moved=0;
+ const closeAll=ex=>document.querySelectorAll('.sw-in[data-o]').forEach(i=>{if(i!==ex){i.style.transform='';i.removeAttribute('data-o');}});
+ document.addEventListener('pointerdown',e=>{const r=e.target.closest('.sw-in');if(!r||e.target.closest('.swd'))return;closeAll(r);row=r;x0=e.clientX;y0=e.clientY;base=r.dataset.o?-W:0;drag=0;moved=0;});
+ document.addEventListener('pointermove',e=>{if(!row)return;const dx=e.clientX-x0,dy=e.clientY-y0;
+  if(!drag){if(Math.abs(dy)>8&&Math.abs(dy)>Math.abs(dx)){row=null;return;}if(Math.abs(dx)>8&&Math.abs(dx)>Math.abs(dy)){drag=1;row.style.transition='none';try{row.setPointerCapture(e.pointerId);}catch(_){}}}
+  if(drag){moved=1;const t=Math.max(-W-20,Math.min(0,base+dx));row.style.transform='translateX('+t+'px)';e.preventDefault();}},{passive:false});
+ const end=()=>{if(!row)return;const r=row;row=null;if(!drag)return;r.style.transition='';const m=/-?[\d.]+/.exec(r.style.transform),t=m?parseFloat(m[0]):0;
+  if(t<-W/2){r.style.transform='translateX(-'+W+'px)';r.dataset.o='1';}else{r.style.transform='';r.removeAttribute('data-o');}};
+ document.addEventListener('pointerup',end);document.addEventListener('pointercancel',end);
+ document.addEventListener('click',e=>{if(moved&&e.target.closest('.sw-in')){e.preventDefault();e.stopPropagation();moved=0;}},true);
 })();
 if('serviceWorker' in navigator&&location.protocol.startsWith('http'))window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));
 </script></body></html>
