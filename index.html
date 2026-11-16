@@ -4,7 +4,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Yucatán"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <title>Yucatán, 8–22 December</title>
 <meta name="description" content="Yucatán itinerary, 8–22 December: day by day, map and places."><meta name="theme-color" content="#C42B2B">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Public+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Public+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=block">
 <style>
 /* Layout: filters left, map centre, place card right. Views: Stops, Days, Map, Edit. */
 :root{
@@ -531,7 +531,16 @@ html{overscroll-behavior-y:contain}
 html{background:var(--page)}
 body{background-color:var(--page);background-image:url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2272%22 height=%2272%22 viewBox=%220 0 72 72%22%3E%3Cg fill=%22none%22 stroke=%22%239E1C22%22 stroke-width=%223%22 stroke-linejoin=%22miter%22 opacity=%22.55%22%3E%3Cpath d=%22M36 6l30 30-30 30L6 36z%22/%3E%3Cpath d=%22M36 16l20 20-20 20L16 36z%22/%3E%3Cpath d=%22M26 36h6v-6h8v12h-8%22/%3E%3C/g%3E%3Cg fill=%22%239E1C22%22 opacity=%22.55%22%3E%3Crect x=%220%22 y=%220%22 width=%226%22 height=%226%22/%3E%3Crect x=%2266%22 y=%220%22 width=%226%22 height=%226%22/%3E%3Crect x=%220%22 y=%2266%22 width=%226%22 height=%226%22/%3E%3Crect x=%2266%22 y=%2266%22 width=%226%22 height=%226%22/%3E%3C/g%3E%3Cg fill=%22%23F2C200%22 opacity=%22.28%22%3E%3Ccircle cx=%2236%22 cy=%2236%22 r=%222.4%22/%3E%3C/g%3E%3C/svg%3E");background-size:72px 72px}
 .jump{background:var(--page)!important}
-</style></head>
+
+/* Nessun salto di font: l'app compare solo quando i font sono pronti */
+html:not(.fok) #app{opacity:0}
+html.fok #app{opacity:1;transition:opacity .3s ease}
+.top h1.logo{white-space:nowrap}
+</style>
+<script>(function(){var d=document.documentElement,ok=0,done=function(){if(ok)return;ok=1;d.classList.add('fok')};setTimeout(done,2500);
+addEventListener('load',function(){if(!document.fonts||!document.fonts.load){done();return}
+Promise.all([document.fonts.load('1em Anton'),document.fonts.load('400 1em "Public Sans"'),document.fonts.load('700 1em "Public Sans"'),document.fonts.load('1em "DM Mono"')]).then(function(){return document.fonts.ready}).then(done,done)});})();</script>
+</head>
 <body><div id="app"></div>
 <script>
 /* ===== DATA ===== */
