@@ -612,6 +612,17 @@ details.tdl>summary{cursor:pointer;font:700 18px var(--fd);list-style:none;paddi
 .rleg{margin:2px auto;width:calc(100% - 28px);background:var(--panel);border:1.5px dashed var(--edge);border-radius:99px;padding:8px 16px;min-height:44px}
 .phero{grid-template-columns:minmax(0,1fr)!important;padding:18px 20px!important;gap:8px!important;border-radius:16px!important}
 .phero::before{height:8px!important}
+/* overview + gear */
+.navrow{display:flex;gap:10px;align-items:center;flex:1 1 100%;min-width:0}
+.navrow .tabs{flex:1 1 0;min-width:0}
+.gear{flex:none;width:40px;height:40px;border-radius:50%;display:grid;place-items:center;border:2px solid var(--gold);background:transparent;color:var(--band-ink);padding:0}
+.gear[aria-pressed=true]{background:var(--gold);color:#111}
+.ovw{display:grid;gap:10px;padding-top:12px}
+.ovt,.ovh{width:100%;border:1.5px solid var(--edge);border-radius:9px;background:var(--bg);color:var(--ink);padding:9px 10px;font:inherit;font-size:13.5px;line-height:1.45;resize:vertical}
+.hcard{border:2px solid var(--line);border-left:8px solid var(--bc);border-radius:12px;padding:10px 12px;display:grid;gap:8px;min-width:0}
+.hcard .hh{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;align-items:baseline}
+.hcard .hh b{font:700 20px/1 var(--fd);text-transform:uppercase}
+.hcard .stayrow h4{display:none}
 .phero .tripline b{font-size:24px}
 .phero .tripline{margin:6px 0 0}
 /* editorial */
@@ -2086,7 +2097,7 @@ const dwd=o=>WD[dt(o).getUTCDay()];
 /* ===== STATE ===== */
 const KEY='yuc-mappa-4',KEY_OLD=['yuc-mappa-3','yuc-mappa-2'];
 const PX_=lon=>(lon+91.3)*Math.cos(20.3*Math.PI/180)*200,PY_=lat=>(21.95-lat)*200;
-const S={view:'plan',ed:null,edDay:3,todo:{},sel:null,dtab:'near',th:'',
+const S={view:'ov',ov:{fl1:'Outbound · Tue 8 Dec\nBologna → Amsterdam → Cancún (KLM)\nLands at Cancún 15:05',fl2:'Return · Tue 22 Dec\nCancún → Amsterdam → Bologna (KLM)\nDeparts Cancún 16:55 (routing to confirm)',ref:'',car:'Rental car: pick-up at Cancún airport on 8 Dec, return on 22 Dec.',notes:'',apps:{},xapps:[],hot:{}},ed:null,edDay:3,todo:{},sel:null,dtab:'near',th:'',
  f:{q:'',tags:[],mode:'any',itin:{D:true,A:false,B:false,C:false,M:false},reach:1.5,radIt:'',rad:2,labels:true,road:true,legs:true,hide:false,onlyWish:false},
  wish:[],its:clone(ITS0),bld:'D',
  days:{},stay:{},idea:{},imore:{},stayMsg:{},stayEdit:{},trip:TRIP_NOTE_DEF,dopen:{0:true},cx:0,cy:0,vbw:0,drag:0,meas:{on:false,pts:[]},toMap:0,toTop:0};
@@ -2094,12 +2105,12 @@ S.cx=PX_(-88.2);S.cy=PY_(20.1);
 (function load(){
  try{let raw=localStorage.getItem(KEY),old=false;if(!raw){for(const k of KEY_OLD){raw=localStorage.getItem(k);if(raw){old=k;break;}}}const r=JSON.parse(raw||'null');if(!r)return;if(old){delete r.days;if(old==='yuc-mappa-2')delete r.its;}
   if(r.days&&typeof r.days==='object')S.days=r.days;if(typeof r.trip==='string')S.trip=r.trip;
-  if(r.todo&&typeof r.todo==='object')S.todo=r.todo;if(r.stay&&typeof r.stay==='object')S.stay=r.stay;if(r.f)Object.assign(S.f,r.f);if(Array.isArray(r.wish))S.wish=r.wish.filter(id=>POI[id]);
+  if(r.ov&&typeof r.ov==='object')S.ov=Object.assign(S.ov,r.ov);if(r.todo&&typeof r.todo==='object')S.todo=r.todo;if(r.stay&&typeof r.stay==='object')S.stay=r.stay;if(r.f)Object.assign(S.f,r.f);if(Array.isArray(r.wish))S.wish=r.wish.filter(id=>POI[id]);
   if(r.its)for(const id of IT_IDS){const it=r.its[id];if(it&&Array.isArray(it.stops)&&it.stops.every(s=>BASES[s.b]&&s.n>=1)&&it.stops.length){S.its[id]=Object.assign(S.its[id],{stops:it.stops,carAt:typeof it.carAt==='number'?it.carAt:-1});}}
   if(r.th)S.th=r.th;
  }catch(e){}
 })();
-function save(){try{localStorage.setItem(KEY,JSON.stringify({todo:S.todo,f:S.f,wish:S.wish,its:S.its,th:S.th,days:S.days,stay:S.stay,trip:S.trip}));}catch(e){}}
+function save(){try{localStorage.setItem(KEY,JSON.stringify({todo:S.todo,f:S.f,wish:S.wish,its:S.its,th:S.th,days:S.days,stay:S.stay,ov:S.ov,trip:S.trip}));}catch(e){}}
 
 /* ===== TIMES ===== */
 function drive(a,b){if(a===b)return{h:0,v:1};const d=DRIVE[[a,b].sort().join('-')];if(d)return{h:d[0],v:!!d[1]};
@@ -2473,7 +2484,7 @@ function homeHTML(){
   const cached=IMGC[imgKey(hk)],bg=cached&&cached.ph&&cached.ph[0]?`background-image:url('${esc(cached.ph[0].m)}')`:'';
   const hls=(GTOP[st.b]||[]).filter(x=>['culture','nature','chill'].includes(x[0])).slice(0,5).map(x=>`<span class="chipc">${esc(x[1])}</span>`).join('');
   out+=`<article class="pc" style="--bc:${BCOL[st.b]}"><button class="hero-img ${bg?'on':'pend'}" data-act="stop" data-b="${st.b}" data-gk="${imgKey(hk)}" data-spec="${esc(JSON.stringify(hero))}" style="${bg}" aria-label="Open ${esc(st.base.n)}"><span class="rn2">${i+1}</span><span class="hi"><span class="hn">${esc(st.base.n)}</span><span class="hm">${dshort(st.from)}–${dshort(st.to)} · ${st.n} nights</span></span></button>
-  <div class="pcb"><p>${esc(P.desc)}</p>${hls?`<div class="chips">${hls}</div>`:''}${galHTML({key:gk,name:st.base.n,parts})}<button class="btn sm go2" data-act="stop" data-b="${st.b}">What to do, eat and buy →</button></div></article>`;
+  <div class="pcb"><p>${esc(P.desc)}</p>${(S.ov.hot[st.b]||{}).name?`<p class="hint">Stay: <b>${esc(S.ov.hot[st.b].name)}</b></p>`:''}${hls?`<div class="chips">${hls}</div>`:''}${galHTML({key:gk,name:st.base.n,parts})}<button class="btn sm go2" data-act="stop" data-b="${st.b}">What to do, eat and buy →</button></div></article>`;
   out+=legBtn(i+1);
  });
  const todo=TODO.map(([k,t,u,n])=>`<label class="td"><input type="checkbox" data-act="todo" data-k="${k}" ${S.todo[k]?'checked':''}><span>${esc(t)}${n?`<br><span class="hint">${esc(n)}</span>`:''}</span>${u?`<a class="btn ghost sm" href="${esc(u)}" target="_blank" rel="noopener noreferrer">Link ↗</a>`:'<span></span>'}</label>`).join('');
@@ -2605,12 +2616,13 @@ function parseMaps(raw){
 }
 const stayOrigin=bid=>{const s=S.stay[bid];return s&&s.lat!=null?{lat:s.lat,lon:s.lon,exact:true}:{lat:BASES[bid].lat,lon:BASES[bid].lon,exact:false};};
 const stayLink=bid=>{const s=S.stay[bid];if(!s)return'';return s.url||(s.lat!=null?SMAP(s.lat+','+s.lon):SMAP((s.name||'')+' '+BASES[bid].n));};
-function stayHTML(bid){
- const b=BASES[bid],s=S.stay[bid],msg=S.stayMsg[bid]||'',edit=!s||S.stayEdit[bid];
+function stayHTML(bid,inOv){
+ const b=BASES[bid],s=S.stay[bid],msg=S.stayMsg[bid]||'',edit=!s||S.stayEdit[bid],hh=S.ov.hot[bid]||{};
+ const hot=!inOv&&hh.name?`<div class="staychip"><span class="mono">Hotel</span><b>${esc(hh.name)}</b>${hh.ref?`<span class="hint">${esc(hh.ref)}</span>`:''}</div>`:'';
  const head=s?`<div class="staychip"><span class="mono">${s.lat!=null?'● exact position':'○ no coordinates'}</span><b>${esc(s.name||(s.lat!=null?s.lat.toFixed(4)+', '+s.lon.toFixed(4):'Saved link'))}</b><a href="${esc(stayLink(bid))}" target="_blank" rel="noopener noreferrer">Open in Maps ↗</a>${edit?'':`<button class="btn ghost sm" data-act="stayedit" data-b="${bid}">Change</button><button class="btn ghost sm" data-act="stayclear" data-b="${bid}">Remove</button>`}</div>`:'';
  const form=edit?`<div class="stayform"><input class="stayin" type="text" inputmode="url" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="Paste a Google Maps link, or lat, lon" aria-label="Stay location in ${esc(b.n)}"><button class="btn sm" data-act="staysave" data-b="${bid}">Save</button></div>`:'';
  const note=s&&s.lat==null&&!edit?`<p class="hint">Short links hide the position, so distances still use the centre of ${esc(b.n)}. Paste the long link, or the coordinates (in Google Maps, long-press the pin).</p>`:'';
- return`<div class="stayrow"><h4>Where you stay in ${esc(b.n)}</h4>${head}${form}${msg?`<p class="hint warn">${esc(msg)}</p>`:''}${note}${!s?`<p class="hint">One link covers every day you spend in ${esc(b.n)}. Distances below start from it.</p>`:''}</div>`;
+ return`<div class="stayrow"><h4>Where you stay in ${esc(b.n)}</h4>${hot}${head}${form}${msg?`<p class="hint warn">${esc(msg)}</p>`:''}${note}${!s?`<p class="hint">One link covers every day you spend in ${esc(b.n)}. Distances below start from it.</p>`:''}</div>`;
 }
 function ideasFor(bid,day){
  const o=stayOrigin(bid),b=BASES[bid],D=STOPS[bid]||{},out=[],titles=[];
@@ -2707,13 +2719,26 @@ function daysHTML(){
 <div class="days">${h}</div>
  <p class="hint">Legs marked “my estimate” are not verified. If you change the nights in Edit, activities stay tied to the dates: re-check the transfer days. <button class="btn ghost sm" data-act="dreset">${S.cfm?'Confirm: clear all days':'Clear all days'}</button></p>`;
 }
+const APPS=[['airalo','Airalo','eSIM for Mexico, set up before flying'],['gmaps','Google Maps','download the offline map of Yucatán and Quintana Roo'],['klm','KLM','boarding passes and check-in'],['wa','WhatsApp','hotels and drivers answer there'],['tr','Google Translate','download Spanish offline']];
+function overviewHTML(){
+ const c=computeIt(S.its.D),O=S.ov;
+ const hot=c.st.map(st=>{const h=O.hot[st.b]||{};return`<div class="hcard" style="--bc:${BCOL[st.b]}"><div class="hh"><b>${esc(st.base.n)}</b><span class="mono">${dwd(st.from)} ${dshort(st.from)} – ${dshort(st.to)} · ${st.n} nights</span></div><input class="ovh" data-hb="${st.b}" data-hf="name" type="text" value="${esc(h.name||'')}" placeholder="Hotel name" aria-label="Hotel in ${esc(st.base.n)}"><textarea class="ovh" data-hb="${st.b}" data-hf="ref" rows="2" placeholder="Booking ref, address, check-in time…" aria-label="Notes for ${esc(st.base.n)}">${esc(h.ref||'')}</textarea>${stayHTML(st.b,1)}</div>`;}).join('');
+ const apps=APPS.map(([k,n,d])=>`<label class="td"><input type="checkbox" data-act="ovapp" data-k="${k}" ${O.apps[k]?'checked':''}><span>${esc(n)}<br><span class="hint">${esc(d)}</span></span><span></span></label>`).join('')+O.xapps.map((n,i)=>`<label class="td"><input type="checkbox" data-act="ovapp" data-k="x${i}" ${O.apps['x'+i]?'checked':''}><span>${esc(n)}</span><button class="btn ghost sm" data-act="ovxdel" data-i="${i}" type="button">Remove</button></label>`).join('');
+ return`<div class="phero"><div><div class="eyebrow2">Overview</div><h2 class="edh">Before you go</h2><p class="edlead">Flights, hotels, apps and notes in one place. Everything here is yours to edit and stays on this phone. Hotels you enter also show up on the stop and day pages.</p></div></div>
+ <section class="ps"><div class="edwrap ovw"><h3 class="lab">Flights</h3><textarea class="ovt" data-ov="fl1" rows="3">${esc(O.fl1)}</textarea><textarea class="ovt" data-ov="fl2" rows="3">${esc(O.fl2)}</textarea><textarea class="ovt" data-ov="ref" rows="2" placeholder="Booking reference, flight numbers, seats…">${esc(O.ref)}</textarea><p class="hint">Dates and times from what you told me, not from a ticket. Check against your booking.</p></div></section>
+ <section class="ps"><div class="edwrap ovw"><h3 class="lab">Hotels</h3><p class="hint">One per stop, following your itinerary. Add the Maps link to make distances start from it.</p>${hot}</div></section>
+ <section class="ps"><div class="edwrap ovw"><h3 class="lab">Car</h3><textarea class="ovt" data-ov="car" rows="2">${esc(O.car)}</textarea></div></section>
+ <section class="ps"><div class="edwrap ovw"><h3 class="lab">Apps to download</h3>${apps}<div class="stayform"><input id="xapp" type="text" placeholder="Add an app or a to-do" autocomplete="off"><button class="btn sm" data-act="ovxadd" type="button">Add</button></div><p class="hint">A starting list of my suggestions, not a verified requirement.</p></div></section>
+ <section class="ps"><div class="edwrap ovw"><h3 class="lab">Notes</h3><textarea class="ovt" data-ov="notes" rows="5" placeholder="Insurance, passport, contacts, anything important…">${esc(O.notes)}</textarea></div></section>`;
+}
 const THEMES=[['','Rojo','#C42B2B'],['green','Selva','#1D5A3A'],['black','Noche','#0B0B0B'],['blue','Cenote','#14708C']];
 function headHTML(){
- const tabs=[['plan','Places'],['days','Days'],['map','Map'],['ed','Editorial'],['bld','Edit']];
+ const tabs=[['ov','Overview'],['plan','Places'],['days','Days'],['map','Map'],['ed','Editorial']];
  return`<header class="top"><div><h1 class="logo" aria-label="Dirty Sanchez"><span class="lt">Dirty Sanchez</span>${HATSVG('somb')}<svg class="mus" viewBox="0 0 200 70"><path d="M100 22c-10-9-24-12-40-9C40 16 26 26 18 38c-5 8-3 17 4 19 4 1 8-1 9-5 2-6 8-9 16-9 17 1 38 4 53-3Z M100 22c10-9 24-12 40-9 20 3 34 13 42 25 5 8 3 17-4 19-4 1-8-1-9-5-2-6-8-9-16-9-17 1-38 4-53-3Z"/><path d="M62 22c14-3 28 0 38 6M138 22c-14-3-28 0-38 6" class="hl2"/></svg><svg class="drop" viewBox="0 0 10 16" style="left:4%;top:-0.2em;width:0.16em;transform:rotate(20deg)"><path d="M5 0C5 0 10 8 10 11a5 5 0 0 1-10 0C0 8 5 0 5 0Z"/><ellipse cx="3.3" cy="10" rx="1.1" ry="1.8" class="hl"/></svg><svg class="drop" viewBox="0 0 10 16" style="left:24%;top:0.95em;width:0.12em;transform:rotate(-15deg)"><path d="M5 0C5 0 10 8 10 11a5 5 0 0 1-10 0C0 8 5 0 5 0Z"/><ellipse cx="3.3" cy="10" rx="1.1" ry="1.8" class="hl"/></svg><svg class="drop" viewBox="0 0 10 16" style="left:46%;top:-0.28em;width:0.13em;transform:rotate(10deg)"><path d="M5 0C5 0 10 8 10 11a5 5 0 0 1-10 0C0 8 5 0 5 0Z"/><ellipse cx="3.3" cy="10" rx="1.1" ry="1.8" class="hl"/></svg><svg class="drop" viewBox="0 0 10 16" style="left:63%;top:1.02em;width:0.18em;transform:rotate(-25deg)"><path d="M5 0C5 0 10 8 10 11a5 5 0 0 1-10 0C0 8 5 0 5 0Z"/><ellipse cx="3.3" cy="10" rx="1.1" ry="1.8" class="hl"/></svg><svg class="drop" viewBox="0 0 10 16" style="left:80%;top:-0.18em;width:0.14em;transform:rotate(30deg)"><path d="M5 0C5 0 10 8 10 11a5 5 0 0 1-10 0C0 8 5 0 5 0Z"/><ellipse cx="3.3" cy="10" rx="1.1" ry="1.8" class="hl"/></svg><svg class="drop" viewBox="0 0 10 16" style="left:96%;top:0.7em;width:0.2em;transform:rotate(12deg)"><path d="M5 0C5 0 10 8 10 11a5 5 0 0 1-10 0C0 8 5 0 5 0Z"/><ellipse cx="3.3" cy="10" rx="1.1" ry="1.8" class="hl"/></svg><svg class="drop" viewBox="0 0 10 16" style="left:88%;top:0.98em;width:0.1em;transform:rotate(0deg)"><path d="M5 0C5 0 10 8 10 11a5 5 0 0 1-10 0C0 8 5 0 5 0Z"/><ellipse cx="3.3" cy="10" rx="1.1" ry="1.8" class="hl"/></svg><svg class="drop" viewBox="0 0 10 16" style="left:14%;top:1.05em;width:0.1em;transform:rotate(25deg)"><path d="M5 0C5 0 10 8 10 11a5 5 0 0 1-10 0C0 8 5 0 5 0Z"/><ellipse cx="3.3" cy="10" rx="1.1" ry="1.8" class="hl"/></svg><svg class="drop" viewBox="0 0 10 16" style="left:34%;top:0.62em;width:0.1em;transform:rotate(-8deg)"><path d="M5 0C5 0 10 8 10 11a5 5 0 0 1-10 0C0 8 5 0 5 0Z"/><ellipse cx="3.3" cy="10" rx="1.1" ry="1.8" class="hl"/></svg><svg class="drop" viewBox="0 0 10 16" style="left:71%;top:0.1em;width:0.09em;transform:rotate(15deg)"><path d="M5 0C5 0 10 8 10 11a5 5 0 0 1-10 0C0 8 5 0 5 0Z"/><ellipse cx="3.3" cy="10" rx="1.1" ry="1.8" class="hl"/></svg><svg class="drop" viewBox="0 0 10 16" style="left:57%;top:0.8em;width:0.13em;transform:rotate(5deg)"><path d="M5 0C5 0 10 8 10 11a5 5 0 0 1-10 0C0 8 5 0 5 0Z"/><ellipse cx="3.3" cy="10" rx="1.1" ry="1.8" class="hl"/></svg></h1></div>
- <div class="btns"><nav class="tabs" aria-label="Views">${tabs.map(([k,n])=>`<button data-act="view" data-v="${k}" aria-pressed="${S.view===k||(k==='plan'&&(S.view==='stop'||S.view==='leg'))}">${n}</button>`).join('')}</nav><div class="swatches" role="group" aria-label="Theme colour">${THEMES.map(([k,n,c])=>`<button class="sw" style="--c:${c}" data-act="theme" data-th="${k}" aria-label="${n}" aria-pressed="${(S.th||'')===k}"></button>`).join('')}</div></div></header>`;
+ <div class="btns"><div class="navrow"><nav class="tabs" aria-label="Views">${tabs.map(([k,n])=>`<button data-act="view" data-v="${k}" aria-pressed="${S.view===k||(k==='plan'&&(S.view==='stop'||S.view==='leg'))}">${n}</button>`).join('')}</nav><button class="gear" data-act="view" data-v="bld" aria-label="Edit itinerary and settings" aria-pressed="${S.view==='bld'}"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1Z"/></svg></button></div><div class="swatches" role="group" aria-label="Theme colour">${THEMES.map(([k,n,c])=>`<button class="sw" style="--c:${c}" data-act="theme" data-th="${k}" aria-label="${n}" aria-pressed="${(S.th||'')===k}"></button>`).join('')}</div></div></header>`;
 }
 function bodyHTML(){
+ if(S.view==='ov')return`<div class="body v-one"><section class="plan">${overviewHTML()}</section></div>`;
  if(S.view==='plan')return`<div class="body v-one"><section class="plan">${homeHTML()}</section></div>`;
  if(S.view==='stop')return`<div class="body v-one"><section class="plan">${stopHTML()}</section></div>`;
  if(S.view==='leg')return`<div class="body v-one"><section class="plan">${legHTML()}</section></div>`;
@@ -2794,6 +2819,9 @@ document.addEventListener('click',e=>{
   case'edopen':{const e=EDITORIAL.find(x=>x.id===d.e);if(e){S.ed=e.id;S.edDay=e.day;S.view='ed';S.toTop=1;}break;}
   case'gkeysave':{const v=(document.getElementById('gkey')||{}).value.trim();if(v){try{localStorage.setItem('yuc-gkey',v);}catch(_){}IMGC={};imgSave();S.imgmsg='Key saved, cache cleared. Tap Test photos.';}break;}
   case'gkeyoff':try{localStorage.removeItem('yuc-gkey');}catch(_){}IMGC={};imgSave();S.imgmsg='Key removed.';break;
+  case'ovapp':S.ov.apps[d.k]=t.checked;save();return;
+  case'ovxadd':{const i=document.getElementById('xapp'),v=i?i.value.trim():'';if(v)S.ov.xapps.push(v);break;}
+  case'ovxdel':S.ov.xapps.splice(+d.i,1);S.ov.apps={};break;
   case'imgclear':IMGC={};imgSave();S.imgmsg='Cache cleared. Open Places to reload photos.';break;
   case'imgtest':{S.imgmsg='Testing…';const m=document.getElementById('imgmsg');if(m)m.textContent=S.imgmsg;(async()=>{let out=[];if(GKEY()){try{const ph=await googlePhotos('Picheta Mérida Yucatán');out.push('Google OK · '+ph.length+' photos');if(ph[0])await new Promise(res=>{const im=new Image();im.onload=()=>{out.push('image OK '+im.naturalWidth+'px');res();};im.onerror=()=>{out.push('image FAILED');res();};im.src=ph[0].t;});}catch(e){out.push('ERROR '+e.message);}S.imgmsg=out.join(' · ');const m3=document.getElementById('imgmsg');if(m3)m3.textContent=S.imgmsg;return;}try{const r=await fetch(WAPI+'w/api.php?action=query&generator=search&gsrsearch=Casa%20Montejo&gsrlimit=1&prop=pageimages&piprop=thumbnail&pithumbsize=330&format=json&origin=*');out.push('API '+r.status);const j=await r.json();const p=Object.values(j.query.pages)[0];out.push(p.title);const u=p.thumbnail&&p.thumbnail.source;if(u){await new Promise(res=>{const im=new Image();im.onload=()=>{out.push('image OK '+im.naturalWidth+'px');res();};im.onerror=()=>{out.push('image FAILED');res();};im.src=u;});}else out.push('no thumbnail');}catch(e){out.push('ERROR '+e.message);}S.imgmsg=out.join(' · ');const m2=document.getElementById('imgmsg');if(m2)m2.textContent=S.imgmsg;})();return;}
   case'edback':S.ed=null;S.toTop=1;break;
@@ -2852,6 +2880,8 @@ document.addEventListener('input',e=>{
  if(t.classList.contains('thh')){const x=ensDay(+t.dataset.d).items[+t.dataset.i];if(x){x.h=t.value;save();}}
  if(t.classList.contains('tin')){const x=ensDay(+t.dataset.d).items[+t.dataset.i];if(x){x.t=t.value;save();}}
  if(t.classList.contains('dplan')){ensDay(+t.dataset.d).plan=t.value;t.rows=1;t.style.height='auto';t.style.height=t.scrollHeight+'px';save();return;}
+ if(t.dataset.ov){S.ov[t.dataset.ov]=t.value;save();return;}
+ if(t.dataset.hb){const h=S.ov.hot[t.dataset.hb]||(S.ov.hot[t.dataset.hb]={});h[t.dataset.hf]=t.value;save();return;}
  if(t.classList.contains('dnote')){ensDay(+t.dataset.d).note=t.value;save();}
  if(t.id==='tripnote'){S.trip=t.value;save();}
  if(t.id==='rad'){S.f.rad=+t.value;const v=$('#radv');if(v)v.textContent=fmtH(S.f.rad);updateCenter();}
@@ -2909,7 +2939,7 @@ window.addEventListener('resize',()=>{drawMap();});
 /* Il refresh ricarica la pagina corrente, non riparte dalla home */
 (function(){
  try{const n=JSON.parse(sessionStorage.getItem('yuc-nav')||'null');
-  if(n&&['plan','stop','leg','days','map','ed','bld'].includes(n.view)){
+  if(n&&['ov','plan','stop','leg','days','map','ed','bld'].includes(n.view)){
    const okStop=n.view!=='stop'||(n.cur&&STOPS[n.cur]),okLeg=n.view!=='leg'||typeof n.cur==='number';
    if(okStop&&okLeg){S.view=n.view;if(n.ed&&typeof EDITORIAL!=='undefined'&&EDITORIAL.some(x=>x.id===n.ed))S.ed=n.ed;if(n.cur!=null)S.cur=n.cur;if(n.sel&&(n.sel.t==='p'?POI[n.sel.id]:BASES[n.sel.id]))S.sel=n.sel;
     if(n.bld&&S.its[n.bld])S.bld=n.bld;if(n.dtab)S.dtab=n.dtab;if(typeof n.cx==='number'&&n.cx){S.cx=n.cx;S.cy=n.cy;S.vbw=n.vbw||0;}}}
