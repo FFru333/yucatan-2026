@@ -1910,7 +1910,7 @@ function edDetail(e){
 }
 /* ===== PHOTOS: fetched live from Wikipedia / Wikimedia Commons (free-licence images), cached on the phone =====
    Nothing is bundled: if the network or Wikipedia has nothing for a spot, no photo strip is shown. */
-const IMGK='yuc-img-4';
+const IMGK='yuc-img-5';
 let IMGC={};try{IMGC=JSON.parse(localStorage.getItem(IMGK)||'{}');}catch(_){}
 const imgSave=()=>{try{localStorage.setItem(IMGK,JSON.stringify(IMGC));}catch(_){try{IMGC={};localStorage.removeItem(IMGK);}catch(__){}}};
 const imgKey=s=>normT(s).replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
@@ -1941,13 +1941,13 @@ async function mediaOf(title){
  (j.items||[]).forEach(it=>{
   if(it.type!=='image'||!it.srcset||!it.srcset.length||BADIMG.test(it.title||''))return;
   const ss=it.srcset,s=ss[ss.length-1].src;
-  out.push({t:sized(s,320),m:sized(s,640),f:'https://commons.wikimedia.org/wiki/'+(it.title||'').replace(/ /g,'_'),n:(it.title||'').replace(/^File:/,'').replace(/\.[a-z]+$/i,'').replace(/_/g,' ')});
+  out.push({t:sized(s,330),m:sized(s,960),f:'https://commons.wikimedia.org/wiki/'+(it.title||'').replace(/ /g,'_'),n:(it.title||'').replace(/^File:/,'').replace(/\.[a-z]+$/i,'').replace(/_/g,' ')});
  });
  return out;
 }
 /* find the best matching article for a query; accept only if its title shares a distinctive word with the spot name */
 async function findPage(q,name,any){
- const u=WAPI+'w/api.php?action=query&generator=search&gsrsearch='+encodeURIComponent(q)+'&gsrlimit=3&prop=pageimages&piprop=thumbnail&pithumbsize=640&format=json&origin=*';
+ const u=WAPI+'w/api.php?action=query&generator=search&gsrsearch='+encodeURIComponent(q)+'&gsrlimit=3&prop=pageimages&piprop=thumbnail&pithumbsize=500&format=json&origin=*';
  const j=await jget(u),pg=Object.values((j.query&&j.query.pages)||{}).sort((a,b)=>a.index-b.index);
  return any?(pg[0]||null):(pg.find(p=>titleOk(p.title,name))||null);
 }
@@ -1961,7 +1961,7 @@ async function loadPhotos2(key,spec){
  if(spec.parts){for(const pt of spec.parts){const r=await photosFor(imgKey(pt.key||pt.name),pt);photos.push(...(pt.skip?r.slice(1):r));}IMGC[key]={ts:Date.now(),ph:photos};imgSave();return photos;}
  try{
   let title=spec.title,thumb=null;
-  if(!title){const p=await findPage(spec.q||spec.name,spec.name,spec.any);if(p){title=p.title;if(p.thumbnail)thumb={t:sized(p.thumbnail.source,320),m:sized(p.thumbnail.source,640),f:WAPI+'wiki/'+encodeURIComponent(p.title.replace(/ /g,'_')),n:p.title};}}
+  if(!title){const p=await findPage(spec.q||spec.name,spec.name,spec.any);if(p){title=p.title;if(p.thumbnail)thumb={t:sized(p.thumbnail.source,330),m:sized(p.thumbnail.source,960),f:WAPI+'wiki/'+encodeURIComponent(p.title.replace(/ /g,'_')),n:p.title};}}
   if(title){
    if(spec.one){photos=thumb?[thumb]:(await mediaOf(title)).slice(0,1);}
    else{photos=await mediaOf(title);if(thumb&&!photos.length)photos=[thumb];}
@@ -2765,7 +2765,7 @@ document.addEventListener('click',e=>{
   case'view':S.view=d.v;S.toTop=1;if(d.v==='ed')S.ed=null;break;
   case'edopen':{const e=EDITORIAL.find(x=>x.id===d.e);if(e){S.ed=e.id;S.edDay=e.day;S.view='ed';S.toTop=1;}break;}
   case'imgclear':IMGC={};imgSave();S.imgmsg='Cache cleared. Open Places to reload photos.';break;
-  case'imgtest':{S.imgmsg='Testing…';const m=document.getElementById('imgmsg');if(m)m.textContent=S.imgmsg;(async()=>{let out=[];try{const r=await fetch(WAPI+'w/api.php?action=query&generator=search&gsrsearch=Casa%20Montejo&gsrlimit=1&prop=pageimages&piprop=thumbnail&pithumbsize=320&format=json&origin=*');out.push('API '+r.status);const j=await r.json();const p=Object.values(j.query.pages)[0];out.push(p.title);const u=p.thumbnail&&p.thumbnail.source;if(u){await new Promise(res=>{const im=new Image();im.onload=()=>{out.push('image OK '+im.naturalWidth+'px');res();};im.onerror=()=>{out.push('image FAILED');res();};im.src=u;});}else out.push('no thumbnail');}catch(e){out.push('ERROR '+e.message);}S.imgmsg=out.join(' · ');const m2=document.getElementById('imgmsg');if(m2)m2.textContent=S.imgmsg;})();return;}
+  case'imgtest':{S.imgmsg='Testing…';const m=document.getElementById('imgmsg');if(m)m.textContent=S.imgmsg;(async()=>{let out=[];try{const r=await fetch(WAPI+'w/api.php?action=query&generator=search&gsrsearch=Casa%20Montejo&gsrlimit=1&prop=pageimages&piprop=thumbnail&pithumbsize=330&format=json&origin=*');out.push('API '+r.status);const j=await r.json();const p=Object.values(j.query.pages)[0];out.push(p.title);const u=p.thumbnail&&p.thumbnail.source;if(u){await new Promise(res=>{const im=new Image();im.onload=()=>{out.push('image OK '+im.naturalWidth+'px');res();};im.onerror=()=>{out.push('image FAILED');res();};im.src=u;});}else out.push('no thumbnail');}catch(e){out.push('ERROR '+e.message);}S.imgmsg=out.join(' · ');const m2=document.getElementById('imgmsg');if(m2)m2.textContent=S.imgmsg;})();return;}
   case'edback':S.ed=null;S.toTop=1;break;
   case'stop':S.view='stop';S.cur=d.b;S.addDay=null;S.toTop=1;break;
   case'leg':S.view='leg';S.cur=+d.i;S.addDay=null;S.toTop=1;break;
