@@ -1904,7 +1904,7 @@ function edDetail(e){
  const opts=Array.from({length:15},(_,d)=>`<option value="${d}" ${d===S.edDay?'selected':''}>${dshort(d)}</option>`).join('');
  const d=S.edDay;
  const gs=e.groups.map(([g,list])=>`<h5 class="tier">${esc(g)} <span class="mono">${list.length}</span></h5><ul class="ideas">${list.map(([n,note,area,fl])=>{const on=hasItem(d,n);
-  return`<li class="idea"><div class="cit"><b>${esc(n)}</b><span class="mono pill tag">${esc(area)}</span></div><p>${esc(note)}</p>${galHTML({name:n,q:n+' '+area+' Yucatán',v:/^(Eat|Shop|Stay)/.test(g)?1:0})}${fl==='p'?'<p class="hint">Private on that trip, not open to visit. Check before planning around it.</p>':''}<div class="cia"><a href="${esc(edMaps(n,area))}" target="_blank" rel="noopener noreferrer">Maps ↗</a><a href="${esc('https://www.google.com/search?tbm=isch&q='+encodeURIComponent(n+' '+area+' Yucatán'))}" target="_blank" rel="noopener noreferrer">Photos ↗</a><button class="btn sm ${on?'ghost':''}" data-act="gadd" data-d="${d}" data-n="${esc(n)}" ${on||fl==='p'?'disabled':''}>${on?'✓ in the day':fl==='p'?'—':'+ Add'}</button></div></li>`;}).join('')}</ul>`).join('');
+  return`<li class="idea"><div class="cit"><b>${esc(n)}</b><span class="mono pill tag">${esc(area)}</span></div><p>${esc(note)}</p>${galHTML({name:n,q:n+' '+area+' Yucatán',v:(g==='See'||n==='Izamal'||/^Iglesia/.test(n))?0:1})}${fl==='p'?'<p class="hint">Private on that trip, not open to visit. Check before planning around it.</p>':''}<div class="cia"><a href="${esc(edMaps(n,area))}" target="_blank" rel="noopener noreferrer">Maps ↗</a><a href="${esc('https://www.google.com/search?tbm=isch&q='+encodeURIComponent(n+' '+area+' Yucatán'))}" target="_blank" rel="noopener noreferrer">Photos ↗</a><button class="btn sm ${on?'ghost':''}" data-act="gadd" data-d="${d}" data-n="${esc(n)}" ${on||fl==='p'?'disabled':''}>${on?'✓ in the day':fl==='p'?'—':'+ Add'}</button></div></li>`;}).join('')}</ul>`).join('');
  return`<button class="btn sm back" data-act="edback">← Editorial</button>
  <div class="edhero ${t.on?'on':'pend'} hero-img" data-gk="${imgKey(t.spec.key)}" data-spec="${esc(JSON.stringify(t.spec))}" style="${t.bg}"><span class="hi"><span class="hm">${esc(e.by)} · ${esc(e.date)}</span><span class="hn">${esc(e.title)}</span></span></div>
  <div class="edwrap"><div class="edintro"><p>${esc(e.blurb)}</p><p class="hint">By ${esc(e.author)}. <a href="${esc(e.url)}" target="_blank" rel="noopener noreferrer">Read the original ↗</a> Hours and opening days not checked.</p>
@@ -2453,11 +2453,11 @@ function dayOpts(from,to,c,sel){let o='';for(let d=from;d<=Math.min(to,c.total);
 function hasItem(d,t){return getDay(d).items.some(x=>x.t===t);}
 function itemHTML(it,scope,key,day,place){
  const[t,dtl,meta,q,u]=it,on=hasItem(day,t);
- return`<li class="ci"><div class="cit"><b>${esc(t)}</b>${meta?`<span class="mono pill">${esc(meta)}</span>`:''}</div>${dtl?`<p>${esc(dtl)}</p>`:''}${galHTML({name:t,q:t+' '+place,v:['eat','buy','eve'].includes(key.split('|')[1])?1:0})}
+ return`<li class="ci"><div class="cit"><b>${esc(t)}</b>${meta?`<span class="mono pill">${esc(meta)}</span>`:''}</div>${dtl?`<p>${esc(dtl)}</p>`:''}${galHTML({name:t,q:t+' '+place,v:['eat','buy','eve','chill'].includes(key.split('|')[1])?1:0})}
  <div class="cia">${qBd(q)}${u?`<a href="${esc(u)}" target="_blank" rel="noopener noreferrer">source ↗</a>`:''}<a href="${esc(SMAP(t+' '+place))}" target="_blank" rel="noopener noreferrer">Maps ↗</a><a href="${esc('https://www.google.com/search?tbm=isch&q='+encodeURIComponent(t+' '+place))}" target="_blank" rel="noopener noreferrer">Photos ↗</a><button class="btn sm ${on?'ghost':''}" data-act="stadd" data-s="${scope}" data-k="${key}" data-d="${day}" ${on?'disabled':''}>${on?'✓ in the day':'+ day'}</button></div></li>`;
 }
 function spotGal(name,bid,tag){
- const v=tag==='eat'||tag==='night'||tag==='shop'?1:0;
+ const v=['eat','night','shop','chill'].includes(tag)?1:0;
  return galHTML({name,q:name+' '+(GPLACE[bid]||''),v});
 }
 function homeHTML(){
