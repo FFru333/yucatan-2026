@@ -1904,7 +1904,7 @@ function edDetail(e){
  const opts=Array.from({length:15},(_,d)=>`<option value="${d}" ${d===S.edDay?'selected':''}>${dshort(d)}</option>`).join('');
  const d=S.edDay;
  const gs=e.groups.map(([g,list])=>`<h5 class="tier">${esc(g)} <span class="mono">${list.length}</span></h5><ul class="ideas">${list.map(([n,note,area,fl])=>{const on=hasItem(d,n);
-  return`<li class="idea"><div class="cit"><b>${esc(n)}</b><span class="mono pill tag">${esc(area)}</span></div><p>${esc(note)}</p>${galHTML({name:n,q:n+' '+area+' Yucatán'})}${fl==='p'?'<p class="hint">Private on that trip, not open to visit. Check before planning around it.</p>':''}<div class="cia"><a href="${esc(edMaps(n,area))}" target="_blank" rel="noopener noreferrer">Maps ↗</a><a href="${esc('https://www.google.com/search?tbm=isch&q='+encodeURIComponent(n+' '+area+' Yucatán'))}" target="_blank" rel="noopener noreferrer">Photos ↗</a><button class="btn sm ${on?'ghost':''}" data-act="gadd" data-d="${d}" data-n="${esc(n)}" ${on||fl==='p'?'disabled':''}>${on?'✓ in the day':fl==='p'?'—':'+ Add'}</button></div></li>`;}).join('')}</ul>`).join('');
+  return`<li class="idea"><div class="cit"><b>${esc(n)}</b><span class="mono pill tag">${esc(area)}</span></div><p>${esc(note)}</p>${galHTML({name:n,q:n+' '+area+' Yucatán',v:/^(Eat|Shop|Stay)/.test(g)?1:0})}${fl==='p'?'<p class="hint">Private on that trip, not open to visit. Check before planning around it.</p>':''}<div class="cia"><a href="${esc(edMaps(n,area))}" target="_blank" rel="noopener noreferrer">Maps ↗</a><a href="${esc('https://www.google.com/search?tbm=isch&q='+encodeURIComponent(n+' '+area+' Yucatán'))}" target="_blank" rel="noopener noreferrer">Photos ↗</a><button class="btn sm ${on?'ghost':''}" data-act="gadd" data-d="${d}" data-n="${esc(n)}" ${on||fl==='p'?'disabled':''}>${on?'✓ in the day':fl==='p'?'—':'+ Add'}</button></div></li>`;}).join('')}</ul>`).join('');
  return`<button class="btn sm back" data-act="edback">← Editorial</button>
  <div class="edhero ${t.on?'on':'pend'} hero-img" data-gk="${imgKey(t.spec.key)}" data-spec="${esc(JSON.stringify(t.spec))}" style="${t.bg}"><span class="hi"><span class="hm">${esc(e.by)} · ${esc(e.date)}</span><span class="hn">${esc(e.title)}</span></span></div>
  <div class="edwrap"><div class="edintro"><p>${esc(e.blurb)}</p><p class="hint">By ${esc(e.author)}. <a href="${esc(e.url)}" target="_blank" rel="noopener noreferrer">Read the original ↗</a> Hours and opening days not checked.</p>
@@ -1918,6 +1918,14 @@ const imgSave=()=>{try{localStorage.setItem(IMGK,JSON.stringify(IMGC));}catch(_)
 const imgKey=s=>normT(s).replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
 const WAPI='https://en.wikipedia.org/';
 const BADIMG=/\.svg|\.gif|\.webm|\.ogv|\.tif|map|flag|logo|coat[_ ]of|locator|icon|symbol|diagram|plan[_ .]|seal|signature|commons-|wiki|poster|stub/i;
+const GKEY=()=>{try{return localStorage.getItem('yuc-gkey')||'';}catch(_){return'';}};
+async function googlePhotos(q){
+ const k=GKEY();
+ const r=await fetch('https://places.googleapis.com/v1/places:searchText',{method:'POST',headers:{'Content-Type':'application/json','X-Goog-Api-Key':k,'X-Goog-FieldMask':'places.displayName,places.photos,places.googleMapsUri'},body:JSON.stringify({textQuery:q,maxResultCount:1})});
+ if(!r.ok){let m='';try{m=(await r.json()).error.message;}catch(_){}IMGLOG='Google '+r.status+' '+m;const e=new Error(IMGLOG);e.google=1;throw e;}
+ const j=await r.json(),pl=(j.places||[])[0];if(!pl||!pl.photos)return[];
+ return pl.photos.slice(0,8).map(ph=>({t:'https://places.googleapis.com/v1/'+ph.name+'/media?maxHeightPx=260&key='+k,m:'https://places.googleapis.com/v1/'+ph.name+'/media?maxWidthPx=1000&key='+k,f:pl.googleMapsUri||'https://www.google.com/maps',n:(pl.displayName&&pl.displayName.text)||'',g:1}));
+}
 const IMG_RETRY=864e5,IMG_FAILRETRY=3*60e3;
 const imgHold=c=>!!(c&&c.ts&&Date.now()-c.ts<(c.fail?IMG_FAILRETRY:IMG_RETRY));
 let IMGLOG='';
@@ -1971,6 +1979,11 @@ async function loadPhotos(key,spec){
 }
 async function loadPhotos2(key,spec){
  let photos=[];
+ if(GKEY()&&!spec.parts){
+  try{photos=(await googlePhotos(spec.q||spec.name)).slice(0,spec.one?1:(spec.n||8));}catch(_){IMGC[key]={ts:Date.now(),fail:1};return null;}
+  if(spec.cap)photos.forEach(p=>{p.c=spec.cap;});
+  IMGC[key]={ts:Date.now(),ph:photos};imgSave();return photos;
+ }
  if(spec.parts){for(const pt of spec.parts){const r=await photosFor(imgKey(pt.key||pt.name),pt);photos.push(...(pt.skip?r.slice(1):r));}IMGC[key]={ts:Date.now(),ph:photos};imgSave();return photos;}
  try{
   let title=spec.title,thumb=null;
@@ -1997,6 +2010,7 @@ const imgTag=(p,i,gk)=>`<img src="${esc(p.t)}" alt="${esc(p.c||p.n)}" loading="l
 function stripHTML(ph,gk){return`<div class="gal" data-gk="${gk}">${ph.map((p,i)=>`<figure>${imgTag(p,i,gk)}${p.c?`<figcaption>${esc(p.c)}</figcaption>`:''}</figure>`).join('')}</div>`;}
 /* placeholder or cached strip. spec is stored on the element for hydration */
 function galHTML(spec){
+ if(spec.v&&!GKEY())return'';
  const key=imgKey(spec.key||spec.name),c=IMGC[key];
  if(c&&c.ph)return c.ph.length?stripHTML(c.ph,key):'';
  if(imgHold(c))return'';
@@ -2035,7 +2049,7 @@ function imgScan(){
   const p=list[idx],im=lb.querySelector('img');
   im.onerror=()=>{im.onerror=null;im.src=p.t;};
   im.src=p.m;im.alt=p.c||p.n;
-  lb.querySelector('.lbc').innerHTML=`${p.c?`<b>${esc(p.c)}</b> · `:''}${esc(p.n)} · <a href="${esc(p.f)}" target="_blank" rel="noopener noreferrer">Wikimedia: author and licence ↗</a> · ${idx+1}/${list.length}`;
+  lb.querySelector('.lbc').innerHTML=`${p.c?`<b>${esc(p.c)}</b> · `:''}${esc(p.n)} · <a href="${esc(p.f)}" target="_blank" rel="noopener noreferrer">${p.g?'Google Maps ↗':'Wikimedia: author and licence ↗'}</a> · ${idx+1}/${list.length}`;
   lb.classList.toggle('one',list.length<2);
  }
  function go(d){idx=(idx+d+list.length)%list.length;show();}
@@ -2439,11 +2453,12 @@ function dayOpts(from,to,c,sel){let o='';for(let d=from;d<=Math.min(to,c.total);
 function hasItem(d,t){return getDay(d).items.some(x=>x.t===t);}
 function itemHTML(it,scope,key,day,place){
  const[t,dtl,meta,q,u]=it,on=hasItem(day,t);
- return`<li class="ci"><div class="cit"><b>${esc(t)}</b>${meta?`<span class="mono pill">${esc(meta)}</span>`:''}</div>${dtl?`<p>${esc(dtl)}</p>`:''}${galHTML({name:t,q:t+' '+place})}
+ return`<li class="ci"><div class="cit"><b>${esc(t)}</b>${meta?`<span class="mono pill">${esc(meta)}</span>`:''}</div>${dtl?`<p>${esc(dtl)}</p>`:''}${galHTML({name:t,q:t+' '+place,v:['eat','buy','eve'].includes(key.split('|')[1])?1:0})}
  <div class="cia">${qBd(q)}${u?`<a href="${esc(u)}" target="_blank" rel="noopener noreferrer">source ↗</a>`:''}<a href="${esc(SMAP(t+' '+place))}" target="_blank" rel="noopener noreferrer">Maps ↗</a><a href="${esc('https://www.google.com/search?tbm=isch&q='+encodeURIComponent(t+' '+place))}" target="_blank" rel="noopener noreferrer">Photos ↗</a><button class="btn sm ${on?'ghost':''}" data-act="stadd" data-s="${scope}" data-k="${key}" data-d="${day}" ${on?'disabled':''}>${on?'✓ in the day':'+ day'}</button></div></li>`;
 }
 function spotGal(name,bid,tag){
- return galHTML({name,q:name+' '+(GPLACE[bid]||'')});
+ const v=tag==='eat'||tag==='night'||tag==='shop'?1:0;
+ return galHTML({name,q:name+' '+(GPLACE[bid]||''),v});
 }
 function homeHTML(){
  const it=S.its.D,c=computeIt(it);
@@ -2500,7 +2515,7 @@ const SHORT={pm:'P. Morelos',hol:'Holbox',val:'Valladolid',mer:'Mérida',ism:'I.
 const itName=id=>S.its[id].name;
 
 /* ===== BUILD ===== */
-function imgTestHTML(){return`<div class="panel" style="margin-bottom:12px"><h3 class="lab">Photos</h3><p class="hint">Photos load live from Wikipedia. If none appear, tap the test and tell me what it says.</p><button class="btn sm" data-act="imgtest">Test photos</button> <button class="btn ghost sm" data-act="imgclear">Clear photo cache</button><p class="hint" id="imgmsg">${esc(S.imgmsg||'')}</p></div>`;}
+function imgTestHTML(){return`<div class="panel" style="margin-bottom:12px"><h3 class="lab">Photos</h3><p class="hint">${GKEY()?'Photos come from Google Maps (your key).':'Without a key, photos come from Wikipedia and only for landmarks.'} To get the Google Maps photos of each place, paste a Google Maps Platform API key (Places API (New) enabled). It stays on this phone only.</p><input id="gkey" type="password" autocomplete="off" placeholder="${GKEY()?'key saved — paste a new one to replace':'AIza…'}"> <button class="btn sm" data-act="gkeysave" style="margin:6px 0">Save key</button> <button class="btn ghost sm" data-act="gkeyoff" style="margin:6px 0">Remove key</button><br><button class="btn sm" data-act="imgtest">Test photos</button> <button class="btn ghost sm" data-act="imgclear">Clear photo cache</button><p class="hint" id="imgmsg">${esc(S.imgmsg||'')}</p></div>`;}
 function bldHTML(){
  const id=S.bld,it=S.its[id],c=computeIt(it);
  const meter=c.st.map(s=>`<i style="width:${s.n/Math.max(14,c.total)*100}%;background:${BCOL[s.b]};border-right:1.5px solid var(--edge)" title="${esc(s.base.n)} ${s.n}"></i>`).join('');
@@ -2777,8 +2792,10 @@ document.addEventListener('click',e=>{
  switch(d.act){
   case'view':S.view=d.v;S.toTop=1;if(d.v==='ed')S.ed=null;break;
   case'edopen':{const e=EDITORIAL.find(x=>x.id===d.e);if(e){S.ed=e.id;S.edDay=e.day;S.view='ed';S.toTop=1;}break;}
+  case'gkeysave':{const v=(document.getElementById('gkey')||{}).value.trim();if(v){try{localStorage.setItem('yuc-gkey',v);}catch(_){}IMGC={};imgSave();S.imgmsg='Key saved, cache cleared. Tap Test photos.';}break;}
+  case'gkeyoff':try{localStorage.removeItem('yuc-gkey');}catch(_){}IMGC={};imgSave();S.imgmsg='Key removed.';break;
   case'imgclear':IMGC={};imgSave();S.imgmsg='Cache cleared. Open Places to reload photos.';break;
-  case'imgtest':{S.imgmsg='Testing…';const m=document.getElementById('imgmsg');if(m)m.textContent=S.imgmsg;(async()=>{let out=[];try{const r=await fetch(WAPI+'w/api.php?action=query&generator=search&gsrsearch=Casa%20Montejo&gsrlimit=1&prop=pageimages&piprop=thumbnail&pithumbsize=330&format=json&origin=*');out.push('API '+r.status);const j=await r.json();const p=Object.values(j.query.pages)[0];out.push(p.title);const u=p.thumbnail&&p.thumbnail.source;if(u){await new Promise(res=>{const im=new Image();im.onload=()=>{out.push('image OK '+im.naturalWidth+'px');res();};im.onerror=()=>{out.push('image FAILED');res();};im.src=u;});}else out.push('no thumbnail');}catch(e){out.push('ERROR '+e.message);}S.imgmsg=out.join(' · ');const m2=document.getElementById('imgmsg');if(m2)m2.textContent=S.imgmsg;})();return;}
+  case'imgtest':{S.imgmsg='Testing…';const m=document.getElementById('imgmsg');if(m)m.textContent=S.imgmsg;(async()=>{let out=[];if(GKEY()){try{const ph=await googlePhotos('Picheta Mérida Yucatán');out.push('Google OK · '+ph.length+' photos');if(ph[0])await new Promise(res=>{const im=new Image();im.onload=()=>{out.push('image OK '+im.naturalWidth+'px');res();};im.onerror=()=>{out.push('image FAILED');res();};im.src=ph[0].t;});}catch(e){out.push('ERROR '+e.message);}S.imgmsg=out.join(' · ');const m3=document.getElementById('imgmsg');if(m3)m3.textContent=S.imgmsg;return;}try{const r=await fetch(WAPI+'w/api.php?action=query&generator=search&gsrsearch=Casa%20Montejo&gsrlimit=1&prop=pageimages&piprop=thumbnail&pithumbsize=330&format=json&origin=*');out.push('API '+r.status);const j=await r.json();const p=Object.values(j.query.pages)[0];out.push(p.title);const u=p.thumbnail&&p.thumbnail.source;if(u){await new Promise(res=>{const im=new Image();im.onload=()=>{out.push('image OK '+im.naturalWidth+'px');res();};im.onerror=()=>{out.push('image FAILED');res();};im.src=u;});}else out.push('no thumbnail');}catch(e){out.push('ERROR '+e.message);}S.imgmsg=out.join(' · ');const m2=document.getElementById('imgmsg');if(m2)m2.textContent=S.imgmsg;})();return;}
   case'edback':S.ed=null;S.toTop=1;break;
   case'stop':S.view='stop';S.cur=d.b;S.addDay=null;S.toTop=1;break;
   case'leg':S.view='leg';S.cur=+d.i;S.addDay=null;S.toTop=1;break;
