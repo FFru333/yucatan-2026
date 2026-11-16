@@ -545,9 +545,8 @@ body{background-color:var(--page);background-image:url("data:image/svg+xml,%3Csv
 .staychip a{color:var(--accent);font-weight:600}
 .stayform{display:flex;gap:8px}.stayin{flex:1;min-width:0;border:2px solid var(--line);border-radius:10px;background:var(--bg);padding:9px 12px;min-height:40px}
 .hint.warn{color:var(--red);font-weight:600}
-.macros{display:flex;gap:8px;overflow-x:auto;padding:4px 2px 10px;margin:0 -2px;scrollbar-width:none}
-.macros::-webkit-scrollbar{display:none}
-.macros .chip{flex:none;padding:7px 13px;font-size:13px}
+.macros{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;padding:4px 0 12px}
+.macros .chip{width:100%;justify-content:center;text-align:center;padding:9px 4px;font-size:13px;white-space:nowrap}
 .macros .chip[aria-pressed=true]{background:var(--gold);color:#111;border-color:var(--edge)}
 .tier{margin:14px 0 6px;font:500 11px var(--fm);letter-spacing:.08em;text-transform:uppercase;color:var(--ink-2)}
 .ideas{list-style:none;margin:0;padding:0;display:grid;gap:10px}
@@ -1746,7 +1745,7 @@ const accNode=bid=>NODES[(BASES[bid]||{}).access||bid]||BASES[bid];
 function tripDirUrl(c){const ids=c.st.map(x=>x.b);return dirUrl(BASES.cun,BASES.cun,ids.map(accNode));}
 function tipList(arr,ic){return arr.length?`<ul class="tips">${arr.map(([t,u,k])=>`<li><span class="ti">${ic}</span><span>${esc(t)} ${u?`<a href="${esc(u)}" target="_blank" rel="noopener noreferrer">source ↗</a>`:`<span class="hint">my take</span>`}</span></li>`).join('')}</ul>`:'';}
 /* ===== STAY + IDEAS ===== */
-const MACROS=[['top','Top picks'],['chill','Chill'],['nature','Beach & nature'],['culture','Culture & sights'],['eat','Eat & drink'],['shop','Shops'],['night','Evening']];
+const MACROS=[['top','Top'],['chill','Chill'],['nature','Beach'],['culture','Culture'],['eat','Eat'],['shop','Shops'],['night','Night']];
 const TIERS=['Right around you','A short ride','Further out'];
 const CORE_MACRO={'Longaniza and lomitos':'eat','Cenote Zací':'nature','Ek Balam':'culture','Lucas de Gálvez Market':'eat','Guadalupe festival at San Cristóbal':'culture','Serenata Yucateca':'night','The island on foot and the murals':'culture','Punta Cocos':'nature','Three-islands tour':'nature','Lagoon of seven colours':'nature','José María Morelos Municipal Market':'eat','Leaning lighthouse':'culture','Artisans market':'shop'};
 const STOPCATS=['core','see','reach','eat','trad','buy','chill','eve'];
