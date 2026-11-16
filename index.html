@@ -1910,17 +1910,31 @@ function edDetail(e){
 }
 /* ===== PHOTOS: fetched live from Wikipedia / Wikimedia Commons (free-licence images), cached on the phone =====
    Nothing is bundled: if the network or Wikipedia has nothing for a spot, no photo strip is shown. */
-const IMGK='yuc-img-3';
+const IMGK='yuc-img-4';
 let IMGC={};try{IMGC=JSON.parse(localStorage.getItem(IMGK)||'{}');}catch(_){}
 const imgSave=()=>{try{localStorage.setItem(IMGK,JSON.stringify(IMGC));}catch(_){try{IMGC={};localStorage.removeItem(IMGK);}catch(__){}}};
 const imgKey=s=>normT(s).replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
 const WAPI='https://en.wikipedia.org/';
 const BADIMG=/\.svg|\.gif|\.webm|\.ogv|\.tif|map|flag|logo|coat[_ ]of|locator|icon|symbol|diagram|plan[_ .]|seal|signature|commons-|wiki|poster|stub/i;
-const IMG_RETRY=3*864e5;
+const IMG_RETRY=864e5,IMG_FAILRETRY=3*60e3;
+const imgHold=c=>!!(c&&c.ts&&Date.now()-c.ts<(c.fail?IMG_FAILRETRY:IMG_RETRY));
+let IMGLOG='';
+const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+let imgBusy=0;const imgWait=[];
+async function imgSlot(){if(imgBusy>=3)await new Promise(r=>imgWait.push(r));imgBusy++;}
+function imgFree(){imgBusy--;const n=imgWait.shift();if(n)n();}
 const sized=(u,w)=>{u=u.startsWith('//')?'https:'+u:u;return u.replace(/\/(\d+)px-/,'/'+w+'px-');};
 function tokens(s){return normT(s).split(/[^a-z0-9]+/).filter(w=>w.length>=4&&!STOPW.has(w));}
 function titleOk(title,name){const A=tokens(title),B=tokens(name);return B.length?A.some(w=>B.includes(w)):false;}
-async function jget(u){const r=await fetch(u,{headers:{Accept:'application/json'}});if(!r.ok)throw new Error(r.status);return r.json();}
+async function jget(u){
+ let err;
+ for(let k=0;k<3;k++){
+  try{const r=await fetch(u);if(r.ok)return await r.json();err=new Error('HTTP '+r.status);if(r.status<429&&r.status!==408)break;}
+  catch(e){err=e;}
+  await sleep(700*(k+1));
+ }
+ IMGLOG=String(err&&err.message||err);throw err;
+}
 async function mediaOf(title){
  const j=await jget(WAPI+'api/rest_v1/page/media-list/'+encodeURIComponent(title.replace(/ /g,'_')));
  const out=[];
@@ -1939,6 +1953,10 @@ async function findPage(q,name,any){
 }
 /* spec: {name, q, title?, n?:max, cap?} -> array of photos */
 async function loadPhotos(key,spec){
+ if(spec.parts)return loadPhotos2(key,spec);
+ await imgSlot();try{return await loadPhotos2(key,spec);}finally{imgFree();}
+}
+async function loadPhotos2(key,spec){
  let photos=[];
  if(spec.parts){for(const pt of spec.parts){const r=await photosFor(imgKey(pt.key||pt.name),pt);photos.push(...(pt.skip?r.slice(1):r));}IMGC[key]={ts:Date.now(),ph:photos};imgSave();return photos;}
  try{
@@ -1957,7 +1975,7 @@ const IMGQ=new Map();
 function photosFor(key,spec){
  const c=IMGC[key];
  if(c&&c.ph)return Promise.resolve(c.ph);
- if(c&&c.ts&&Date.now()-c.ts<IMG_RETRY)return Promise.resolve([]);
+ if(imgHold(c))return Promise.resolve([]);
  if(IMGQ.has(key))return IMGQ.get(key);
  const p=loadPhotos(key,spec).then(r=>{IMGQ.delete(key);return r||[];});IMGQ.set(key,p);return p;
 }
@@ -1967,7 +1985,7 @@ function stripHTML(ph,gk){return`<div class="gal" data-gk="${gk}">${ph.map((p,i)
 function galHTML(spec){
  const key=imgKey(spec.key||spec.name),c=IMGC[key];
  if(c&&c.ph)return c.ph.length?stripHTML(c.ph,key):'';
- if(c&&c.ts&&Date.now()-c.ts<IMG_RETRY)return'';
+ if(imgHold(c))return'';
  return`<div class="gal pend" data-gk="${key}" data-spec="${esc(JSON.stringify(spec))}"><span class="shim"></span><span class="shim"></span></div>`;
 }
 const IMGIO='IntersectionObserver' in window?new IntersectionObserver(es=>es.forEach(e=>{
@@ -2469,6 +2487,7 @@ const SHORT={pm:'P. Morelos',hol:'Holbox',val:'Valladolid',mer:'Mérida',ism:'I.
 const itName=id=>S.its[id].name;
 
 /* ===== BUILD ===== */
+function imgTestHTML(){return`<div class="panel" style="margin-bottom:12px"><h3 class="lab">Photos</h3><p class="hint">Photos load live from Wikipedia. If none appear, tap the test and tell me what it says.</p><button class="btn sm" data-act="imgtest">Test photos</button> <button class="btn ghost sm" data-act="imgclear">Clear photo cache</button><p class="hint" id="imgmsg">${esc(S.imgmsg||'')}</p></div>`;}
 function bldHTML(){
  const id=S.bld,it=S.its[id],c=computeIt(it);
  const meter=c.st.map(s=>`<i style="width:${s.n/Math.max(14,c.total)*100}%;background:${BCOL[s.b]};border-right:1.5px solid var(--edge)" title="${esc(s.base.n)} ${s.n}"></i>`).join('');
@@ -2676,7 +2695,7 @@ function bodyHTML(){
   const sel=S.sel,det=sel?(sel.t==='p'?detailPoi(POI[sel.id]):detailBase(sel.id)):'';
   return`<div class="body v-map ${sel?'has-detail':''}"><aside class="filters panel" id="left">${filtersHTML()}</aside><section class="stage" id="center">${centerHTML()}</section>${sel?`<aside class="detail panel" id="detail">${det}</aside>`:''}</div>`;
  }
- return`<div class="body v-one"><section class="bld panel">${bldHTML()}</section></div>`;
+ return`<div class="body v-one">${imgTestHTML()}<section class="bld panel">${bldHTML()}</section></div>`;
 }
 function mapCtx(){
  const sp=S.sel&&S.sel.t==='p'?POI[S.sel.id]:null;
@@ -2745,6 +2764,8 @@ document.addEventListener('click',e=>{
  switch(d.act){
   case'view':S.view=d.v;S.toTop=1;if(d.v==='ed')S.ed=null;break;
   case'edopen':{const e=EDITORIAL.find(x=>x.id===d.e);if(e){S.ed=e.id;S.edDay=e.day;S.view='ed';S.toTop=1;}break;}
+  case'imgclear':IMGC={};imgSave();S.imgmsg='Cache cleared. Open Places to reload photos.';break;
+  case'imgtest':{S.imgmsg='Testing…';const m=document.getElementById('imgmsg');if(m)m.textContent=S.imgmsg;(async()=>{let out=[];try{const r=await fetch(WAPI+'w/api.php?action=query&generator=search&gsrsearch=Casa%20Montejo&gsrlimit=1&prop=pageimages&piprop=thumbnail&pithumbsize=320&format=json&origin=*');out.push('API '+r.status);const j=await r.json();const p=Object.values(j.query.pages)[0];out.push(p.title);const u=p.thumbnail&&p.thumbnail.source;if(u){await new Promise(res=>{const im=new Image();im.onload=()=>{out.push('image OK '+im.naturalWidth+'px');res();};im.onerror=()=>{out.push('image FAILED');res();};im.src=u;});}else out.push('no thumbnail');}catch(e){out.push('ERROR '+e.message);}S.imgmsg=out.join(' · ');const m2=document.getElementById('imgmsg');if(m2)m2.textContent=S.imgmsg;})();return;}
   case'edback':S.ed=null;S.toTop=1;break;
   case'stop':S.view='stop';S.cur=d.b;S.addDay=null;S.toTop=1;break;
   case'leg':S.view='leg';S.cur=+d.i;S.addDay=null;S.toTop=1;break;
