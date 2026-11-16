@@ -495,6 +495,26 @@ html{overflow-anchor:none;scroll-behavior:auto}
 .mus path{fill:#6A3A1B;stroke:#2B1608;stroke-width:3;stroke-linejoin:round}.mus .hl2{fill:none;stroke:#A06A3C;stroke-width:3;stroke-linecap:round}
 .logo .drop{z-index:3;opacity:.95}.drop path{fill:#4A2610}.drop .hl{fill:#9B6A42;opacity:.7}
 .top h1.logo+.sum{margin-top:0}
+
+/* ===== Pull to refresh ===== */
+html{overscroll-behavior-y:contain}
+#ptr{position:fixed;left:0;right:0;top:0;height:0;z-index:60;pointer-events:none;--p:0px;display:flex;justify-content:center}
+.ptrbox{position:absolute;top:0;width:96px;transform:translateY(calc(var(--p) - 96px));opacity:0;transition:opacity .15s}
+#ptr.on .ptrbox{opacity:1}
+#ptr:not(.on) .ptrbox,#ptr:not(.on).splat-go .ptrbox{transition:transform .25s,opacity .2s}
+.ptrhat{display:block;width:96px;filter:drop-shadow(0 2px 0 #111)}
+.ptrmus{display:block;width:78px;margin:-9px auto 0;filter:drop-shadow(0 2px 0 #111)}
+.ptrhat .brim{fill:#E8C77E;stroke:#111;stroke-width:3}.ptrhat .crown{fill:#F0D590;stroke:#111;stroke-width:3}.ptrhat .band{fill:#D9291C;stroke:#111;stroke-width:3}.ptrhat .gem{fill:#F2C200;stroke:#111;stroke-width:1.5}
+.ptrmus path{fill:#6A3A1B;stroke:#2B1608;stroke-width:3;stroke-linejoin:round}
+#ptr.shake .ptrmus{animation:trr .09s linear infinite}
+#ptr.ready .ptrmus{animation-duration:.05s}
+@keyframes trr{0%{transform:translate(-2px,0) rotate(-2deg)}50%{transform:translate(2px,1px) rotate(2deg)}100%{transform:translate(-2px,0) rotate(-2deg)}}
+.pdrop{position:absolute;top:calc(var(--p) + 6px);background:#4A2610;border-radius:50% 50% 50% 50%/62% 62% 38% 38%;aspect-ratio:.7;animation:fall 1s ease-in forwards}
+@keyframes fall{from{transform:translateY(0);opacity:1}to{transform:translateY(120px);opacity:.2}}
+.splat{position:absolute;top:60px;left:50%;width:240px;margin-left:-120px;fill:#4A2610;opacity:0;transform:scale(.2)}
+#ptr.splat-go .ptrbox{transform:translateY(-120px);opacity:0}
+#ptr.splat-go .splat{animation:splat .9s cubic-bezier(.2,1.4,.4,1) forwards}
+@keyframes splat{0%{opacity:0;transform:scale(.2)}25%{opacity:1;transform:scale(1.15)}70%{opacity:1;transform:scale(1)}100%{opacity:0;transform:scale(1.05) translateY(30px)}}
 </style></head>
 <body><div id="app"></div>
 <script>
@@ -1853,6 +1873,30 @@ document.addEventListener('change',e=>{
 document.addEventListener('toggle',e=>{const t=e.target;if(t.classList&&t.classList.contains('day')){if(t.open)S.dopen[t.dataset.d]=true;else delete S.dopen[t.dataset.d];}},true);
 document.addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target.classList&&e.target.classList.contains('dnew')){e.preventDefault();const b=document.querySelector('[data-act="dnew"][data-d="'+e.target.dataset.d+'"]');if(b)b.click();}});
 window.addEventListener('resize',()=>{drawMap();});
+/* ===== Pull to refresh: sombrero, baffi che tremano, gocce, splat ===== */
+(function(){
+ const el=document.createElement('div');el.id='ptr';
+ el.innerHTML='<div class="ptrbox"><svg class="ptrhat" viewBox="0 0 120 80"><ellipse cx="60" cy="58" rx="58" ry="15" class="brim"/><path d="M30 56C30 22 42 8 60 8s30 14 30 48c-10 7-50 7-60 0Z" class="crown"/><path d="M31 47c10 7 48 7 58 0l1 9c-10 8-50 8-60 0Z" class="band"/><circle cx="60" cy="53" r="3" class="gem"/></svg><svg class="ptrmus" viewBox="0 0 200 70"><path d="M100 22c-10-9-24-12-40-9C40 16 26 26 18 38c-5 8-3 17 4 19 4 1 8-1 9-5 2-6 8-9 16-9 17 1 38 4 53-3Z M100 22c10-9 24-12 40-9 20 3 34 13 42 25 5 8 3 17-4 19-4 1-8-1-9-5-2-6-8-9-16-9-17 1-38 4-53-3Z"/></svg></div><svg class="splat" viewBox="0 0 200 120"><path d="M100 8c12 0 14 20 26 18 14-2 22 8 18 20 14-2 30 8 22 22-4 8-14 8-12 18 2 12-12 20-24 14-8-4-12 6-22 10-14 6-20-8-30-8-12 0-24 4-28-10-2-8 6-12-2-20-10-10 2-26 16-22-6-14 6-26 18-18 8 4 12-12 18-24Z"/></svg></div>';
+ document.body.appendChild(el);
+ const box=el.querySelector('.ptrbox'),TH=70;
+ let y0=null,pull=0,busy=false,lastDrop=0;
+ const drop=()=>{const d=document.createElement('i');d.className='pdrop';d.style.left=(40+Math.random()*80)+'px';d.style.animationDuration=(.7+Math.random()*.5)+'s';d.style.width=(6+Math.random()*7)+'px';el.appendChild(d);setTimeout(()=>d.remove(),1400);};
+ const set=p=>{pull=p;el.style.setProperty('--p',p+'px');el.classList.toggle('on',p>2);el.classList.toggle('shake',p>12);el.classList.toggle('ready',p>=TH);};
+ addEventListener('touchstart',e=>{if(busy||e.touches.length!==1||window.scrollY>0||e.target.closest('#mapsvg,textarea,input,select'))return;y0=e.touches[0].clientY;},{passive:true});
+ addEventListener('touchmove',e=>{if(y0===null||busy)return;const dy=e.touches[0].clientY-y0;
+  if(dy<=0||window.scrollY>0){if(pull)set(0);return;}
+  if(e.cancelable)e.preventDefault();
+  set(Math.min(130,dy*.55));
+  const now=Date.now();if(pull>14&&now-lastDrop>(pull>=TH?110:260)){lastDrop=now;drop();}
+ },{passive:false});
+ const end=()=>{if(y0===null)return;y0=null;
+  if(pull>=TH&&!busy){busy=true;el.classList.add('splat-go');
+   for(let i=0;i<8;i++)setTimeout(drop,i*40);
+   setTimeout(async()=>{try{const rs=await navigator.serviceWorker.getRegistrations();await Promise.all(rs.map(r=>r.unregister()));const ks=await caches.keys();await Promise.all(ks.map(k=>caches.delete(k)));}catch(_){}location.reload();},900);
+  }else set(0);};
+ addEventListener('touchend',end);addEventListener('touchcancel',end);
+})();
+
 render();
 if('serviceWorker' in navigator&&location.protocol.startsWith('http'))window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));
 </script></body></html>
