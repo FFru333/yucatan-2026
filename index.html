@@ -548,6 +548,11 @@ body{background-color:var(--page);background-image:url("data:image/svg+xml,%3Csv
 .macros{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;padding:4px 0 12px}
 .macros .chip{width:100%;justify-content:center;text-align:center;padding:9px 4px;font-size:13px;white-space:nowrap}
 .macros .chip[aria-pressed=true]{background:var(--gold);color:#111;border-color:var(--edge)}
+.toplist{counter-reset:r;list-style:none}
+.rk{display:inline-grid;place-items:center;min-width:22px;height:22px;margin-right:8px;border-radius:50%;background:var(--gold);color:#111;font:700 12px var(--fm)}
+.pill.tag{background:var(--ink);color:var(--panel);border-color:var(--ink)}
+.topptr{margin:2px 0 8px}
+.lnk{background:none;border:0;padding:0;font:inherit;font-weight:700;color:var(--accent);text-decoration:underline}
 .gtips{margin:6px 0 4px;padding:12px 14px;border:2px solid var(--gold);border-radius:12px;background:var(--panel)}
 .gtips h5{margin:0 0 6px;font:500 11px var(--fm);letter-spacing:.08em;text-transform:uppercase;color:var(--ink-2)}
 .gtips ul{margin:0;padding:0 0 0 16px;display:grid;gap:6px;font-size:13px;line-height:1.45}
@@ -1254,7 +1259,7 @@ const LEGS={
  more:[],
  care:['Return the car with a good margin before 4:55 pm.']},
 };
-/* ===== GUIDE: tips + places pulled from travel guides, per base and activity type =====
+/* ===== GUIDE (see GTOP below for the ranked Top list): tips + places pulled from travel guides, per base and activity type =====
    GUIDE[base][macro] = {tips:[[text,url]], groups:[[title,[[name,note,url,q]]]]}
    q: 'f' = stated by the linked guide, '?' = weak source or conflicting, check before relying on it.
    Opening days/hours are as the guide listed them; they may have changed. */
@@ -1277,13 +1282,8 @@ const GU={
 const GUIDE={
 val:{
  top:{tips:[
-  ['Valladolid is the only municipality with three original dishes: lomitos, longaniza and escabeche.','https://www.rivieramayanews.mx/valladolid-wins-national-award-culinary-experience-2026-tianguis-turistico/'],
-  ['Go to Chichén Itzá at opening, before the tour buses arrive (45 min from town).','https://www.geekyexplorer.com/?p=17118'],
-  ['At night the Convent of San Bernardino has a free video-mapping show, and the park fills with music and snacks.',GU.odv]],
-  groups:[['Headliners',[
-   ['Cenote Zací','Ten minutes on foot from the park; easy to fit into a day in town.',GU.odv,'f'],
-   ['Calzada de los Frailes','Cobbled street with boutique shops, cafés with back gardens and bars.',GU.odv,'f'],
-   ['Mercado Municipal Donato Bates','Where locals shop; snacks like tamales colados and longaniza.',GU.odv,'f']]]]},
+  ['Valladolid is the only municipality with three original dishes: lomitos, longaniza and escabeche.','https://www.rivieramayanews.mx/valladolid-wins-national-award-culinary-experience-2026-tianguis-turistico/']],
+  groups:[]},
  eat:{tips:[
   ['Look for the market stall with the longest line of locals.',GU.wff],
   ['Bazar Municipal (food court by the main square): some stalls have pushy touts. The guide prefers the quiet Loncheria Canul.',GU.wff],
@@ -1338,12 +1338,8 @@ val:{
 mer:{
  top:{tips:[
   ['Your days: Thu 10 free serenata at Parque de Santa Lucía; Sun 13 Paseo de Montejo closes to cars for bikes (Mérida en Domingo).','https://themanual.com/?p=1399297'],
-  ['Sunday morning is the cochinita pibil breakfast at Mercado Lucas de Gálvez (about 40–80 MXN for a full plate).','https://www.mexicotravelandleisure.com/blog/best-restaurants-merida/'],
   ['Mérida is a UNESCO Creative City; the regional cooking is kept in its original form rather than watered down.','https://www.secretflying.com/guides/merida/food/']],
-  groups:[['Headliners',[
-   ['Paseo de Montejo','Boulevard of 19th-century mansions; walk it in the evening.','https://www.royalresorts.com/news/10-things-to-do-in-merida-capital-of-the-yucatan/','f'],
-   ['Museo Palacio Cantón','Anthropology and Maya history on Paseo de Montejo.','https://loudavymkrokem.cz/en/merida-mexico-things-to-do/','f'],
-   ['Parque de Santa Lucía','Arcades with restaurants and the Thursday free concert.','https://themanual.com/?p=1399297','f']]]]},
+  groups:[]},
  eat:{tips:[
   ['Breakfast is huevos motuleños or early cochinita pibil from neighbourhood stalls.','https://www.secretflying.com/guides/merida/food/'],
   ['Try xtabentún, the anise and fermented-honey liqueur, a local point of pride.','https://www.secretflying.com/guides/merida/food/'],
@@ -1396,12 +1392,8 @@ mer:{
 hol:{
  top:{tips:[
   ['December reality check: bioluminescence is best on very dark nights in summer, so do not count on it. Main beach can look grey on cloudy days from Nov to Feb.',GU.thb],
-  ['Lobster season runs 1 July to 29 Feb, so lobster pizza is in season.','https://exploredbymarta.com/travel/mexico/yucatan-peninsula/10-best-places-to-eat-in-the-beautiful-holbox-island-mexico/'],
   ['Carry pesos for small places and some beach clubs. Mosquitoes are strong around sunset.','https://thatadventurer.co.uk/?p=12294']],
-  groups:[['Headliners',[
-   ['Punta Mosquito','Sandbank walk with flamingos and wading birds; check the tide.',GU.thb,'f'],
-   ['Roots Pizza a Leña','Lobster pizza is the signature.',GU.isl,'f'],
-   ['Sunset at Playa Holbox','Good sunset spot; combine with dinner or drinks.',GU.thb,'f']]]]},
+  groups:[]},
  eat:{tips:[
   ['Painapol takes no reservations and lines form fast in high season: arrive early.',GU.isl],
   ['Milpa and Ser Esencia work best with a reservation.',GU.isl],
@@ -1452,10 +1444,7 @@ bac:{
   ['Do water activities early: the lagoon is calmest before about 8 am, wind picks up by 11.',GU.mtb],
   ['Dec to Apr is high season: reserve sunset tables on the lagoon.',GU.ltb],
   ['Bring pesos: small taco places and food trucks are cash only and ATMs can run out on busy weekends.',GU.ltb]],
-  groups:[['Headliners',[
-   ['Lagoon boat or sail tour','Walk up to Muelle Municipal (Calle 1), about 800–1,500 MXN pp, price negotiable. Stops include stromatolites and Canal de los Piratas.',GU.mtb,'f'],
-   ['Fort San Felipe','65 MXN, open Tue–Sun, Avenida 3, good lagoon views at sunset.',GU.mtb,'f'],
-   ['Cenote Azul','Open cenote about 5 km south of town. Best Nov to Apr.',GU.mtb,'f']]]]},
+  groups:[]},
  eat:{tips:[
   ['Reservations are usually needed only for sunset tables at lagoon-front places in high season.',GU.ltb],
   ['Jaguara is one of the most expensive tables in town; go for a late lunch when the light is on the water.',GU.ltb],
@@ -1504,14 +1493,8 @@ bac:{
  night:{tips:[['Quiet at night: Macario has Thursday DJ nights; otherwise dinner and the plaza.',GU.ltb]],groups:[]}
 },
 pm:{
- top:{tips:[
-  ['Book the reef snorkel early in the morning and check sargassum conditions before choosing a beach day.','https://www.mexicotravelandleisure.com/blog/puerto-morelos-mexico/'],
-  ['The reef is only about 15 minutes by boat from the pier.','https://www.indietraveller.co/puerto-morelos-travel-guide/'],
-  ['Good base for the Ruta de los Cenotes, the jungle road west of Highway 307.','https://www.odigootravel.com/travel-blog/cancun/things-to-do/puerto-morelos']],
-  groups:[['Headliners',[
-   ['Reef snorkel tour','Official park snorkelling; shops around the main square.','https://mexicancaribbean.travel/puerto-morelos/things-to-do/water-activities.html','f'],
-   ['Ruta de los Cenotes','Dozens of cenotes along a jungle road.','https://www.odigootravel.com/travel-blog/cancun/things-to-do/puerto-morelos','f'],
-   ['Mangata','Breakfast and lunch in the centre.',GU.epm,'f']]]]},
+ top:{tips:[],
+  groups:[]},
  eat:{tips:[
   ['El Nicho and Burger Underground are often crowded: expect a wait at busy hours.',GU.epm],
   ['Tuna is the specialty at Blue Morelos.',GU.epm]],
@@ -1538,6 +1521,77 @@ pm:{
  night:{tips:[['Low-key town: one directory mentions live music at 19:30 in a garden restaurant, no named bar scene found.','https://experiencepuertomorelos.com/single-category/restaurant-directory/']],groups:[]}
 }
 };
+
+/* ===== TOP: ranked, max 10 per base. [tag, name, note, url, q, mapsQuery?]
+   Each place lives in ONE section only: if it is here, it is removed from the category lists. */
+const GTOP={
+val:[
+ ['culture','Chichén Itzá','45 min away. Go at opening, before the tour buses.','https://www.geekyexplorer.com/?p=17118','f'],
+ ['nature','Cenote Zací','Ten minutes on foot from the park; swim and be back for lunch.',GU.odv,'f'],
+ ['eat','Loncheria Olich','Breakfast: longaniza de Valladolid, huevos motuleños, agua de chaya con piña. Shady garden. Mon–Sat 8–13 and 18–22, Sun evening only.',GU.wff,'f'],
+ ['culture','Ek Balam','Quieter Maya site with stucco on the façades, 25–30 min.','https://www.geekyexplorer.com/valladolid-mexico/','f'],
+ ['culture','Calzada de los Frailes','Cobbled street with boutiques, cafés with back gardens and bars, leading to the convent.',GU.odv,'f'],
+ ['culture','Convent of San Bernardino de Siena','16th-century convent; free video-mapping show at night.',GU.odv,'f'],
+ ['eat','Mercado Municipal Donato Bates','Where locals eat and shop: tamales colados, longaniza, tortillas.',GU.odv,'f'],
+ ['night','Mezcalería Don Trejo','Vintage garden on the Calzada (no. 212). Live music, DJ on weekends.','https://yucatan.travel/en/?p=44148','f'],
+ ['eat','Echate un Taco','Cochinita pibil, lomitos, sopa de lima, papadzules. 13–22, closed Sun.',GU.wff,'f'],
+ ['nature','Cenote Hubiku','Near Ek Balam; pairs well with it for the day. Distance is my estimate.','https://daytrip.com/en/day-trips/from-cancun/ek-balam-cenote-hubiku-valladolid-mexico','?']],
+mer:[
+ ['culture','Paseo de Montejo','Boulevard of 19th-century mansions. Closed to cars on Sunday 13 Dec.','https://www.royalresorts.com/news/10-things-to-do-in-merida-capital-of-the-yucatan/','f'],
+ ['eat','Mercado Lucas de Gálvez','Sunday cochinita pibil breakfast, about 40–80 MXN for a full plate. Go early.','https://www.mexicotravelandleisure.com/blog/best-restaurants-merida/','f'],
+ ['culture','Museo Palacio Cantón','Regional Anthropology Museum on Paseo de Montejo.','https://loudavymkrokem.cz/en/merida-mexico-things-to-do/','f'],
+ ['eat','La Chaya Maya','Cochinita pibil and sopa de lima; classic Yucatecan table.',GU.tbj,'f'],
+ ['night','Parque de Santa Lucía','Thursday 10 Dec: free traditional show. Arcades with restaurants all around.','https://themanual.com/?p=1399297','f'],
+ ['culture','Museo Casa Montejo','Calle 63 #508 x 60. 16th-century mansion with plateresque façade.','https://ryo.co/en/articles/spain/merida/free-things-do-merida/','f'],
+ ['eat','Wayan’e','The panucho institution, cheap and local.','https://theculturetrip.com/north-america/mexico/articles/where-to-get-the-best-cheap-eats-in-merida-mexico','f'],
+ ['night','Murciégalo Mezcalería','Mezcal cocktails by a chef; look for the green neon bat. Calle 57 #500.',GU.ytm,'f'],
+ ['culture','Gran Museo del Mundo Maya','Calle 60 Norte; Maya world museum.','https://ca.hotels.com/go/mexico/best-things-to-do-merida','f'],
+ ['chill','Sunday bike ride on Paseo de Montejo','The street closes to cars on Sunday: rent a bike.','https://bemytravelmuse.com/merida-best-things-to-do','f','Paseo de Montejo']],
+hol:[
+ ['nature','Punta Mosquito','Sandbank walk with flamingos and wading birds. Little shade, no facilities: bring water and check the tide.',GU.thb,'f'],
+ ['nature','Sunset at Playa Holbox','Main beach, good for sunset; combine with dinner or drinks. Quieter alternative: Punta Cocos.',GU.thb,'f','Playa Holbox'],
+ ['eat','Roots Pizza a Leña','Wood-fired lobster pizza is the signature (lobster season runs to 29 Feb).',GU.isl,'f'],
+ ['nature','Punta Cocos','Quiet west-facing beach, about 30 min on foot; faster by bike or golf cart.',GU.thb,'f'],
+ ['eat','Las Panchas','Fish or shrimp tacos, margaritas, seaside live music.',GU.isl,'f'],
+ ['eat','Painapol','Fruit bowl, avocado toast. No reservations: arrive early.',GU.isl,'f'],
+ ['night','The Hot Corner','Barefoot beach bar with live music and DJs; the nightlife pick.',GU.thb,'f'],
+ ['eat','Milpa','Seasonal five-course tasting menu; reserve.',GU.isl,'f'],
+ ['culture','Street murals in the centre','Colourful murals around town; the Holbox letters are the sunset meeting point.','https://www.saltinourhair.com/mexico/holbox-mexico','f','Holbox letters'],
+ ['chill','La Playa de Ñaña','Stylish beach club with sunbeds and seafood; nice at sunset. Check minimum spend.',GU.thb,'f']],
+bac:[
+ ['nature','Lagoon boat or sail tour','Walk up to Muelle Municipal (Calle 1): about 800–1,500 MXN pp, negotiable. Stops include stromatolites and Canal de los Piratas.',GU.mtb,'f','Muelle Municipal'],
+ ['nature','Los Rápidos','About 150 MXN; best for a half-day float and swim.',GU.mtb,'f'],
+ ['nature','Cenote Azul','Deep open cenote about 5 km south, restaurant on site. Best Nov to Apr.',GU.mtb,'f'],
+ ['culture','Fort San Felipe and piracy museum','65 MXN, Tue–Sun, battlements with lagoon views at sunset.',GU.mtb,'f'],
+ ['chill','Dock sunset','Free public docks on Avenida 7, west-facing; lagoon turns amber to pink around 17:30–18:30.',GU.mtb,'f','Avenida 7 Bacalar'],
+ ['eat','La Playita','Lagoon garden and pier; book a sunset table in high season.',GU.ltb,'f'],
+ ['nature','Cenote Cocalitos','Protected eco-park with visible stromatolites.','https://www.thoroughlytravel.com/?p=32466','f'],
+ ['eat','Picaflor','Garden café: bakery, eggs, smoothies. 8–16.',GU.ltb,'f'],
+ ['eat','Mr. Tacos','Tiny, cheap, by the plaza; often busy. Cash only.',GU.ltb,'f'],
+ ['nature','Sunrise kayak or paddleboard','Lagoon calmest before about 8 am; kayak about 100–150 MXN/h, from Avenida 7.',GU.mtb,'f','Avenida 7 Bacalar kayak']],
+pm:[
+ ['nature','Reef snorkel tour','Reef is about 15 min by boat from the pier. Book early in the morning; check sargassum.','https://www.mexicotravelandleisure.com/blog/puerto-morelos-mexico/','f','Muelle Puerto Morelos'],
+ ['nature','Ruta de los Cenotes','Dozens of cenotes along a jungle road west of Highway 307. Bring water shoes and repellent.','https://www.odigootravel.com/travel-blog/cancun/things-to-do/puerto-morelos','f'],
+ ['eat','Mangata','French toast, eggs, waffles; gluten-free and vegan options.',GU.epm,'f'],
+ ['eat','El Nicho','Waffles, eggs Benedict, chilaquiles; busy, expect a wait.',GU.epm,'f'],
+ ['eat','Blue Morelos','Seafood grill; tuna is the specialty.',GU.epm,'f'],
+ ['nature','Boca del Puma Cenote','Km 16 on the Ruta de los Cenotes; open 9–17 per one guide.','https://hu.hotels.com/go/mexico/things-to-do-puerto-morelos','f'],
+ ['nature','Ojo de Agua','Small underwater cenote just off the beach, snorkel zone marked by yellow floaters.','https://iiab.live/kiwix/content/wikivoyage_en_all_maxi_2023-07/A/Puerto_Morelos','f'],
+ ['eat','Local Coffee + Shop','Best coffee in town per the guide; toasts, yogurt bowls, burritos.',GU.epm,'f'],
+ ['nature','Cenote Popol Vuh','Open cenote with restaurant, farthest on the route (about 320 pesos).','https://bonadvisor.com/?p=25663','?'],
+ ['eat','El Charro','Mexican grill in the centre: birria tacos, fajitas.',GU.epm,'f']]
+};
+/* one place, one section: Top wins, then the first category that lists it */
+(function(){
+ const nt=s=>String(s).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,' ').trim();
+ for(const b in GUIDE){
+  const seen=new Set((GTOP[b]||[]).map(x=>nt(x[1])));
+  const order=['culture','nature','eat','night','shop','chill'];
+  order.forEach(k=>{const g=GUIDE[b][k];if(!g)return;g.groups=(g.groups||[]).map(([t,l])=>[t,l.filter(x=>{const n=nt(x[0]);if(seen.has(n))return false;seen.add(n);return true;})]).filter(([t,l])=>l.length);});
+  GUIDE[b].topNames=[...(GTOP[b]||[]).map(x=>x[1])];
+  GUIDE[b].allNames=[...seen];
+ }
+})();
 /* ===== UTIL ===== */
 const $=(s,r=document)=>r.querySelector(s);
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -2123,20 +2177,26 @@ function guideHTML(bid,cur,d){
  });
  return h;
 }
+function topHTML(bid,d){
+ const T=GTOP[bid]||[],dd=getDay(d),lab=Object.fromEntries(MACROS);
+ return`<ol class="ideas toplist">${T.map(([tag,n,note,u,q,mq],i)=>{const on=dd.items.some(x=>x.t===n);return`<li class="idea"><div class="cit"><b><span class="rk">${i+1}</span>${esc(n)}</b><span class="mono pill tag">${esc(lab[tag]||tag)}</span></div><p>${esc(note)}</p><div class="cia">${q==='?'?qBd('?'):''}${u?`<a href="${esc(u)}" target="_blank" rel="noopener noreferrer">source ↗</a>`:''}<a href="${esc(gmaps(mq||n,bid))}" target="_blank" rel="noopener noreferrer">Maps ↗</a><button class="btn sm ${on?'ghost':''}" data-act="gadd" data-d="${d}" data-n="${esc(n)}" ${on?'disabled':''}>${on?'✓ in the day':'+ Add'}</button></div></li>`;}).join('')}</ol>`;
+}
 function ideasHTML(d,c,dd,bid){
- const all=ideasFor(bid,d),cur=S.idea[d]||'top';
- const gcnt=k=>{const g=(GUIDE[bid]||{})[k];return g?(g.groups||[]).reduce((a,x)=>a+x[1].length,0):0};
- const cnt=k=>gcnt(k)||(k==='top'?all.filter(x=>x.rel===0||x.tier===0&&all.filter(y=>y.macro===x.macro&&y.tier===0)[0]===x).length:all.filter(x=>x.macro===k).length);
+ const G0=GUIDE[bid]||{},names=G0.allNames||[],cur=S.idea[d]||'top';
+ const all=ideasFor(bid,d).filter(x=>!names.some(n=>sameThing(x.title,n)));
+ const gcnt=k=>{const g=G0[k];return g?(g.groups||[]).reduce((a,x)=>a+x[1].length,0):0};
+ const cnt=k=>k==='top'?(GTOP[bid]||[]).length:gcnt(k)+all.filter(x=>x.macro===k).length;
  const chips=MACROS.map(([k,n])=>`<button class="chip" data-act="icat" data-d="${d}" data-m="${k}" aria-pressed="${cur===k}">${n} <span class="mono hint">${cnt(k)}</span></button>`).join('');
- let list=cur==='top'?all.filter(x=>x.rel===0||all.filter(y=>y.macro===x.macro&&y.tier===0)[0]===x):all.filter(x=>x.macro===cur);
+ let list=cur==='top'?[]:all.filter(x=>x.macro===cur);
  list=list.slice().sort((a,b)=>a.tier-b.tier||a.rel-b.rel||a.m-b.m);
  const more=S.imore[d+'|'+cur],LIM=9,shown=more?list:list.slice(0,LIM);
- let h=guideHTML(bid,cur,d);
- const hasG=!!h;
- if(h&&list.length)h+='<h5 class="tier">Also in your plan · by distance</h5>';
+ let h='';
+ if(cur==='top'){const g=G0.top;h+=guideHTML(bid,'top',d)+topHTML(bid,d);}
+ else{const tn=(GTOP[bid]||[]).filter(x=>x[0]===cur).length;if(tn)h+=`<p class="hint topptr">★ ${tn} top pick${tn>1?'s':''} for this are in <button class="lnk" data-act="icat" data-d="${d}" data-m="top">Top</button>.</p>`;h+=guideHTML(bid,cur,d);}
+ if(cur!=='top'&&list.length)h+='<h5 class="tier">Also in your plan · by distance</h5>';
  [0,1,2].forEach(t=>{const g=shown.filter(x=>x.tier===t);if(g.length)h+=`<h5 class="tier sub">${TIERS[t]}</h5><ul class="ideas">${g.map(x=>ideaHTML(x,d,bid)).join('')}</ul>`;});
  const o=stayOrigin(bid);
- return`<h4>What do you feel like?</h4><nav class="macros" aria-label="Type of activity">${chips}</nav>${h||'<p class="hint">Nothing here for this base yet.</p>'}${!more&&list.length>LIM?`<button class="btn ghost sm" data-act="imore" data-d="${d}" data-m="${cur}">Show all ${list.length}</button>`:''}<p class="hint">Tips and places come from the linked guides; hours and closing days are as the guide listed them, so check before going. The distance list below is sorted by distance first, then by how much it matters. ${o.exact?'Distances start from your stay where I have coordinates; “Route from stay” gives the exact time in Maps.':'Distances start from the centre of '+esc(BASES[bid].n)+'. Add your stay above to make them exact.'} Times with ≈ are estimates.</p>`;
+ return`<h4>What do you feel like?</h4><nav class="macros" aria-label="Type of activity">${chips}</nav>${h||'<p class="hint">Nothing here for this base yet.</p>'}${!more&&list.length>LIM?`<button class="btn ghost sm" data-act="imore" data-d="${d}" data-m="${cur}">Show all ${list.length}</button>`:''}<p class="hint">Each place appears in one section only. Tips and places come from the linked guides; hours and closing days are as the guide listed them, so check before going. The distance list below is sorted by distance first, then by how much it matters. ${o.exact?'Distances start from your stay where I have coordinates; “Route from stay” gives the exact time in Maps.':'Distances start from the centre of '+esc(BASES[bid].n)+'. Add your stay above to make them exact.'} Times with ≈ are estimates.</p>`;
 }
 function dayHTML(d,c){
  const st=c.st.find(x=>d>=x.from&&d<x.to),dd=getDay(d),first=st&&d===st.from,last=d===c.total;
