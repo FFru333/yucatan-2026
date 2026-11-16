@@ -558,7 +558,9 @@ body{background-color:var(--page);background-image:url("data:image/svg+xml,%3Csv
 .gtips a{color:var(--accent);font-weight:600;white-space:nowrap}
 .tier.sub{opacity:.75;margin-top:10px}
 .tier{margin:14px 0 6px;font:500 11px var(--fm);letter-spacing:.08em;text-transform:uppercase;color:var(--ink-2)}
-.ideas{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.ideas{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:minmax(0,1fr);gap:10px}
+.idea,.ci,.edwrap,.pcb{min-width:0;max-width:100%}
+.gal{max-width:100%}
 .idea{padding:12px 14px;border:2px solid var(--line);border-radius:12px;background:var(--panel)}
 .idea .cit b{font-size:15px}.idea p{margin:4px 0 0;font-size:13px;color:var(--ink-2);line-height:1.45}
 .dcol>*,.dbody>*{min-width:0}.stayform .btn{flex:none}.idea .cit b{min-width:0;overflow-wrap:anywhere}.idea .cit .pill{flex:none}
@@ -1910,7 +1912,7 @@ function edDetail(e){
 }
 /* ===== PHOTOS: fetched live from Wikipedia / Wikimedia Commons (free-licence images), cached on the phone =====
    Nothing is bundled: if the network or Wikipedia has nothing for a spot, no photo strip is shown. */
-const IMGK='yuc-img-5';
+const IMGK='yuc-img-6';
 let IMGC={};try{IMGC=JSON.parse(localStorage.getItem(IMGK)||'{}');}catch(_){}
 const imgSave=()=>{try{localStorage.setItem(IMGK,JSON.stringify(IMGC));}catch(_){try{IMGC={};localStorage.removeItem(IMGK);}catch(__){}}};
 const imgKey=s=>normT(s).replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
@@ -1952,9 +1954,13 @@ async function findPage(q,name,any){
  return any?(pg[0]||null):(pg.find(p=>titleOk(p.title,name))||null);
 }
 async function commonsPhotos(q,name){
- const u='https://commons.wikimedia.org/w/api.php?action=query&generator=search&gsrnamespace=6&gsrsearch='+encodeURIComponent(q)+'&gsrlimit=10&prop=imageinfo&iiprop=url&iiurlwidth=330&format=json&origin=*';
+ const u='https://commons.wikimedia.org/w/api.php?action=query&generator=search&gsrnamespace=6&gsrsearch='+encodeURIComponent(q)+'&gsrlimit=10&prop=imageinfo&iiprop=url|extmetadata&iiurlwidth=330&format=json&origin=*';
  const j=await jget(u),pg=Object.values((j.query&&j.query.pages)||{}).sort((a,b)=>a.index-b.index),out=[];
- pg.forEach(p=>{const ii=p.imageinfo&&p.imageinfo[0];if(!ii||!ii.thumburl||BADIMG.test(p.title)||!titleOk(p.title,name))return;
+ const GEO=/yucat|m[eé]rida|m[eé]xico|valladolid|holbox|bacalar|morelos|izamal|uxmal|tixkokob|canc[uú]n|quintana roo|chich[eé]n/i;
+ const B=tokens(name);
+ pg.forEach(p=>{const ii=p.imageinfo&&p.imageinfo[0];if(!ii||!ii.thumburl||BADIMG.test(p.title))return;
+  const em=ii.extmetadata||{},txt=p.title+' '+((em.ImageDescription||{}).value||'')+' '+((em.Categories||{}).value||'');
+  const T=tokens(p.title);if(!B.length||!B.every(w=>T.includes(w)||normT(txt).includes(w))||!GEO.test(txt))return;
   out.push({t:ii.thumburl,m:sized(ii.thumburl,960),f:ii.descriptionurl||'https://commons.wikimedia.org/wiki/'+p.title.replace(/ /g,'_'),n:p.title.replace(/^File:/,'').replace(/\.[a-z]+$/i,'').replace(/_/g,' ')});});
  return out;
 }
