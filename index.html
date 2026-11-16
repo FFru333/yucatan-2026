@@ -624,7 +624,11 @@ details.tdl>summary{cursor:pointer;font:700 18px var(--fd);list-style:none;paddi
 .swr .td{margin:0}
 .gear{flex:none;width:40px;height:40px;border-radius:50%;display:grid;place-items:center;border:2px solid var(--gold);background:transparent;color:var(--band-ink);padding:0}
 .gear[aria-pressed=true]{background:var(--gold);color:#111}
-.ovw{display:grid;gap:10px;padding-top:12px}
+.ovw{display:grid;grid-template-columns:minmax(0,1fr);gap:10px;padding:14px}
+.ovw>*,.hcard>*{min-width:0;max-width:100%}
+.ovt,.ovh{box-sizing:border-box}
+.hcard .stayrow{min-width:0;box-sizing:border-box}.hcard .stayform{display:flex;gap:8px;min-width:0}.hcard .stayform input{width:auto;flex:1 1 0;min-width:0}.hcard .staychip{flex-wrap:wrap}
+.cb .ovw .hint{margin:0}
 .ovt,.ovh{width:100%;border:1.5px solid var(--edge);border-radius:9px;background:var(--bg);color:var(--ink);padding:9px 10px;font:inherit;font-size:13.5px;line-height:1.45;resize:vertical}
 .hcard{border:2px solid var(--line);border-left:8px solid var(--bc);border-radius:12px;padding:10px 12px;display:grid;gap:8px;min-width:0}
 .hcard .hh{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;align-items:baseline}
@@ -2733,11 +2737,11 @@ function overviewHTML(){
  const swr=(k,inner)=>`<div class="swr"><button class="swd" data-act="ovappdel" data-k="${esc(k)}" aria-label="Delete" type="button"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4h8v2M6 6l1 14h10l1-14M10 11v5M14 11v5"/></svg></button><div class="sw-in">${inner}</div></div>`;
  const apps=APPS.filter(x=>!(O.hide||{})[x[0]]).map(([k,n,d])=>swr(k,`<label class="td"><input type="checkbox" data-act="ovapp" data-k="${k}" ${O.apps[k]?'checked':''}><span>${esc(n)}<br><span class="hint">${esc(d)}</span></span><span></span></label>`)).join('')+O.xapps.map(n=>swr('x:'+n,`<label class="td"><input type="checkbox" data-act="ovapp" data-k="x:${esc(n)}" ${O.apps['x:'+n]?'checked':''}><span>${esc(n)}</span><span></span></label>`)).join('');
  return`<div class="phero"><div><div class="eyebrow2">Overview</div><h2 class="edh">Before you go</h2><p class="edlead">Flights, hotels, apps and notes in one place. Everything here is yours to edit and stays on this phone. Hotels you enter also show up on the stop and day pages.</p></div></div>
- <section class="ps"><div class="edwrap ovw"><h3 class="lab">Flights</h3><textarea class="ovt" data-ov="fl1" rows="3">${esc(O.fl1)}</textarea><textarea class="ovt" data-ov="fl2" rows="3">${esc(O.fl2)}</textarea><textarea class="ovt" data-ov="ref" rows="2" placeholder="Booking reference, flight numbers, seats…">${esc(O.ref)}</textarea><p class="hint">Dates and times from what you told me, not from a ticket. Check against your booking.</p></div></section>
- <section class="ps"><div class="edwrap ovw"><h3 class="lab">Hotels</h3><p class="hint">One per stop, following your itinerary. Add the Maps link to make distances start from it.</p>${hot}</div></section>
- <section class="ps"><div class="edwrap ovw"><h3 class="lab">Car</h3><textarea class="ovt" data-ov="car" rows="2">${esc(O.car)}</textarea></div></section>
- <section class="ps"><div class="edwrap ovw"><h3 class="lab">Apps to download</h3>${apps}<div class="stayform"><input id="xapp" type="text" placeholder="Add an app or a to-do" autocomplete="off"><button class="btn sm" data-act="ovxadd" type="button">Add</button></div><p class="hint">A starting list of my suggestions, not a verified requirement. Swipe a row left to delete it.</p></div></section>
- <section class="ps"><div class="edwrap ovw"><h3 class="lab">Notes</h3><textarea class="ovt" data-ov="notes" rows="5" placeholder="Insurance, passport, contacts, anything important…">${esc(O.notes)}</textarea></div></section>`;
+ <section class="ps"><div class="cb cb-core"><header><h4>Flights</h4><span class="mono">KLM · BLQ ⇄ CUN</span></header><div class="ovw"><textarea class="ovt" data-ov="fl1" rows="3">${esc(O.fl1)}</textarea><textarea class="ovt" data-ov="fl2" rows="3">${esc(O.fl2)}</textarea><textarea class="ovt" data-ov="ref" rows="2" placeholder="Booking reference, flight numbers, seats…">${esc(O.ref)}</textarea><p class="hint">Dates and times from what you told me, not from a ticket. Check against your booking.</p></div></div></section>
+ <section class="ps"><div class="cb cb-buy"><header><h4>Hotels</h4><span class="mono">One per stop</span></header><div class="ovw"><p class="hint">One per stop, following your itinerary. Add the Maps link to make distances start from it.</p>${hot}</div></div></section>
+ <section class="ps"><div class="cb cb-reach"><header><h4>Car</h4><span class="mono">Rental</span></header><div class="ovw"><textarea class="ovt" data-ov="car" rows="2">${esc(O.car)}</textarea></div></div></section>
+ <section class="ps"><div class="cb cb-eat"><header><h4>Apps to download</h4><span class="mono">Before you fly</span></header><div class="ovw">${apps}<div class="stayform"><input id="xapp" type="text" placeholder="Add an app or a to-do" autocomplete="off"><button class="btn sm" data-act="ovxadd" type="button">Add</button></div><p class="hint">A starting list of my suggestions, not a verified requirement. Swipe a row left to delete it.</p></div></div></section>
+ <section class="ps"><div class="cb cb-trad"><header><h4>Notes</h4><span class="mono">Anything important</span></header><div class="ovw"><textarea class="ovt" data-ov="notes" rows="5" placeholder="Insurance, passport, contacts, anything important…">${esc(O.notes)}</textarea></div></div></section>`;
 }
 const THEMES=[['','Rojo','#C42B2B'],['green','Selva','#1D5A3A'],['black','Noche','#0B0B0B'],['blue','Cenote','#14708C']];
 function headHTML(){
