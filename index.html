@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="it"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" type="image/png" href="icon-192.png">
 <meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Yucatán"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<title>Yucatán, 8–22 dicembre</title>
-<meta name="description" content="Itinerario Yucatán, 8–22 dicembre: giorno per giorno, mappa e luoghi."><meta name="theme-color" content="#23603F">
+<title>Yucatán, 8–22 December</title>
+<meta name="description" content="Yucatán itinerary, 8–22 December: day by day, map and places."><meta name="theme-color" content="#C42B2B">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Public+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap">
 <style>
-/* Layout: filtri a sinistra, mappa al centro, scheda del luogo a destra. Viste: Il piano, Giorni, Mappa, Modifica. */
+/* Layout: filters left, map centre, place card right. Views: Stops, Days, Map, Edit. */
 :root{
   --bg:#EFEADB; --panel:#FFFDF6; --panel-2:#E6EDD9; --ink:#111612; --ink-2:#4B5E50; --line:#CDD2BF; --edge:#111612;
   --accent:#1D5A3A; --accent-ink:#FFFFFF; --sea:#EDE8D8; --land:#C3D6B8; --border:#1D5A3A; --grid:#A7BBA3;
@@ -525,49 +525,55 @@ html{overscroll-behavior-y:contain}
 #ptr.splat-go .splat{animation:splat .6s cubic-bezier(.2,1.5,.4,1) forwards}
 #ptr.out .splat{opacity:1;transform:scale(1)}
 @keyframes splat{0%{opacity:0;transform:scale(.2)}35%{opacity:1;transform:scale(1.12)}100%{opacity:1;transform:scale(1)}}
+
+/* Sfondo rosso Messico con greca maya tono su tono */
+:root{--page:#C42B2B}
+html{background:var(--page)}
+body{background-color:var(--page);background-image:url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2272%22 height=%2272%22 viewBox=%220 0 72 72%22%3E%3Cg fill=%22none%22 stroke=%22%239E1C22%22 stroke-width=%223%22 stroke-linejoin=%22miter%22 opacity=%22.55%22%3E%3Cpath d=%22M36 6l30 30-30 30L6 36z%22/%3E%3Cpath d=%22M36 16l20 20-20 20L16 36z%22/%3E%3Cpath d=%22M26 36h6v-6h8v12h-8%22/%3E%3C/g%3E%3Cg fill=%22%239E1C22%22 opacity=%22.55%22%3E%3Crect x=%220%22 y=%220%22 width=%226%22 height=%226%22/%3E%3Crect x=%2266%22 y=%220%22 width=%226%22 height=%226%22/%3E%3Crect x=%220%22 y=%2266%22 width=%226%22 height=%226%22/%3E%3Crect x=%2266%22 y=%2266%22 width=%226%22 height=%226%22/%3E%3C/g%3E%3Cg fill=%22%23F2C200%22 opacity=%22.28%22%3E%3Ccircle cx=%2236%22 cy=%2236%22 r=%222.4%22/%3E%3C/g%3E%3C/svg%3E");background-size:72px 72px}
+.jump{background:var(--page)!important}
 </style></head>
 <body><div id="app"></div>
 <script>
-/* ===== DATI ===== */
+/* ===== DATA ===== */
 const FAMS={
-  cult:{n:'Cultura',c:'var(--f-cult)'},maya:{n:'Maya',c:'var(--f-maya)'},sera:{n:'Sera',c:'var(--f-sera)'},
-  mare:{n:'Mare e relax',c:'var(--f-mare)'},nat:{n:'Natura',c:'var(--f-nat)'},vita:{n:'Vita locale',c:'var(--f-vita)'},prat:{n:'Pratico',c:'var(--f-prat)'}
+  cult:{n:'Culture',c:'var(--f-cult)'},maya:{n:'Maya',c:'var(--f-maya)'},sera:{n:'Evening',c:'var(--f-sera)'},
+  mare:{n:'Sea and relax',c:'var(--f-mare)'},nat:{n:'Nature',c:'var(--f-nat)'},vita:{n:'Local life',c:'var(--f-vita)'},prat:{n:'Practical',c:'var(--f-prat)'}
 };
 const TAGF={
-  'Arte contemporanea':'cult','Museo':'cult','Architettura':'cult','Street art':'cult','Gallerie':'cult',
+  'Contemporary art':'cult','Museum':'cult','Architecture':'cult','Street art':'cult','Galleries':'cult',
   'Maya':'maya',
-  'Cocktail':'sera','Ballo':'sera','Musica live':'sera','Cena':'sera','Serale':'sera',
-  'Spiaggia':'mare','Isola':'mare','Snorkeling':'mare','Mare':'mare',
-  'Natura':'nat','Cenote':'nat','Laguna':'nat',
-  'Villaggio tipico':'vita','Mercato':'vita','Cibo':'vita','Passeggiata':'vita',
-  'Gratis':'prat','Mezza giornata':'prat','Giornata intera':'prat','Affollato':'prat','Tranquillo':'prat','Trasporti':'prat'
+  'Cocktails':'sera','Dancing':'sera','Live music':'sera','Dinner':'sera','Evening':'sera',
+  'Beach':'mare','Island':'mare','Snorkelling':'mare','Sea':'mare',
+  'Nature':'nat','Cenote':'nat','Lagoon':'nat',
+  'Typical village':'vita','Market':'vita','Food':'vita','Stroll':'vita',
+  'Free':'prat','Half day':'prat','Full day':'prat','Crowded':'prat','Quiet':'prat','Transport':'prat'
 };
 const gq=q=>'https://www.google.com/search?q='+encodeURIComponent(q);
 const gm=(lat,lon)=>'https://www.google.com/maps/search/?api=1&query='+lat+','+lon;
 
-/* Basi dove dormire. prof = punteggi 0–5, giudizio mio, non misurato. */
+/* Sleeping bases. prof = scores 0–5, my judgement, not measured. */
 const BASES={
-  cun:{n:'Aeroporto di Cancún',s:'CUN',lat:21.0365,lon:-86.8771,kind:'air'},
+  cun:{n:'Cancún Airport',s:'CUN',lat:21.0365,lon:-86.8771,kind:'air'},
   pm:{n:'Puerto Morelos',lat:20.8478,lon:-86.8758,kind:'coast',prof:{art:1,maya:1,sera:1,relax:4,calma:5},
-    vibe:'Paese di pescatori sulla costa, a pochi minuti dall’aeroporto. Atterraggio morbido, mare, poca vita notturna.'},
+    vibe:'Fishing village on the coast, a few minutes from the airport. Soft landing, sea, little nightlife.'},
   hol:{n:'Holbox',lat:21.5226,lon:-87.3810,kind:'island',access:'chi',ferry:0.5,prof:{art:2,maya:0,sera:2,relax:5,calma:5},
-    vibe:'Isola senza auto, murales ovunque, serate con musica dal vivo ma niente club. Relax pieno.'},
+    vibe:'Car-free island, murals everywhere, evenings with live music but no clubs. Pure relaxation.'},
   val:{n:'Valladolid',lat:20.6897,lon:-88.2017,kind:'town',prof:{art:2,maya:4,sera:2,relax:1,calma:4},
-    vibe:'Il paese tipico a metà strada: base per Chichén Itzá, Ek Balam e i cenote.'},
+    vibe:'The typical town halfway along: base for Chichén Itzá, Ek Balam and the cenotes.'},
   mer:{n:'Mérida',lat:20.9674,lon:-89.6237,kind:'city',prof:{art:5,maya:3,sera:5,relax:1,calma:2},
-    vibe:'La capitale culturale: MACAY, palazzi, gallerie, cene e musica dal vivo. Uxmal a 1,5 h.'},
+    vibe:'The cultural capital: MACAY, mansions, galleries, dinners and live music. Uxmal is 1.5 h away.'},
   ism:{n:'Isla Mujeres',lat:21.2318,lon:-86.7456,kind:'island',access:'pj',ferry:0.5,prof:{art:2,maya:0,sera:3,relax:4,calma:3},
-    vibe:'Isola a 30 minuti di traghetto da Cancún, più sviluppata di Holbox; MUSA, il museo subacqueo, è qui davanti.'},
+    vibe:'Island 30 minutes by ferry from Cancún, more developed than Holbox; MUSA, the underwater museum, is right out front.'},
   tul:{n:'Tulum',lat:20.2110,lon:-87.4650,kind:'coast',prof:{art:2,maya:3,sera:4,relax:4,calma:1},
-    vibe:'Spiaggia, locali e rovine sul mare. È il tipo di turismo che avevate detto di voler evitare.'},
+    vibe:'Beach, bars and ruins by the sea. It is the kind of tourism you said you wanted to avoid.'},
   bac:{n:'Bacalar',lat:18.6770,lon:-88.3930,kind:'town',prof:{art:0,maya:2,sera:1,relax:4,calma:5},
-    vibe:'Laguna a sud, lontana: circa 4 h dall’aeroporto. Molta calma, poca cultura.'},
+    vibe:'Lagoon in the south, far away: about 4 h from the airport. Lots of calm, little culture.'},
   cam:{n:'Campeche',lat:19.8454,lon:-90.5337,kind:'city',prof:{art:4,maya:3,sera:2,relax:1,calma:4},
-    vibe:'Città murata sul Golfo, tranquilla. Lontana dall’aeroporto (circa 6 h).'}
+    vibe:'Walled city on the Gulf, quiet. Far from the airport (about 6 h).'}
 };
 const NODES=Object.assign({},BASES,{chi:{n:'Chiquilá',lat:21.43,lon:-87.34},pj:{n:'Puerto Juárez',lat:21.1888,lon:-86.8125}});
 
-/* [a, b, ore, verificato(1/0)] */
+/* [a, b, hours, verified(1/0)] */
 const DRIVE_LIST=[
  ['cun','pm',0.4,0],['cun','chi',1.9,1],['cun','val',2,1],['cun','mer',3.75,1],['cun','pj',0.4,0],
  ['cun','tul',1.75,0],['cun','bac',4,0],['cun','cam',6,0],
@@ -625,286 +631,286 @@ const SRC={
  m2c:'https://www.universal-traveller.com/de/?p=243380'
 };
 
-/* from: ore di guida da una base, [ore, verificato]. isl: isola su cui si trova. gen: descrizione generale, non verificata qui. */
+/* from: driving hours from a base, [hours, verified]. isl: island it is on. gen: general description, not verified here. */
 const POIS=[
-{id:'macay',n:'MACAY, arte contemporanea',zone:'Mérida · Plaza Grande',lat:20.9675,lon:-89.6236,fam:'cult',
- tags:['Arte contemporanea','Museo','Architettura','Gallerie','Mezza giornata'],
- txt:'Unico museo di arte contemporanea della penisola, nell’ex palazzo arcivescovile accanto alla cattedrale. Mostre temporanee e grandi murales sulla storia dello Yucatán.',
- price:'40 MXN secondo una fonte, gratuito secondo un’altra. Verifica.',priceV:0,hours:'Lun–Ven 10–17, sab 10–15 (annuncio di terzi)',hoursV:0,dur:'1,5–2 h',
+{id:'macay',n:'MACAY, contemporary art',zone:'Mérida · Plaza Grande',lat:20.9675,lon:-89.6236,fam:'cult',
+ tags:['Contemporary art','Museum','Architecture','Galleries','Half day'],
+ txt:'The only contemporary art museum on the peninsula, in the former archbishop’s palace next to the cathedral. Temporary exhibitions and large murals on the history of Yucatán.',
+ price:'40 MXN according to one source, free according to another. Verify.',priceV:0,hours:'Mon–Fri 10–5, Sat 10–3 (third-party notice)',hoursV:0,dur:'1.5–2 h',
  from:{mer:[0.1,0]},
- links:[['Scheda MACAY',SRC.macay,1],['Costi e indirizzo',SRC.macay2,1],['Mostre in corso: cerca',gq('MACAY Mérida exposiciones diciembre 2026'),0]]},
+ links:[['MACAY page',SRC.macay,1],['Costs and address',SRC.macay2,1],['Current shows: search',gq('MACAY Mérida exposiciones diciembre 2026'),0]]},
 {id:'canton',n:'Palacio Cantón',zone:'Mérida · Paseo de Montejo',lat:20.9862,lon:-89.6177,fam:'cult',
- tags:['Architettura','Museo','Maya','Mezza giornata'],
- txt:'Villa del 1904–1911 in stile porfiriano, tra gli esempi più riusciti di quell’epoca in Messico. Dentro c’è il Museo regionale di antropologia.',
- price:'Ingresso: verifica.',priceV:0,hours:'Mar–Dom 8–17',hoursV:1,dur:'1–1,5 h',from:{mer:[0.2,0]},
- links:[['Ville di Paseo de Montejo',SRC.montejo,1],['Prezzi: cerca',gq('Palacio Cantón Mérida entrada precio'),0]]},
-{id:'paseo',n:'Paseo de Montejo, le ville',zone:'Mérida',lat:20.9990,lon:-89.6150,fam:'cult',
- tags:['Architettura','Passeggiata','Gratis','Serale'],
- txt:'Viale ispirato ai boulevard europei, con le ville dell’epoca dell’henequén. La domenica diventa pedonale e ciclabile (biciruta).',
- price:'Gratis.',priceV:1,hours:'Sempre accessibile',hoursV:0,dur:'1–2 h',from:{mer:[0.3,0]},
- links:[['Ville dell’henequén',SRC.montejo,1],['Lonely Planet',SRC.lpmontejo,1],['Biciruta e tour',SRC.rmn,1]]},
-{id:'mundomaya',n:'Gran Museo del Mundo Maya',zone:'Mérida nord',lat:21.0270,lon:-89.6040,fam:'maya',pos:1,
- tags:['Maya','Museo','Mezza giornata'],
- txt:'Grande museo sulla civiltà Maya, fuori dal centro. Un blog lo abbina a Dzibilchaltún nella stessa mattina.',
- price:'Ingresso: verifica.',priceV:0,hours:'Verifica.',hoursV:0,dur:'2–3 h',from:{mer:[0.4,0]},
- links:[['Cultura di Mérida',SRC.mundo,1],['Abbinato a Dzibilchaltún',SRC.luxton,1],['Orari e prezzi: cerca',gq('Gran Museo del Mundo Maya Mérida horario precio'),0]]},
-{id:'santaana',n:'Gallerie di Santa Ana e Santiago',zone:'Mérida · Calle 60',lat:20.9748,lon:-89.6232,fam:'cult',
- tags:['Gallerie','Arte contemporanea','Passeggiata','Gratis'],
- txt:'Mérida ha sempre più gallerie d’arte: si passeggia lungo la Calle 60 a Santa Ana e nei dintorni di Santiago.',
- price:'Ingresso gratuito di norma, verifica per ogni galleria.',priceV:0,hours:'Variabile',hoursV:0,dur:'1–2 h',from:{mer:[0.2,0]},
- links:[['20 cose gratis a Mérida',SRC.free20,1],['Gallerie: cerca',gq('galerías de arte Mérida Yucatán Santa Ana Calle 60'),0]]},
+ tags:['Architecture','Museum','Maya','Half day'],
+ txt:'A 1904–1911 villa in Porfirian style, among the most successful examples of that era in Mexico. Inside is the Regional Museum of Anthropology.',
+ price:'Entry: verify.',priceV:0,hours:'Tue–Sun 8–5',hoursV:1,dur:'1–1.5 h',from:{mer:[0.2,0]},
+ links:[['Paseo de Montejo mansions',SRC.montejo,1],['Prices: search',gq('Palacio Cantón Mérida entrada precio'),0]]},
+{id:'paseo',n:'Paseo de Montejo, the mansions',zone:'Mérida',lat:20.9990,lon:-89.6150,fam:'cult',
+ tags:['Architecture','Stroll','Free','Evening'],
+ txt:'A boulevard inspired by European avenues, with mansions from the henequen era. On Sundays it becomes pedestrian and bike-friendly (biciruta).',
+ price:'Free.',priceV:1,hours:'Always accessible',hoursV:0,dur:'1–2 h',from:{mer:[0.3,0]},
+ links:[['Henequen mansions',SRC.montejo,1],['Lonely Planet',SRC.lpmontejo,1],['Biciruta and tours',SRC.rmn,1]]},
+{id:'mundomaya',n:'Gran Museo del Mundo Maya',zone:'North Mérida',lat:21.0270,lon:-89.6040,fam:'maya',pos:1,
+ tags:['Maya','Museum','Half day'],
+ txt:'Large museum on Maya civilisation, outside the centre. One blog pairs it with Dzibilchaltún on the same morning.',
+ price:'Entry: verify.',priceV:0,hours:'Verify.',hoursV:0,dur:'2–3 h',from:{mer:[0.4,0]},
+ links:[['Mérida culture',SRC.mundo,1],['Paired with Dzibilchaltún',SRC.luxton,1],['Hours and prices: search',gq('Gran Museo del Mundo Maya Mérida horario precio'),0]]},
+{id:'santaana',n:'Santa Ana and Santiago galleries',zone:'Mérida · Calle 60',lat:20.9748,lon:-89.6232,fam:'cult',
+ tags:['Galleries','Contemporary art','Stroll','Free'],
+ txt:'Mérida has more and more art galleries: stroll along Calle 60 in Santa Ana and around Santiago.',
+ price:'Usually free entry, verify for each gallery.',priceV:0,hours:'Varies',hoursV:0,dur:'1–2 h',from:{mer:[0.2,0]},
+ links:[['20 free things in Mérida',SRC.free20,1],['Galleries: search',gq('galerías de arte Mérida Yucatán Santa Ana Calle 60'),0]]},
 {id:'casamontejo',n:'Casa de Montejo',zone:'Mérida · Plaza Grande',lat:20.9672,lon:-89.6240,fam:'cult',
- tags:['Architettura','Museo','Passeggiata'],
- txt:'Palazzo del 1540 sulla piazza principale, con facciata scolpita. Dentro c’è un museo, gratuito secondo un blog.',
- price:'Gratuito secondo un blog. Verifica.',priceV:0,hours:'Verifica.',hoursV:0,dur:'45 min',from:{mer:[0.1,0]},
- links:[['Sulla piazza',SRC.milenio,1],['Museo gratuito (blog)',SRC.luxton,1]]},
+ tags:['Architecture','Museum','Stroll'],
+ txt:'A 1540 palace on the main square, with a carved facade. Inside there is a museum, free according to one blog.',
+ price:'Free according to one blog. Verify.',priceV:0,hours:'Verify.',hoursV:0,dur:'45 min',from:{mer:[0.1,0]},
+ links:[['On the square',SRC.milenio,1],['Free museum (blog)',SRC.luxton,1]]},
 {id:'santalucia',n:'Parque de Santa Lucía',zone:'Mérida · Calle 60',lat:20.9702,lon:-89.6238,fam:'sera',
- tags:['Musica live','Serale','Cena','Gratis','Ballo'],
- txt:'Parco famoso per le serate all’aperto con trova dal vivo e ballerini locali. Arrivate al tramonto per cenare e ascoltare.',
- price:'Gratis, si paga solo ciò che si consuma.',priceV:0,hours:'Sera',hoursV:0,dur:'2–3 h',from:{mer:[0.1,0]},
- links:[['Guida a Mérida',SRC.backpack,1],['Programma serale: cerca',gq('Parque Santa Lucía Mérida serenata trova jueves'),0]]},
+ tags:['Live music','Evening','Dinner','Free','Dancing'],
+ txt:'A park famous for open-air evenings with live trova and local dancers. Arrive at sunset to eat and listen.',
+ price:'Free, you only pay for what you consume.',priceV:0,hours:'Evening',hoursV:0,dur:'2–3 h',from:{mer:[0.1,0]},
+ links:[['Mérida guide',SRC.backpack,1],['Evening programme: search',gq('Parque Santa Lucía Mérida serenata trova jueves'),0]]},
 {id:'corazon',n:'Corazón de Mérida',zone:'Mérida · Calle 60',lat:20.9690,lon:-89.6237,fam:'sera',
- tags:['Musica live','Ballo','Serale','Gratis'],
- txt:'Giovedì, venerdì e sabato sera le strade del centro diventano una festa con musica, danza e artigianato.',
- price:'Gratis.',priceV:1,hours:'Gio–sab dalle 20 a mezzanotte',hoursV:1,dur:'2–3 h',from:{mer:[0.1,0]},
- links:[['20 cose gratis a Mérida',SRC.free20,1],['Fodor’s: bar in centro',SRC.fodors,1]]},
-{id:'calle47',n:'Calle 47 e Parque de Santiago',zone:'Mérida · Santiago',lat:20.9745,lon:-89.6285,fam:'sera',pos:1,
- tags:['Cena','Cocktail','Musica live','Serale'],
- txt:'Via di ristoranti e locali a tema con musica dal vivo. Casa Dominga unisce food court, bar e concerti in un edificio del 1906.',
- price:'Dipende dal locale.',priceV:0,hours:'Sera',hoursV:0,dur:'serata',from:{mer:[0.2,0]},
- links:[['Calle 47, guida',SRC.s47,1],['Fodor’s',SRC.fodors,1],['Altri bar (Yucatán Today)',SRC.ytnight,1]]},
+ tags:['Live music','Dancing','Evening','Free'],
+ txt:'On Thursday, Friday and Saturday evenings the centre streets turn into a party with music, dance and crafts.',
+ price:'Free.',priceV:1,hours:'Thu–Sat from 8 pm to midnight',hoursV:1,dur:'2–3 h',from:{mer:[0.1,0]},
+ links:[['20 free things in Mérida',SRC.free20,1],['Fodor’s: bars in the centre',SRC.fodors,1]]},
+{id:'calle47',n:'Calle 47 and Parque de Santiago',zone:'Mérida · Santiago',lat:20.9745,lon:-89.6285,fam:'sera',pos:1,
+ tags:['Dinner','Cocktails','Live music','Evening'],
+ txt:'A street of restaurants and themed bars with live music. Casa Dominga combines food court, bar and concerts in a 1906 building.',
+ price:'Depends on the venue.',priceV:0,hours:'Evening',hoursV:0,dur:'evening',from:{mer:[0.2,0]},
+ links:[['Calle 47, guide',SRC.s47,1],['Fodor’s',SRC.fodors,1],['More bars (Yucatán Today)',SRC.ytnight,1]]},
 {id:'mambo',n:'Mambo Café, salsa',zone:'Mérida · Plaza Las Américas',lat:21.0130,lon:-89.5700,fam:'sera',pos:1,
- tags:['Ballo','Musica live','Serale'],
- txt:'Indicato come il miglior locale della città per musica dal vivo e DJ di generi latini, dal reggaeton alla salsa. Per ballare davvero è la scelta più chiara.',
- price:'Ingresso: verifica.',priceV:0,hours:'Verifica.',hoursV:0,dur:'serata',from:{mer:[0.4,0]},
- links:[['Culture Trip',SRC.ctnight,1],['Frommer’s',SRC.frommers,1],['Eventi e ingresso: cerca',gq('Mambo Café Mérida Plaza Las Américas'),0]]},
-{id:'uxmal',n:'Uxmal',zone:'Puuc · 80 km da Mérida',lat:20.3598,lon:-89.7711,fam:'maya',
- tags:['Maya','Architettura','Giornata intera'],
- txt:'Grande città Maya in stile Puuc. Non si può salire sulla Piramide dell’Indovino. C’è anche uno spettacolo di luci serale.',
- price:'Circa 450–556 MXN per stranieri (dato 2025), più 116 MXN di parcheggio. Verifica 2026.',priceV:0,hours:'Tutti i giorni 8–17',hoursV:1,dur:'3 h',
+ tags:['Dancing','Live music','Evening'],
+ txt:'Named as the best venue in the city for live music and DJs of Latin genres, from reggaeton to salsa. For real dancing it is the clearest choice.',
+ price:'Entry: verify.',priceV:0,hours:'Verify.',hoursV:0,dur:'evening',from:{mer:[0.4,0]},
+ links:[['Culture Trip',SRC.ctnight,1],['Frommer’s',SRC.frommers,1],['Events and entry: search',gq('Mambo Café Mérida Plaza Las Américas'),0]]},
+{id:'uxmal',n:'Uxmal',zone:'Puuc · 80 km from Mérida',lat:20.3598,lon:-89.7711,fam:'maya',
+ tags:['Maya','Architecture','Full day'],
+ txt:'A large Maya city in Puuc style. You cannot climb the Pyramid of the Magician. There is also an evening light show.',
+ price:'About 450–556 MXN for foreigners (2025 figure), plus 116 MXN parking. Verify 2026.',priceV:0,hours:'Daily 8–5',hoursV:1,dur:'3 h',
  from:{mer:[1.5,1]},
- links:[['Orari e biglietti',SRC.uxmal1,1],['Parcheggio e spettacolo',SRC.uxmal2,1],['Regole del sito',SRC.uxmal3,1],['Tariffe INAH 2026',SRC.fees26,1]]},
-{id:'dzibil',n:'Dzibilchaltún',zone:'Nord di Mérida',lat:21.0900,lon:-89.5970,fam:'maya',pos:1,
- tags:['Maya','Natura','Mezza giornata'],
- txt:'Sito Maya vicino a Mérida; il suo cenote risulta chiuso al pubblico (Por Esto, luglio 2026). Si combina con il Museo del Mundo Maya.',
- price:'Tariffa INAH: verifica.',priceV:0,hours:'Verifica.',hoursV:0,dur:'2 h',from:{mer:[0.5,0]},
- links:[['Tariffe INAH, luglio 2026',SRC.fees07,1],['Abbinato al museo',SRC.luxton,1]]},
-{id:'celestun',n:'Celestún',zone:'Golfo · 1 h 15 da Mérida',lat:20.8588,lon:-90.3988,fam:'nat',gen:1,
- tags:['Natura','Spiaggia','Giornata intera'],
- txt:'Riserva sul Golfo, nota per i fenicotteri nella stagione fredda. Descrizione generale, da verificare.',
- price:'Barca per la laguna: verifica.',priceV:0,hours:'Verifica.',hoursV:0,dur:'giornata',from:{mer:[1.25,0]},
- links:[['Tour e prezzi: cerca',gq('Celestún flamencos tour precio diciembre'),0],['Mappa',gm(20.8588,-90.3988),0]]},
-{id:'progreso',n:'Progreso',zone:'Golfo · 40 min da Mérida',lat:21.2833,lon:-89.6667,fam:'mare',gen:1,
- tags:['Spiaggia','Cibo','Mezza giornata'],
- txt:'Città balneare sul Golfo, la spiaggia più vicina a Mérida. Mare meno caraibico. Descrizione generale, da verificare.',
- price:'Gratis.',priceV:0,hours:'—',hoursV:0,dur:'mezza giornata',from:{mer:[0.7,0]},
- links:[['Mappa',gm(21.2833,-89.6667),0],['Info: cerca',gq('Progreso Yucatán playa cómo llegar desde Mérida'),0]]},
-{id:'izamal',n:'Izamal',zone:'Tra Mérida e Valladolid',lat:20.9333,lon:-89.0167,fam:'vita',gen:1,
- tags:['Villaggio tipico','Architettura','Maya','Mezza giornata'],
- txt:'Paese dalle facciate gialle con un grande convento. Si trova a metà strada fra Mérida e Valladolid. Descrizione generale, da verificare.',
+ links:[['Hours and tickets',SRC.uxmal1,1],['Parking and show',SRC.uxmal2,1],['Site rules',SRC.uxmal3,1],['INAH fees 2026',SRC.fees26,1]]},
+{id:'dzibil',n:'Dzibilchaltún',zone:'North of Mérida',lat:21.0900,lon:-89.5970,fam:'maya',pos:1,
+ tags:['Maya','Nature','Half day'],
+ txt:'A Maya site near Mérida; its cenote is reported closed to the public (Por Esto, July 2026). Combines with the Museo del Mundo Maya.',
+ price:'INAH fee: verify.',priceV:0,hours:'Verify.',hoursV:0,dur:'2 h',from:{mer:[0.5,0]},
+ links:[['INAH fees, July 2026',SRC.fees07,1],['Paired with the museum',SRC.luxton,1]]},
+{id:'celestun',n:'Celestún',zone:'Gulf · 1 h 15 from Mérida',lat:20.8588,lon:-90.3988,fam:'nat',gen:1,
+ tags:['Nature','Beach','Full day'],
+ txt:'A reserve on the Gulf, known for flamingos in the cool season. General description, to verify.',
+ price:'Boat on the lagoon: verify.',priceV:0,hours:'Verify.',hoursV:0,dur:'day',from:{mer:[1.25,0]},
+ links:[['Tours and prices: search',gq('Celestún flamencos tour precio diciembre'),0],['Map',gm(20.8588,-90.3988),0]]},
+{id:'progreso',n:'Progreso',zone:'Gulf · 40 min from Mérida',lat:21.2833,lon:-89.6667,fam:'mare',gen:1,
+ tags:['Beach','Food','Half day'],
+ txt:'A beach town on the Gulf, the beach closest to Mérida. Less Caribbean sea. General description, to verify.',
+ price:'Free.',priceV:0,hours:'—',hoursV:0,dur:'half day',from:{mer:[0.7,0]},
+ links:[['Map',gm(21.2833,-89.6667),0],['Info: search',gq('Progreso Yucatán playa cómo llegar desde Mérida'),0]]},
+{id:'izamal',n:'Izamal',zone:'Between Mérida and Valladolid',lat:20.9333,lon:-89.0167,fam:'vita',gen:1,
+ tags:['Typical village','Architecture','Maya','Half day'],
+ txt:'A town with yellow facades and a large convent. It lies halfway between Mérida and Valladolid. General description, to verify.',
  price:'—',priceV:0,hours:'—',hoursV:0,dur:'3 h',from:{mer:[1,0],val:[1,0]},
- links:[['Mappa',gm(20.9333,-89.0167),0],['Info: cerca',gq('Izamal Yucatán qué ver'),0]]},
-{id:'campeche',n:'Campeche, città murata',zone:'Golfo · 2 h da Mérida',lat:19.8454,lon:-90.5337,fam:'cult',
- tags:['Architettura','Museo','Passeggiata','Cibo','Giornata intera'],
- txt:'Unica città murata del Messico: fortificazioni del 1600, case colorate, bastioni diventati musei. Da Mérida servono circa 2 h.',
- price:'Musei e bastioni: verifica.',priceV:0,hours:'Verifica.',hoursV:0,dur:'giornata',from:{mer:[2.1,1]},
- links:[['Cosa vedere',SRC.camp1,1],['Guida 2026',SRC.camp2,1],['Strada Mérida–Campeche',SRC.camp3,1]]},
-{id:'edzna',n:'Edzná',zone:'Campeche · 1 h dalla città',lat:19.5967,lon:-90.2287,fam:'maya',
- tags:['Maya','Natura','Giornata intera'],
- txt:'Sito Maya con piramide a cinque livelli, a circa 1 h da Campeche. Si può fare in giornata anche da Mérida.',
- price:'Verifica.',priceV:0,hours:'Verifica.',hoursV:0,dur:'3–4 h + strada',from:{mer:[2.5,0]},
- links:[['Giornata da Mérida',SRC.edzna,1],['Da Campeche',SRC.camp2,1]]},
-{id:'valcentro',n:'Centro di Valladolid',zone:'Valladolid',lat:20.6897,lon:-88.2017,fam:'vita',gen:1,
- tags:['Villaggio tipico','Cibo','Passeggiata','Architettura','Serale','Tranquillo'],
- txt:'Piazza centrale, convento di San Bernardino e Calzada de los Frailes con i locali. Descrizione generale, da verificare.',
- price:'—',priceV:0,hours:'—',hoursV:0,dur:'serata',from:{val:[0,0]},
- links:[['Mappa',gm(20.6897,-88.2017),0],['Cosa vedere: cerca',gq('Valladolid Yucatán qué hacer Calzada de los Frailes restaurantes'),0]]},
-{id:'chichen',n:'Chichén Itzá',zone:'43 km da Valladolid',lat:20.6843,lon:-88.5678,fam:'maya',
- tags:['Maya','Giornata intera','Affollato'],
- txt:'Il sito Maya più famoso della penisola e Patrimonio mondiale. Si visita meglio all’apertura. Da Valladolid sono 43 km, da Mérida circa 1,5 h.',
- price:'676 MXN per stranieri nel 2026 (105 INAH + 571 stato).',priceV:1,hours:'Tutti i giorni 8–17 (ultimo ingresso 16)',hoursV:0,dur:'3–4 h',
+ links:[['Map',gm(20.9333,-89.0167),0],['Info: search',gq('Izamal Yucatán qué ver'),0]]},
+{id:'campeche',n:'Campeche, walled city',zone:'Gulf · 2 h from Mérida',lat:19.8454,lon:-90.5337,fam:'cult',
+ tags:['Architecture','Museum','Stroll','Food','Full day'],
+ txt:'The only walled city in Mexico: 1600s fortifications, coloured houses, bastions turned into museums. From Mérida it takes about 2 h.',
+ price:'Museums and bastions: verify.',priceV:0,hours:'Verify.',hoursV:0,dur:'day',from:{mer:[2.1,1]},
+ links:[['What to see',SRC.camp1,1],['2026 guide',SRC.camp2,1],['Mérida–Campeche road',SRC.camp3,1]]},
+{id:'edzna',n:'Edzná',zone:'Campeche · 1 h from the city',lat:19.5967,lon:-90.2287,fam:'maya',
+ tags:['Maya','Nature','Full day'],
+ txt:'A Maya site with a five-level pyramid, about 1 h from Campeche. It can be done in a day from Mérida too.',
+ price:'Verify.',priceV:0,hours:'Verify.',hoursV:0,dur:'3–4 h + drive',from:{mer:[2.5,0]},
+ links:[['Day from Mérida',SRC.edzna,1],['From Campeche',SRC.camp2,1]]},
+{id:'valcentro',n:'Valladolid centre',zone:'Valladolid',lat:20.6897,lon:-88.2017,fam:'vita',gen:1,
+ tags:['Typical village','Food','Stroll','Architecture','Evening','Quiet'],
+ txt:'Central square, the San Bernardino convent and Calzada de los Frailes with its bars. General description, to verify.',
+ price:'—',priceV:0,hours:'—',hoursV:0,dur:'evening',from:{val:[0,0]},
+ links:[['Map',gm(20.6897,-88.2017),0],['What to see: search',gq('Valladolid Yucatán qué hacer Calzada de los Frailes restaurantes'),0]]},
+{id:'chichen',n:'Chichén Itzá',zone:'43 km from Valladolid',lat:20.6843,lon:-88.5678,fam:'maya',
+ tags:['Maya','Full day','Crowded'],
+ txt:'The most famous Maya site on the peninsula and a World Heritage Site. Best visited at opening. It is 43 km from Valladolid, about 1.5 h from Mérida.',
+ price:'676 MXN for foreigners in 2026 (105 INAH + 571 state).',priceV:1,hours:'Daily 8–5 (last entry 4)',hoursV:0,dur:'3–4 h',
  from:{val:[0.75,0],mer:[1.5,1]},
- links:[['Prezzi 2026',SRC.fees26,1],['Prezzi: Riviera Maya News',SRC.feesrmn,1],['Orari',SRC.chihours,1],['Valladolid–Mérida',SRC.c2m,1]]},
-{id:'ekbalam',n:'Ek Balam',zone:'Nord di Valladolid',lat:20.8897,lon:-88.1344,fam:'maya',
- tags:['Maya','Mezza giornata'],
- txt:'Sito Maya a nord di Valladolid. Ha la tariffa più alta dello Yucatán: 691 MXN per stranieri nel 2026.',
- price:'691 MXN per stranieri nel 2026.',priceV:1,hours:'Verifica.',hoursV:0,dur:'2–3 h',from:{val:[0.4,0]},
- links:[['Tariffe 2026',SRC.fees26,1],['Orari: cerca',gq('Ek Balam horario entrada 2026'),0]]},
-{id:'ikkil',n:'Cenote Ik Kil',zone:'Vicino a Chichén Itzá',lat:20.6606,lon:-88.5519,fam:'nat',gen:1,
- tags:['Cenote','Natura','Affollato','Mezza giornata'],
- txt:'Cenote a pochi minuti da Chichén Itzá, comodo per chiudere la visita con un bagno. Descrizione generale, da verificare.',
- price:'Verifica.',priceV:0,hours:'Verifica.',hoursV:0,dur:'1 h',from:{val:[0.75,0]},
- links:[['Mappa',gm(20.6606,-88.5519),0],['Prezzi: cerca',gq('Cenote Ik Kil entrada precio'),0]]},
-{id:'suytun',n:'Cenote Suytun',zone:'Vicino a Valladolid',lat:20.6873,lon:-88.1325,fam:'nat',gen:1,pos:1,
- tags:['Cenote','Natura','Mezza giornata'],
- txt:'Cenote scenografico con la piattaforma al centro, a pochi minuti da Valladolid. Descrizione generale, da verificare.',
- price:'Verifica.',priceV:0,hours:'Verifica.',hoursV:0,dur:'1 h',from:{val:[0.2,0]},
- links:[['Mappa',gm(20.6873,-88.1325),0],['Prezzi: cerca',gq('Cenote Suytun entrada precio horario'),0]]},
+ links:[['2026 prices',SRC.fees26,1],['Prices: Riviera Maya News',SRC.feesrmn,1],['Hours',SRC.chihours,1],['Valladolid–Mérida',SRC.c2m,1]]},
+{id:'ekbalam',n:'Ek Balam',zone:'North of Valladolid',lat:20.8897,lon:-88.1344,fam:'maya',
+ tags:['Maya','Half day'],
+ txt:'A Maya site north of Valladolid. It has the highest fee in Yucatán: 691 MXN for foreigners in 2026.',
+ price:'691 MXN for foreigners in 2026.',priceV:1,hours:'Verify.',hoursV:0,dur:'2–3 h',from:{val:[0.4,0]},
+ links:[['2026 fees',SRC.fees26,1],['Hours: search',gq('Ek Balam horario entrada 2026'),0]]},
+{id:'ikkil',n:'Cenote Ik Kil',zone:'Near Chichén Itzá',lat:20.6606,lon:-88.5519,fam:'nat',gen:1,
+ tags:['Cenote','Nature','Crowded','Half day'],
+ txt:'A cenote a few minutes from Chichén Itzá, handy to end the visit with a swim. General description, to verify.',
+ price:'Verify.',priceV:0,hours:'Verify.',hoursV:0,dur:'1 h',from:{val:[0.75,0]},
+ links:[['Map',gm(20.6606,-88.5519),0],['Prices: search',gq('Cenote Ik Kil entrada precio'),0]]},
+{id:'suytun',n:'Cenote Suytun',zone:'Near Valladolid',lat:20.6873,lon:-88.1325,fam:'nat',gen:1,pos:1,
+ tags:['Cenote','Nature','Half day'],
+ txt:'A scenic cenote with a platform in the middle, a few minutes from Valladolid. General description, to verify.',
+ price:'Verify.',priceV:0,hours:'Verify.',hoursV:0,dur:'1 h',from:{val:[0.2,0]},
+ links:[['Map',gm(20.6873,-88.1325),0],['Prices: search',gq('Cenote Suytun entrada precio horario'),0]]},
 {id:'zaci',n:'Cenote Zací',zone:'Valladolid',lat:20.6925,lon:-88.2060,fam:'nat',gen:1,
- tags:['Cenote','Natura','Villaggio tipico'],
- txt:'Cenote dentro la città, vicino al centro. Descrizione generale, da verificare.',
- price:'Verifica.',priceV:0,hours:'Verifica.',hoursV:0,dur:'45 min',from:{val:[0.05,0]},
- links:[['Mappa',gm(20.6925,-88.2060),0]]},
-{id:'coba',n:'Cobá',zone:'Verso la costa',lat:20.4949,lon:-87.7365,fam:'maya',gen:1,
- tags:['Maya','Natura','Mezza giornata'],
- txt:'Sito Maya immerso nella foresta, tra Valladolid e Tulum. Descrizione generale, da verificare.',
- price:'Verifica.',priceV:0,hours:'Verifica.',hoursV:0,dur:'2–3 h',from:{val:[1.1,0]},
- links:[['Mappa',gm(20.4949,-87.7365),0],['Info: cerca',gq('Cobá zona arqueológica horario precio 2026'),0]]},
-{id:'lagartos',n:'Río Lagartos e Las Coloradas',zone:'Costa nord',lat:21.5961,lon:-88.1558,fam:'nat',gen:1,
- tags:['Natura','Giornata intera'],
- txt:'Laguna con fenicotteri e saline rosa sulla costa nord. Descrizione generale, da verificare.',
- price:'Barca: verifica.',priceV:0,hours:'—',hoursV:0,dur:'giornata',from:{val:[1.5,0]},
- links:[['Mappa',gm(21.5961,-88.1558),0],['Tour: cerca',gq('Río Lagartos Las Coloradas tour desde Valladolid'),0]]},
-{id:'tulumruins',n:'Rovine di Tulum',zone:'Costa · Tulum',lat:20.2150,lon:-87.4290,fam:'maya',
- tags:['Maya','Mare','Affollato','Mezza giornata'],
- txt:'Rovine sul mare, molto frequentate. Le fonti sul prezzo sono discordanti.',
- price:'210 MXN (Por Esto, 2026) oppure 515 MXN (fonte non datata). Verifica.',priceV:0,hours:'Verifica.',hoursV:0,dur:'2 h',from:{},
- links:[['Tariffe INAH 2026',SRC.fees26,1],['Orari: cerca',gq('Zona arqueológica de Tulum horario precio'),0]]},
-{id:'holpueblo',n:'Holbox, il paese e i murales',zone:'Holbox',lat:21.5226,lon:-87.3810,fam:'cult',isl:'hol',
- tags:['Isola','Street art','Spiaggia','Musica live','Cibo','Tranquillo','Serale'],
- txt:'Isola senza auto con murales nati dal festival di arte pubblica del 2014. Le serate sono musica dal vivo nei locali sulla spiaggia, senza club.',
- price:'Gratis.',priceV:0,hours:'—',hoursV:0,dur:'giorni',from:{hol:[0,0]},
- links:[['Isola dei graffiti',SRC.holgraf,1],['Serate di Holbox',SRC.holnight,1],['Cosa fare',SRC.holthings,1],['Bar sulla spiaggia',SRC.holsalt,1]]},
-{id:'holtour',n:'Banco di sabbia e tour delle tre isole',zone:'Holbox',lat:21.5385,lon:-87.5240,fam:'mare',isl:'hol',pos:1,
- tags:['Mare','Natura','Isola','Snorkeling','Mezza giornata'],
- txt:'Tour in barca verso Punta Mosquito e le isolette della laguna; il banco di sabbia si raggiunge anche a piedi.',
- price:'Tour: verifica con più operatori.',priceV:0,hours:'—',hoursV:0,dur:'mezza giornata',from:{hol:[0.3,0]},
- links:[['Cosa fare a Holbox',SRC.holthings,1],['Tour e punta Mosquito',gq('Holbox tour tres islas Punta Mosquito precio'),0]]},
-{id:'chiquila',n:'Chiquilá, traghetto e parcheggio',zone:'Imbarco per Holbox',lat:21.4300,lon:-87.3400,fam:'prat',
- tags:['Trasporti'],
- txt:'Qui si lascia l’auto. Parcheggi custoditi vicino al molo: 50–150 MXN al giorno secondo le fonti. Traghetti ogni 30 minuti, circa 25–30 minuti di traversata.',
- price:'Parcheggio 50–150 MXN/giorno (fonti discordanti). Traghetto 170–200 MXN a persona.',priceV:0,hours:'Traghetti dalle 6:30 alle 21:30 (fonte di terzi)',hoursV:0,dur:'—',from:{hol:[0.5,1]},
- links:[['Cancún–Holbox, costi',SRC.holgo,1],['Parcheggio e strada',SRC.holbound,1],['Auto a Chiquilá',SRC.holstamp,1],['Orari traghetti',SRC.holzola,1]]},
-{id:'pmtown',n:'Puerto Morelos, il paese',zone:'Costa · 20 min dall’aeroporto',lat:20.8478,lon:-86.8758,fam:'mare',gen:1,
- tags:['Spiaggia','Villaggio tipico','Cibo','Tranquillo'],
- txt:'Paese di pescatori a pochi minuti da Cancún, tranquillo. Descrizione generale, da verificare.',
- price:'—',priceV:0,hours:'—',hoursV:0,dur:'giorni',from:{pm:[0,0]},
- links:[['Mappa',gm(20.8478,-86.8758),0],['Info: cerca',gq('Puerto Morelos qué hacer restaurantes playa'),0]]},
-{id:'pmreef',n:'Barriera di Puerto Morelos',zone:'Costa',lat:20.8500,lon:-86.8400,fam:'mare',gen:1,
- tags:['Snorkeling','Mare','Natura','Mezza giornata'],
- txt:'Barriera corallina vicina alla riva, adatta allo snorkeling. Descrizione generale, da verificare.',
- price:'Tour: verifica.',priceV:0,hours:'—',hoursV:0,dur:'mezza giornata',from:{pm:[0.2,0]},
- links:[['Tour: cerca',gq('Puerto Morelos snorkel arrecife tour precio'),0]]},
-{id:'ismtown',n:'Isla Mujeres, il centro',zone:'Isla Mujeres',lat:21.2318,lon:-86.7456,fam:'mare',isl:'ism',
- tags:['Isola','Cibo','Serale','Spiaggia'],
- txt:'Si arriva con il traghetto Ultramar da Puerto Juárez in circa 30 minuti.',
- price:'Traghetto: verifica.',priceV:0,hours:'Verifica.',hoursV:0,dur:'giorni',from:{ism:[0,0]},
- links:[['Traghetto e MUSA',SRC.musaf,1],['Orari traghetto: cerca',gq('Ultramar Puerto Juárez Isla Mujeres horarios'),0]]},
+ tags:['Cenote','Nature','Typical village'],
+ txt:'A cenote inside the city, close to the centre. General description, to verify.',
+ price:'Verify.',priceV:0,hours:'Verify.',hoursV:0,dur:'45 min',from:{val:[0.05,0]},
+ links:[['Map',gm(20.6925,-88.2060),0]]},
+{id:'coba',n:'Cobá',zone:'Towards the coast',lat:20.4949,lon:-87.7365,fam:'maya',gen:1,
+ tags:['Maya','Nature','Half day'],
+ txt:'A Maya site buried in the forest, between Valladolid and Tulum. General description, to verify.',
+ price:'Verify.',priceV:0,hours:'Verify.',hoursV:0,dur:'2–3 h',from:{val:[1.1,0]},
+ links:[['Map',gm(20.4949,-87.7365),0],['Info: search',gq('Cobá zona arqueológica horario precio 2026'),0]]},
+{id:'lagartos',n:'Río Lagartos and Las Coloradas',zone:'North coast',lat:21.5961,lon:-88.1558,fam:'nat',gen:1,
+ tags:['Nature','Full day'],
+ txt:'A lagoon with flamingos and pink salt flats on the north coast. General description, to verify.',
+ price:'Boat: verify.',priceV:0,hours:'—',hoursV:0,dur:'day',from:{val:[1.5,0]},
+ links:[['Map',gm(21.5961,-88.1558),0],['Tours: search',gq('Río Lagartos Las Coloradas tour desde Valladolid'),0]]},
+{id:'tulumruins',n:'Tulum ruins',zone:'Coast · Tulum',lat:20.2150,lon:-87.4290,fam:'maya',
+ tags:['Maya','Sea','Crowded','Half day'],
+ txt:'Ruins by the sea, very busy. Sources on the price disagree.',
+ price:'210 MXN (Por Esto, 2026) or 515 MXN (undated source). Verify.',priceV:0,hours:'Verify.',hoursV:0,dur:'2 h',from:{},
+ links:[['INAH fees 2026',SRC.fees26,1],['Hours: search',gq('Zona arqueológica de Tulum horario precio'),0]]},
+{id:'holpueblo',n:'Holbox, the town and murals',zone:'Holbox',lat:21.5226,lon:-87.3810,fam:'cult',isl:'hol',
+ tags:['Island','Street art','Beach','Live music','Food','Quiet','Evening'],
+ txt:'A car-free island with murals born from the 2014 public art festival. Evenings are live music in the beach bars, no clubs.',
+ price:'Free.',priceV:0,hours:'—',hoursV:0,dur:'days',from:{hol:[0,0]},
+ links:[['Graffiti island',SRC.holgraf,1],['Holbox evenings',SRC.holnight,1],['Things to do',SRC.holthings,1],['Beach bars',SRC.holsalt,1]]},
+{id:'holtour',n:'Sandbar and three-islands tour',zone:'Holbox',lat:21.5385,lon:-87.5240,fam:'mare',isl:'hol',pos:1,
+ tags:['Sea','Nature','Island','Snorkelling','Half day'],
+ txt:'Boat tour to Punta Mosquito and the small islands of the lagoon; the sandbar can also be reached on foot.',
+ price:'Tour: verify with several operators.',priceV:0,hours:'—',hoursV:0,dur:'half day',from:{hol:[0.3,0]},
+ links:[['Things to do in Holbox',SRC.holthings,1],['Tour and Punta Mosquito',gq('Holbox tour tres islas Punta Mosquito precio'),0]]},
+{id:'chiquila',n:'Chiquilá, ferry and parking',zone:'Holbox boarding point',lat:21.4300,lon:-87.3400,fam:'prat',
+ tags:['Transport'],
+ txt:'This is where you leave the car. Guarded car parks near the pier: 50–150 MXN a day according to sources. Ferries every 30 minutes, about a 25–30 minute crossing.',
+ price:'Parking 50–150 MXN/day (sources disagree). Ferry 170–200 MXN per person.',priceV:0,hours:'Ferries from 6:30 am to 9:30 pm (third-party source)',hoursV:0,dur:'—',from:{hol:[0.5,1]},
+ links:[['Cancún–Holbox, costs',SRC.holgo,1],['Parking and road',SRC.holbound,1],['Car at Chiquilá',SRC.holstamp,1],['Ferry times',SRC.holzola,1]]},
+{id:'pmtown',n:'Puerto Morelos, the town',zone:'Coast · 20 min from the airport',lat:20.8478,lon:-86.8758,fam:'mare',gen:1,
+ tags:['Beach','Typical village','Food','Quiet'],
+ txt:'A fishing town a few minutes from Cancún, quiet. General description, to verify.',
+ price:'—',priceV:0,hours:'—',hoursV:0,dur:'days',from:{pm:[0,0]},
+ links:[['Map',gm(20.8478,-86.8758),0],['Info: search',gq('Puerto Morelos qué hacer restaurantes playa'),0]]},
+{id:'pmreef',n:'Puerto Morelos reef',zone:'Coast',lat:20.8500,lon:-86.8400,fam:'mare',gen:1,
+ tags:['Snorkelling','Sea','Nature','Half day'],
+ txt:'A coral reef close to shore, good for snorkelling. General description, to verify.',
+ price:'Tour: verify.',priceV:0,hours:'—',hoursV:0,dur:'half day',from:{pm:[0.2,0]},
+ links:[['Tour: search',gq('Puerto Morelos snorkel arrecife tour precio'),0]]},
+{id:'ismtown',n:'Isla Mujeres, the centre',zone:'Isla Mujeres',lat:21.2318,lon:-86.7456,fam:'mare',isl:'ism',
+ tags:['Island','Food','Evening','Beach'],
+ txt:'You get there on the Ultramar ferry from Puerto Juárez in about 30 minutes.',
+ price:'Ferry: verify.',priceV:0,hours:'Verify.',hoursV:0,dur:'days',from:{ism:[0,0]},
+ links:[['Ferry and MUSA',SRC.musaf,1],['Ferry times: search',gq('Ultramar Puerto Juárez Isla Mujeres horarios'),0]]},
 {id:'ismnorte',n:'Playa Norte',zone:'Isla Mujeres',lat:21.2420,lon:-86.7440,fam:'mare',isl:'ism',
- tags:['Spiaggia','Isola'],
- txt:'La spiaggia più nota dell’isola, vicino agli altri punti di interesse.',
- price:'Gratis.',priceV:0,hours:'—',hoursV:0,dur:'mezza giornata',from:{ism:[0.1,0]},
- links:[['Cosa vedere',SRC.musa2,1],['Mappa',gm(21.2420,-86.7440),0]]},
-{id:'musa1',n:'MUSA Manchones, sculture sott’acqua',zone:'Isla Mujeres',lat:21.1900,lon:-86.7500,fam:'cult',isl:'ism',pos:1,
- tags:['Arte contemporanea','Snorkeling','Mare','Mezza giornata'],
- txt:'Museo subacqueo di arte contemporanea con più di 500 sculture in tre siti tra Cancún e Isla Mujeres. Si visita solo con un tour in barca.',
- price:'Immersione da Isla Mujeres: 2250 MXN (per brevettati). Snorkeling: verifica.',priceV:1,hours:'Tour di norma 8–17',hoursV:0,dur:'mezza giornata',from:{ism:[0.4,0]},
- links:[['Come visitarlo',SRC.musa1,1],['Scheda MUSA',SRC.musa2,1],['Da Isla Mujeres',SRC.musa3,1]]},
-{id:'musa2',n:'MUSA Punta Nizuc, snorkeling',zone:'Cancún sud',lat:21.0580,lon:-86.7800,fam:'cult',pos:1,
- tags:['Arte contemporanea','Snorkeling','Mare','Mezza giornata'],
- txt:'Sito poco profondo del MUSA, adatto a chi fa snorkeling, più vicino a Cancún che a Isla Mujeres.',
- price:'Tour: verifica.',priceV:0,hours:'Tour di norma 8–17',hoursV:0,dur:'mezza giornata',from:{pm:[0.6,0]},
- links:[['Come visitarlo',SRC.musa1,1],['Scheda MUSA',SRC.musa2,1]]},
-{id:'cancunhz',n:'Cancún, zona hotel',zone:'Cancún',lat:21.1330,lon:-86.7450,fam:'prat',gen:1,
- tags:['Affollato','Spiaggia'],
- txt:'L’epicentro del turismo di massa, qui solo come riferimento. Non adatta come base per voi.',
- price:'—',priceV:0,hours:'—',hoursV:0,dur:'—',from:{},links:[['Mappa',gm(21.1330,-86.7450),0]]},
+ tags:['Beach','Island'],
+ txt:'The best-known beach on the island, close to the other points of interest.',
+ price:'Free.',priceV:0,hours:'—',hoursV:0,dur:'half day',from:{ism:[0.1,0]},
+ links:[['What to see',SRC.musa2,1],['Map',gm(21.2420,-86.7440),0]]},
+{id:'musa1',n:'MUSA Manchones, underwater sculptures',zone:'Isla Mujeres',lat:21.1900,lon:-86.7500,fam:'cult',isl:'ism',pos:1,
+ tags:['Contemporary art','Snorkelling','Sea','Half day'],
+ txt:'An underwater contemporary art museum with more than 500 sculptures across three sites between Cancún and Isla Mujeres. Visited only on a boat tour.',
+ price:'Dive from Isla Mujeres: 2250 MXN (certified divers). Snorkelling: verify.',priceV:1,hours:'Tours usually 8–5',hoursV:0,dur:'half day',from:{ism:[0.4,0]},
+ links:[['How to visit',SRC.musa1,1],['MUSA page',SRC.musa2,1],['From Isla Mujeres',SRC.musa3,1]]},
+{id:'musa2',n:'MUSA Punta Nizuc, snorkelling',zone:'South Cancún',lat:21.0580,lon:-86.7800,fam:'cult',pos:1,
+ tags:['Contemporary art','Snorkelling','Sea','Half day'],
+ txt:'A shallow MUSA site, good for snorkelling, closer to Cancún than to Isla Mujeres.',
+ price:'Tour: verify.',priceV:0,hours:'Tours usually 8–5',hoursV:0,dur:'half day',from:{pm:[0.6,0]},
+ links:[['How to visit',SRC.musa1,1],['MUSA page',SRC.musa2,1]]},
+{id:'cancunhz',n:'Cancún, hotel zone',zone:'Cancún',lat:21.1330,lon:-86.7450,fam:'prat',gen:1,
+ tags:['Crowded','Beach'],
+ txt:'The epicentre of mass tourism, here only as a reference. Not suitable as a base for you.',
+ price:'—',priceV:0,hours:'—',hoursV:0,dur:'—',from:{},links:[['Map',gm(21.1330,-86.7450),0]]},
 {id:'playa',n:'Playa del Carmen',zone:'Riviera Maya',lat:20.6296,lon:-87.0739,fam:'prat',gen:1,
- tags:['Affollato','Spiaggia','Ballo','Serale'],
- txt:'Altra zona di grande turismo, con locali e ballo. Solo come riferimento.',
- price:'—',priceV:0,hours:'—',hoursV:0,dur:'—',from:{},links:[['Mappa',gm(20.6296,-87.0739),0]]},
-{id:'bacalar',n:'Laguna di Bacalar',zone:'Sud · circa 4 h dall’aeroporto',lat:18.6770,lon:-88.3930,fam:'nat',gen:1,
- tags:['Laguna','Natura','Tranquillo','Giornata intera'],
- txt:'Laguna di colori diversi, molto tranquilla. Troppo lontana per una gita, ha senso solo come base. Descrizione generale, da verificare.',
+ tags:['Crowded','Beach','Dancing','Evening'],
+ txt:'Another big-tourism area, with bars and dancing. Only as a reference.',
+ price:'—',priceV:0,hours:'—',hoursV:0,dur:'—',from:{},links:[['Map',gm(20.6296,-87.0739),0]]},
+{id:'bacalar',n:'Bacalar Lagoon',zone:'South · about 4 h from the airport',lat:18.6770,lon:-88.3930,fam:'nat',gen:1,
+ tags:['Lagoon','Nature','Quiet','Full day'],
+ txt:'A lagoon of different colours, very quiet. Too far for a day trip, it only makes sense as a base. General description, to verify.',
  price:'—',priceV:0,hours:'—',hoursV:0,dur:'—',from:{bac:[0.2,0]},
- links:[['Mappa',gm(18.6770,-88.3930),0],['Info: cerca',gq('Bacalar laguna qué hacer alojamiento'),0]]},
-{id:'bfuerte',n:'Fuerte de San Felipe',zone:'Bacalar · paese',lat:18.6786,lon:-88.3897,fam:'cult',pos:1,
- tags:['Architettura','Museo','Mezza giornata'],
- txt:'Forte del 1733 costruito contro i pirati, con un piccolo museo e la vista sulla laguna.',
- price:'65 MXN secondo una fonte, da verificare.',priceV:0,hours:'—',hoursV:0,dur:'1 h',from:{bac:[0.1,0]},
- links:[['Laguna e forte',SRC.bac1,1],['Elenco di cose da fare',SRC.bac2,1]]},
-{id:'bazul',n:'Cenote Azul',zone:'Bacalar · circa 5 km a sud',lat:18.6571,lon:-88.4033,fam:'nat',pos:1,
- tags:['Cenote','Natura','Mezza giornata'],
- txt:'Cenote aperto e profondo, separato dalla laguna: si nuota e si fa snorkeling. Una fonte lo consiglia da novembre ad aprile.',
- price:'50–100 MXN secondo una fonte, da verificare.',priceV:0,hours:'—',hoursV:0,dur:'2 h',from:{bac:[0.2,0]},
- links:[['Guida a Bacalar',SRC.bac1,1],['Cenote Azul',SRC.bac3,1]]},
-{id:'bcanale',n:'Canal de los Piratas',zone:'Bacalar · laguna',lat:18.6990,lon:-88.3866,fam:'nat',pos:1,
- tags:['Natura','Laguna','Gratis','Mezza giornata'],
- txt:'Canale poco profondo che unisce la laguna al Río Hondo: si nuota e si arriva in kayak o in barca.',
- price:'Gratis secondo una fonte; barca o kayak a parte.',priceV:0,hours:'—',hoursV:0,dur:'2 h',from:{bac:[0.2,0]},
- links:[['Il canale',SRC.bac4,1],['Guida a Bacalar',SRC.bac1,1]]},
-{id:'bstroma',n:'Stromatoliti di Bacalar',zone:'Bacalar · Los Rápidos e Cocalitos',lat:18.6720,lon:-88.3880,fam:'nat',pos:1,
- tags:['Natura','Laguna','Mezza giornata'],
- txt:'Formazioni antichissime costruite da microrganismi, visibili a Los Rápidos e al Cenote Cocalitos.',
- price:'Spesso incluso nei giri in barca o kayak (da verificare).',priceV:0,hours:'—',hoursV:0,dur:'1–2 h',from:{bac:[0.2,0]},
- links:[['Dove vederle',SRC.bac3,1]]},
-{id:'hmosquito',n:'Punta Mosquito',zone:'Holbox · estremo est',lat:21.5330,lon:-87.3500,fam:'mare',isl:'hol',pos:1,
- tags:['Mare','Natura','Isola','Gratis','Mezza giornata'],
- txt:'Banco di sabbia che emerge con la bassa marea, poco frequentato. Controlla la marea prima di andare.',
- price:'A piedi gratis; in barca circa 150 MXN a testa secondo una fonte.',priceV:0,hours:'Dipende dalla marea.',hoursV:0,dur:'2–3 h',from:{hol:[0.3,0]},
- links:[['Punta Mosquito e la marea',SRC.hol1,1],['Costi e giri',SRC.hol2,1]]},
-{id:'hcocos',n:'Punta Cocos',zone:'Holbox · estremo ovest',lat:21.5250,lon:-87.4030,fam:'mare',isl:'hol',pos:1,
- tags:['Spiaggia','Isola','Natura','Tranquillo','Gratis','Mezza giornata','Serale'],
- txt:'Spiaggia all’estremo ovest, a circa 2,5 km dal paese: tramonto e amache in acqua. Di notte si parla di bioluminescenza, ma la stagione è da verificare.',
- price:'Gratis.',priceV:0,hours:'—',hoursV:0,dur:'2 h',from:{hol:[0.4,0]},
- links:[['Punta Cocos',SRC.hol3,1],['Altre cose da fare',SRC.hol2,1]]},
-{id:'pmjardin',n:'Jardín Botánico Dr. Alfredo Barrera',zone:'Puerto Morelos · 2 km a sud',lat:20.8300,lon:-86.8880,fam:'nat',pos:1,
- tags:['Natura','Maya','Mezza giornata'],
- txt:'Grande giardino botanico nella giungla costiera, con sentieri e qualche rovina maya.',
- price:'Da verificare.',priceV:0,hours:'Lun–ven 8–16, sab 8–14 secondo una fonte, da verificare.',hoursV:0,dur:'2–3 h',from:{pm:[0.1,0]},
- links:[['Orari e consigli',SRC.pm1,1],['Il giardino',SRC.pm2,1]]},
-{id:'pmcenotes',n:'Ruta de los Cenotes',zone:'Puerto Morelos · entroterra',lat:20.8570,lon:-86.9250,fam:'nat',pos:1,
- tags:['Cenote','Natura','Giornata intera'],
- txt:'Strada di circa 32 km nella giungla con molti cenote: Siete Bocas, Verde Lucero, Kin-Ha, La Noria.',
- price:'Un biglietto per ogni cenote, da verificare.',priceV:0,hours:'—',hoursV:0,dur:'mezza o intera giornata',from:{pm:[0.3,0]},
- links:[['La Ruta',SRC.pm3,1],['Elenco dei cenote',SRC.pm4,1]]},
-{id:'pmfaro',n:'Faro inclinato',zone:'Puerto Morelos · lungomare',lat:20.8478,lon:-86.8758,fam:'cult',pos:1,
- tags:['Passeggiata','Gratis','Architettura','Tranquillo'],
- txt:'Il faro storto sul lungomare, danneggiato da un uragano nel 1967. Non si sale più, ma è un bel punto per una passeggiata.',
- price:'Gratis.',priceV:0,hours:'—',hoursV:0,dur:'30 min',from:{pm:[0,0]},
- links:[['Cosa vedere',SRC.pm5,1]]}
+ links:[['Map',gm(18.6770,-88.3930),0],['Info: search',gq('Bacalar laguna qué hacer alojamiento'),0]]},
+{id:'bfuerte',n:'Fuerte de San Felipe',zone:'Bacalar · town',lat:18.6786,lon:-88.3897,fam:'cult',pos:1,
+ tags:['Architecture','Museum','Half day'],
+ txt:'A 1733 fort built against pirates, with a small museum and a view over the lagoon.',
+ price:'65 MXN according to one source, to verify.',priceV:0,hours:'—',hoursV:0,dur:'1 h',from:{bac:[0.1,0]},
+ links:[['Lagoon and fort',SRC.bac1,1],['List of things to do',SRC.bac2,1]]},
+{id:'bazul',n:'Cenote Azul',zone:'Bacalar · about 5 km south',lat:18.6571,lon:-88.4033,fam:'nat',pos:1,
+ tags:['Cenote','Nature','Half day'],
+ txt:'An open, deep cenote separate from the lagoon: you swim and snorkel. One source recommends it from November to April.',
+ price:'50–100 MXN according to one source, to verify.',priceV:0,hours:'—',hoursV:0,dur:'2 h',from:{bac:[0.2,0]},
+ links:[['Bacalar guide',SRC.bac1,1],['Cenote Azul',SRC.bac3,1]]},
+{id:'bcanale',n:'Canal de los Piratas',zone:'Bacalar · lagoon',lat:18.6990,lon:-88.3866,fam:'nat',pos:1,
+ tags:['Nature','Lagoon','Free','Half day'],
+ txt:'A shallow channel linking the lagoon to the Río Hondo: you swim and arrive by kayak or boat.',
+ price:'Free according to one source; boat or kayak extra.',priceV:0,hours:'—',hoursV:0,dur:'2 h',from:{bac:[0.2,0]},
+ links:[['The channel',SRC.bac4,1],['Bacalar guide',SRC.bac1,1]]},
+{id:'bstroma',n:'Bacalar stromatolites',zone:'Bacalar · Los Rápidos and Cocalitos',lat:18.6720,lon:-88.3880,fam:'nat',pos:1,
+ tags:['Nature','Lagoon','Half day'],
+ txt:'Very ancient formations built by microorganisms, visible at Los Rápidos and Cenote Cocalitos.',
+ price:'Often included in boat or kayak tours (to verify).',priceV:0,hours:'—',hoursV:0,dur:'1–2 h',from:{bac:[0.2,0]},
+ links:[['Where to see them',SRC.bac3,1]]},
+{id:'hmosquito',n:'Punta Mosquito',zone:'Holbox · far east',lat:21.5330,lon:-87.3500,fam:'mare',isl:'hol',pos:1,
+ tags:['Sea','Nature','Island','Free','Half day'],
+ txt:'A sandbar that emerges at low tide, rarely visited. Check the tide before going.',
+ price:'Free on foot; by boat about 150 MXN each according to one source.',priceV:0,hours:'Depends on the tide.',hoursV:0,dur:'2–3 h',from:{hol:[0.3,0]},
+ links:[['Punta Mosquito and the tide',SRC.hol1,1],['Costs and tours',SRC.hol2,1]]},
+{id:'hcocos',n:'Punta Cocos',zone:'Holbox · far west',lat:21.5250,lon:-87.4030,fam:'mare',isl:'hol',pos:1,
+ tags:['Beach','Island','Nature','Quiet','Free','Half day','Evening'],
+ txt:'A beach at the far west, about 2.5 km from town: sunset and hammocks in the water. At night people talk about bioluminescence, but the season is to verify.',
+ price:'Free.',priceV:0,hours:'—',hoursV:0,dur:'2 h',from:{hol:[0.4,0]},
+ links:[['Punta Cocos',SRC.hol3,1],['More things to do',SRC.hol2,1]]},
+{id:'pmjardin',n:'Dr. Alfredo Barrera Botanical Garden',zone:'Puerto Morelos · 2 km south',lat:20.8300,lon:-86.8880,fam:'nat',pos:1,
+ tags:['Nature','Maya','Half day'],
+ txt:'A large botanical garden in the coastal jungle, with trails and some Maya ruins.',
+ price:'To verify.',priceV:0,hours:'Mon–Fri 8–4, Sat 8–2 according to one source, to verify.',hoursV:0,dur:'2–3 h',from:{pm:[0.1,0]},
+ links:[['Hours and tips',SRC.pm1,1],['The garden',SRC.pm2,1]]},
+{id:'pmcenotes',n:'Ruta de los Cenotes',zone:'Puerto Morelos · inland',lat:20.8570,lon:-86.9250,fam:'nat',pos:1,
+ tags:['Cenote','Nature','Full day'],
+ txt:'A road of about 32 km through the jungle with many cenotes: Siete Bocas, Verde Lucero, Kin-Ha, La Noria.',
+ price:'One ticket per cenote, to verify.',priceV:0,hours:'—',hoursV:0,dur:'half or full day',from:{pm:[0.3,0]},
+ links:[['The Ruta',SRC.pm3,1],['List of cenotes',SRC.pm4,1]]},
+{id:'pmfaro',n:'Leaning lighthouse',zone:'Puerto Morelos · waterfront',lat:20.8478,lon:-86.8758,fam:'cult',pos:1,
+ tags:['Stroll','Free','Architecture','Quiet'],
+ txt:'The crooked lighthouse on the waterfront, damaged by a hurricane in 1967. You can no longer climb it, but it is a nice spot for a stroll.',
+ price:'Free.',priceV:0,hours:'—',hoursV:0,dur:'30 min',from:{pm:[0,0]},
+ links:[['What to see',SRC.pm5,1]]}
 ];
 
 const ALLTAGS=Object.keys(TAGF);
 
 const ITS0={
- D:{id:'D',name:'Il piano · deciso',sub:'Valladolid, Mérida, Holbox, Bacalar, Riviera Maya',stops:[{b:'val',n:2},{b:'mer',n:3},{b:'hol',n:4},{b:'bac',n:3},{b:'pm',n:2}],carAt:-1}
+ D:{id:'D',name:'The plan · decided',sub:'Valladolid, Mérida, Holbox, Bacalar, Riviera Maya',stops:[{b:'val',n:2},{b:'mer',n:3},{b:'hol',n:4},{b:'bac',n:3},{b:'pm',n:2}],carAt:-1}
 };
 const IT_IDS=['D'];
 const EVENTS=[
- {from:4,to:5,label:'12 dic, Guadalupe'},
- {from:8,to:14,label:'Posadas, dal 16'},
- {from:12,to:15,label:'Alta stagione, dal 20'}
+ {from:4,to:5,label:'12 Dec, Guadalupe'},
+ {from:8,to:14,label:'Posadas, from the 16th'},
+ {from:12,to:15,label:'High season, from the 20th'}
 ];
 
-/* cosa si fa da ogni base: sintesi mia a partire dai luoghi della scheda */
+/* what to do from each base: my summary based on the places in the list */
 const BASEDO={
- val:'Chichén Itzá ed Ek Balam in giornata, cenote (Suytún, Zací, Ik Kil), paese coloniale da girare a piedi. Mare: nessuno, la costa è a circa 2 h.',
- mer:'Città da vivere a piedi: MACAY, Paseo de Montejo, palazzi, gallerie, cene e musica dal vivo. In giornata Uxmal e Celestún (fenicotteri, mangrovie in barca o kayak, spiaggia sul Golfo).',
- hol:'Spiaggia, kayak e giri in barca, banco di sabbia e tour delle tre isole, murales, cene con musica dal vivo. Niente auto sull’isola.',
- pm:'Villaggio di pescatori con spiaggia tranquilla e la barriera corallina per lo snorkeling. Aeroporto e Cancún a pochi minuti.',
- ism:'Isola vicina a Cancún, più turistica di Holbox. MUSA, il museo subacqueo, per snorkeling e immersioni.',
- tul:'Rovine sul mare, spiagge e locali. È il turismo che avevate detto di voler evitare.',
- bac:'Laguna dai sette colori, kayak e paese tranquillo. Lontano da tutto: circa 4 h da Cancún.',
- cam:'Città coloniale murata sul Golfo, architettura e fortificazioni.'
+ val:'Chichén Itzá and Ek Balam in a day, cenotes (Suytún, Zací, Ik Kil), a colonial town to walk. Sea: none, the coast is about 2 h away.',
+ mer:'A city to live on foot: MACAY, Paseo de Montejo, mansions, galleries, dinners and live music. Day trips to Uxmal and Celestún (flamingos, mangroves by boat or kayak, Gulf beach).',
+ hol:'Beach, kayaking and boat trips, sandbar and three-islands tour, murals, dinners with live music. No cars on the island.',
+ pm:'Fishing village with a quiet beach and the coral reef for snorkelling. Airport and Cancún a few minutes away.',
+ ism:'Island close to Cancún, more touristy than Holbox. MUSA, the underwater museum, for snorkelling and diving.',
+ tul:'Ruins by the sea, beaches and bars. It is the tourism you said you wanted to avoid.',
+ bac:'Lagoon of seven colours, kayaking and a quiet town. Far from everything: about 4 h from Cancún.',
+ cam:'Walled colonial city on the Gulf, architecture and fortifications.'
 };
-/* note sulle tratte: solo dati trovati in fonti, il resto è marcato stima */
+/* notes on the legs: only data found in sources, the rest is marked as an estimate */
 const LEGNOTE={
- 'cun-val':['~160 km sulla 180D a pedaggio, 1 h 50–2 h 15','https://maya-explorer-tours-1h3.pages.dev/transfers/cancun-airport-to-valladolid'],
- 'mer-val':['~160 km sulla 180D, 1,5–2 h','https://vibesite-1i9.pages.dev/blog/merida-to-valladolid/'],
- 'chi-mer':['~283–306 km, 3,5–4 h di auto','https://www.wanderlustchloe.com/?p=44348'],
- 'chi-cun':['~139 km, circa 2 h','https://www.hostelz.com/hostel/389508-Mayan-Villas-Hotel'],
- 'cun-mer':['~308 km sulla 180D, circa 3 h 45','https://www.transfeero.com/es/traslados-del-aeropuerto-internacional-cancun-cun/traslados-de-aeropuerto-internacional-de-cancun-a-merida/'],
- 'bac-mer':['~331–347 km, 4 h 10–5 h 20 a seconda della fonte','https://blog.wayro.ai/merida-bacalar-road-trip-where-stop-way'],
+ 'cun-val':['~160 km on the 180D toll road, 1 h 50–2 h 15','https://maya-explorer-tours-1h3.pages.dev/transfers/cancun-airport-to-valladolid'],
+ 'mer-val':['~160 km on the 180D, 1.5–2 h','https://vibesite-1i9.pages.dev/blog/merida-to-valladolid/'],
+ 'chi-mer':['~283–306 km, 3.5–4 h by car','https://www.wanderlustchloe.com/?p=44348'],
+ 'chi-cun':['~139 km, about 2 h','https://www.hostelz.com/hostel/389508-Mayan-Villas-Hotel'],
+ 'cun-mer':['~308 km on the 180D, about 3 h 45','https://www.transfeero.com/es/traslados-del-aeropuerto-internacional-cancun-cun/traslados-de-aeropuerto-internacional-de-cancun-a-merida/'],
+ 'bac-mer':['~331–347 km, 4 h 10–5 h 20 depending on the source','https://blog.wayro.ai/merida-bacalar-road-trip-where-stop-way'],
  'bac-val':['~264 km, 3 h 45–3 h 55','https://1map.com/routes/mx-valladolid-8082_to_mx-bacalar-45258'],
- 'bac-chi':['Tempo non verificato: stima mia (un servizio di transfer indica circa 5 h fino a Holbox)','https://vipholbox.rezdy.com/catalog/425159/private-transfers?lang=en'],
- 'bac-pm':['Tempo non verificato: stima mia',''],
- 'chi-pm':['Tempo non verificato: stima mia',''],
- 'cun-pm':['Tempo non verificato: stima mia','']
+ 'bac-chi':['Time not verified: my estimate (a transfer service gives about 5 h to Holbox)','https://vipholbox.rezdy.com/catalog/425159/private-transfers?lang=en'],
+ 'bac-pm':['Time not verified: my estimate',''],
+ 'chi-pm':['Time not verified: my estimate',''],
+ 'cun-pm':['Time not verified: my estimate','']
 };
-const FERRYNOTE=['Traghetto 20–25 min, uno ogni 30 min (da Holbox dalle 5:00 alle 20:30). Orario ridotto il 24, 25 e 31 dic.','https://travelyucatan.com/holbox-ferry/'];
+const FERRYNOTE=['Ferry 20–25 min, one every 30 min (from Holbox 5:00 am to 8:30 pm). Reduced schedule on 24, 25 and 31 Dec.','https://travelyucatan.com/holbox-ferry/'];
 
-/* punteggi 0–5 su cosa si fa da ogni base: giudizio mio, non misurato */
+/* scores 0–5 on what you do from each base: my judgement, not measured */
 const BASEFOCUS={
  val:{mare:0,nat:4,cult:3,maya:5,sera:2,vita:4},
  mer:{mare:1,nat:3,cult:5,maya:3,sera:5,vita:4},
@@ -917,7 +923,7 @@ const BASEFOCUS={
 };
 
 
-/* ===== PROGRAMMA GIORNO PER GIORNO (testi miei, da modificare nell'app) ===== */
+/* ===== DAY-BY-DAY PROGRAMME (my text, editable in the app) ===== */
 const DAYS_DEF=[
  {p:['valcentro']},
  {p:['chichen','ikkil','suytun']},
@@ -935,310 +941,310 @@ const DAYS_DEF=[
  {p:['pmreef','pmjardin','pmcenotes','pmfaro']},
  {p:[]}
 ];
-/* kind: 'f' = c'è una fonte con link, 'm' = giudizio mio, non verificato */
+/* kind: 'f' = has a source link, 'm' = my take, not verified */
 const BASETIPS={
- val:{do:[['Contanti in pesos per i pedaggi della 180D','https://travellemming.com/cancun-to-valladolid/','f'],['Chichén Itzá appena aprono: meno gente e meno caldo','','m']],
-  dont:[['Ik Kil nelle ore centrali: nei dati è segnato come affollato','','m']],
-  know:[['Valladolid e Mérida sono nello stato di Yucatán, Holbox, Bacalar e Puerto Morelos nel Quintana Roo. Mérida ha 1 ora in meno di Bacalar: controlla l’orologio quando cambi stato.','https://www.rome2rio.com/s/bacalar/merida','f']]},
- mer:{do:[['Cena e musica dal vivo in centro: Santa Lucía e Calle 47','','m'],['Lucha libre: le funzioni sono eventi singoli, cerca il cartellone di dicembre','https://www.posta.com.mx/yucatan/habra-lucha-en-yucatan-cmll-regresa-a-merida/vl2019750','f']],
-  dont:[['Uxmal e Celestún nella stessa giornata: sono direzioni diverse','','m'],['Fissare la serata di lucha libre prima di vedere una data confermata','','m']],know:[]},
- hol:{do:[['Lascia l’auto nel parcheggio recintato di Chiquilá','https://old.media-azi.md/get-holbox-1kin.html','f'],['Traghetto da Holbox dalle 5:00 alle 20:30, uno ogni 30 min','https://www.universal-traveller.com/?p=103412','f']],
-  dont:[['Portare l’auto sull’isola: non si può','https://vtour1.ocus.com/post/how-do-you-get-to-holbox','f'],['Arrivare a Chiquilá dopo le 20:30: l’ultimo traghetto è già partito','https://www.universal-traveller.com/?p=103412','f']],know:[]},
- bac:{do:[['Kayak o barca sulla laguna, meglio al mattino','','m']],
-  dont:[['Partire da Holbox nel pomeriggio: il trasferimento è lungo (circa 5 h, stima)','https://vipholbox.rezdy.com/catalog/425159/private-transfers?lang=en','f']],know:[]},
- pm:{do:[['Snorkeling sulla barriera','','m'],['Prenota presto: l’alta stagione parte intorno al 20 dic (da verificare)','','m']],
-  dont:[['Contare sul tempo della mattina del 22: KLM consiglia di arrivare 3 ore prima','','m']],know:[]}
+ val:{do:[['Cash in pesos for the 180D tolls','https://travellemming.com/cancun-to-valladolid/','f'],['Chichén Itzá right at opening: fewer people and less heat','','m']],
+  dont:[['Ik Kil in the middle of the day: the data marks it as crowded','','m']],
+  know:[['Valladolid and Mérida are in the state of Yucatán; Holbox, Bacalar and Puerto Morelos are in Quintana Roo. Mérida is 1 hour behind Bacalar: check your watch when you change state.','https://www.rome2rio.com/s/bacalar/merida','f']]},
+ mer:{do:[['Dinner and live music in the centre: Santa Lucía and Calle 47','','m'],['Lucha libre: shows are single events, look for the December billboard','https://www.posta.com.mx/yucatan/habra-lucha-en-yucatan-cmll-regresa-a-merida/vl2019750','f']],
+  dont:[['Uxmal and Celestún on the same day: they are different directions','','m'],['Booking a lucha libre evening before seeing a confirmed date','','m']],know:[]},
+ hol:{do:[['Leave the car in the fenced car park at Chiquilá','https://old.media-azi.md/get-holbox-1kin.html','f'],['Ferry from Holbox 5:00 am to 8:30 pm, one every 30 min','https://www.universal-traveller.com/?p=103412','f']],
+  dont:[['Taking the car onto the island: not allowed','https://vtour1.ocus.com/post/how-do-you-get-to-holbox','f'],['Arriving at Chiquilá after 8:30 pm: the last ferry has already left','https://www.universal-traveller.com/?p=103412','f']],know:[]},
+ bac:{do:[['Kayak or boat on the lagoon, better in the morning','','m']],
+  dont:[['Leaving Holbox in the afternoon: the transfer is long (about 5 h, estimate)','https://vipholbox.rezdy.com/catalog/425159/private-transfers?lang=en','f']],know:[]},
+ pm:{do:[['Snorkelling on the reef','','m'],['Book early: high season starts around 20 Dec (to verify)','','m']],
+  dont:[['Counting on the morning of the 22nd: KLM advises arriving 3 hours early','','m']],know:[]}
 };
 const TRIP_NOTE_DEF='Lucha libre\nDanzadores spirits\n';
-/* ===== TAPPE E TRATTI =====
-   voce = [titolo, dettaglio, meta, q, url]
-   q: 'f' = c'è una fonte (url), 'm' = giudizio mio, '?' = da verificare
-   meta = tempo in auto da qui (stima mia salvo fonte) o distanza/orario */
+/* ===== STOPS AND LEGS =====
+   entry = [title, detail, meta, q, url]
+   q: 'f' = has a source (url), 'm' = my take, '?' = to verify
+   meta = driving time from here (my estimate unless sourced) or distance/time */
 const CATS=[
- ['core','Da non perdere','Le cose che fanno il posto'],
- ['see','Da visitare','In paese, a piedi'],
- ['reach','Da raggiungere','In auto dalla base'],
- ['eat','Cibo da provare','Dove e cosa'],
- ['trad','Tradizioni','Cultura viva, non folklore'],
- ['buy','Da comprare','Artigianato vero'],
- ['chill','Lato chill','Ritmo lento'],
- ['eve','Sera ed eventi','Dopo le 19'],
+ ['core','Must do','The things that make the place'],
+ ['see','To see','In town, on foot'],
+ ['reach','Day trips','By car from the base'],
+ ['eat','Food to try','Where and what'],
+ ['trad','Traditions','Living culture, not folklore'],
+ ['buy','To buy','Real crafts'],
+ ['chill','Chill side','Slow pace'],
+ ['eve','Evenings and events','After 7 pm'],
 ];
 const STOPS={
 val:{
  core:[
-  ['Longaniza e lomitos','Valladolid è citata come l’unico comune con tre piatti originali: lomitos, longaniza ed escabeche.','','f','https://www.rivieramayanews.mx/valladolid-wins-national-award-culinary-experience-2026-tianguis-turistico/'],
-  ['Cenote Zací','In pieno centro, a 10 minuti a piedi dal parco. Zací è il nome maya della città.','10 min a piedi','f','https://www.viajeroscallejeros.com/que-hacer-en-valladolid-mexico/amp/'],
-  ['Ek Balam','Sito maya più tranquillo di Chichén Itzá, con stucchi sulle facciate.','25–30 min','f','https://www.geekyexplorer.com/valladolid-mexico/'],
+  ['Longaniza and lomitos','Valladolid is cited as the only municipality with three original dishes: lomitos, longaniza and escabeche.','','f','https://www.rivieramayanews.mx/valladolid-wins-national-award-culinary-experience-2026-tianguis-turistico/'],
+  ['Cenote Zací','Right in the centre, a 10-minute walk from the park. Zací is the Maya name of the city.','10 min walk','f','https://www.viajeroscallejeros.com/que-hacer-en-valladolid-mexico/amp/'],
+  ['Ek Balam','A Maya site quieter than Chichén Itzá, with stucco on the facades.','25–30 min','f','https://www.geekyexplorer.com/valladolid-mexico/'],
  ],
  see:[
-  ['Calzada de los Frailes','Via acciottolata di circa 700 m con botteghe, caffè e locali, fino al convento.','700 m','f','https://www.viajeroscallejeros.com/que-hacer-en-valladolid-mexico/amp/'],
-  ['Convento di San Bernardino de Siena','Fondato nel 1552 nel barrio di Sisal. Dentro c’è un museo sulla Guerra de Castas, secondo una guida (da verificare all’ingresso).','10 min a piedi','f','https://www.elviajedesofi.com/que-ver-en-valladolid-yucatan-mexico-pueblo-magico/amp/'],
-  ['Parco centrale e chiesa di San Servacio','Giro della piazza; le sedie “tú y yo” per guardare la vita del posto.','centro','f','https://www.odigootravel.com/travel-blog/cancun/things-to-do/how-to-explore-valladolid-like-a-local'],
+  ['Calzada de los Frailes','A cobbled street of about 700 m with shops, cafés and bars, leading to the convent.','700 m','f','https://www.viajeroscallejeros.com/que-hacer-en-valladolid-mexico/amp/'],
+  ['Convent of San Bernardino de Siena','Founded in 1552 in the Sisal quarter. Inside there is a Caste War museum, according to one guide (check on arrival).','10 min walk','f','https://www.elviajedesofi.com/que-ver-en-valladolid-yucatan-mexico-pueblo-magico/amp/'],
+  ['Central park and San Servacio church','Walk around the square; the “tú y yo” chairs are for watching local life.','centre','f','https://www.odigootravel.com/travel-blog/cancun/things-to-do/how-to-explore-valladolid-like-a-local'],
  ],
  reach:[
-  ['Chichén Itzá','Meglio all’apertura: più fresco e meno gente (mio giudizio).','45 min','f','https://www.geekyexplorer.com/valladolid-mexico/'],
-  ['Cenote Suytún, Oxman, Samula','Citati da una guida come cenote da fare sulla via del ritorno da Chichén Itzá.','15–30 min (stima)','?','https://ryo.co/es/articulos/mexico/valladolid/valladolid-3-dias/'],
-  ['Cenote Hubiku','Vicino a Ek Balam; si abbina bene alla giornata.','25–35 min (stima)','?','https://daytrip.com/en/day-trips/from-cancun/ek-balam-cenote-hubiku-valladolid-mexico'],
-  ['Cobá','Dalla guida di viaggio compare come gita da Valladolid; tempo non verificato.','da verificare','?',''],
-  ['Río Lagartos e Las Coloradas','Laghi rosa e fenicotteri; compare negli itinerari in auto. Distanza non verificata.','da verificare','?','https://www.viajeroscallejeros.com/ruta-peninsula-de-yucatan-coche-14-dias/amp/'],
+  ['Chichén Itzá','Better at opening time: cooler and fewer people (my take).','45 min','f','https://www.geekyexplorer.com/valladolid-mexico/'],
+  ['Cenotes Suytún, Oxman, Samula','Named by one guide as cenotes to hit on the way back from Chichén Itzá.','15–30 min (estimate)','?','https://ryo.co/es/articulos/mexico/valladolid/valladolid-3-dias/'],
+  ['Cenote Hubiku','Close to Ek Balam; pairs well with it for the day.','25–35 min (estimate)','?','https://daytrip.com/en/day-trips/from-cancun/ek-balam-cenote-hubiku-valladolid-mexico'],
+  ['Cobá','Appears in the travel guide as a day trip from Valladolid; time not verified.','to verify','?',''],
+  ['Río Lagartos and Las Coloradas','Pink lakes and flamingos; shows up in driving itineraries. Distance not verified.','to verify','?','https://www.viajeroscallejeros.com/ruta-peninsula-de-yucatan-coche-14-dias/amp/'],
  ],
  eat:[
-  ['Mercato Municipal Donato Bates','Il cuore della vita locale: chiles, tortillas fatte a mano, tamales colados, longaniza.','centro','f','https://www.odigootravel.com/travel-blog/cancun/things-to-do/how-to-explore-valladolid-like-a-local'],
-  ['Longaniza di Valladolid','Affumicata e rossa di achiote. Si mangia in tacos o con le uova; in origine era di cervo, oggi di maiale.','','f','https://www.posta.com.mx/yucatan/donde-probar-la-mejor-longaniza-de-yucatan/vl2254612'],
-  ['Cochinita pibil e pibihuajes','Tra i piatti importanti della cucina di Valladolid secondo un food blog.','','f','https://www.willflyforfood.net/valladolid-restaurants/'],
+  ['Donato Bates Municipal Market','The heart of local life: chiles, handmade tortillas, tamales colados, longaniza.','centre','f','https://www.odigootravel.com/travel-blog/cancun/things-to-do/how-to-explore-valladolid-like-a-local'],
+  ['Valladolid longaniza','Smoked and red with achiote. Eaten in tacos or with eggs; originally made with venison, today with pork.','','f','https://www.posta.com.mx/yucatan/donde-probar-la-mejor-longaniza-de-yucatan/vl2254612'],
+  ['Cochinita pibil and pibihuajes','Among the key dishes of Valladolid cooking according to a food blog.','','f','https://www.willflyforfood.net/valladolid-restaurants/'],
  ],
  trad:[
-  ['Guerra de Castas','Nel 1847 la città fu al centro di una guerra durata circa 50 anni; il museo è nel convento.','','f','https://www.elviajedesofi.com/que-ver-en-valladolid-yucatan-mexico-pueblo-magico/amp/'],
-  ['Barrio di Sisal','Rimase un villaggio indigeno fino all’Ottocento: il convento nasce lì per evangelizzare.','','f','https://sailingstonetravel.com/?p=59799'],
-  ['Temazcal vicino a Valladolid','Esistono, ma sono prodotti turistici: chiedi chi lo guida prima di prenotare. “Sciamano autentico” è marketing.','','?',''],
+  ['Caste War','In 1847 the city was at the centre of a war that lasted about 50 years; the museum is in the convent.','','f','https://www.elviajedesofi.com/que-ver-en-valladolid-yucatan-mexico-pueblo-magico/amp/'],
+  ['Sisal quarter','It stayed an indigenous village until the 1800s: the convent was built there to evangelise.','','f','https://sailingstonetravel.com/?p=59799'],
+  ['Temazcal near Valladolid','They exist, but they are tourist products: ask who runs it before booking. “Authentic shaman” is marketing.','','?',''],
  ],
  buy:[
-  ['Ricami, huipil, guayabera','Artigianato tipico di Valladolid: abiti ricamati, hamacas, gioielli, cuoio, pietra scolpita.','','f','https://www.mexicodesconocido.com.mx/valladolid-yucatan-pueblos-magicos-mexico.html'],
-  ['Mercado de Artesanías','Hamacas e bluse ricamate.','centro','f','https://www.odigootravel.com/travel-blog/cancun/things-to-do/how-to-explore-valladolid-like-a-local'],
-  ['Cioccolato artigianale','Souvenir consigliato dalla guida; c’è un museo, Choco-Story.','centro','f','https://escapadas.mexicodesconocido.com.mx/que-hacer-en-valladolid-pueblo-magico-yucatan/'],
+  ['Embroidery, huipil, guayabera','Typical Valladolid crafts: embroidered clothes, hammocks, jewellery, leather, carved stone.','','f','https://www.mexicodesconocido.com.mx/valladolid-yucatan-pueblos-magicos-mexico.html'],
+  ['Mercado de Artesanías','Hammocks and embroidered blouses.','centre','f','https://www.odigootravel.com/travel-blog/cancun/things-to-do/how-to-explore-valladolid-like-a-local'],
+  ['Artisan chocolate','Souvenir recommended by the guide; there is a museum, Choco-Story.','centre','f','https://escapadas.mexicodesconocido.com.mx/que-hacer-en-valladolid-pueblo-magico-yucatan/'],
  ],
  chill:[
-  ['Calzada de los Frailes al tramonto','Le botteghe e i caffè aperti, luce bassa.','','f','https://escapadas.mexicodesconocido.com.mx/que-hacer-en-valladolid-pueblo-magico-yucatan/'],
-  ['Una sedia “tú y yo” in piazza','Non serve altro.','','f','https://www.odigootravel.com/travel-blog/cancun/things-to-do/how-to-explore-valladolid-like-a-local'],
-  ['Bagno al Cenote Zací','Dopo il caldo del pomeriggio.','','f','https://www.viajeroscallejeros.com/que-hacer-en-valladolid-mexico/amp/'],
+  ['Calzada de los Frailes at sunset','Shops and cafés open, low light.','','f','https://escapadas.mexicodesconocido.com.mx/que-hacer-en-valladolid-pueblo-magico-yucatan/'],
+  ['A “tú y yo” chair in the square','Nothing else needed.','','f','https://www.odigootravel.com/travel-blog/cancun/things-to-do/how-to-explore-valladolid-like-a-local'],
+  ['Swim at Cenote Zací','After the afternoon heat.','','f','https://www.viajeroscallejeros.com/que-hacer-en-valladolid-mexico/amp/'],
  ],
  eve:[
-  ['Noches de la Heroica Valladolid','Videomapping gratuito sulla facciata del convento. Una guida riporta le 21:00 in spagnolo e le 21:25 in inglese: verifica gli orari.','21:00','?','https://loudavymkrokem.cz/es/valladolid-mexico-que-ver/'],
+  ['Noches de la Heroica Valladolid','Free video mapping on the convent facade. One guide lists 9:00 pm in Spanish and 9:25 pm in English: check the times.','21:00','?','https://loudavymkrokem.cz/es/valladolid-mexico-que-ver/'],
  ],
  care:[
-  ['Contanti in pesos per i pedaggi sulla 180D.','','f','https://travellemming.com/cancun-to-valladolid/'],
-  ['Ik Kil nelle ore centrali è affollato: meglio i cenote meno noti.','','m',''],
+  ['Cash in pesos for the tolls on the 180D.','','f','https://travellemming.com/cancun-to-valladolid/'],
+  ['Ik Kil is crowded in the middle of the day: go for the lesser-known cenotes.','','m',''],
  ]},
 mer:{
  core:[
-  ['Mercato Lucas de Gálvez','Il mercato storico, circa 2.000 venditori (fonte editoriale). Domenica mattina: cochinita pibil.','centro','f','https://tablejourney.com/mexico/merida/markets/mercado-san-benito/'],
-  ['Fiesta guadalupana a San Cristóbal','La festa più grande dello Yucatán, programma speciale l’11 e il 12 dicembre, calle 50 tra 67 e 69. Orari 2026 da verificare. È devozione, non spettacolo: vestiti sobrio.','sab 12 dic','f','https://yucatan.com.mx/imagen/2026/10/30/san-cristobal-se-prepara-para-los-festejos-a-la-virgen-guadalupe.html'],
-  ['Serenata Yucateca','Parque de Santa Lucía, ogni giovedì alle 21:00.','gio 10 dic','f','https://posta.com.mx/mexico/semana-meridana-que-hacer-de-lunes-a-domingo-en-merida/vl1561215'],
+  ['Lucas de Gálvez Market','The historic market, around 2,000 vendors (editorial source). Sunday morning: cochinita pibil.','centre','f','https://tablejourney.com/mexico/merida/markets/mercado-san-benito/'],
+  ['Guadalupe festival at San Cristóbal','The biggest festival in Yucatán, special programme on 11 and 12 December, calle 50 between 67 and 69. 2026 times to verify. It is devotion, not a show: dress modestly.','Sat 12 Dec','f','https://yucatan.com.mx/imagen/2026/10/30/san-cristobal-se-prepara-para-los-festejos-a-la-virgen-guadalupe.html'],
+  ['Serenata Yucateca','Parque de Santa Lucía, every Thursday at 9:00 pm.','Thu 10 Dec','f','https://posta.com.mx/mexico/semana-meridana-que-hacer-de-lunes-a-domingo-en-merida/vl1561215'],
  ],
  see:[
-  ['Centro storico a piedi','Plaza Grande, cattedrale e dintorni.','centro','m',''],
-  ['Mercato San Benito','Accanto al Lucas de Gálvez: sarti, cuoio e taquerie fino a tarda notte.','centro','f','https://www.yucatan.com.mx/merida/2026/07/09/mercados-centro-historico-de-merida-identidad-y-cultura.html'],
+  ['Historic centre on foot','Plaza Grande, cathedral and surroundings.','centre','m',''],
+  ['San Benito Market','Next to Lucas de Gálvez: tailors, leather and taquerías open late.','centre','f','https://www.yucatan.com.mx/merida/2026/07/09/mercados-centro-historico-de-merida-identidad-y-cultura.html'],
  ],
  reach:[
-  ['Izamal','La città gialla, circa 1 ora da Mérida (e da Chichén Itzá).','≈ 1 h','f','https://www.viajandoporelmundomundial.com/que-ver-en-izamal-mexico/'],
-  ['Dzibilchaltún','Sito maya a nord; la mappa regionale lo dà a 24 km.','24 km','f','https://www.mexicodesconocido.com.mx/viajes_por_carretera/ruta-maya-colonial'],
-  ['Kimbilá','Ricami e moda artigianale, circa 1 ora (dal rapporto).','≈ 1 h','f','https://yucatantoday.com/en/blog/kimbila-yucatan-artisanal-fashion-guayaberas'],
-  ['Celestún, Uxmal e Ruta Puuc','Compaiono negli itinerari standard; sono direzioni diverse, una al giorno. Tempi non verificati.','da verificare','?',''],
+  ['Izamal','The yellow city, about 1 hour from Mérida (and from Chichén Itzá).','≈ 1 h','f','https://www.viajandoporelmundomundial.com/que-ver-en-izamal-mexico/'],
+  ['Dzibilchaltún','Maya site to the north; the regional map puts it at 24 km.','24 km','f','https://www.mexicodesconocido.com.mx/viajes_por_carretera/ruta-maya-colonial'],
+  ['Kimbilá','Embroidery and artisan fashion, about 1 hour (from the report).','≈ 1 h','f','https://yucatantoday.com/en/blog/kimbila-yucatan-artisanal-fashion-guayaberas'],
+  ['Celestún, Uxmal and the Puuc Route','They appear in standard itineraries; they are different directions, one per day. Times not verified.','to verify','?',''],
  ],
  eat:[
-  ['Cochinita pibil, la domenica','Al Lucas de Gálvez, poi parti per Holbox.','dom 13 dic','f','https://www.posta.com.mx/mexico/3-lugares-en-el-centro-de-merida-para-desayunar-rico-con-menos-de-100-pesos/vl1753811'],
-  ['Panuchos e salbutes al Santa Ana','Calle 47 x 60 y 58. Banchi aperti dalle 6 fino a metà mattina; a 80 pesos circa (fonte editoriale).','mattina','f','https://tablejourney.com/mexico/merida/budget-eating/'],
-  ['Mercato Santiago','Calle 57 x 70 y 72. Cochinita e lechón al banco.','centro','f','https://tablejourney.com/mexico/merida/cuisine/street-food/'],
-  ['Taquerie del San Benito','Poc chuc, cochinita, lechón: aperte fino a tarda notte.','sera','f','https://www.yucatan.com.mx/merida/2026/07/09/mercados-centro-historico-de-merida-identidad-y-cultura.html'],
-  ['La Chaya Maya','Sopa de lima, poc chuc, panuchos, tortillas sul comal. Fonte debole, incrocia.','','?','https://tablejourney.com/mexico/merida/dish/salbutes/'],
+  ['Cochinita pibil, on Sunday','At Lucas de Gálvez, then leave for Holbox.','Sun 13 Dec','f','https://www.posta.com.mx/mexico/3-lugares-en-el-centro-de-merida-para-desayunar-rico-con-menos-de-100-pesos/vl1753811'],
+  ['Panuchos and salbutes at Santa Ana','Calle 47 x 60 y 58. Stalls open from 6 am until mid-morning; around 80 pesos (editorial source).','morning','f','https://tablejourney.com/mexico/merida/budget-eating/'],
+  ['Santiago Market','Calle 57 x 70 y 72. Cochinita and lechón at the counter.','centre','f','https://tablejourney.com/mexico/merida/cuisine/street-food/'],
+  ['San Benito taquerías','Poc chuc, cochinita, lechón: open late.','evening','f','https://www.yucatan.com.mx/merida/2026/07/09/mercados-centro-historico-de-merida-identidad-y-cultura.html'],
+  ['La Chaya Maya','Sopa de lima, poc chuc, panuchos, tortillas on the comal. Weak source, cross-check.','','?','https://tablejourney.com/mexico/merida/dish/salbutes/'],
  ],
  trad:[
-  ['Serenata Yucateca','Musica e danza tradizionali nel parco, il giovedì.','21:00','f','https://posta.com.mx/mexico/semana-meridana-que-hacer-de-lunes-a-domingo-en-merida/vl1561215'],
-  ['Vaquería yucateca','Lunedì alle 21:00 al Palazzo Municipale, gratis. L’ho tolta: è un balletto coreografato e lunedì sei già a Holbox.','lun 14 dic','f','https://yucatantoday.com/en/blog/yucatecan-traditions-vaqueria-and-jarana/'],
-  ['Lucha libre','Eventi occasionali nello Yucatán (CMLL a Mérida nel 2025). Per dicembre non ho una data: non contarci.','biglietti: tusboletos.mx','?','https://www.posta.com.mx/yucatan/habra-lucha-en-yucatan-cmll-regresa-a-merida/vl2019750'],
+  ['Serenata Yucateca','Traditional music and dance in the park, on Thursdays.','21:00','f','https://posta.com.mx/mexico/semana-meridana-que-hacer-de-lunes-a-domingo-en-merida/vl1561215'],
+  ['Vaquería yucateca','Monday at 9:00 pm at the City Hall, free. I dropped it: it is a choreographed show and on Monday you are already in Holbox.','Mon 14 Dec','f','https://yucatantoday.com/en/blog/yucatecan-traditions-vaqueria-and-jarana/'],
+  ['Lucha libre','Occasional events in Yucatán (CMLL in Mérida in 2025). I have no date for December: do not count on it.','tickets: tusboletos.mx','?','https://www.posta.com.mx/yucatan/habra-lucha-en-yucatan-cmll-regresa-a-merida/vl2019750'],
  ],
  buy:[
-  ['Guayabera','Il capo simbolo di Mérida; ricamo di Kimbilá.','','f','https://yucatantoday.com/en/blog/kimbila-yucatan-artisanal-fashion-guayaberas'],
-  ['Jipijapa (cappello)','Si fa a Becal, Campeche, patrimonio UNESCO.','','f','https://www.frommers.com/destinations/merida-mexico/shopping/overview'],
-  ['Sandali “chillonas”, ricami maya','Dal rapporto: Múul Meyaj e Kukul Boutik come negozi di artigianato.','','f','https://www.frommers.com/destinations/merida-mexico/shopping/overview'],
+  ['Guayabera','The signature garment of Mérida; embroidery from Kimbilá.','','f','https://yucatantoday.com/en/blog/kimbila-yucatan-artisanal-fashion-guayaberas'],
+  ['Jipijapa (hat)','Made in Becal, Campeche, a UNESCO heritage craft.','','f','https://www.frommers.com/destinations/merida-mexico/shopping/overview'],
+  ['“Chillonas” sandals, Maya embroidery','From the report: Múul Meyaj and Kukul Boutik as craft shops.','','f','https://www.frommers.com/destinations/merida-mexico/shopping/overview'],
  ],
  chill:[
-  ['Mercato Slow Food del sabato','Earth Market in Calle 33-D con produttori locali (fonte editoriale, orari da verificare).','sab','?','https://tablejourney.com/mexico/merida/markets/mercado-lucas-de-galvez/'],
-  ['Mattina lenta in centro','Mercati prima delle 11, poi ombra.','','m',''],
+  ['Saturday Slow Food market','Earth Market in Calle 33-D with local producers (editorial source, times to verify).','Sat','?','https://tablejourney.com/mexico/merida/markets/mercado-lucas-de-galvez/'],
+  ['Slow morning in the centre','Markets before 11, then shade.','','m',''],
  ],
  eve:[
-  ['Serenata a Santa Lucía','Giovedì 10 dicembre, 21:00.','gio 10','f','https://posta.com.mx/mexico/semana-meridana-que-hacer-de-lunes-a-domingo-en-merida/vl1561215'],
-  ['Festa guadalupana, sabato 12','Programma speciale, in passato strade chiuse e antorchistas. Orari 2026 da verificare.','sab 12','f','https://www.posta.com.mx/mexico/dia-de-la-virgen-de-guadalupe-que-calles-cerraran-durante-su-celebracion/vl1725120'],
+  ['Serenata at Santa Lucía','Thursday 10 December, 9:00 pm.','Thu 10','f','https://posta.com.mx/mexico/semana-meridana-que-hacer-de-lunes-a-domingo-en-merida/vl1561215'],
+  ['Guadalupe festival, Saturday 12','Special programme, in the past closed streets and torch runners. 2026 times to verify.','Sat 12','f','https://www.posta.com.mx/mexico/dia-de-la-virgen-de-guadalupe-que-calles-cerraran-durante-su-celebracion/vl1725120'],
  ],
  care:[
-  ['Guadalupe è una devozione: niente foto in faccia ai pellegrini, vestiti sobrio.','','m',''],
-  ['Tatuatori: ho solo elenchi di prenotazione, zero qualità verificata.','','?',''],
+  ['Guadalupe is a devotion: no photos in pilgrims’ faces, dress modestly.','','m',''],
+  ['Tattoo artists: I only have booking lists, zero verified quality.','','?',''],
  ]},
 hol:{
  core:[
-  ['Isola a piedi e murales','Il paese non ha attrazioni storiche: il bello sono i murales e il ritmo.','','f','https://www.barcelo.com/guia-turismo/es/mexico/riviera-maya/que-ver/holbox/'],
-  ['Punta Cocos','Acqua bassa e tramonti; si raggiunge dal paese per l’interno o lungo la spiaggia.','a piedi/golf cart','f','https://www.viajeroscallejeros.com/isla-de-holbox/amp/'],
-  ['Tour delle tre isole','Con le cooperative di pescatori: Isla Pasión, uccelli e, se è stagione, fenicotteri.','mezza giornata','f','https://www.geckoroutes.com/es/mexico/cosas-que-hacer-en-holbox-mexico/'],
+  ['The island on foot and the murals','The town has no historic sights: the good part is the murals and the pace.','','f','https://www.barcelo.com/guia-turismo/es/mexico/riviera-maya/que-ver/holbox/'],
+  ['Punta Cocos','Shallow water and sunsets; reached from town through the interior or along the beach.','on foot/golf cart','f','https://www.viajeroscallejeros.com/isla-de-holbox/amp/'],
+  ['Three-islands tour','With the fishermen’s cooperatives: Isla Pasión, birds and, in season, flamingos.','half day','f','https://www.geckoroutes.com/es/mexico/cosas-que-hacer-en-holbox-mexico/'],
  ],
  see:[
-  ['Murales del paese','Percorso a piedi tra le strade.','','f','https://www.viajeroscallejeros.com/isla-de-holbox/amp/'],
+  ['Town murals','A walking route through the streets.','','f','https://www.viajeroscallejeros.com/isla-de-holbox/amp/'],
  ],
  reach:[
-  ['Chiquilá e traghetto','Traghetto di circa 25 minuti. Da Mérida a Chiquilá 306 km e 3,5–4 h in auto.','25 min','f','https://www.wanderlustchloe.com/merida-to-isla-holbox/'],
-  ['Kayak tra le mangrovie','Vita selvatica, mattina.','','f','https://www.geckoroutes.com/es/mexico/cosas-que-hacer-en-holbox-mexico/'],
+  ['Chiquilá and the ferry','Ferry of about 25 minutes. From Mérida to Chiquilá it is 306 km and 3.5–4 h by car.','25 min','f','https://www.wanderlustchloe.com/merida-to-isla-holbox/'],
+  ['Kayak through the mangroves','Wildlife, morning.','','f','https://www.geckoroutes.com/es/mexico/cosas-que-hacer-en-holbox-mexico/'],
  ],
  eat:[
-  ['Pesce e frutti di mare','La cucina gira intorno al pescato e alle ricette yucatecas; cochinita ma anche pizza all’aragosta.','','f','https://www.barcelo.com/guia-turismo/es/?p=602424'],
-  ['Painapol','Porzioni abbondanti, prezzo giusto secondo una guida.','','f','https://www.geckoroutes.com/es/mexico/cosas-que-hacer-en-holbox-mexico/'],
+  ['Fish and seafood','The cooking revolves around the catch and Yucatecan recipes; cochinita but also lobster pizza.','','f','https://www.barcelo.com/guia-turismo/es/?p=602424'],
+  ['Painapol','Generous portions, fair price according to one guide.','','f','https://www.geckoroutes.com/es/mexico/cosas-que-hacer-en-holbox-mexico/'],
  ],
  trad:[
-  ['Isola di pescatori','Gran parte della popolazione vive di pesca o turismo.','','f','https://loudavymkrokem.cz/es/?p=133746'],
-  ['Sessioni con “curanderas”','Presso Casa Las Tortugas, secondo un blog. Prodotto wellness: chiedi cosa è.','','?','https://bemytravelmuse.com/isla-holbox-guide'],
+  ['Fishermen’s island','Most of the population lives from fishing or tourism.','','f','https://loudavymkrokem.cz/es/?p=133746'],
+  ['Sessions with “curanderas”','At Casa Las Tortugas, according to a blog. A wellness product: ask what it is.','','?','https://bemytravelmuse.com/isla-holbox-guide'],
  ],
  buy:[
-  ['Amache e artigianato locale','Nelle botteghe del paese; niente di verificato qui.','','?',''],
+  ['Hammocks and local crafts','In the town shops; nothing verified here.','','?',''],
  ],
  chill:[
-  ['Amache sulla spiaggia','Le “hamacas” famose delle spiagge.','','f','https://loudavymkrokem.cz/es/?p=133746'],
-  ['Kitesurf (da guardare)','Con i primi nortes la stagione parte.','','f','https://www.cancuntripinsider.com/guides/es-mx/holbox-en-noviembre'],
+  ['Hammocks on the beach','The famous beach “hamacas”.','','f','https://loudavymkrokem.cz/es/?p=133746'],
+  ['Kitesurf (to watch)','The season starts with the first nortes.','','f','https://www.cancuntripinsider.com/guides/es-mx/holbox-en-noviembre'],
  ],
  eve:[
-  ['Passeggiata serale','Dicembre: picco delle feste verso la fine del mese (guida editoriale).','','f','https://www.cancuntripinsider.com/guides/es-mx/holbox-en-noviembre'],
-  ['Bioluminescenza','A dicembre una guida la dà fuori stagione (picco giugno–ottobre); un’altra scrive marzo–novembre. Non contarci.','','?','https://www.cancuntripinsider.com/guides/es-mx/holbox-en-noviembre'],
+  ['Evening stroll','December: peak of the holidays towards the end of the month (editorial guide).','','f','https://www.cancuntripinsider.com/guides/es-mx/holbox-en-noviembre'],
+  ['Bioluminescence','In December one guide calls it out of season (peak June–October); another says March–November. Do not count on it.','','?','https://www.cancuntripinsider.com/guides/es-mx/holbox-en-noviembre'],
  ],
  care:[
-  ['Squalo balena: fuori stagione (giugno–metà settembre).','','f','https://www.cancuntripinsider.com/guides/es-mx/holbox-en-noviembre'],
-  ['Dicembre: nortes forti, mare mosso certi giorni.','','f','https://www.cancuntripinsider.com/guides/es-mx/mejor-epoca-para-visitar-isla-holbox'],
-  ['Lascia l’auto nel parcheggio recintato di Chiquilá.','','f','https://old.media-azi.md/get-holbox-1kin.html'],
+  ['Whale shark: out of season (June–mid-September).','','f','https://www.cancuntripinsider.com/guides/es-mx/holbox-en-noviembre'],
+  ['December: strong nortes, rough sea on some days.','','f','https://www.cancuntripinsider.com/guides/es-mx/mejor-epoca-para-visitar-isla-holbox'],
+  ['Leave the car in the fenced car park at Chiquilá.','','f','https://old.media-azi.md/get-holbox-1kin.html'],
  ]},
 bac:{
  core:[
-  ['Laguna dei sette colori','Il motivo per cui si viene. Barca o kayak, dal paese.','','f','https://www.geckoroutes.com/es/mexico/bacalar/'],
-  ['Mercato Municipal José María Morelos','Frutta, verdure, cibo locale; aperto circa 7:30–19.','centro','f','https://www.hmdb.org/m.asp?m=134889'],
+  ['Lagoon of seven colours','The reason you come. Boat or kayak, from town.','','f','https://www.geckoroutes.com/es/mexico/bacalar/'],
+  ['José María Morelos Municipal Market','Fruit, vegetables, local food; open about 7:30 am–7 pm.','centre','f','https://www.hmdb.org/m.asp?m=134889'],
  ],
  see:[
-  ['Forte di San Felipe e il centro','Dai punti già nella mappa.','centro','m',''],
+  ['San Felipe Fort and the centre','From the points already on the map.','centre','m',''],
  ],
  reach:[
-  ['Chacchoben','Zona archeologica sulla via per Limones.','da verificare','?','https://www.trenmaya.gob.mx/images/granguiainah.pdf'],
-  ['Mahahual','Costa a sud-est; tempo non verificato.','da verificare','?','https://www.trenmaya.gob.mx/images/granguiainah.pdf'],
-  ['Calakmul, Dzibanché, Kohunlich','Giornate lunghe, da itinerari su forum: lascia stare salvo voglia specifica.','da verificare','?','https://www.losviajeros.com/foros.php?p=6480019'],
+  ['Chacchoben','Archaeological zone on the road to Limones.','to verify','?','https://www.trenmaya.gob.mx/images/granguiainah.pdf'],
+  ['Mahahual','South-east coast; time not verified.','to verify','?','https://www.trenmaya.gob.mx/images/granguiainah.pdf'],
+  ['Calakmul, Dzibanché, Kohunlich','Long days, from forum itineraries: skip unless you specifically want it.','to verify','?','https://www.losviajeros.com/foros.php?p=6480019'],
  ],
  eat:[
-  ['Sotobichay','Tamal con chaya: la cucina è influenzata da Yucatán e Campeche.','','f','https://www.hmdb.org/m.asp?m=134889'],
-  ['Pibipollo','Si prepara per Todos Santos, non a dicembre.','','f','https://www.hmdb.org/m.asp?m=134889'],
-  ['Comedor Doña Mary','Comida corrida a 80–100 MXN, menu del giorno (fonte editoriale 2026).','','?','https://www.mexicotravelandleisure.com/blog/best-restaurants-bacalar/'],
-  ['Panuchos e salbutes al mercato','Piccola zona cibo; economica.','','f','https://www.mexicotravelandleisure.com/blog/best-restaurants-bacalar/'],
+  ['Sotobichay','Tamal with chaya: the cooking is influenced by Yucatán and Campeche.','','f','https://www.hmdb.org/m.asp?m=134889'],
+  ['Pibipollo','Made for Todos Santos, not in December.','','f','https://www.hmdb.org/m.asp?m=134889'],
+  ['Comedor Doña Mary','Comida corrida at 80–100 MXN, set menu of the day (2026 editorial source).','','?','https://www.mexicotravelandleisure.com/blog/best-restaurants-bacalar/'],
+  ['Panuchos and salbutes at the market','Small food area; cheap.','','f','https://www.mexicotravelandleisure.com/blog/best-restaurants-bacalar/'],
  ],
  trad:[
-  ['Cucina mista','Yucatán, Campeche e Belize.','','f','https://www.mexicodesconocido.com.mx/bacalar-guia-basica-de-atractivos-turisticos.html'],
+  ['Mixed cuisine','Yucatán, Campeche and Belize.','','f','https://www.mexicodesconocido.com.mx/bacalar-guia-basica-de-atractivos-turisticos.html'],
  ],
  buy:[
-  ['Artigianato nel paese','Ci sono negozi; qualità non verificata.','','?','https://www.mexicodesconocido.com.mx/bacalar-guia-basica-de-atractivos-turisticos.html'],
+  ['Crafts in town','There are shops; quality not verified.','','?','https://www.mexicodesconocido.com.mx/bacalar-guia-basica-de-atractivos-turisticos.html'],
  ],
  chill:[
-  ['Una giornata sulla laguna','Senza programma.','','m',''],
+  ['A day on the lagoon','No plan.','','m',''],
  ],
  eve:[
-  ['Cena con vista laguna','Piatti di pesce e ceviche: 200–600 MXN.','','?','https://www.mexicotravelandleisure.com/blog/best-restaurants-bacalar/'],
+  ['Dinner with a lagoon view','Fish dishes and ceviche: 200–600 MXN.','','?','https://www.mexicotravelandleisure.com/blog/best-restaurants-bacalar/'],
  ],
  care:[
-  ['Bacalar si è gentrificata: il mercato è rimasto locale.','','?','https://www.mexicotravelandleisure.com/blog/best-restaurants-bacalar/'],
+  ['Bacalar has gentrified: the market stayed local.','','?','https://www.mexicotravelandleisure.com/blog/best-restaurants-bacalar/'],
  ]},
 pm:{
  core:[
-  ['Faro inclinato','Si inclinò dopo l’uragano Beulah del 1967: simbolo del paese.','centro','f','https://www.barcelo.com/guia-turismo/es/?p=671693'],
-  ['Mercato artigiani','Colectivo de Artesanos: gioielli, ricami, amache. Qualche affare.','centro','f','https://www.fodors.com/world/mexico-and-central-america/mexico/the-riviera-maya/things-to-do/shopping/reviews/colectivo-de-artesanos-de-puerto-morelos-144063'],
+  ['Leaning lighthouse','It tilted after Hurricane Beulah in 1967: the town’s symbol.','centre','f','https://www.barcelo.com/guia-turismo/es/?p=671693'],
+  ['Artisans market','Colectivo de Artesanos: jewellery, embroidery, hammocks. Some bargains.','centre','f','https://www.fodors.com/world/mexico-and-central-america/mexico/the-riviera-maya/things-to-do/shopping/reviews/colectivo-de-artesanos-de-puerto-morelos-144063'],
  ],
  see:[
-  ['Piazza principale','Bar, musica dal vivo, pesce.','centro','f','https://www.palladiumhotelgroup.com/pt/guia-turistico/mexico/riviera-maya/o-que-ver/puerto-morelos'],
+  ['Main square','Bars, live music, seafood.','centre','f','https://www.palladiumhotelgroup.com/pt/guia-turistico/mexico/riviera-maya/o-que-ver/puerto-morelos'],
  ],
  reach:[
-  ['Ruta de los Cenotes','Escursione citata dalla guida di zona; tempo non verificato.','da verificare','?','https://www.barcelo.com/guia-turismo/es/?p=671693'],
-  ['Snorkeling nel parco della barriera','Parque Nacional Arrecife de Puerto Morelos.','','f','https://www.trenmaya.gob.mx/images/granguiainah.pdf'],
+  ['Ruta de los Cenotes','Excursion mentioned by the local guide; time not verified.','to verify','?','https://www.barcelo.com/guia-turismo/es/?p=671693'],
+  ['Snorkelling in the reef park','Parque Nacional Arrecife de Puerto Morelos.','','f','https://www.trenmaya.gob.mx/images/granguiainah.pdf'],
  ],
  eat:[
-  ['Tacos, cochinita, ceviche','Cucina yucateca di strada e di mare.','','f','https://www.cancuntripinsider.com/guides/es-mx/tour-gastronomico-puerto-morelos'],
+  ['Tacos, cochinita, ceviche','Yucatecan street and sea cooking.','','f','https://www.cancuntripinsider.com/guides/es-mx/tour-gastronomico-puerto-morelos'],
  ],
  trad:[
-  ['Mercato settimanale','A ovest della piazza, accanto alla chiesa su Avenida Tulum: pane, piatti caseri, artigiani.','','f','https://www.myguide-mexico.com/travel-articles/best-playa-del-carmen-and-riviera-maya-markets-food-handicrafts-art-fashion'],
-  ['Jungle Market','Donne maya con artigianato e colazione.','','?','https://www.myguide-mexico.com/travel-articles/best-playa-del-carmen-and-riviera-maya-markets-food-handicrafts-art-fashion'],
+  ['Weekly market','West of the square, next to the church on Avenida Tulum: bread, home-cooked dishes, artisans.','','f','https://www.myguide-mexico.com/travel-articles/best-playa-del-carmen-and-riviera-maya-markets-food-handicrafts-art-fashion'],
+  ['Jungle Market','Maya women with crafts and breakfast.','','?','https://www.myguide-mexico.com/travel-articles/best-playa-del-carmen-and-riviera-maya-markets-food-handicrafts-art-fashion'],
  ],
  buy:[
-  ['Huipil, borse, bluse','Tavoli con abiti ispirati alla cultura maya.','','f','https://locogringo.com/node/682'],
+  ['Huipil, bags, blouses','Tables with clothes inspired by Maya culture.','','f','https://locogringo.com/node/682'],
  ],
  chill:[
-  ['Spiaggia e piazza','Pueblo di pescatori che ha tenuto il suo fascino.','','f','https://www.barcelo.com/guia-turismo/es/?p=671693'],
+  ['Beach and square','A fishing pueblo that has kept its charm.','','f','https://www.barcelo.com/guia-turismo/es/?p=671693'],
  ],
  eve:[
-  ['Cena in piazza','Musica dal vivo nei bar.','','f','https://www.palladiumhotelgroup.com/pt/guia-turistico/mexico/riviera-maya/o-que-ver/puerto-morelos'],
+  ['Dinner in the square','Live music in the bars.','','f','https://www.palladiumhotelgroup.com/pt/guia-turistico/mexico/riviera-maya/o-que-ver/puerto-morelos'],
  ],
  care:[
-  ['Alta stagione verso il 20 dicembre: prenota presto.','','m',''],
+  ['High season around 20 December: book early.','','m',''],
  ]},
 };
 const LEGS={
-'cun-val':{intro:'8 dicembre: atterri alle 15:05, ritiri l’auto. Non contare su soste lunghe: arrivi con luce bassa.',
+'cun-val':{intro:'8 December: you land at 3:05 pm, pick up the car. Do not count on long stops: you arrive in low light.',
  on:[
-  ['Cena a Valladolid','Prima sera: piazza, un tavolo, a letto presto.','','m',''],
-  ['Videomapping al convento','Se riesci ad arrivare in tempo (orari da verificare).','21:00','?','https://loudavymkrokem.cz/es/valladolid-mexico-que-ver/'],
+  ['Dinner in Valladolid','First evening: square, a table, early to bed.','','m',''],
+  ['Video mapping at the convent','If you make it in time (times to verify).','21:00','?','https://loudavymkrokem.cz/es/valladolid-mexico-que-ver/'],
  ],
  more:[
-  ['Ek Balam','Da fare un altro giorno, sono 25–30 minuti da Valladolid.','25–30 min','f','https://www.geekyexplorer.com/valladolid-mexico/'],
+  ['Ek Balam','Save it for another day, it is 25–30 minutes from Valladolid.','25–30 min','f','https://www.geekyexplorer.com/valladolid-mexico/'],
  ],
- care:['Contanti in pesos per i pedaggi sulla 180D.']},
-'val-mer':{intro:'10 dicembre. Strada verso Izamal e poi Mérida: due ore piene con una sosta bella nel mezzo.',
+ care:['Cash in pesos for the tolls on the 180D.']},
+'val-mer':{intro:'10 December. Road towards Izamal and then Mérida: two full hours with one good stop in the middle.',
  on:[
-  ['Chichén Itzá','45 minuti da Valladolid; se vuoi, all’apertura.','+45 min','f','https://www.geekyexplorer.com/valladolid-mexico/'],
-  ['Izamal','Convento di San Antonio de Padua (1561), costruito su una piramide maya; mercato davanti al convento con antojitos e marquesitas.','1 h da Mérida','f','https://www.viajandoporelmundomundial.com/que-ver-en-izamal-mexico/'],
-  ['Kinich Kakmó','Piramide a tre isolati dal convento.','in centro','f','https://www.barcelo.com/guia-turismo/es/mexico/riviera-maya/que-ver/izamal/'],
-  ['Ristorante Kinich','Più di 40 cuoche tradizionali, piatti con i processi originali.','a pranzo','f','https://forbes.com.mx/?p=433522'],
+  ['Chichén Itzá','45 minutes from Valladolid; if you want, at opening time.','+45 min','f','https://www.geekyexplorer.com/valladolid-mexico/'],
+  ['Izamal','Convent of San Antonio de Padua (1561), built on a Maya pyramid; market in front of the convent with antojitos and marquesitas.','1 h from Mérida','f','https://www.viajandoporelmundomundial.com/que-ver-en-izamal-mexico/'],
+  ['Kinich Kakmó','Pyramid three blocks from the convent.','in town','f','https://www.barcelo.com/guia-turismo/es/mexico/riviera-maya/que-ver/izamal/'],
+  ['Kinich restaurant','More than 40 traditional cooks, dishes made with the original processes.','lunch','f','https://forbes.com.mx/?p=433522'],
  ],
  more:[
-  ['Cenote Yokdzonot','Citato in un itinerario con Chichén Itzá.','da verificare','?','https://www.kimkim.com/c/active-yucatan-road-trip-10-days'],
-  ['Videomapping a Izamal','Lunedì–sabato alle 20:30 (guida editoriale).','20:30','?','https://maddysavenue.com/things-to-do-in-izamal-mexico'],
+  ['Cenote Yokdzonot','Mentioned in an itinerary with Chichén Itzá.','to verify','?','https://www.kimkim.com/c/active-yucatan-road-trip-10-days'],
+  ['Video mapping in Izamal','Monday–Saturday at 8:30 pm (editorial guide).','20:30','?','https://maddysavenue.com/things-to-do-in-izamal-mexico'],
  ],
- care:['Izamal è piccolo: 2–3 ore bastano.']},
-'mer-hol':{intro:'13 dicembre: circa 306 km fino a Chiquilá, 3,5–4 h in auto, poi 25 minuti di traghetto.',
+ care:['Izamal is small: 2–3 hours is enough.']},
+'mer-hol':{intro:'13 December: about 306 km to Chiquilá, 3.5–4 h by car, then a 25-minute ferry.',
  on:[
-  ['Cochinita al Lucas de Gálvez','Domenica mattina, prima di partire.','mattina','f','https://www.posta.com.mx/mexico/3-lugares-en-el-centro-de-merida-para-desayunar-rico-con-menos-de-100-pesos/vl1753811'],
-  ['Pranzo a Valladolid','Longaniza o lomitos, a metà strada (la deviazione la verifichi sulla mappa).','da verificare','?','https://www.rivieramayanews.mx/valladolid-wins-national-award-culinary-experience-2026-tianguis-turistico/'],
+  ['Cochinita at Lucas de Gálvez','Sunday morning, before leaving.','morning','f','https://www.posta.com.mx/mexico/3-lugares-en-el-centro-de-merida-para-desayunar-rico-con-menos-de-100-pesos/vl1753811'],
+  ['Lunch in Valladolid','Longaniza or lomitos, halfway (check the detour on the map).','to verify','?','https://www.rivieramayanews.mx/valladolid-wins-national-award-culinary-experience-2026-tianguis-turistico/'],
  ],
  more:[
-  ['Cenote lungo la 180','Da cercare sulla mappa.','','?',''],
+  ['Cenotes along the 180','Look them up on the map.','','?',''],
  ],
- care:['Controlla gli orari dell’ultimo traghetto Chiquilá–Holbox prima di partire.','Lascia l’auto nel parcheggio recintato di Chiquilá.']},
-'hol-bac':{intro:'17 dicembre: la giornata più lunga. Circa 5 h di auto più traghetto (stima mia). Il percorso passa per Valladolid e la 295.',
+ care:['Check the last Chiquilá–Holbox ferry time before leaving.','Leave the car in the fenced car park at Chiquilá.']},
+'hol-bac':{intro:'17 December: the longest day. About 5 h of driving plus the ferry (my estimate). The route goes through Valladolid and the 295.',
  on:[
-  ['Valladolid','Pausa pranzo.','sulla via','m',''],
-  ['Felipe Carrillo Puerto','Ex Chan Santa Cruz. Santuario de la Cruz Parlante, dove cattolicesimo e cultura maya si fondono. La 295 collega Valladolid a Felipe Carrillo Puerto.','verificare sulla mappa','f','https://escapadas.mexicodesconocido.com.mx/atractivos/felipe-carrillo-puerto/'],
-  ['Tihosuco','Museo della Guerra de Castas, nella Ruta Guerra de Castas.','da verificare','?','https://l21.mx/category/turismo/page/49'],
+  ['Valladolid','Lunch break.','on the way','m',''],
+  ['Felipe Carrillo Puerto','Former Chan Santa Cruz. Santuario de la Cruz Parlante, where Catholicism and Maya culture blend. The 295 links Valladolid to Felipe Carrillo Puerto.','check on the map','f','https://escapadas.mexicodesconocido.com.mx/atractivos/felipe-carrillo-puerto/'],
+  ['Tihosuco','Caste War museum, on the Ruta Guerra de Castas.','to verify','?','https://l21.mx/category/turismo/page/49'],
  ],
  more:[
-  ['Cobá','Se parti presto da Chiquilá.','da verificare','?','https://kimkim.com/c/riviera-maya-road-trip-13-days'],
+  ['Cobá','If you leave Chiquilá early.','to verify','?','https://kimkim.com/c/riviera-maya-road-trip-13-days'],
  ],
- care:['Conta questo giorno come viaggio: arrivo previsto nel pomeriggio.']},
-'bac-pm':{intro:'20 dicembre: da Bacalar a Puerto Morelos lungo la 307, con le soste più utili del giro.',
+ care:['Count this day as travel: arrival expected in the afternoon.']},
+'bac-pm':{intro:'20 December: from Bacalar to Puerto Morelos along the 307, with the most useful stops of the trip.',
  on:[
-  ['Felipe Carrillo Puerto','Santuario de la Cruz Parlante, Calle 60 n. 788. Orari non trovati: chiedi sul posto.','metà strada','f','https://www.atlasobscura.com/places/santuario-de-la-cruz-parlante-speaking-cross'],
-  ['Muyil','Sito maya con passerella verso Sian Ka’an. Ingresso circa 5 dollari in contanti.','13 km a sud di Tulum','f','https://daytrip.com/es/day-trips/from-tulum/muyil-sian-ka-an'],
-  ['Comedor El Chanclas / ristorante Muyil','Cibo regionale a bordo strada.','sulla 307','f','https://escapadas.mexicodesconocido.com.mx/ruta-tulum-carrillo-puerto-entrada-al-paraiso-del-mundo-maya/'],
+  ['Felipe Carrillo Puerto','Santuario de la Cruz Parlante, Calle 60 no. 788. Opening times not found: ask on site.','halfway','f','https://www.atlasobscura.com/places/santuario-de-la-cruz-parlante-speaking-cross'],
+  ['Muyil','Maya site with a walkway towards Sian Ka’an. Entry about 5 dollars in cash.','13 km south of Tulum','f','https://daytrip.com/es/day-trips/from-tulum/muyil-sian-ka-an'],
+  ['Comedor El Chanclas / Muyil restaurant','Regional food by the roadside.','on the 307','f','https://escapadas.mexicodesconocido.com.mx/ruta-tulum-carrillo-puerto-entrada-al-paraiso-del-mundo-maya/'],
  ],
  more:[
-  ['Laguna Kaan Luum','16 minuti da Tulum.','+16 min','f','https://escapadas.mexicodesconocido.com.mx/ruta-tulum-carrillo-puerto-entrada-al-paraiso-del-mundo-maya/'],
-  ['Tulum','Se hai ancora energie.','','m',''],
+  ['Laguna Kaan Luum','16 minutes from Tulum.','+16 min','f','https://escapadas.mexicodesconocido.com.mx/ruta-tulum-carrillo-puerto-entrada-al-paraiso-del-mundo-maya/'],
+  ['Tulum','If you still have energy.','','m',''],
  ],
- care:['Tulum a dicembre è affollata: meglio solo Muyil.']},
-'pm-cun':{intro:'22 dicembre: volo alle 16:55. Mattina tranquilla vicino all’aeroporto.',
+ care:['Tulum is crowded in December: Muyil alone is better.']},
+'pm-cun':{intro:'22 December: flight at 4:55 pm. Easy morning near the airport.',
  on:[
-  ['Colazione al mercato di Puerto Morelos','Poi riconsegna dell’auto con calma.','mattina','m',''],
+  ['Breakfast at the Puerto Morelos market','Then return the car without rushing.','morning','m',''],
  ],
  more:[],
- care:['Riconsegna l’auto con un buon margine prima delle 16:55.']},
+ care:['Return the car with a good margin before 4:55 pm.']},
 };
 /* ===== UTIL ===== */
 const $=(s,r=document)=>r.querySelector(s);
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const rad=x=>x*Math.PI/180;
 const km=(a,b)=>{const R=6371,dl=rad(b.lat-a.lat),dn=rad(b.lon-a.lon);const h=Math.sin(dl/2)**2+Math.cos(rad(a.lat))*Math.cos(rad(b.lat))*Math.sin(dn/2)**2;return 2*R*Math.asin(Math.sqrt(h));};
-const fmtW=h=>h<0.08?'in zona':fmtH(h);
+const fmtW=h=>h<0.08?'on site':fmtH(h);
 const fmtH=h=>{const m=Math.round(h*60);if(m<60)return m+' min';const a=Math.floor(m/60),b=m%60;return a+' h'+(b?' '+String(b).padStart(2,'0'):'');};
 const POI=Object.fromEntries(POIS.map(p=>[p.id,p]));
 const ITCOL={D:'var(--it-d)',A:'var(--it-a)',B:'var(--it-b)',C:'var(--it-c)',M:'var(--it-m)'};
 const BCOL={pm:'#A8E6EF',hol:'#7CC8DD',val:'#F2C200',mer:'#F08A7E',ism:'#A5E3C0',tul:'#F6A6CC',bac:'#9FD08A',cam:'#E7D1A0'};
 const FAMORDER=['cult','maya','sera','mare','nat','vita','prat'];
-const AXES=[['art','Arte'],['maya','Maya'],['sera','Sera'],['relax','Relax'],['calma','Calma']];
+const AXES=[['art','Art'],['maya','Maya'],['sera','Evening'],['relax','Relax'],['calma','Calm']];
 const clone=o=>JSON.parse(JSON.stringify(o));
 
-/* date: 8 dic 2026 = giorno 0 */
-const D0=Date.UTC(2026,11,8),WD=['dom','lun','mar','mer','gio','ven','sab'],MO=['gen','feb','mar','apr','mag','giu','lug','ago','set','ott','nov','dic'];
+/* dates: 8 Dec 2026 = day 0 */
+const D0=Date.UTC(2026,11,8),WD=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'],MO=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 const dt=o=>new Date(D0+o*864e5);
 const iso=o=>dt(o).toISOString().slice(0,10);
 const dshort=o=>dt(o).getUTCDate()+' '+MO[dt(o).getUTCMonth()];
 const dwd=o=>WD[dt(o).getUTCDay()];
 
-/* ===== STATO ===== */
+/* ===== STATE ===== */
 const KEY='yuc-mappa-4',KEY_OLD=['yuc-mappa-3','yuc-mappa-2'];
 const PX_=lon=>(lon+91.3)*Math.cos(20.3*Math.PI/180)*200,PY_=lat=>(21.95-lat)*200;
 const S={view:'plan',todo:{},sel:null,dtab:'near',th:'',
@@ -1256,7 +1262,7 @@ S.cx=PX_(-88.2);S.cy=PY_(20.1);
 })();
 function save(){try{localStorage.setItem(KEY,JSON.stringify({todo:S.todo,f:S.f,wish:S.wish,its:S.its,th:S.th,days:S.days,trip:S.trip}));}catch(e){}}
 
-/* ===== TEMPI ===== */
+/* ===== TIMES ===== */
 function drive(a,b){if(a===b)return{h:0,v:1};const d=DRIVE[[a,b].sort().join('-')];if(d)return{h:d[0],v:!!d[1]};
  return{h:Math.round(km(NODES[a],NODES[b])*1.35/75*4)/4,v:false};}
 function legBetween(x,y,byCar){
@@ -1289,7 +1295,7 @@ function computeIt(it){
   relaxN:sumN(p=>p.relax>=4),artN:sumN(p=>p.art>=4),seraN:sumN(p=>p.sera>=4),peakN,allV:legs.every(l=>l.v)};
 }
 
-/* ===== MAPPA SVG ===== */
+/* ===== SVG MAP ===== */
 const LON0=-91.3,LAT1=21.95,SC=200,CK=Math.cos(rad(20.3)),VBW=994,VBH=770;
 const PX=lon=>(lon-LON0)*CK*SC,PY=lat=>(LAT1-lat)*SC;
 const pth=pts=>'M'+pts.map(([la,lo])=>PX(lo).toFixed(1)+','+PY(la).toFixed(1)).join('L')+'Z';
@@ -1323,7 +1329,7 @@ function niceKm(t){const L=[1,2,5,10,20,25,50,100,200,250,500];let r=L[0];for(co
 
 function mapSVG(o){
  const vb=o.vb,k=o.k,mini=!!o.mini,fs=n=>(n*k).toFixed(1),kk=mini?1:k;
- let s=`<svg xmlns="http://www.w3.org/2000/svg" viewBox="${vb.x.toFixed(1)} ${vb.y.toFixed(1)} ${vb.w.toFixed(1)} ${vb.h.toFixed(1)}" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Mappa schematica dello Yucatán">`;
+ let s=`<svg xmlns="http://www.w3.org/2000/svg" viewBox="${vb.x.toFixed(1)} ${vb.y.toFixed(1)} ${vb.w.toFixed(1)} ${vb.h.toFixed(1)}" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Schematic map of Yucatán">`;
  s+=`<rect x="-3000" y="-3000" width="7000" height="7000" fill="var(--sea)"/>`;
  for(let la=19;la<=21;la++)s+=`<path class="grat" d="M${PX(-95)},${PY(la)}L${PX(-84)},${PY(la)}"/>`;
  for(let lo=-91;lo<=-87;lo++)s+=`<path class="grat" d="M${PX(lo)},${PY(16)}L${PX(lo)},${PY(24)}"/>`;
@@ -1331,14 +1337,14 @@ function mapSVG(o){
  ISL.forEach(p=>{s+=`<path class="land" d="${pth(p)}"/>`;});
  if(!mini){
   for(let la=19;la<=21;la++)s+=`<text class="gl" x="${PX(-91.18)}" y="${PY(la)-3*k}" font-size="${fs(11)}">${la}°N</text>`;
-  for(let lo=-91;lo<=-87;lo++)s+=`<text class="gl" x="${PX(lo)+3*k}" y="${PY(18.2)}" font-size="${fs(11)}">${Math.abs(lo)}°O</text>`;
+  for(let lo=-91;lo<=-87;lo++)s+=`<text class="gl" x="${PX(lo)+3*k}" y="${PY(18.2)}" font-size="${fs(11)}">${Math.abs(lo)}°W</text>`;
  }
- s+=`<text class="reg" x="${PX(-90.6)}" y="${PY(21.65)}" font-size="${fs(mini?11:14)}">GOLFO DEL MESSICO</text>`;
- s+=`<text class="reg" x="${PX(-86.95)}" y="${PY(19.5)}" font-size="${fs(mini?11:14)}" transform="rotate(-90 ${PX(-86.55)} ${PY(19.5)})">MAR DEI CARAIBI</text>`;
+ s+=`<text class="reg" x="${PX(-90.6)}" y="${PY(21.65)}" font-size="${fs(mini?11:14)}">GULF OF MEXICO</text>`;
+ s+=`<text class="reg" x="${PX(-86.95)}" y="${PY(19.5)}" font-size="${fs(mini?11:14)}" transform="rotate(-90 ${PX(-86.55)} ${PY(19.5)})">CARIBBEAN SEA</text>`;
  s+=`<text class="reg" x="${PX(-89.6)}" y="${PY(20.45)}" font-size="${fs(mini?10:13)}">YUCATÁN</text>`;
  s+=`<text class="reg" x="${PX(-88.6)}" y="${PY(19.1)}" font-size="${fs(mini?10:13)}">QUINTANA ROO</text>`;
  if(o.road)s+=`<path class="road" d="M${ROAD.map(([la,lo])=>PX(lo).toFixed(1)+','+PY(la).toFixed(1)).join('L')}"/>`;
- /* luoghi */
+ /* places */
  if(o.pois){
   if(o.sel&&o.sel.t==='p'){
    const sp=POI[o.sel.id];
@@ -1354,7 +1360,7 @@ function mapSVG(o){
    s+=`</g>`;
   });
  }
- /* rotte */
+ /* routes */
  const ids=o.its||[],used={},showH=!mini&&!o.mob&&S.f.legs!==false;
  const pills=[];
  ids.forEach((id,oi)=>{
@@ -1371,7 +1377,7 @@ function mapSVG(o){
    if(showH){const q=cv.at(.3);pills.push({x:q.x,y:q.y,col,txt:(leg.ferry?'⛴ ':'')+(leg.v?'':'≈ ')+fmtH(leg.h)});}
   }
  });
- /* basi */
+ /* bases */
  const bset=new Set(['cun']);ids.forEach(id=>S.its[id].stops.forEach(x=>bset.add(x.b)));
  if(o.allBases)Object.keys(BASES).forEach(b=>bset.add(b));
  bset.forEach(b=>{
@@ -1381,10 +1387,10 @@ function mapSVG(o){
   if(o.labels||mini)s+=`<text x="${x-r-5*k}" y="${y-r-1*k}" text-anchor="end" font-size="${fs(mini?10:14)}" stroke-width="${4*k}">${esc(b==='cun'?(mini?'CUN':'✈ CUN'):B.n)}</text>`;
   s+=`</g>`;
  });
- /* ore sulle tratte */
+ /* hours on the legs */
  pills.forEach(p=>{const w=(p.txt.length*7.6+14)*k,h=20*k;
   s+=`<g pointer-events="none"><rect x="${(p.x-w/2).toFixed(1)}" y="${(p.y-h/2).toFixed(1)}" width="${w.toFixed(1)}" height="${h.toFixed(1)}" rx="${4*k}" fill="var(--panel)" stroke="${p.col}" stroke-width="2.2" vector-effect="non-scaling-stroke"/><text x="${p.x.toFixed(1)}" y="${p.y.toFixed(1)}" text-anchor="middle" dominant-baseline="central" font-family="DM Mono,monospace" font-weight="500" font-size="${fs(12)}" style="fill:var(--ink)">${esc(p.txt)}</text></g>`;});
- /* etichette tappa */
+ /* stop labels */
  ids.forEach((id,oi)=>{
   const c=computeIt(S.its[id]);
   c.st.forEach((st,si)=>{
@@ -1395,7 +1401,7 @@ function mapSVG(o){
   });
  });
  if(!mini){
-  /* misura */
+  /* measure */
   const ms=S.meas.pts;
   if(ms.length){
    const pp=ms.map(q=>XY(q.lat,q.lon));
@@ -1404,14 +1410,14 @@ function mapSVG(o){
     s+=`<g pointer-events="none"><rect x="${(m[0]-w/2).toFixed(1)}" y="${(m[1]-h/2).toFixed(1)}" width="${w.toFixed(1)}" height="${h.toFixed(1)}" rx="${4*k}" fill="var(--ink)"/><text x="${m[0].toFixed(1)}" y="${m[1].toFixed(1)}" text-anchor="middle" dominant-baseline="central" font-family="DM Mono,monospace" font-weight="500" font-size="${fs(13)}" style="fill:var(--bg)">${t}</text></g>`;});
    pp.forEach((q,i)=>{s+=`<g pointer-events="none"><circle cx="${q[0].toFixed(1)}" cy="${q[1].toFixed(1)}" r="${12*k}" fill="var(--gold)" stroke="var(--ink)" stroke-width="2.5" vector-effect="non-scaling-stroke"/><text x="${q[0].toFixed(1)}" y="${q[1].toFixed(1)}" text-anchor="middle" dominant-baseline="central" font-family="DM Mono,monospace" font-weight="700" font-size="${fs(13)}" fill="#111">${i+1}</text></g>`;});
   }
-  /* scala */
+  /* scale */
   const kmU=111.19/SC,n=niceKm(vb.w*kmU*0.16),len=n/kmU,sx=vb.x+22*k,sy=vb.y+vb.h-34*k;
   s+=`<g pointer-events="none"><path d="M${sx},${sy-5*k}V${sy}H${sx+len}V${sy-5*k}" fill="none" stroke="var(--sea)" stroke-width="6" vector-effect="non-scaling-stroke"/><path d="M${sx},${sy-5*k}V${sy}H${sx+len}V${sy-5*k}" fill="none" stroke="var(--ink)" stroke-width="2.5" vector-effect="non-scaling-stroke"/><text x="${sx}" y="${sy-9*k}" font-family="DM Mono,monospace" font-weight="500" font-size="${fs(12)}" style="fill:var(--ink);paint-order:stroke;stroke:var(--sea);stroke-width:${3*k}px">${n} km</text></g>`;
  }
  return s+'</svg>';
 }
 
-/* ===== FILTRI ===== */
+/* ===== FILTERS ===== */
 function matchPoi(p){
  const f=S.f;
  if(f.q&&!(p.n+' '+p.zone+' '+p.txt+' '+p.tags.join(' ')).toLowerCase().includes(f.q.toLowerCase()))return false;
@@ -1424,8 +1430,8 @@ const activeIts=()=>IT_IDS.filter(i=>S.f.itin[i]);
 function nearest(p,n,ex){return POIS.filter(q=>q.id!==p.id&&(!ex||!ex(q))).map(q=>({q,d:km(p,q)})).sort((a,b)=>a.d-b.d).slice(0,n);}
 function jacc(a,b){const A=a.tags.filter(t=>TAGF[t]!=='prat'),B=b.tags.filter(t=>TAGF[t]!=='prat');const i=A.filter(t=>B.includes(t)).length,u=new Set([...A,...B]).size;return u?i/u:0;}
 
-/* ===== HTML: badge e tag ===== */
-const bdV='<span class="bd v">verificato</span>',bdE='<span class="bd e">stima</span>',bdC='<span class="bd e">da verificare</span>';
+/* ===== HTML: badges and tags ===== */
+const bdV='<span class="bd v">verified</span>',bdE='<span class="bd e">estimate</span>',bdC='<span class="bd e">to verify</span>';
 const tagBtn=(t,hit)=>`<button class="tg ${hit?'hit':''}" data-act="tag" data-t="${esc(t)}">${esc(t)}</button>`;
 const dotF=f=>`<i class="dot" style="background:${FAMS[f].c}"></i>`;
 const hl=(txt,v)=>esc(txt)+(v?bdV:bdC);
@@ -1435,20 +1441,20 @@ function filtersHTML(){
   const ts=ALLTAGS.filter(t=>TAGF[t]===fm);if(!ts.length)return'';
   return`<div class="famh">${dotF(fm)}${FAMS[fm].n}</div><div class="chips">${ts.map(t=>`<button class="chip" aria-pressed="${f.tags.includes(t)}" data-act="tag" data-t="${esc(t)}">${esc(t)} <span class="mono hint">${POIS.filter(p=>p.tags.includes(t)).length}</span></button>`).join('')}</div>`;
  }).join('');
- return`<div class="fld"><label class="lab" for="q">Cerca</label><input id="q" type="search" placeholder="nome, zona, parola" value="${esc(f.q)}"></div>
- <div class="fld"><div class="row"><span class="lab">Tipo di attività</span><button class="btn ghost sm" data-act="cleartags">azzera</button></div>
-  <div class="seg" role="group" aria-label="Combinazione tag"><button data-act="mode" data-m="any" aria-pressed="${f.mode==='any'}">Basta uno</button><button data-act="mode" data-m="all" aria-pressed="${f.mode==='all'}">Tutti insieme</button></div>${groups}</div>
- <div class="fld"><span class="lab">Raggio di gita</span>
-  <label class="chk"><input type="checkbox" id="radIt" ${f.radIt?'checked':''}>Limita alle ore di guida dalle mie basi</label>
-  <div class="row"><input id="rad" type="range" min="0.25" max="3.5" step="0.25" value="${f.rad}" ${f.radIt?'':'disabled'} aria-label="Ore di guida massime"><span class="val" id="radv">${fmtH(f.rad)}</span></div>
-  <p class="hint">Ore di guida stimate dalla base più vicina dell’itinerario.</p></div>
- <div class="fld"><span class="lab">Mostra</span>
-  <label class="chk"><input type="checkbox" data-k="labels" ${f.labels?'checked':''}>Nomi sulla mappa</label>
-  <label class="chk"><input type="checkbox" data-k="legs" ${f.legs!==false?'checked':''}>Ore sulle tratte</label>
-  <label class="chk"><input type="checkbox" data-k="road" ${f.road?'checked':''}>Autostrada 180D (schema)</label>
-  <label class="chk"><input type="checkbox" data-k="hide" ${f.hide?'checked':''}>Nascondi i luoghi esclusi</label>
-  <label class="chk"><input type="checkbox" data-k="onlyWish" ${f.onlyWish?'checked':''}>Solo i miei preferiti (${S.wish.length})</label></div>
- <div class="btns"><button class="btn ghost" data-act="reset">Azzera filtri</button></div>`;
+ return`<div class="fld"><label class="lab" for="q">Search</label><input id="q" type="search" placeholder="name, area, word" value="${esc(f.q)}"></div>
+ <div class="fld"><div class="row"><span class="lab">Type of activity</span><button class="btn ghost sm" data-act="cleartags">clear</button></div>
+  <div class="seg" role="group" aria-label="Tag combination"><button data-act="mode" data-m="any" aria-pressed="${f.mode==='any'}">Any one</button><button data-act="mode" data-m="all" aria-pressed="${f.mode==='all'}">All together</button></div>${groups}</div>
+ <div class="fld"><span class="lab">Day-trip radius</span>
+  <label class="chk"><input type="checkbox" id="radIt" ${f.radIt?'checked':''}>Limit to driving hours from my bases</label>
+  <div class="row"><input id="rad" type="range" min="0.25" max="3.5" step="0.25" value="${f.rad}" ${f.radIt?'':'disabled'} aria-label="Maximum driving hours"><span class="val" id="radv">${fmtH(f.rad)}</span></div>
+  <p class="hint">Driving hours estimated from the nearest base of the itinerary.</p></div>
+ <div class="fld"><span class="lab">Show</span>
+  <label class="chk"><input type="checkbox" data-k="labels" ${f.labels?'checked':''}>Names on the map</label>
+  <label class="chk"><input type="checkbox" data-k="legs" ${f.legs!==false?'checked':''}>Hours on the legs</label>
+  <label class="chk"><input type="checkbox" data-k="road" ${f.road?'checked':''}>180D highway (schematic)</label>
+  <label class="chk"><input type="checkbox" data-k="hide" ${f.hide?'checked':''}>Hide excluded places</label>
+  <label class="chk"><input type="checkbox" data-k="onlyWish" ${f.onlyWish?'checked':''}>Only my favourites (${S.wish.length})</label></div>
+ <div class="btns"><button class="btn ghost" data-act="reset">Reset filters</button></div>`;
 }
 
 function listItems(){
@@ -1466,238 +1472,238 @@ function centerHTML(){
   return`<button class="lr ${sel?'sel':''}" data-act="sel" data-id="${p.id}">${dotF(p.fam)}<span class="n">${esc(p.n)}<span class="z">${esc(p.zone)}</span></span><span class="tags">${p.tags.slice(0,3).map(t=>`<span class="tg ${f.tags.includes(t)?'hit':''}">${esc(t)}</span>`).join('')}</span><span class="mono hint">${esc(right)}</span><span>${S.wish.includes(p.id)?'★':''}</span></button>`;
  }).join('');
  
- return`<div class="mapbox panel ${S.meas.on?'meas':''}" id="mapbox"><div id="mapsvg"></div><div class="count mono">${ok.length} di ${POIS.length} luoghi</div>${mapTools()}
-  <div class="zoom"><button data-act="zin" aria-label="Ingrandisci">+</button><button data-act="zout" aria-label="Riduci">−</button><button data-act="zreset" aria-label="Vista intera">⌂</button></div></div>
-  <div class="legend"><span class="hint">Vai a:</span>${[['mer','Mérida'],['val','Valladolid'],['hol','Holbox'],['pm','Costa nord'],['ism','Isla Mujeres']].map(([b,n])=>`<button class="chip" data-act="goto" data-b="${b}" style="padding:1px 9px">${n}</button>`).join('')}<button class="chip" data-act="zreset" style="padding:1px 9px">Vista itinerari</button><button class="chip" data-act="zall" style="padding:1px 9px">Tutta la penisola</button></div>${legendHTML()}
-  <div class="list panel" id="list"><h3>Luoghi (${ok.length})</h3>${lr||'<p class="empty">Nessun luogo con questi filtri. Allarga il raggio o togli un tag.</p>'}</div>`;
+ return`<div class="mapbox panel ${S.meas.on?'meas':''}" id="mapbox"><div id="mapsvg"></div><div class="count mono">${ok.length} of ${POIS.length} places</div>${mapTools()}
+  <div class="zoom"><button data-act="zin" aria-label="Zoom in">+</button><button data-act="zout" aria-label="Zoom out">−</button><button data-act="zreset" aria-label="Full view">⌂</button></div></div>
+  <div class="legend"><span class="hint">Go to:</span>${[['mer','Mérida'],['val','Valladolid'],['hol','Holbox'],['pm','North coast'],['ism','Isla Mujeres']].map(([b,n])=>`<button class="chip" data-act="goto" data-b="${b}" style="padding:1px 9px">${n}</button>`).join('')}<button class="chip" data-act="zreset" style="padding:1px 9px">Itinerary view</button><button class="chip" data-act="zall" style="padding:1px 9px">Whole peninsula</button></div>${legendHTML()}
+  <div class="list panel" id="list"><h3>Places (${ok.length})</h3>${lr||'<p class="empty">No places match these filters. Widen the radius or remove a tag.</p>'}</div>`;
 }
 
 
 function mapTools(){
  const m=S.meas,segs=measSegs();
- let h=`<div class="mtools"><button class="btn sm ${m.on?'':'ghost'} mbtn" data-act="mtool" aria-pressed="${m.on}">${m.on?'● Misura attiva':'Misura distanze'}</button>`;
+ let h=`<div class="mtools"><button class="btn sm ${m.on?'':'ghost'} mbtn" data-act="mtool" aria-pressed="${m.on}">${m.on?'● Measuring':'Measure distances'}</button>`;
  if(m.on){
   h+=`<div class="mpanel">`;
-  if(!m.pts.length)h+=`<p><b>Clicca sulla mappa</b>, su un luogo o su una base per mettere il punto 1, poi il 2, il 3… Ti dico km e tempo in auto tra un punto e l’altro.</p>`;
+  if(!m.pts.length)h+=`<p><b>Click on the map</b>, on a place or on a base to set point 1, then 2, 3… I show km and driving time between points.</p>`;
   else{
    h+=segs.map(g=>`<div class="mrow"><span class="mn">${g.i}→${g.i+1}</span><span class="mt">${esc(g.A.name)} → ${esc(g.B.name)}</span><span class="mono mv">${Math.round(g.d)} km<br>${g.v?'':'≈ '}${fmtH(g.h)}${g.v?bdV:bdE}</span></div>`).join('');
-   if(segs.length>1){const D=segs.reduce((a,g)=>a+g.d,0),H=segs.reduce((a,g)=>a+g.h,0);h+=`<div class="mrow tot"><span class="mn"></span><span class="mt">Totale</span><span class="mono mv">${Math.round(D)} km<br>≈ ${fmtH(H)}</span></div>`;}
+   if(segs.length>1){const D=segs.reduce((a,g)=>a+g.d,0),H=segs.reduce((a,g)=>a+g.h,0);h+=`<div class="mrow tot"><span class="mn"></span><span class="mt">Total</span><span class="mono mv">${Math.round(D)} km<br>≈ ${fmtH(H)}</span></div>`;}
    const last=m.pts[m.pts.length-1],dc=km(NODES.cun,last);
-   h+=`<div class="mrow cun"><span class="mn">✈</span><span class="mt">Dal punto ${m.pts.length} all’aeroporto CUN</span><span class="mono mv">${Math.round(dc)} km<br>≈ ${fmtH(dc*1.35/75)}${bdE}</span></div>`;
-   if(m.pts.length===1)h+=`<p class="hint">Aggiungi un secondo punto per misurare un tratto.</p>`;
+   h+=`<div class="mrow cun"><span class="mn">✈</span><span class="mt">From point ${m.pts.length} to CUN airport</span><span class="mono mv">${Math.round(dc)} km<br>≈ ${fmtH(dc*1.35/75)}${bdE}</span></div>`;
+   if(m.pts.length===1)h+=`<p class="hint">Add a second point to measure a stretch.</p>`;
   }
-  h+=`<p class="hint">Km in linea d’aria. Tempo in auto: km × 1,35 ÷ 75 km/h, salvo tratte tra due basi dove ho il dato (“verificato”). Il traffico e i controlli non sono inclusi.</p>
-  <div class="btns"><button class="btn ghost sm" data-act="mundo" ${m.pts.length?'':'disabled'}>Annulla ultimo</button><button class="btn ghost sm" data-act="mclear" ${m.pts.length?'':'disabled'}>Azzera</button><button class="btn ghost sm" data-act="mtool">Chiudi</button></div></div>`;
+  h+=`<p class="hint">Km as the crow flies. Driving time: km × 1.35 ÷ 75 km/h, except legs between two bases where I have the data (“verified”). Traffic and checkpoints are not included.</p>
+  <div class="btns"><button class="btn ghost sm" data-act="mundo" ${m.pts.length?'':'disabled'}>Undo last</button><button class="btn ghost sm" data-act="mclear" ${m.pts.length?'':'disabled'}>Clear</button><button class="btn ghost sm" data-act="mtool">Close</button></div></div>`;
  }
- return h+`</div><div class="maphint">Trascina = sposta · Ctrl + rotella o + / − = zoom · la pagina scorre libera</div>`;
+ return h+`</div><div class="maphint">Drag = move · Ctrl + wheel or + / − = zoom · the page scrolls freely</div>`;
 }
 function legendHTML(){
  const sv=(inner,w=58)=>`<svg viewBox="0 0 ${w} 20" width="${w}" height="20" aria-hidden="true">${inner}</svg>`;
  const L=(i,t)=>`<div class="lg">${i}<span>${t}</span></div>`;
  const A='var(--it-a)';
  const lines=
-  L(sv(`<path d="M3 10H49" stroke="${A}" stroke-width="6" stroke-linecap="round"/><path d="M34 3l13 7-13 7z" fill="${A}" stroke="var(--ink)" stroke-width="1.2"/>`),'<b>Linea piena + freccia</b>: trasferimento da una base alla successiva. La freccia dà il verso.')+
-  L(sv(`<path d="M3 10H49" stroke="${A}" stroke-width="6" stroke-linecap="round" stroke-dasharray="0.1 11"/>`),'<b>Linea a puntini</b>: tratta con traghetto (isole).')+
-  L(sv(`<rect x="3" y="2" width="50" height="16" rx="4" fill="var(--panel)" stroke="${A}" stroke-width="2.2"/><text x="28" y="10.5" text-anchor="middle" dominant-baseline="central" font-family="DM Mono,monospace" font-size="10.5" fill="var(--ink)">≈ 2 h 30</text>`),'<b>Etichetta sulla linea</b>: ore stimate della tratta (≈ = stima, senza ≈ = verificata).')+
-  L(sv(`<path d="M3 10H53" stroke="var(--ink-2)" stroke-width="2.4" stroke-dasharray="7 5"/>`),'<b>Tratteggio sottile</b>: autostrada 180D (schema) o i 4 luoghi più vicini al selezionato.')+
-  L(sv(`<path d="M3 10H53" stroke="var(--ink)" stroke-width="4" stroke-dasharray="9 6"/>`),'<b>Tratteggio nero spesso</b>: la tua misura (vedi “Misura distanze”).');
+  L(sv(`<path d="M3 10H49" stroke="${A}" stroke-width="6" stroke-linecap="round"/><path d="M34 3l13 7-13 7z" fill="${A}" stroke="var(--ink)" stroke-width="1.2"/>`),'<b>Solid line + arrow</b>: transfer from one base to the next. The arrow gives the direction.')+
+  L(sv(`<path d="M3 10H49" stroke="${A}" stroke-width="6" stroke-linecap="round" stroke-dasharray="0.1 11"/>`),'<b>Dotted line</b>: leg with a ferry (islands).')+
+  L(sv(`<rect x="3" y="2" width="50" height="16" rx="4" fill="var(--panel)" stroke="${A}" stroke-width="2.2"/><text x="28" y="10.5" text-anchor="middle" dominant-baseline="central" font-family="DM Mono,monospace" font-size="10.5" fill="var(--ink)">≈ 2 h 30</text>`),'<b>Label on the line</b>: estimated hours of the leg (≈ = estimate, no ≈ = verified).')+
+  L(sv(`<path d="M3 10H53" stroke="var(--ink-2)" stroke-width="2.4" stroke-dasharray="7 5"/>`),'<b>Thin dashes</b>: 180D highway (schematic) or the 4 places nearest to the selected one.')+
+  L(sv(`<path d="M3 10H53" stroke="var(--ink)" stroke-width="4" stroke-dasharray="9 6"/>`),'<b>Thick black dashes</b>: your measurement (see “Measure distances”).');
  const sym=
-  L(sv(`<path d="M16 2l12 8-12 8-12-8z" fill="var(--ink)" stroke="var(--panel)" stroke-width="2"/>`,32),'<b>Rombo ✈ CUN</b>: aeroporto di Cancún. Si arriva qui l’8 dic (15:05) e si riparte il 22 dic (16:55): è l’inizio e la fine di ogni itinerario.')+
-  L(sv(`<rect x="6" y="2" width="16" height="16" rx="3" fill="var(--ink)" stroke="var(--panel)" stroke-width="2"/>`,32),'<b>Quadrato</b>: base dove si dorme (clicca per la scheda).')+
-  L(sv(`<rect x="2" y="1" width="64" height="18" rx="3" fill="var(--it-b)" stroke="var(--ink)" stroke-width="1.5"/><text x="34" y="10.5" text-anchor="middle" dominant-baseline="central" font-family="DM Mono,monospace" font-size="11" fill="#111">B 2 · 4n</text>`,68),'<b>Etichetta colorata</b>: itinerario (A, B, C), numero della tappa, notti. “B 2 · 4n” = itinerario B, seconda base, 4 notti.')+
-  L(sv(`<circle cx="16" cy="10" r="7" fill="var(--f-maya)" stroke="var(--ink)" stroke-width="2"/>`,32),'<b>Cerchio</b>: luogo da visitare, il colore è il tipo (sotto).')+
-  L(sv(`<circle cx="16" cy="10" r="9" fill="var(--gold)" stroke="var(--ink)" stroke-width="2"/><text x="16" y="10.5" text-anchor="middle" dominant-baseline="central" font-family="DM Mono,monospace" font-size="11" font-weight="700" fill="#111">1</text>`,32),'<b>Cerchio giallo numerato</b>: punto di misura.');
- const col=IT_IDS.map(i=>`<span class="lgc"><i class="sq" style="background:${ITCOL[i]}"></i>${i==='M'?'Il mio':S.its[i].name.split(' · ')[0]}</span>`).join('');
+  L(sv(`<path d="M16 2l12 8-12 8-12-8z" fill="var(--ink)" stroke="var(--panel)" stroke-width="2"/>`,32),'<b>Diamond ✈ CUN</b>: Cancún airport. You arrive here on 8 Dec (15:05) and leave on 22 Dec (16:55): the start and end of every itinerary.')+
+  L(sv(`<rect x="6" y="2" width="16" height="16" rx="3" fill="var(--ink)" stroke="var(--panel)" stroke-width="2"/>`,32),'<b>Square</b>: base where you sleep (click for the card).')+
+  L(sv(`<rect x="2" y="1" width="64" height="18" rx="3" fill="var(--it-b)" stroke="var(--ink)" stroke-width="1.5"/><text x="34" y="10.5" text-anchor="middle" dominant-baseline="central" font-family="DM Mono,monospace" font-size="11" fill="#111">B 2 · 4n</text>`,68),'<b>Coloured label</b>: itinerary (A, B, C), stop number, nights. “B 2 · 4n” = itinerary B, second base, 4 nights.')+
+  L(sv(`<circle cx="16" cy="10" r="7" fill="var(--f-maya)" stroke="var(--ink)" stroke-width="2"/>`,32),'<b>Circle</b>: place to visit, the colour is the type (below).')+
+  L(sv(`<circle cx="16" cy="10" r="9" fill="var(--gold)" stroke="var(--ink)" stroke-width="2"/><text x="16" y="10.5" text-anchor="middle" dominant-baseline="central" font-family="DM Mono,monospace" font-size="11" font-weight="700" fill="#111">1</text>`,32),'<b>Numbered yellow circle</b>: measuring point.');
+ const col=IT_IDS.map(i=>`<span class="lgc"><i class="sq" style="background:${ITCOL[i]}"></i>${i==='M'?'Mine':S.its[i].name.split(' · ')[0]}</span>`).join('');
  const fam=FAMORDER.map(fm=>`<span class="lgc">${dotF(fm)}${FAMS[fm].n}</span>`).join('');
- return`<section class="legendp panel" aria-label="Legenda"><div><h3>Linee</h3>${lines}</div><div><h3>Simboli</h3>${sym}</div><div><h3>Colori</h3><p class="hint">Itinerari</p><div class="lgcs">${col}</div><p class="hint" style="margin-top:10px">Tipo di luogo</p><div class="lgcs">${fam}</div></div></section>`;
+ return`<section class="legendp panel" aria-label="Legend"><div><h3>Lines</h3>${lines}</div><div><h3>Symbols</h3>${sym}</div><div><h3>Colours</h3><p class="hint">Itineraries</p><div class="lgcs">${col}</div><p class="hint" style="margin-top:10px">Type of place</p><div class="lgcs">${fam}</div></div></section>`;
 }
 
 function sources(l){return l.map(([t,u,v])=>`<a href="${esc(u)}" target="_blank" rel="noopener noreferrer"><span>${esc(t)}</span><span>${v?bdV:bdC}</span></a>`).join('');}
 function detailPoi(p){
  const wish=S.wish.includes(p.id),f=S.f;
  const where=IT_IDS.map(i=>{const it=S.its[i];let best=null;it.stops.forEach(s=>{const e=estHours(p,s.b);if(!best||e.h<best.e.h)best={s,e};});
-  return`<div class="row" style="padding:3px 0"><span><i class="sq" style="background:${ITCOL[i]}"></i> ${i==='M'?'Il mio':i}: da ${esc(BASES[best.s.b].n)}</span><span class="mono">${fmtW(best.e.h)}${best.e.v?bdV:bdE}</span></div>`;}).join('');
+  return`<div class="row" style="padding:3px 0"><span><i class="sq" style="background:${ITCOL[i]}"></i> ${i==='M'?'Mine':i}: from ${esc(BASES[best.s.b].n)}</span><span class="mono">${fmtW(best.e.h)}${best.e.v?bdV:bdE}</span></div>`;}).join('');
  const near=nearest(p,7).map(({q,d})=>{
-  const same=(q.isl||'')===(p.isl||'');const mn=d*1.35/70*60,t=same&&d<90?(mn<5?' · < 5 min':` · ≈ ${fmtH(mn/60)}`):(!same?' · via traghetto':'');
+  const same=(q.isl||'')===(p.isl||'');const mn=d*1.35/70*60,t=same&&d<90?(mn<5?' · < 5 min':` · ≈ ${fmtH(mn/60)}`):(!same?' · by ferry':'');
   return`<button class="nb" data-act="sel" data-id="${q.id}">${dotF(q.fam)}<span>${esc(q.n)}<br><span class="z">${esc(q.zone)}</span></span><span class="mono hint">${d<10?d.toFixed(1):Math.round(d)} km${t}</span></button>`;}).join('');
  const alt=POIS.filter(q=>q.id!==p.id).map(q=>({q,j:jacc(p,q)})).filter(x=>x.j>0).sort((a,b)=>b.j-a.j).slice(0,7).map(({q,j})=>{
   const sh=q.tags.filter(t=>p.tags.includes(t)&&TAGF[t]!=='prat');
   return`<button class="nb" data-act="sel" data-id="${q.id}">${dotF(q.fam)}<span>${esc(q.n)}<br><span class="z">${esc(q.zone)} · ${sh.map(esc).join(', ')}</span><span class="sim"><i style="width:${Math.round(j*100)}%"></i></span></span><span class="mono hint">${Math.round(j*100)}%</span></button>`;}).join('');
- return`<div class="dh"><div><div class="eyebrow">${esc(p.zone)}</div><h2>${esc(p.n)}</h2></div><div class="btns"><button class="x" data-act="wish" data-id="${p.id}" aria-pressed="${wish}" title="Preferito" aria-label="Preferito">${wish?'★':'☆'}</button><button class="x" data-act="close" aria-label="Chiudi">✕</button></div></div>
+ return`<div class="dh"><div><div class="eyebrow">${esc(p.zone)}</div><h2>${esc(p.n)}</h2></div><div class="btns"><button class="x" data-act="wish" data-id="${p.id}" aria-pressed="${wish}" title="Favourite" aria-label="Favourite">${wish?'★':'☆'}</button><button class="x" data-act="close" aria-label="Close">✕</button></div></div>
  <div class="tags">${p.tags.map(t=>tagBtn(t,f.tags.includes(t))).join('')}</div>
- <p>${esc(p.txt)}</p>${p.pos?'<p class="note">Posizione sulla mappa approssimata.</p>':''}${p.gen?'<p class="note">Descrizione generale, non verificata in questa sessione.</p>':''}
- <div class="kv"><div><div class="k">Prezzo</div><div class="v">${hl(p.price,p.priceV)}</div></div><div><div class="k">Orari</div><div class="v">${hl(p.hours,p.hoursV)}</div></div><div><div class="k">Durata</div><div class="v">${esc(p.dur)}</div></div><div><div class="k">Tipo</div><div class="v">${FAMS[p.fam].n}</div></div></div>
- <div class="sec"><h3>Si raggiunge da</h3>${where}</div>
- <div class="sec"><h3>Link e prezzi</h3><div class="links">${sources(p.links)}<a href="${esc(gm(p.lat,p.lon))}" target="_blank" rel="noopener noreferrer"><span>Apri su Google Maps</span><span>↗</span></a></div></div>
- <div class="sec"><div class="seg" role="tablist"><button data-act="dtab" data-v="near" aria-pressed="${S.dtab==='near'}">Nei dintorni</button><button data-act="dtab" data-v="alt" aria-pressed="${S.dtab==='alt'}">Alternative simili</button></div>
- <div style="margin-top:6px">${S.dtab==='near'?near:alt||'<p class="empty">Nessuna alternativa con tag in comune.</p>'}</div></div>`;
+ <p>${esc(p.txt)}</p>${p.pos?'<p class="note">Position on the map is approximate.</p>':''}${p.gen?'<p class="note">General description, not verified in this session.</p>':''}
+ <div class="kv"><div><div class="k">Price</div><div class="v">${hl(p.price,p.priceV)}</div></div><div><div class="k">Hours</div><div class="v">${hl(p.hours,p.hoursV)}</div></div><div><div class="k">Duration</div><div class="v">${esc(p.dur)}</div></div><div><div class="k">Type</div><div class="v">${FAMS[p.fam].n}</div></div></div>
+ <div class="sec"><h3>Reached from</h3>${where}</div>
+ <div class="sec"><h3>Links and prices</h3><div class="links">${sources(p.links)}<a href="${esc(gm(p.lat,p.lon))}" target="_blank" rel="noopener noreferrer"><span>Open in Google Maps</span><span>↗</span></a></div></div>
+ <div class="sec"><div class="seg" role="tablist"><button data-act="dtab" data-v="near" aria-pressed="${S.dtab==='near'}">Nearby</button><button data-act="dtab" data-v="alt" aria-pressed="${S.dtab==='alt'}">Similar alternatives</button></div>
+ <div style="margin-top:6px">${S.dtab==='near'?near:alt||'<p class="empty">No alternatives with shared tags.</p>'}</div></div>`;
 }
 function hotelLinks(bid,from,to){
  const b=BASES[bid],ci=iso(from),co=iso(to);
- return[['Booking',`https://www.booking.com/searchresults.html?ss=${encodeURIComponent(b.n+', Messico')}&checkin=${ci}&checkout=${co}&group_adults=2&no_rooms=1`],
-  ['Airbnb',`https://www.airbnb.it/s/${encodeURIComponent(b.n)}--Messico/homes?checkin=${ci}&checkout=${co}&adults=2`],
-  ['Hotel su Google Maps',`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent('hotel '+b.n+' Messico')}`]];
+ return[['Booking',`https://www.booking.com/searchresults.html?ss=${encodeURIComponent(b.n+', Mexico')}&checkin=${ci}&checkout=${co}&group_adults=2&no_rooms=1`],
+  ['Airbnb',`https://www.airbnb.com/s/${encodeURIComponent(b.n)}--Mexico/homes?checkin=${ci}&checkout=${co}&adults=2`],
+  ['Hotels on Google Maps',`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent('hotel '+b.n+' Mexico')}`]];
 }
 const profBars=pr=>`<div class="axes">${AXES.map(([k,n])=>`<span>${n}</span><span class="bar"><i style="width:${pr[k]*20}%;background:var(--accent)"></i></span><span class="mono">${pr[k]}</span>`).join('')}</div>`;
 function detailBase(bid){
- const b=BASES[bid];if(bid==='cun')return`<div class="dh"><div><div class="eyebrow">Arrivo e partenza</div><h2>${esc(b.n)}</h2></div><button class="x" data-act="close" aria-label="Chiudi">✕</button></div><p>Si arriva l’8 dicembre alle 15:05 e si riparte il 22 alle 16:55.</p>`;
+ const b=BASES[bid];if(bid==='cun')return`<div class="dh"><div><div class="eyebrow">Arrival and departure</div><h2>${esc(b.n)}</h2></div><button class="x" data-act="close" aria-label="Close">✕</button></div><p>You arrive on 8 December at 3:05 pm and leave on the 22nd at 4:55 pm.</p>`;
  const c=computeIt(S.its.D),st=c.st.find(x=>x.b===bid),from=st?st.from:0,to=st?st.to:4;
  const near=POIS.map(p=>({p,e:estHours(p,bid)})).filter(x=>x.p.fam!=='prat').sort((a,b)=>a.e.h-b.e.h).slice(0,9);
- return`<div class="dh"><div><div class="eyebrow">Base · ${esc(b.kind==='island'?'isola':b.kind==='city'?'città':b.kind==='coast'?'costa':'paese')}</div><h2>${esc(b.n)}</h2></div><button class="x" data-act="close" aria-label="Chiudi">✕</button></div>
- <p>${esc(b.vibe)}</p><p class="note">Punteggi da 0 a 5: giudizio mio, non misurato.</p>${profBars(b.prof)}
- <div class="sec"><h3>Cerca alloggio (date dell’itinerario D, ${dshort(from)}–${dshort(to)})</h3><div class="links">${hotelLinks(bid,from,to).map(([t,u])=>`<a href="${esc(u)}" target="_blank" rel="noopener noreferrer"><span>${t}</span><span>↗</span></a>`).join('')}</div><p class="hint" style="margin-top:6px">Sono ricerche, nessun prezzo verificato. Cambiate le date sul sito.</p></div>
+ return`<div class="dh"><div><div class="eyebrow">Base · ${esc(b.kind==='island'?'island':b.kind==='city'?'city':b.kind==='coast'?'coast':'town')}</div><h2>${esc(b.n)}</h2></div><button class="x" data-act="close" aria-label="Close">✕</button></div>
+ <p>${esc(b.vibe)}</p><p class="note">Scores from 0 to 5: my judgement, not measured.</p>${profBars(b.prof)}
+ <div class="sec"><h3>Find a stay (dates of itinerary D, ${dshort(from)}–${dshort(to)})</h3><div class="links">${hotelLinks(bid,from,to).map(([t,u])=>`<a href="${esc(u)}" target="_blank" rel="noopener noreferrer"><span>${t}</span><span>↗</span></a>`).join('')}</div><p class="hint" style="margin-top:6px">These are searches, no verified prices. Change the dates on the site.</p></div>
  ${focusBlock(bid)}`;
 }
 
 
 function reachBy(bid,h){const o={};FAMORDER.forEach(f=>o[f]=[]);POIS.forEach(p=>{const e=estHours(p,bid);if(e.h<=h)o[p.fam].push({p,e});});FAMORDER.forEach(f=>o[f].sort((a,b)=>a.e.h-b.e.h));return o;}
 const REACHES=[[1,'1 h'],[1.5,'1 h 30'],[2.25,'2 h 15']];
-const reachChips=()=>`<div class="chips">${REACHES.map(([h,t])=>`<button class="chip" data-act="reach" data-h="${h}" aria-pressed="${S.f.reach===h}">entro ${t}</button>`).join('')}</div>`;
+const reachChips=()=>`<div class="chips">${REACHES.map(([h,t])=>`<button class="chip" data-act="reach" data-h="${h}" aria-pressed="${S.f.reach===h}">within ${t}</button>`).join('')}</div>`;
 const FOCUSF=FAMORDER.filter(f=>f!=='prat');
-const FN={mare:'Mare',nat:'Natura',cult:'Cultura',maya:'Maya',sera:'Sera',vita:'Vita locale'};
+const FN={mare:'Sea',nat:'Nature',cult:'Culture',maya:'Maya',sera:'Evening',vita:'Local life'};
 function judgeBars(bid){const f=BASEFOCUS[bid];if(!f)return'';return`<div class="fgrid">${Object.keys(FN).map(k=>`<span class="fl">${dotF(k)}${FN[k]}</span><span class="fbar"><i style="width:${f[k]*20}%;background:${FAMS[k].c}"></i></span><span class="mono fn">${f[k]}</span>`).join('')}</div>`;}
 function focusBlock(bid){
  const r=reachBy(bid,S.f.reach||1.5);
  const rows=FOCUSF.map(f=>{const n=r[f].length;return`<span class="fl">${dotF(f)}${FAMS[f].n}</span><span class="fbar"><i style="width:${Math.min(n,8)*12.5}%;background:${FAMS[f].c}"></i></span><span class="mono fn">${n}</span>`;}).join('');
- const lists=FOCUSF.filter(f=>r[f].length).map(f=>`<div class="famh">${dotF(f)}${FAMS[f].n}</div>${r[f].slice(0,5).map(({p,e})=>`<button class="nb" data-act="sel" data-id="${p.id}">${dotF(p.fam)}<span>${esc(p.n)}<br><span class="z">${esc(p.tags.slice(0,3).join(' · '))}</span></span><span class="mono hint">${fmtW(e.h)}${e.v?'':'*'}</span></button>`).join('')}${r[f].length>5?`<p class="hint">e altri ${r[f].length-5}</p>`:''}`).join('');
- return`<div class="sec"><h3>Cosa si fa da qui</h3>${BASEDO[bid]?`<p>${esc(BASEDO[bid])}</p><p class="hint" style="margin-top:4px">Sintesi mia dai luoghi della scheda.</p>`:''}${judgeBars(bid)}<p class="hint">Punteggi da 0 a 5: giudizio mio, non misurato.</p></div>
- <div class="sec"><h3>Luoghi raggiungibili</h3>${reachChips()}<div class="fgrid">${rows}</div><p class="hint">Numero di luoghi del mio database entro il tempo scelto. Per Holbox e Puerto Morelos ne ho pochi: il numero non misura quanto c’è da fare. * = tempo stimato.</p>${lists}</div>`;
+ const lists=FOCUSF.filter(f=>r[f].length).map(f=>`<div class="famh">${dotF(f)}${FAMS[f].n}</div>${r[f].slice(0,5).map(({p,e})=>`<button class="nb" data-act="sel" data-id="${p.id}">${dotF(p.fam)}<span>${esc(p.n)}<br><span class="z">${esc(p.tags.slice(0,3).join(' · '))}</span></span><span class="mono hint">${fmtW(e.h)}${e.v?'':'*'}</span></button>`).join('')}${r[f].length>5?`<p class="hint">and ${r[f].length-5} more</p>`:''}`).join('');
+ return`<div class="sec"><h3>What to do from here</h3>${BASEDO[bid]?`<p>${esc(BASEDO[bid])}</p><p class="hint" style="margin-top:4px">My summary from the places on the card.</p>`:''}${judgeBars(bid)}<p class="hint">Scores from 0 to 5: my judgement, not measured.</p></div>
+ <div class="sec"><h3>Places within reach</h3>${reachChips()}<div class="fgrid">${rows}</div><p class="hint">Number of places in my database within the chosen time. For Holbox and Puerto Morelos I have few: the number does not measure how much there is to do. * = estimated time.</p>${lists}</div>`;
 }
 function movesHTML(ids){
  let h='';
  ids.forEach(id=>{
   const it=S.its[id],c=computeIt(it),nodes=['cun',...it.stops.map(x=>x.b),'cun'];
-  h+=`<article class="card" style="margin-bottom:12px"><div class="ch" style="background:${ITCOL[id]}"><div><h3>${esc(itName(id))}</h3><p>${esc(it.sub)}</p></div><span class="mono">${fmtH(c.hAll)}${c.allV?'':'*'} in totale</span></div><div style="overflow:auto"><table class="mx"><thead><tr><th>Giorno</th><th>Tratta</th><th>Ore</th><th>Tipo</th><th>Dato</th><th>Note</th></tr></thead><tbody>`;
+  h+=`<article class="card" style="margin-bottom:12px"><div class="ch" style="background:${ITCOL[id]}"><div><h3>${esc(itName(id))}</h3><p>${esc(it.sub)}</p></div><span class="mono">${fmtH(c.hAll)}${c.allV?'':'*'} in total</span></div><div style="overflow:auto"><table class="mx"><thead><tr><th>Day</th><th>Leg</th><th>Hours</th><th>Type</th><th>Data</th><th>Notes</th></tr></thead><tbody>`;
   nodes.slice(0,-1).forEach((a,i)=>{
    const b=nodes[i+1];if(a===b)return;const L=c.legs[i];if(!L)return;
    const day=i<c.st.length?c.st[i].from:c.total,ax=BASES[a].access||a,ay=BASES[b].access||b;
    const n=LEGNOTE[[ax,ay].sort().join('-')],notes=[];
    if(n)notes.push(n[1]?`<a href="${esc(n[1])}" target="_blank" rel="noopener noreferrer">${esc(n[0])} ↗</a>`:esc(n[0]));
    if(L.ferry)notes.push(`<a href="${esc(FERRYNOTE[1])}" target="_blank" rel="noopener noreferrer">${esc(FERRYNOTE[0])} ↗</a>`);
-   if(!L.byCar)notes.push('Senza auto: +30 min di attesa e coincidenze (stima)');
-   h+=`<tr><td class="mono">${dshort(day)}</td><td><b>${esc(a==='cun'?'Aeroporto CUN':BASES[a].n)}</b> → <b>${esc(b==='cun'?'Aeroporto CUN':BASES[b].n)}</b></td><td class="mono">${L.v?'':'≈ '}${fmtH(L.h)}</td><td>${L.ferry?'Auto + traghetto':L.byCar?'Auto':'Navetta o bus'}</td><td>${L.v?bdV:bdE}</td><td style="font-size:12px">${notes.join('<br>')||'—'}</td></tr>`;
+   if(!L.byCar)notes.push('No car: +30 min of waiting and connections (estimate)');
+   h+=`<tr><td class="mono">${dshort(day)}</td><td><b>${esc(a==='cun'?'CUN Airport':BASES[a].n)}</b> → <b>${esc(b==='cun'?'CUN Airport':BASES[b].n)}</b></td><td class="mono">${L.v?'':'≈ '}${fmtH(L.h)}</td><td>${L.ferry?'Car + ferry':L.byCar?'Car':'Shuttle or bus'}</td><td>${L.v?bdV:bdE}</td><td style="font-size:12px">${notes.join('<br>')||'—'}</td></tr>`;
   });
   h+=`</tbody></table></div></article>`;
  });
- return h+`<p class="hint">“Verificato” = ho trovato un tempo in una fonte (spesso un intervallo, qui metto il valore medio). “Stima” = mia, da controllare. Il traffico e le soste non sono inclusi.</p>`;
+ return h+`<p class="hint">“Verified” = I found a time in a source (often a range, here I use the middle value). “Estimate” = mine, to check. Traffic and stops are not included.</p>`;
 }
 
 
-/* ===== IL PIANO (panoramica) ===== */
+/* ===== THE PLAN (overview) ===== */
 const DAYPLAN={
- val:[['Si arriva, si ritira l’auto e si guida fino a qui. Cena in centro.',['valcentro']],['Chichén Itzá appena aprono i cancelli, poi il cenote Ik Kil.',['chichen','ikkil']],['Ek Balam e un cenote (Suytún o Zací).',['ekbalam','suytun','zaci']]],
- mer:[['Arrivo, passeggiata in centro e cena.',['paseo','santaana']],['Giorno di città: arte contemporanea, palazzi, gallerie.',['macay','casamontejo','santaana']],['Uxmal in giornata.',['uxmal']],['Celestún: barca tra mangrovie e fenicotteri, spiaggia sul Golfo.',['celestun']],['Alternativa: Izamal, Dzibilchaltún o Progreso.',['izamal','dzibil','progreso']]],
- hol:[['Arrivo sull’isola, tramonto sulla spiaggia, cena.',['holpueblo']],['Giro in barca: banco di sabbia e tre isole.',['holtour']],['Kayak o SUP, murales e musica dal vivo.',['holpueblo']],['Giorno libero e relax.',['holpueblo']],['Giorno libero.',[]]],
- pm:[['Arrivo, passeggiata nel paese, cena di pesce.',['pmtown']],['Snorkeling sulla barriera.',['pmreef']],['Relax. Alternative: MUSA a Cancún sud o Isla Mujeres.',['musa1','ismtown']],['Giorno libero.',[]]]
+ val:[['Arrive, pick up the car and drive here. Dinner in the centre.',['valcentro']],['Chichén Itzá right when the gates open, then Cenote Ik Kil.',['chichen','ikkil']],['Ek Balam and a cenote (Suytún or Zací).',['ekbalam','suytun','zaci']]],
+ mer:[['Arrival, stroll in the centre and dinner.',['paseo','santaana']],['City day: contemporary art, mansions, galleries.',['macay','casamontejo','santaana']],['Uxmal in a day.',['uxmal']],['Celestún: boat among mangroves and flamingos, Gulf beach.',['celestun']],['Alternative: Izamal, Dzibilchaltún or Progreso.',['izamal','dzibil','progreso']]],
+ hol:[['Arrival on the island, sunset on the beach, dinner.',['holpueblo']],['Boat trip: sandbar and three islands.',['holtour']],['Kayak or SUP, murals and live music.',['holpueblo']],['Free day and relaxing.',['holpueblo']],['Free day.',[]]],
+ pm:[['Arrival, stroll through town, seafood dinner.',['pmtown']],['Snorkelling on the reef.',['pmreef']],['Relax. Alternatives: MUSA in south Cancún or Isla Mujeres.',['musa1','ismtown']],['Free day.',[]]]
 };
 const TODO=[
- ['auto','Auto a noleggio dall’aeroporto di Cancún (ritiro 8 dic, riconsegna 22 dic)','https://www.google.com/search?q='+encodeURIComponent('noleggio auto aeroporto Cancún'),'Confronta assicurazione e deposito'],
- ['hotels','Hotel nelle 5 basi (link nel piano qui sotto)','',''],
- ['chichen','Biglietti e tariffe dei siti archeologici (Chichén Itzá, Uxmal, Ek Balam)',SRC.fees26,'Tariffe INAH 2026'],
- ['pedaggi','Contanti in pesos per i pedaggi della 180D','https://travellemming.com/cancun-to-valladolid/','Una fonte segnala che servono contanti'],
- ['park','Parcheggio a Chiquilá per i 4 giorni a Holbox (13–17 dic)','https://www.google.com/search?q='+encodeURIComponent('estacionamiento Chiquilá ferry Holbox'),'Costo da verificare'],
- ['ferry','Orari del traghetto il 13 e il 17 dic','https://travelyucatan.com/holbox-ferry/','Cambiano con il meteo'],
- ['fuso','Fuso orario Yucatán / Quintana Roo (potrebbe esserci un’ora di differenza)','https://www.google.com/search?q='+encodeURIComponent('Yucatán Quintana Roo time zone difference'),'Da verificare per dicembre 2026'],
- ['celestun','Tour o barca a Celestún (fenicotteri da dicembre)','https://championtraveler.com/dates/best-time-to-visit-celestun-mx/','Periodo migliore da verificare']
+ ['auto','Rental car from Cancún airport (pick-up 8 Dec, return 22 Dec)','https://www.google.com/search?q='+encodeURIComponent('car rental Cancún airport'),'Compare insurance and deposit'],
+ ['hotels','Hotels in the 5 bases (links in the plan below)','',''],
+ ['chichen','Tickets and fees for the archaeological sites (Chichén Itzá, Uxmal, Ek Balam)',SRC.fees26,'INAH fees 2026'],
+ ['pedaggi','Cash in pesos for the 180D tolls','https://travellemming.com/cancun-to-valladolid/','One source says cash is needed'],
+ ['park','Parking at Chiquilá for the 4 days in Holbox (13–17 Dec)','https://www.google.com/search?q='+encodeURIComponent('estacionamiento Chiquilá ferry Holbox'),'Cost to verify'],
+ ['ferry','Ferry times on 13 and 17 Dec','https://travelyucatan.com/holbox-ferry/','They change with the weather'],
+ ['fuso','Time zone Yucatán / Quintana Roo (there may be a one-hour difference)','https://www.google.com/search?q='+encodeURIComponent('Yucatán Quintana Roo time zone difference'),'To verify for December 2026'],
+ ['celestun','Tour or boat at Celestún (flamingos from December)','https://championtraveler.com/dates/best-time-to-visit-celestun-mx/','Best period to verify']
 ];
 const HAT_IN='<path d="M3 58Q9 44 24 58Q80 86 136 58Q151 44 157 58Q150 94 80 95Q10 94 3 58Z" class="hb"/><path d="M10 64Q80 98 150 64" class="hg2"/><path d="M50 66C46 28 60 2 80 2S114 28 110 66C96 77 64 77 50 66Z" class="hc"/><path d="M60 22Q80 12 100 22" class="hl3"/><path d="M49 52C64 63 96 63 111 52L112 68C96 79 64 79 48 68Z" class="hr"/><path d="M52 60l6 5 6-5 6 5 6-5 6 5 6-5 6 5 6-5 6 5 6-5 6 5" class="hz"/><circle cx="80" cy="7" r="3.5" class="hg"/>';
 const HATSVG=c=>'<svg class="'+c+'" viewBox="0 0 160 100">'+HAT_IN+'</svg>';
 const SMAP=q=>'https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(q);
-const qBd=q=>q==='f'?'<span class="bd v">fonte</span>':q==='?'?'<span class="bd e">da verificare</span>':'<span class="bd e">mio giudizio</span>';
+const qBd=q=>q==='f'?'<span class="bd v">source</span>':q==='?'?'<span class="bd e">to verify</span>':'<span class="bd e">my take</span>';
 function dayOpts(from,to,c,sel){let o='';for(let d=from;d<=Math.min(to,c.total);d++)o+=`<option value="${d}" ${d===sel?'selected':''}>${dwd(d)} ${dshort(d)}</option>`;return o;}
 function hasItem(d,t){return getDay(d).items.some(x=>x.t===t);}
 function itemHTML(it,scope,key,day,place){
  const[t,dtl,meta,q,u]=it,on=hasItem(day,t);
  return`<li class="ci"><div class="cit"><b>${esc(t)}</b>${meta?`<span class="mono pill">${esc(meta)}</span>`:''}</div>${dtl?`<p>${esc(dtl)}</p>`:''}
- <div class="cia">${qBd(q)}${u?`<a href="${esc(u)}" target="_blank" rel="noopener noreferrer">fonte ↗</a>`:''}<a href="${esc(SMAP(t+' '+place))}" target="_blank" rel="noopener noreferrer">Maps ↗</a><button class="btn sm ${on?'ghost':''}" data-act="stadd" data-s="${scope}" data-k="${key}" data-d="${day}" ${on?'disabled':''}>${on?'✓ nel giorno':'+ giorno'}</button></div></li>`;
+ <div class="cia">${qBd(q)}${u?`<a href="${esc(u)}" target="_blank" rel="noopener noreferrer">source ↗</a>`:''}<a href="${esc(SMAP(t+' '+place))}" target="_blank" rel="noopener noreferrer">Maps ↗</a><button class="btn sm ${on?'ghost':''}" data-act="stadd" data-s="${scope}" data-k="${key}" data-d="${day}" ${on?'disabled':''}>${on?'✓ in the day':'+ day'}</button></div></li>`;
 }
 function homeHTML(){
  const it=S.its.D,c=computeIt(it);
  const stat=(n,l)=>`<div class="stat"><b>${n}</b><span>${l}</span></div>`;
- let route=`<div class="rn rcun"><b>✈ CUN</b><span class="mono">arrivo 8 dic · 15:05</span></div>`;
- const legBtn=i=>{const L=c.legs[i],K=L.from+'-'+L.to,n=LEGS[K]?LEGS[K].on.length:0,A=L.from==='cun'?'Aeroporto':BASES[L.from].n,B=L.to==='cun'?'Aeroporto':BASES[L.to].n;
-  return`<button class="rleg" data-act="leg" data-i="${i}"><span class="mono">${L.ferry?'⛴ ':''}${L.v?'':'≈ '}${fmtH(L.h)}</span><span>${esc(A)} → ${esc(B)}</span><span class="mono go">${n?n+' soste →':'→'}</span></button>`;};
+ let route=`<div class="rn rcun"><b>✈ CUN</b><span class="mono">arrival 8 Dec · 15:05</span></div>`;
+ const legBtn=i=>{const L=c.legs[i],K=L.from+'-'+L.to,n=LEGS[K]?LEGS[K].on.length:0,A=L.from==='cun'?'Airport':BASES[L.from].n,B=L.to==='cun'?'Airport':BASES[L.to].n;
+  return`<button class="rleg" data-act="leg" data-i="${i}"><span class="mono">${L.ferry?'⛴ ':''}${L.v?'':'≈ '}${fmtH(L.h)}</span><span>${esc(A)} → ${esc(B)}</span><span class="mono go">${n?n+' stops →':'→'}</span></button>`;};
  route+=legBtn(0);
  c.st.forEach((st,i)=>{
   const S0=STOPS[st.b],core=S0?S0.core.slice(0,3).map(x=>`<span class="chipc">${esc(x[0])}</span>`).join(''):'';
-  route+=`<button class="rst" data-act="stop" data-b="${st.b}" style="--bc:${BCOL[st.b]}"><span class="rnum mono">${i+1}</span><span class="rmain"><b>${esc(st.base.n)}</b><span class="mono">${dshort(st.from)}–${dshort(st.to)} · ${st.n} notti</span><span class="rvibe">${esc(st.base.vibe)}</span><span class="chips2">${core}</span></span><span class="go">Apri →</span></button>`;
+  route+=`<button class="rst" data-act="stop" data-b="${st.b}" style="--bc:${BCOL[st.b]}"><span class="rnum mono">${i+1}</span><span class="rmain"><b>${esc(st.base.n)}</b><span class="mono">${dshort(st.from)}–${dshort(st.to)} · ${st.n} nights</span><span class="rvibe">${esc(st.base.vibe)}</span><span class="chips2">${core}</span></span><span class="go">Open →</span></button>`;
   route+=legBtn(i+1);
  });
- route+=`<div class="rn rcun"><b>✈ CUN</b><span class="mono">volo 22 dic · 16:55</span></div>`;
+ route+=`<div class="rn rcun"><b>✈ CUN</b><span class="mono">flight 22 Dec · 16:55</span></div>`;
  let strip='';
  for(let d=0;d<=c.total;d++){const st=c.st.find(x=>d>=x.from&&d<x.to),n=getDay(d).items.length;
-  strip+=`<button class="cal" data-act="goday" data-d="${d}" style="--bc:${st?BCOL[st.b]:'#8a8478'}"><span class="mono">${dwd(d)}</span><b>${dshort(d).split(' ')[0]}</b><i></i><span class="cn">${esc(st?SHORT[st.b]||st.base.n:'CUN')}</span><span class="mono ${n?'on':'hint'}">${n?n+' att.':'da decidere'}</span></button>`;}
+  strip+=`<button class="cal" data-act="goday" data-d="${d}" style="--bc:${st?BCOL[st.b]:'#8a8478'}"><span class="mono">${dwd(d)}</span><b>${dshort(d).split(' ')[0]}</b><i></i><span class="cn">${esc(st?SHORT[st.b]||st.base.n:'CUN')}</span><span class="mono ${n?'on':'hint'}">${n?n+' act.':'to decide'}</span></button>`;}
  const todo=TODO.map(([k,t,u,n])=>`<label class="td"><input type="checkbox" data-act="todo" data-k="${k}" ${S.todo[k]?'checked':''}><span>${esc(t)}${n?`<br><span class="hint">${esc(n)}</span>`:''}</span>${u?`<a class="btn ghost sm" href="${esc(u)}" target="_blank" rel="noopener noreferrer">Link ↗</a>`:'<span></span>'}</label>`).join('');
- return`<div class="phero"><div><div class="eyebrow2">Dirty Sanchez · 8–22 dicembre</div><h2>Tappa per tappa</h2><p>Apri una tappa per vedere cosa fare, mangiare e comprare. Apri un tratto per cosa c’è lungo la strada. Le attività le scegli tu.</p><div class="btns" style="margin-top:12px"><button class="btn" data-act="view" data-v="days">Giorno per giorno</button><a class="btn ghost" href="${esc(tripDirUrl(c))}" target="_blank" rel="noopener noreferrer">Giro su Google Maps ↗</a></div></div>
-  <div class="stats">${stat(c.total,'notti')}${stat(c.st.length,'tappe')}${stat('≈ '+fmtH(c.hAll),'di auto e barca')}</div></div>
- <section class="ps"><h3 class="ph">Le tappe</h3><div class="route">${route}</div></section>
- <section id="p-giorni" class="ps"><h3 class="ph">I tuoi giorni</h3><div class="cals">${strip}</div></section>
- <section id="p-todo" class="ps"><h3 class="ph">Da prenotare e da controllare</h3>${todo}<p class="hint">Alberghi in aggiornamento (se ne occupa Marina). Auto: ritiro l’8 dic all’aeroporto, riconsegna il 22.</p></section>`;
+ return`<div class="phero"><div><div class="eyebrow2">Dirty Sanchez · 8–22 December</div><h2>Stop by stop</h2><p>Open a stop to see what to do, eat and buy. Open a leg to see what is along the road. You choose the activities.</p><div class="btns" style="margin-top:12px"><button class="btn" data-act="view" data-v="days">Day by day</button><a class="btn ghost" href="${esc(tripDirUrl(c))}" target="_blank" rel="noopener noreferrer">Trip on Google Maps ↗</a></div></div>
+  <div class="stats">${stat(c.total,'nights')}${stat(c.st.length,'stops')}${stat('≈ '+fmtH(c.hAll),'by car and boat')}</div></div>
+ <section class="ps"><h3 class="ph">The stops</h3><div class="route">${route}</div></section>
+ <section id="p-giorni" class="ps"><h3 class="ph">Your days</h3><div class="cals">${strip}</div></section>
+ <section id="p-todo" class="ps"><h3 class="ph">To book and to check</h3>${todo}<p class="hint">Hotels being updated (Marina is handling them). Car: pick-up on 8 Dec at the airport, return on the 22nd.</p></section>`;
 }
-function backBtn(){return'<button class="btn ghost sm back" data-act="view" data-v="plan">← Tutte le tappe</button>';}
+function backBtn(){return'<button class="btn ghost sm back" data-act="view" data-v="plan">← All stops</button>';}
 function stopHTML(){
  const c=computeIt(S.its.D),st=c.st.find(x=>x.b===S.cur);
- if(!st||!STOPS[st.b])return backBtn()+'<p class="hint">Tappa non trovata.</p>';
+ if(!st||!STOPS[st.b])return backBtn()+'<p class="hint">Stop not found.</p>';
  const D=STOPS[st.b],day=S.addDay!=null&&S.addDay>=st.from&&S.addDay<=Math.min(st.to,c.total)?S.addDay:st.from,place=st.base.n;
  const chips=CATS.filter(([k])=>D[k]&&D[k].length).map(([k,n])=>`<a href="#c-${k}">${n}<i>${D[k].length}</i></a>`).join('');
  const blocks=CATS.filter(([k])=>D[k]&&D[k].length).map(([k,n,sub])=>`<section class="cb cb-${k}" id="c-${k}"><header><h4>${n}</h4><span class="mono">${sub}</span></header><ul>${D[k].map((x,i)=>itemHTML(x,'s',st.b+'|'+k+'|'+i,day,place)).join('')}</ul></section>`).join('');
- const care=D.care&&D.care.length?`<section class="cb cb-care"><header><h4>Attenzione</h4></header><ul>${D.care.map(x=>`<li class="ci"><p>${esc(x[0])}</p><div class="cia">${qBd(x[2])}${x[3]?`<a href="${esc(x[3])}" target="_blank" rel="noopener noreferrer">fonte ↗</a>`:''}</div></li>`).join('')}</ul></section>`:'';
- return`${backBtn()}<div class="sthead" style="--bc:${BCOL[st.b]}"><span class="mono">tappa ${st.i+1} · ${dshort(st.from)}–${dshort(st.to)} · ${st.n} notti</span><h2>${esc(place)}</h2><p>${esc(st.base.vibe)}</p></div>
- <div class="addbar"><label for="addday">Aggiungi al giorno</label><select id="addday">${dayOpts(st.from,st.to,c,day)}</select><button class="btn ghost sm" data-act="stmap" data-b="${st.b}">Sulla mappa</button></div>
+ const care=D.care&&D.care.length?`<section class="cb cb-care"><header><h4>Watch out</h4></header><ul>${D.care.map(x=>`<li class="ci"><p>${esc(x[0])}</p><div class="cia">${qBd(x[2])}${x[3]?`<a href="${esc(x[3])}" target="_blank" rel="noopener noreferrer">source ↗</a>`:''}</div></li>`).join('')}</ul></section>`:'';
+ return`${backBtn()}<div class="sthead" style="--bc:${BCOL[st.b]}"><span class="mono">stop ${st.i+1} · ${dshort(st.from)}–${dshort(st.to)} · ${st.n} nights</span><h2>${esc(place)}</h2><p>${esc(st.base.vibe)}</p></div>
+ <div class="addbar"><label for="addday">Add to day</label><select id="addday">${dayOpts(st.from,st.to,c,day)}</select><button class="btn ghost sm" data-act="stmap" data-b="${st.b}">On the map</button></div>
  <nav class="jump">${chips}</nav><div class="cgrid">${blocks}${care}</div>
- <section class="ps"><h3 class="ph">Alloggio</h3><div class="btns">${hotelLinks(st.b,st.from,st.to).map(([t,u])=>`<a class="btn ghost sm" href="${esc(u)}" target="_blank" rel="noopener noreferrer">${t} ↗</a>`).join('')}</div><p class="hint">Se ne occupa Marina: queste sono solo ricerche con le date.</p></section>
- <p class="hint">Ogni voce ha il suo stato: “fonte” se ho un link, “da verificare” se non ho trovato conferme, “mio giudizio” se è mia valutazione. I tempi con ≈ sono stime.</p>`;
+ <section class="ps"><h3 class="ph">Stay</h3><div class="btns">${hotelLinks(st.b,st.from,st.to).map(([t,u])=>`<a class="btn ghost sm" href="${esc(u)}" target="_blank" rel="noopener noreferrer">${t} ↗</a>`).join('')}</div><p class="hint">Marina is handling it: these are just searches with the dates.</p></section>
+ <p class="hint">Every entry has its status: “source” if I have a link, “to verify” if I found no confirmation, “my take” if it is my own assessment. Times with ≈ are estimates.</p>`;
 }
 function legHTML(){
  const c=computeIt(S.its.D),L=c.legs[S.cur];
  if(!L)return backBtn();
- const K=L.from+'-'+L.to,D=LEGS[K],A=L.from==='cun'?'Aeroporto CUN':BASES[L.from].n,B=L.to==='cun'?'Aeroporto CUN':BASES[L.to].n;
+ const K=L.from+'-'+L.to,D=LEGS[K],A=L.from==='cun'?'CUN Airport':BASES[L.from].n,B=L.to==='cun'?'CUN Airport':BASES[L.to].n;
  const day=S.addDay!=null&&S.addDay>=L.day&&S.addDay<=Math.min(L.day+1,c.total)?S.addDay:L.day;
  const a=accNode(L.from),b=accNode(L.to);
- if(!D)return`${backBtn()}<div class="sthead"><h2>${esc(A)} → ${esc(B)}</h2><p>Per questo tratto non ho ancora contenuti: l’ordine delle tappe è stato cambiato.</p></div>`;
+ if(!D)return`${backBtn()}<div class="sthead"><h2>${esc(A)} → ${esc(B)}</h2><p>I have no content for this leg yet: the order of the stops was changed.</p></div>`;
  const place=B;
  const sec=(k,n,arr)=>arr.length?`<section class="cb cb-${k==='on'?'see':'chill'}"><header><h4>${n}</h4></header><ul>${arr.map((x,i)=>itemHTML(x,'l',K+'|'+k+'|'+i,day,place)).join('')}</ul></section>`:'';
- return`${backBtn()}<div class="sthead legh"><span class="mono">${dwd(L.day)} ${dshort(L.day)} · ${L.v?'':'≈ '}${fmtH(L.h)}${L.ferry?' con traghetto':''}</span><h2>${esc(A)} → ${esc(B)}</h2><p>${esc(D.intro)}</p><div class="btns" style="margin-top:10px"><a class="btn sm" href="${esc(dirUrl(a,b))}" target="_blank" rel="noopener noreferrer">Percorso su Maps ↗</a></div></div>
- <div class="addbar"><label for="addday">Aggiungi al giorno</label><select id="addday">${dayOpts(L.day,L.day+1,c,day)}</select></div>
- <div class="cgrid">${sec('on','Soste lungo la strada',D.on)}${sec('more','Se vuoi di più',D.more)}${D.care&&D.care.length?`<section class="cb cb-care"><header><h4>Attenzione</h4></header><ul>${D.care.map(x=>`<li class="ci"><p>${esc(x)}</p></li>`).join('')}</ul></section>`:''}</div>
- <p class="hint">I tempi di sosta con ≈ sono stime. Cosa sia davvero sulla tua strada lo conferma Google Maps al momento.</p>`;
+ return`${backBtn()}<div class="sthead legh"><span class="mono">${dwd(L.day)} ${dshort(L.day)} · ${L.v?'':'≈ '}${fmtH(L.h)}${L.ferry?' with ferry':''}</span><h2>${esc(A)} → ${esc(B)}</h2><p>${esc(D.intro)}</p><div class="btns" style="margin-top:10px"><a class="btn sm" href="${esc(dirUrl(a,b))}" target="_blank" rel="noopener noreferrer">Route on Maps ↗</a></div></div>
+ <div class="addbar"><label for="addday">Add to day</label><select id="addday">${dayOpts(L.day,L.day+1,c,day)}</select></div>
+ <div class="cgrid">${sec('on','Stops along the way',D.on)}${sec('more','If you want more',D.more)}${D.care&&D.care.length?`<section class="cb cb-care"><header><h4>Watch out</h4></header><ul>${D.care.map(x=>`<li class="ci"><p>${esc(x)}</p></li>`).join('')}</ul></section>`:''}</div>
+ <p class="hint">Stop times with ≈ are estimates. What is really on your route is confirmed by Google Maps at the time.</p>`;
 }
 
-/* ===== CONFRONTO ===== */
+/* ===== COMPARE ===== */
 const SHORT={pm:'P. Morelos',hol:'Holbox',val:'Valladolid',mer:'Mérida',ism:'I. Mujeres',tul:'Tulum',bac:'Bacalar',cam:'Campeche'};
 const itName=id=>S.its[id].name;
 
-/* ===== COSTRUISCI ===== */
+/* ===== BUILD ===== */
 function bldHTML(){
  const id=S.bld,it=S.its[id],c=computeIt(it);
  const meter=c.st.map(s=>`<i style="width:${s.n/Math.max(14,c.total)*100}%;background:${BCOL[s.b]};border-right:1.5px solid var(--edge)" title="${esc(s.base.n)} ${s.n}"></i>`).join('');
  const bopts=sel=>Object.keys(BASES).filter(b=>b!=='cun').map(b=>`<option value="${b}" ${b===sel?'selected':''}>${esc(BASES[b].n)}</option>`).join('');
- const carOpts=`<option value="-1" ${it.carAt===-1?'selected':''}>Dall’aeroporto, giorno 1</option>${it.stops.map((s,i)=>`<option value="${i}" ${it.carAt===i?'selected':''}>Da ${esc(BASES[s.b].n)}</option>`).join('')}<option value="99" ${it.carAt>=it.stops.length?'selected':''}>Nessuna auto</option>`;
- let h=`<div class="cbar"><div><h3 class="lab">Modifica l’itinerario</h3><span class="hint">Cambia notti, ordine e basi. Il piano, i giorni e la mappa si aggiornano.</span></div><div class="btns"><button class="btn ghost" data-act="restore">Ripristina l’itinerario deciso</button></div></div>
- <div class="panel" style="padding:12px;display:grid;gap:10px"><div class="row"><h2 style="font-size:20px">${esc(it.name)}</h2><span class="pill">${c.total} di 14 notti${c.total<14?`, ne mancano ${14-c.total}`:c.total>14?`, ${c.total-14} in più`:''}</span></div><div class="meter">${meter}</div>
- <div class="row" style="flex-wrap:wrap;justify-content:flex-start;gap:14px"><label class="row" style="gap:8px"><span class="lab">Auto</span><select id="carAt" style="width:auto">${carOpts}</select></label><span class="hint">${c.hasCar?`${c.carDays} giorni di noleggio, ${c.idle} notti con l’auto ferma. Il ritiro e la riconsegna all’aeroporto evitano il supplemento di sola andata (da confermare col noleggio).`:'Senza auto: tutte le tratte con bus, shuttle o transfer.'}</span></div></div>`;
+ const carOpts=`<option value="-1" ${it.carAt===-1?'selected':''}>From the airport, day 1</option>${it.stops.map((s,i)=>`<option value="${i}" ${it.carAt===i?'selected':''}>From ${esc(BASES[s.b].n)}</option>`).join('')}<option value="99" ${it.carAt>=it.stops.length?'selected':''}>No car</option>`;
+ let h=`<div class="cbar"><div><h3 class="lab">Edit the itinerary</h3><span class="hint">Change nights, order and bases. The plan, the days and the map update.</span></div><div class="btns"><button class="btn ghost" data-act="restore">Restore the decided itinerary</button></div></div>
+ <div class="panel" style="padding:12px;display:grid;gap:10px"><div class="row"><h2 style="font-size:20px">${esc(it.name)}</h2><span class="pill">${c.total} of 14 nights${c.total<14?`, ${14-c.total} missing`:c.total>14?`, ${c.total-14} extra`:''}</span></div><div class="meter">${meter}</div>
+ <div class="row" style="flex-wrap:wrap;justify-content:flex-start;gap:14px"><label class="row" style="gap:8px"><span class="lab">Car</span><select id="carAt" style="width:auto">${carOpts}</select></label><span class="hint">${c.hasCar?`${c.carDays} rental days, ${c.idle} nights with the car parked. Pick-up and return at the airport avoid the one-way fee (confirm with the rental company).`:'No car: all legs by bus, shuttle or transfer.'}</span></div></div>`;
  c.st.forEach((s,i)=>{
-  const prev=i?BASES[it.stops[i-1].b].n:'Aeroporto di Cancún',leg=c.legs[i];
+  const prev=i?BASES[it.stops[i-1].b].n:'Cancún Airport',leg=c.legs[i];
   const trips=POIS.filter(p=>p.fam!=='prat').map(p=>({p,e:estHours(p,s.b)})).filter(x=>x.e.h<=2.25).sort((a,b)=>a.e.h-b.e.h).slice(0,7);
-  h+=`<div class="stop"><div class="leg"><span>${esc(prev)} → ${esc(s.base.n)}</span><b class="mono">${fmtH(leg.h)}</b>${leg.v?bdV:bdE}<span>${leg.byCar?'in auto':'senza auto, +30 min di coincidenze'}${leg.ferry?', con traghetto':''}</span></div>
+  h+=`<div class="stop"><div class="leg"><span>${esc(prev)} → ${esc(s.base.n)}</span><b class="mono">${fmtH(leg.h)}</b>${leg.v?bdV:bdE}<span>${leg.byCar?'by car':'no car, +30 min of connections'}${leg.ferry?', with ferry':''}</span></div>
   <div class="sh"><span class="idx" style="background:${BCOL[s.b]}">${i+1}</span><select class="bsel" data-i="${i}" aria-label="Base ${i+1}">${bopts(s.b)}</select>
-  <div class="nst"><button data-act="nminus" data-i="${i}" aria-label="Una notte in meno">−</button><span>${s.n} n</span><button data-act="nplus" data-i="${i}" aria-label="Una notte in più">+</button></div>
+  <div class="nst"><button data-act="nminus" data-i="${i}" aria-label="One night less">−</button><span>${s.n} n</span><button data-act="nplus" data-i="${i}" aria-label="One night more">+</button></div>
   <span class="mono">${dshort(s.from)} → ${dshort(s.to)} · ${dwd(s.from)}–${dwd(s.to)}</span>
-  <div class="btns"><button class="sbtn" data-act="up" data-i="${i}" aria-label="Sposta su" ${i?'':'disabled'}>↑</button><button class="sbtn" data-act="down" data-i="${i}" aria-label="Sposta giù" ${i<c.st.length-1?'':'disabled'}>↓</button><button class="sbtn" data-act="rm" data-i="${i}" aria-label="Togli la base" ${c.st.length>1?'':'disabled'}>✕</button></div></div>
-  <div class="sb"><div style="display:grid;gap:8px;align-content:start"><p>${esc(s.base.vibe)}</p>${profBars(s.base.prof)}<div class="links">${hotelLinks(s.b,s.from,s.to).map(([t,u])=>`<a href="${esc(u)}" target="_blank" rel="noopener noreferrer"><span>${t}, ${dshort(s.from)}–${dshort(s.to)}</span><span>↗</span></a>`).join('')}</div><p class="hint">Link di ricerca, nessun prezzo verificato.</p></div>
-  <div><h3 class="lab" style="margin-bottom:6px">Gite da qui (fino a 2 h 15)</h3>${trips.map(({p,e})=>`<button class="nb" data-act="gomap" data-id="${p.id}">${dotF(p.fam)}<span>${esc(p.n)}<br><span class="z">${esc(p.tags.slice(0,3).join(' · '))}</span></span><span class="mono hint">${fmtW(e.h)}${e.v?'':'*'}</span></button>`).join('')||'<p class="empty">Niente nel raggio.</p>'}<p class="hint">* tempo stimato</p></div></div></div>`;
+  <div class="btns"><button class="sbtn" data-act="up" data-i="${i}" aria-label="Move up" ${i?'':'disabled'}>↑</button><button class="sbtn" data-act="down" data-i="${i}" aria-label="Move down" ${i<c.st.length-1?'':'disabled'}>↓</button><button class="sbtn" data-act="rm" data-i="${i}" aria-label="Remove the base" ${c.st.length>1?'':'disabled'}>✕</button></div></div>
+  <div class="sb"><div style="display:grid;gap:8px;align-content:start"><p>${esc(s.base.vibe)}</p>${profBars(s.base.prof)}<div class="links">${hotelLinks(s.b,s.from,s.to).map(([t,u])=>`<a href="${esc(u)}" target="_blank" rel="noopener noreferrer"><span>${t}, ${dshort(s.from)}–${dshort(s.to)}</span><span>↗</span></a>`).join('')}</div><p class="hint">Search links, no verified prices.</p></div>
+  <div><h3 class="lab" style="margin-bottom:6px">Day trips from here (up to 2 h 15)</h3>${trips.map(({p,e})=>`<button class="nb" data-act="gomap" data-id="${p.id}">${dotF(p.fam)}<span>${esc(p.n)}<br><span class="z">${esc(p.tags.slice(0,3).join(' · '))}</span></span><span class="mono hint">${fmtW(e.h)}${e.v?'':'*'}</span></button>`).join('')||'<p class="empty">Nothing in range.</p>'}<p class="hint">* estimated time</p></div></div></div>`;
  });
  const ll=c.last;
- h+=`<div class="leg panel"><span>${esc(BASES[it.stops[it.stops.length-1].b].n)} → Aeroporto di Cancún, il ${dshort(c.total)}</span><b class="mono">${fmtH(ll.h)}</b>${ll.v?bdV:bdE}<span>volo alle 16:55, presentarsi 3 ore prima circa</span></div>
- <div class="panel" style="padding:12px;display:flex;gap:10px;flex-wrap:wrap;align-items:center"><span class="lab">Aggiungi una base</span><select id="addBase" style="width:auto">${bopts('')}</select><span class="hint">Entra con 1 notte, poi regola.</span></div>`;
+ h+=`<div class="leg panel"><span>${esc(BASES[it.stops[it.stops.length-1].b].n)} → Cancún Airport, on ${dshort(c.total)}</span><b class="mono">${fmtH(ll.h)}</b>${ll.v?bdV:bdE}<span>flight at 16:55, arrive about 3 hours early</span></div>
+ <div class="panel" style="padding:12px;display:flex;gap:10px;flex-wrap:wrap;align-items:center"><span class="lab">Add a base</span><select id="addBase" style="width:auto">${bopts('')}</select><span class="hint">Enters with 1 night, then adjust.</span></div>`;
  const w=S.wish.map(id=>POI[id]).filter(Boolean);
- h+=`<div class="panel" style="padding:12px"><h3 class="lab" style="margin-bottom:6px">I miei luoghi (★) rispetto a questo itinerario</h3>${w.length?w.map(p=>{let best=null;c.st.forEach(s=>{const e=estHours(p,s.b);if(!best||e.h<best.e.h)best={s,e};});return`<button class="nb" data-act="gomap" data-id="${p.id}">${dotF(p.fam)}<span>${esc(p.n)}</span><span class="mono hint">da ${esc(best.s.base.n)} · ${fmtH(best.e.h)}${best.e.v?'':'*'}</span></button>`;}).join(''):'<p class="empty">Nessun preferito. Segna con la stella i luoghi dalla mappa.</p>'}</div>`;
+ h+=`<div class="panel" style="padding:12px"><h3 class="lab" style="margin-bottom:6px">My places (★) against this itinerary</h3>${w.length?w.map(p=>{let best=null;c.st.forEach(s=>{const e=estHours(p,s.b);if(!best||e.h<best.e.h)best={s,e};});return`<button class="nb" data-act="gomap" data-id="${p.id}">${dotF(p.fam)}<span>${esc(p.n)}</span><span class="mono hint">from ${esc(best.s.base.n)} · ${fmtH(best.e.h)}${best.e.v?'':'*'}</span></button>`;}).join(''):'<p class="empty">No favourites. Mark places with the star from the map.</p>'}</div>`;
  return h;
 }
 
-/* ===== PAGINA ===== */
+/* ===== PAGE ===== */
 
-/* ===== GIORNI ===== */
+/* ===== DAYS ===== */
 function getDay(d){const x=S.days[d];return x&&Array.isArray(x.items)?x:{items:[],note:''};}
 function ensDay(d){if(!S.days[d]||!Array.isArray(S.days[d].items))S.days[d]={items:[],note:''};return S.days[d];}
 function dayBase(d,c){const st=c.st.find(x=>d>=x.from&&d<x.to);return st?st.b:c.st[c.st.length-1].b;}
@@ -1711,42 +1717,42 @@ function suggestFor(d,c,dd){
 const dirUrl=(a,b,wps)=>'https://www.google.com/maps/dir/?api=1&origin='+a.lat+','+a.lon+'&destination='+b.lat+','+b.lon+(wps&&wps.length?'&waypoints='+wps.map(w=>w.lat+','+w.lon).join('|'):'')+'&travelmode=driving';
 const accNode=bid=>NODES[(BASES[bid]||{}).access||bid]||BASES[bid];
 function tripDirUrl(c){const ids=c.st.map(x=>x.b);return dirUrl(BASES.cun,BASES.cun,ids.map(accNode));}
-function tipList(arr,ic){return arr.length?`<ul class="tips">${arr.map(([t,u,k])=>`<li><span class="ti">${ic}</span><span>${esc(t)} ${u?`<a href="${esc(u)}" target="_blank" rel="noopener noreferrer">fonte ↗</a>`:`<span class="hint">mio giudizio</span>`}</span></li>`).join('')}</ul>`:'';}
+function tipList(arr,ic){return arr.length?`<ul class="tips">${arr.map(([t,u,k])=>`<li><span class="ti">${ic}</span><span>${esc(t)} ${u?`<a href="${esc(u)}" target="_blank" rel="noopener noreferrer">source ↗</a>`:`<span class="hint">my take</span>`}</span></li>`).join('')}</ul>`:'';}
 function dayHTML(d,c){
  const st=c.st.find(x=>d>=x.from&&d<x.to),dd=getDay(d),first=st&&d===st.from,last=d===c.total;
- const where=st?st.base.n:'Aeroporto CUN',ev=EVENTS.filter(e=>e.from===d).map(e=>e.label),n=dd.items.length,done=dd.items.filter(x=>x.done).length;
+ const where=st?st.base.n:'CUN Airport',ev=EVENTS.filter(e=>e.from===d).map(e=>e.label),n=dd.items.length,done=dd.items.filter(x=>x.done).length;
  let tr='';
  if(first||last){
   const i=last?c.legs.length-1:st.i,L=c.legs[i],a=last?c.st[c.st.length-1].b:(i===0?'cun':c.st[i-1].b),b=last?'cun':st.b;
   const ax=accNode(a),bx=accNode(b),ln=LEGNOTE[[BASES[a].access||a,BASES[b].access||b].sort().join('-')];
-  tr=`<div class="trb"><div><b>${esc(a==='cun'?'Aeroporto CUN':BASES[a].n)} → ${esc(b==='cun'?'Aeroporto CUN':BASES[b].n)}</b><br><span class="mono">${L.v?'':'≈ '}${fmtH(L.h)}${L.ferry?' con traghetto':''}</span> <span class="hint">${L.v?'tempo da fonte':'stima mia'}${ln&&ln[1]?` · <a href="${esc(ln[1])}" target="_blank" rel="noopener noreferrer">fonte ↗</a>`:''}</span>${L.ferry?`<br><span class="hint">${esc(FERRYNOTE[0])} <a href="${esc(FERRYNOTE[1])}" target="_blank" rel="noopener noreferrer">fonte ↗</a></span>`:''}</div><a class="btn ghost sm" href="${esc(dirUrl(ax,bx))}" target="_blank" rel="noopener noreferrer">Percorso su Maps ↗</a></div>`;
+  tr=`<div class="trb"><div><b>${esc(a==='cun'?'CUN Airport':BASES[a].n)} → ${esc(b==='cun'?'CUN Airport':BASES[b].n)}</b><br><span class="mono">${L.v?'':'≈ '}${fmtH(L.h)}${L.ferry?' with ferry':''}</span> <span class="hint">${L.v?'time from a source':'my estimate'}${ln&&ln[1]?` · <a href="${esc(ln[1])}" target="_blank" rel="noopener noreferrer">source ↗</a>`:''}</span>${L.ferry?`<br><span class="hint">${esc(FERRYNOTE[0])} <a href="${esc(FERRYNOTE[1])}" target="_blank" rel="noopener noreferrer">source ↗</a></span>`:''}</div><a class="btn ghost sm" href="${esc(dirUrl(ax,bx))}" target="_blank" rel="noopener noreferrer">Route on Maps ↗</a></div>`;
  }
  const items=dd.items.map((x,i)=>{const q=x.p&&POI[x.p];
-  return`<div class="it ${x.done?'dn':''}"><input type="checkbox" data-act="ddone" data-d="${d}" data-i="${i}" ${x.done?'checked':''} aria-label="Fatto"><input class="thh" type="text" inputmode="numeric" maxlength="5" data-d="${d}" data-i="${i}" value="${esc(x.h||'')}" placeholder="ora" aria-label="Ora">
-  <div class="itx">${q?`<button class="sgn" data-act="gomap" data-id="${q.id}">${dotF(q.fam)}${esc(x.t||q.n)}</button><a class="mapl" href="${esc(gm(q.lat,q.lon))}" target="_blank" rel="noopener noreferrer">Maps ↗</a>`:`<input class="tin" type="text" data-d="${d}" data-i="${i}" value="${esc(x.t)}" placeholder="Attività" aria-label="Attività">`}</div>
-  <button class="x" data-act="ddel" data-d="${d}" data-i="${i}" aria-label="Elimina" title="Elimina">×</button></div>`;}).join('');
+  return`<div class="it ${x.done?'dn':''}"><input type="checkbox" data-act="ddone" data-d="${d}" data-i="${i}" ${x.done?'checked':''} aria-label="Done"><input class="thh" type="text" inputmode="numeric" maxlength="5" data-d="${d}" data-i="${i}" value="${esc(x.h||'')}" placeholder="time" aria-label="Time">
+  <div class="itx">${q?`<button class="sgn" data-act="gomap" data-id="${q.id}">${dotF(q.fam)}${esc(x.t||q.n)}</button><a class="mapl" href="${esc(gm(q.lat,q.lon))}" target="_blank" rel="noopener noreferrer">Maps ↗</a>`:`<input class="tin" type="text" data-d="${d}" data-i="${i}" value="${esc(x.t)}" placeholder="Activity" aria-label="Activity">`}</div>
+  <button class="x" data-act="ddel" data-d="${d}" data-i="${i}" aria-label="Delete" title="Delete">×</button></div>`;}).join('');
  const sg=suggestFor(d,c,dd);
- const card=({p,e})=>`<div class="sg">${dotF(p.fam)}<div class="sgb"><button class="sgn" data-act="gomap" data-id="${p.id}">${esc(p.n)}</button><span class="hint">${p.dur&&p.dur!=='—'?esc(p.dur)+' · ':''}${e.v?'':'≈ '}${fmtW(e.h)} dalla base</span></div><button class="btn sm" data-act="sadd" data-d="${d}" data-id="${p.id}" aria-label="Aggiungi ${esc(p.n)} al giorno">+ Aggiungi</button></div>`;
+ const card=({p,e})=>`<div class="sg">${dotF(p.fam)}<div class="sgb"><button class="sgn" data-act="gomap" data-id="${p.id}">${esc(p.n)}</button><span class="hint">${p.dur&&p.dur!=='—'?esc(p.dur)+' · ':''}${e.v?'':'≈ '}${fmtW(e.h)} from the base</span></div><button class="btn sm" data-act="sadd" data-d="${d}" data-id="${p.id}" aria-label="Add ${esc(p.n)} to the day">+ Add</button></div>`;
  let tips='';
- if(first&&BASETIPS[st.b]){const T=BASETIPS[st.b];tips=`<details class="tipd"><summary>Consigli per ${esc(st.base.n)}</summary><div class="tipbox"><div><h4>Da fare</h4>${tipList(T.do,'✔')}</div><div><h4>Da evitare</h4>${tipList(T.dont,'✖')}</div>${T.know.length?`<div><h4>Da sapere</h4>${tipList(T.know,'ℹ')}</div>`:''}</div><div class="btns" style="margin-top:8px">${hotelLinks(st.b,st.from,st.to).map(([t,u])=>`<a class="btn ghost sm" href="${esc(u)}" target="_blank" rel="noopener noreferrer">${t} ↗</a>`).join('')}</div></details>`;}
- return`<details class="day" data-d="${d}" ${S.dopen[d]?'open':''}><summary><span class="dn1"><b>${dshort(d).split(' ')[0]}</b><span class="mono">${dwd(d)}</span></span><span class="dw"><b>${esc(where)}</b><span class="mono hint">${n?`${done}/${n} fatte`:'Da decidere'}</span></span>${first&&d>0?'<span class="dtag">trasferimento</span>':''}${d===0?'<span class="dtag">arrivo</span>':''}${last?'<span class="dtag">volo 16:55</span>':''}${ev.length?`<span class="dtag ev">${esc(ev[0])}?</span>`:''}</summary>
- <div class="dbody">${tr}<div class="dcol"><div class="dprog"><h4>Il tuo programma</h4>${items||'<p class="hint">Ancora niente. Scegli dai suggerimenti o scrivi tu.</p>'}<div class="addrow"><input class="dnew" type="text" data-d="${d}" placeholder="Scrivi un’attività…" maxlength="160" aria-label="Nuova attività"><button class="btn" data-act="dnew" data-d="${d}">Aggiungi</button></div>
- <h4 style="margin-top:16px">Note</h4><textarea class="dnote" data-d="${d}" rows="3" placeholder="Prenotazioni, orari, idee…">${esc(dd.note||'')}</textarea></div>
- <div class="dsug"><h4>Suggerimenti vicino a ${esc(where)}</h4><div class="sgl">${sg.first.map(card).join('')||'<p class="hint">Hai già aggiunto tutto.</p>'}</div>${sg.more.length?`<details class="more"><summary>Altri luoghi vicini</summary><div class="sgl">${sg.more.map(card).join('')}</div></details>`:''}<p class="hint">Tempi stimati dalla base, quelli con ≈ non sono verificati. Nessuna scelta è fatta per te.</p></div></div>${tips}</div></details>`;
+ if(first&&BASETIPS[st.b]){const T=BASETIPS[st.b];tips=`<details class="tipd"><summary>Tips for ${esc(st.base.n)}</summary><div class="tipbox"><div><h4>Do</h4>${tipList(T.do,'✔')}</div><div><h4>Avoid</h4>${tipList(T.dont,'✖')}</div>${T.know.length?`<div><h4>Good to know</h4>${tipList(T.know,'ℹ')}</div>`:''}</div><div class="btns" style="margin-top:8px">${hotelLinks(st.b,st.from,st.to).map(([t,u])=>`<a class="btn ghost sm" href="${esc(u)}" target="_blank" rel="noopener noreferrer">${t} ↗</a>`).join('')}</div></details>`;}
+ return`<details class="day" data-d="${d}" ${S.dopen[d]?'open':''}><summary><span class="dn1"><b>${dshort(d).split(' ')[0]}</b><span class="mono">${dwd(d)}</span></span><span class="dw"><b>${esc(where)}</b><span class="mono hint">${n?`${done}/${n} done`:'To decide'}</span></span>${first&&d>0?'<span class="dtag">transfer</span>':''}${d===0?'<span class="dtag">arrival</span>':''}${last?'<span class="dtag">flight 16:55</span>':''}${ev.length?`<span class="dtag ev">${esc(ev[0])}?</span>`:''}</summary>
+ <div class="dbody">${tr}<div class="dcol"><div class="dprog"><h4>Your plan</h4>${items||'<p class="hint">Nothing yet. Pick from the suggestions or write your own.</p>'}<div class="addrow"><input class="dnew" type="text" data-d="${d}" placeholder="Write an activity…" maxlength="160" aria-label="New activity"><button class="btn" data-act="dnew" data-d="${d}">Add</button></div>
+ <h4 style="margin-top:16px">Notes</h4><textarea class="dnote" data-d="${d}" rows="3" placeholder="Bookings, times, ideas…">${esc(dd.note||'')}</textarea></div>
+ <div class="dsug"><h4>Suggestions near ${esc(where)}</h4><div class="sgl">${sg.first.map(card).join('')||'<p class="hint">You have already added everything.</p>'}</div>${sg.more.length?`<details class="more"><summary>More places nearby</summary><div class="sgl">${sg.more.map(card).join('')}</div></details>`:''}<p class="hint">Times estimated from the base, those with ≈ are not verified. No choice is made for you.</p></div></div>${tips}</div></details>`;
 }
 function daysHTML(){
  const c=computeIt(S.its.D);let h='';
  for(let d=0;d<=c.total;d++)h+=dayHTML(d,c);
- return`<div class="phero"><div><div class="eyebrow2">Giorno per giorno</div><h2>${c.total+1} giorni, ${dshort(0)} – ${dshort(c.total)}</h2><p>Decidi tu cosa fare: scegli dai suggerimenti di ogni giorno o scrivi la tua attività. Tutto resta salvato in questo browser.</p>
- <div class="btns" style="margin-top:12px"><a class="btn" href="${esc(tripDirUrl(c))}" target="_blank" rel="noopener noreferrer">Tutto il giro su Google Maps ↗</a><button class="btn ghost" data-act="dopenall">Apri tutti</button><button class="btn ghost" data-act="dcloseall">Chiudi tutti</button></div></div>
- </div><div class="tripnote panel"><h3 class="lab">Note del viaggio</h3><textarea id="tripnote" rows="4" placeholder="Idee, cose da non perdere…">${esc(S.trip)}</textarea><p class="hint">Salvate in questo browser. Lucha libre e danzadores spirits sono già qui: date e dettagli sono da trovare.</p></div>
+ return`<div class="phero"><div><div class="eyebrow2">Day by day</div><h2>${c.total+1} days, ${dshort(0)} – ${dshort(c.total)}</h2><p>You decide what to do: pick from each day’s suggestions or write your own activity. Everything stays saved in this browser.</p>
+ <div class="btns" style="margin-top:12px"><a class="btn" href="${esc(tripDirUrl(c))}" target="_blank" rel="noopener noreferrer">Whole trip on Google Maps ↗</a><button class="btn ghost" data-act="dopenall">Open all</button><button class="btn ghost" data-act="dcloseall">Close all</button></div></div>
+ </div><div class="tripnote panel"><h3 class="lab">Trip notes</h3><textarea id="tripnote" rows="4" placeholder="Ideas, things not to miss…">${esc(S.trip)}</textarea><p class="hint">Saved in this browser. Lucha libre and danzadores spirits are already here: dates and details are still to find.</p></div>
 <div class="days">${h}</div>
- <p class="hint">Le tratte segnate con “stima mia” non sono verificate. Se cambi le notti in Modifica, le attività restano legate alle date: ricontrolla i giorni di trasferimento. <button class="btn ghost sm" data-act="dreset">${S.cfm?'Conferma: svuota tutti i giorni':'Svuota tutti i giorni'}</button></p>`;
+ <p class="hint">Legs marked “my estimate” are not verified. If you change the nights in Edit, activities stay tied to the dates: re-check the transfer days. <button class="btn ghost sm" data-act="dreset">${S.cfm?'Confirm: clear all days':'Clear all days'}</button></p>`;
 }
 function headHTML(){
- const tabs=[['plan','Tappe'],['days','Giorni'],['map','Mappa'],['bld','Modifica']];
- return`<header class="top"><div><h1 class="logo" aria-label="Dirty Sanchez"><span class="lt">Dirty Sanchez</span>${HATSVG('somb')}<svg class="mus" viewBox="0 0 200 70"><path d="M100 22c-10-9-24-12-40-9C40 16 26 26 18 38c-5 8-3 17 4 19 4 1 8-1 9-5 2-6 8-9 16-9 17 1 38 4 53-3Z M100 22c10-9 24-12 40-9 20 3 34 13 42 25 5 8 3 17-4 19-4 1-8-1-9-5-2-6-8-9-16-9-17 1-38 4-53-3Z"/><path d="M62 22c14-3 28 0 38 6M138 22c-14-3-28 0-38 6" class="hl2"/></svg><svg class="drop" viewBox="0 0 10 16" style="left:4%;top:-0.2em;width:0.16em;transform:rotate(20deg)"><path d="M5 0C5 0 10 8 10 11a5 5 0 0 1-10 0C0 8 5 0 5 0Z"/><ellipse cx="3.3" cy="10" rx="1.1" ry="1.8" class="hl"/></svg><svg class="drop" viewBox="0 0 10 16" style="left:24%;top:0.95em;width:0.12em;transform:rotate(-15deg)"><path d="M5 0C5 0 10 8 10 11a5 5 0 0 1-10 0C0 8 5 0 5 0Z"/><ellipse cx="3.3" cy="10" rx="1.1" ry="1.8" class="hl"/></svg><svg class="drop" viewBox="0 0 10 16" style="left:46%;top:-0.28em;width:0.13em;transform:rotate(10deg)"><path d="M5 0C5 0 10 8 10 11a5 5 0 0 1-10 0C0 8 5 0 5 0Z"/><ellipse cx="3.3" cy="10" rx="1.1" ry="1.8" class="hl"/></svg><svg class="drop" viewBox="0 0 10 16" style="left:63%;top:1.02em;width:0.18em;transform:rotate(-25deg)"><path d="M5 0C5 0 10 8 10 11a5 5 0 0 1-10 0C0 8 5 0 5 0Z"/><ellipse cx="3.3" cy="10" rx="1.1" ry="1.8" class="hl"/></svg><svg class="drop" viewBox="0 0 10 16" style="left:80%;top:-0.18em;width:0.14em;transform:rotate(30deg)"><path d="M5 0C5 0 10 8 10 11a5 5 0 0 1-10 0C0 8 5 0 5 0Z"/><ellipse cx="3.3" cy="10" rx="1.1" ry="1.8" class="hl"/></svg><svg class="drop" viewBox="0 0 10 16" style="left:96%;top:0.7em;width:0.2em;transform:rotate(12deg)"><path d="M5 0C5 0 10 8 10 11a5 5 0 0 1-10 0C0 8 5 0 5 0Z"/><ellipse cx="3.3" cy="10" rx="1.1" ry="1.8" class="hl"/></svg><svg class="drop" viewBox="0 0 10 16" style="left:88%;top:0.98em;width:0.1em;transform:rotate(0deg)"><path d="M5 0C5 0 10 8 10 11a5 5 0 0 1-10 0C0 8 5 0 5 0Z"/><ellipse cx="3.3" cy="10" rx="1.1" ry="1.8" class="hl"/></svg><svg class="drop" viewBox="0 0 10 16" style="left:14%;top:1.05em;width:0.1em;transform:rotate(25deg)"><path d="M5 0C5 0 10 8 10 11a5 5 0 0 1-10 0C0 8 5 0 5 0Z"/><ellipse cx="3.3" cy="10" rx="1.1" ry="1.8" class="hl"/></svg><svg class="drop" viewBox="0 0 10 16" style="left:34%;top:0.62em;width:0.1em;transform:rotate(-8deg)"><path d="M5 0C5 0 10 8 10 11a5 5 0 0 1-10 0C0 8 5 0 5 0Z"/><ellipse cx="3.3" cy="10" rx="1.1" ry="1.8" class="hl"/></svg><svg class="drop" viewBox="0 0 10 16" style="left:71%;top:0.1em;width:0.09em;transform:rotate(15deg)"><path d="M5 0C5 0 10 8 10 11a5 5 0 0 1-10 0C0 8 5 0 5 0Z"/><ellipse cx="3.3" cy="10" rx="1.1" ry="1.8" class="hl"/></svg><svg class="drop" viewBox="0 0 10 16" style="left:57%;top:0.8em;width:0.13em;transform:rotate(5deg)"><path d="M5 0C5 0 10 8 10 11a5 5 0 0 1-10 0C0 8 5 0 5 0Z"/><ellipse cx="3.3" cy="10" rx="1.1" ry="1.8" class="hl"/></svg></h1><p class="sum">Yucatán · 8–22 dicembre · 14 notti · volo 8 dic 15:05, ritorno 22 dic 16:55</p></div>
- <div class="btns"><nav class="tabs" aria-label="Viste">${tabs.map(([k,n])=>`<button data-act="view" data-v="${k}" aria-pressed="${S.view===k||(k==='plan'&&(S.view==='stop'||S.view==='leg'))}">${n}</button>`).join('')}</nav><button class="btn ghost" data-act="theme" aria-label="Cambia tema">${S.th==='dark'?'Scuro':S.th==='light'?'Chiaro':'Tema auto'}</button></div></header>`;
+ const tabs=[['plan','Stops'],['days','Days'],['map','Map'],['bld','Edit']];
+ return`<header class="top"><div><h1 class="logo" aria-label="Dirty Sanchez"><span class="lt">Dirty Sanchez</span>${HATSVG('somb')}<svg class="mus" viewBox="0 0 200 70"><path d="M100 22c-10-9-24-12-40-9C40 16 26 26 18 38c-5 8-3 17 4 19 4 1 8-1 9-5 2-6 8-9 16-9 17 1 38 4 53-3Z M100 22c10-9 24-12 40-9 20 3 34 13 42 25 5 8 3 17-4 19-4 1-8-1-9-5-2-6-8-9-16-9-17 1-38 4-53-3Z"/><path d="M62 22c14-3 28 0 38 6M138 22c-14-3-28 0-38 6" class="hl2"/></svg><svg class="drop" viewBox="0 0 10 16" style="left:4%;top:-0.2em;width:0.16em;transform:rotate(20deg)"><path d="M5 0C5 0 10 8 10 11a5 5 0 0 1-10 0C0 8 5 0 5 0Z"/><ellipse cx="3.3" cy="10" rx="1.1" ry="1.8" class="hl"/></svg><svg class="drop" viewBox="0 0 10 16" style="left:24%;top:0.95em;width:0.12em;transform:rotate(-15deg)"><path d="M5 0C5 0 10 8 10 11a5 5 0 0 1-10 0C0 8 5 0 5 0Z"/><ellipse cx="3.3" cy="10" rx="1.1" ry="1.8" class="hl"/></svg><svg class="drop" viewBox="0 0 10 16" style="left:46%;top:-0.28em;width:0.13em;transform:rotate(10deg)"><path d="M5 0C5 0 10 8 10 11a5 5 0 0 1-10 0C0 8 5 0 5 0Z"/><ellipse cx="3.3" cy="10" rx="1.1" ry="1.8" class="hl"/></svg><svg class="drop" viewBox="0 0 10 16" style="left:63%;top:1.02em;width:0.18em;transform:rotate(-25deg)"><path d="M5 0C5 0 10 8 10 11a5 5 0 0 1-10 0C0 8 5 0 5 0Z"/><ellipse cx="3.3" cy="10" rx="1.1" ry="1.8" class="hl"/></svg><svg class="drop" viewBox="0 0 10 16" style="left:80%;top:-0.18em;width:0.14em;transform:rotate(30deg)"><path d="M5 0C5 0 10 8 10 11a5 5 0 0 1-10 0C0 8 5 0 5 0Z"/><ellipse cx="3.3" cy="10" rx="1.1" ry="1.8" class="hl"/></svg><svg class="drop" viewBox="0 0 10 16" style="left:96%;top:0.7em;width:0.2em;transform:rotate(12deg)"><path d="M5 0C5 0 10 8 10 11a5 5 0 0 1-10 0C0 8 5 0 5 0Z"/><ellipse cx="3.3" cy="10" rx="1.1" ry="1.8" class="hl"/></svg><svg class="drop" viewBox="0 0 10 16" style="left:88%;top:0.98em;width:0.1em;transform:rotate(0deg)"><path d="M5 0C5 0 10 8 10 11a5 5 0 0 1-10 0C0 8 5 0 5 0Z"/><ellipse cx="3.3" cy="10" rx="1.1" ry="1.8" class="hl"/></svg><svg class="drop" viewBox="0 0 10 16" style="left:14%;top:1.05em;width:0.1em;transform:rotate(25deg)"><path d="M5 0C5 0 10 8 10 11a5 5 0 0 1-10 0C0 8 5 0 5 0Z"/><ellipse cx="3.3" cy="10" rx="1.1" ry="1.8" class="hl"/></svg><svg class="drop" viewBox="0 0 10 16" style="left:34%;top:0.62em;width:0.1em;transform:rotate(-8deg)"><path d="M5 0C5 0 10 8 10 11a5 5 0 0 1-10 0C0 8 5 0 5 0Z"/><ellipse cx="3.3" cy="10" rx="1.1" ry="1.8" class="hl"/></svg><svg class="drop" viewBox="0 0 10 16" style="left:71%;top:0.1em;width:0.09em;transform:rotate(15deg)"><path d="M5 0C5 0 10 8 10 11a5 5 0 0 1-10 0C0 8 5 0 5 0Z"/><ellipse cx="3.3" cy="10" rx="1.1" ry="1.8" class="hl"/></svg><svg class="drop" viewBox="0 0 10 16" style="left:57%;top:0.8em;width:0.13em;transform:rotate(5deg)"><path d="M5 0C5 0 10 8 10 11a5 5 0 0 1-10 0C0 8 5 0 5 0Z"/><ellipse cx="3.3" cy="10" rx="1.1" ry="1.8" class="hl"/></svg></h1><p class="sum">Yucatán · 8–22 December · 14 nights · flight 8 Dec 15:05, return 22 Dec 16:55</p></div>
+ <div class="btns"><nav class="tabs" aria-label="Views">${tabs.map(([k,n])=>`<button data-act="view" data-v="${k}" aria-pressed="${S.view===k||(k==='plan'&&(S.view==='stop'||S.view==='leg'))}">${n}</button>`).join('')}</nav><button class="btn ghost" data-act="theme" aria-label="Change theme">${S.th==='dark'?'Dark':S.th==='light'?'Light':'Auto theme'}</button></div></header>`;
 }
 function bodyHTML(){
  if(S.view==='plan')return`<div class="body v-one"><section class="plan">${homeHTML()}</section></div>`;
@@ -1809,7 +1815,7 @@ document.addEventListener('click',e=>{
   else if(tp&&tp.dataset.base){const b=BASES[tp.dataset.base];pt={lat:b.lat,lon:b.lon,name:b.n,bid:tp.dataset.base};}
   else{const q=svg.createSVGPoint();q.x=e.clientX;q.y=e.clientY;const r=q.matrixTransform(svg.getScreenCTM().inverse());
    const lon=r.x/(CK*SC)+LON0,lat=LAT1-r.y/SC;let nb=null,nd=1e9;Object.keys(BASES).forEach(id=>{const d=km({lat,lon},BASES[id]);if(d<nd){nd=d;nb=id;}});
-   pt={lat,lon,name:'Punto '+(S.meas.pts.length+1)+(nd<40?' (vicino a '+BASES[nb].n+')':'')};}
+   pt={lat,lon,name:'Point '+(S.meas.pts.length+1)+(nd<40?' (near '+BASES[nb].n+')':'')};}
   S.meas.pts.push(pt);render();return;
  }
  const t=e.target.closest('[data-act],[data-poi],[data-base]');if(!t)return;
@@ -1859,7 +1865,7 @@ document.addEventListener('click',e=>{
   case'up':{const i=+d.i;if(i>0){[it.stops[i-1],it.stops[i]]=[it.stops[i],it.stops[i-1]];}break;}
   case'down':{const i=+d.i;if(i<it.stops.length-1){[it.stops[i+1],it.stops[i]]=[it.stops[i],it.stops[i+1]];}break;}
   case'rm':if(it.stops.length>1){it.stops.splice(+d.i,1);if(it.carAt>=it.stops.length&&it.carAt!==99)it.carAt=-1;}break;
-  case'restore':S.its[S.bld]=clone(ITS0[S.bld==='M'?'D':S.bld]);S.its[S.bld].id=S.bld;if(S.bld==='M'){S.its.M.name='Il mio';S.its.M.sub='Copia di D, da modificare';}break;
+  case'restore':S.its[S.bld]=clone(ITS0[S.bld==='M'?'D':S.bld]);S.its[S.bld].id=S.bld;if(S.bld==='M'){S.its.M.name='Mine';S.its.M.sub='Copy of D, to edit';}break;
   default:return;
  }
  render();
