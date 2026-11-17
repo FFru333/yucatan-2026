@@ -447,7 +447,7 @@ html{overflow-anchor:none;scroll-behavior:auto}
 .chips2{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
 .chipc{font-size:12px;border:1.5px solid var(--edge);border-radius:999px;padding:3px 9px;background:var(--bg)}
 .rst .go{align-self:center;padding:0 16px;font-weight:700;color:var(--red);white-space:nowrap}
-.back{margin-bottom:12px}
+.back{margin-bottom:calc(var(--sp-2) - var(--sp-4))}
 .sthead{border:2px solid var(--edge);border-radius:var(--r);background:var(--bc,var(--gold));color:#111;padding:18px 18px 16px;box-shadow:5px 5px 0 var(--hs);margin-bottom:12px}
 .sthead.legh{--bc:var(--gold)}
 .sthead h2{font-family:var(--fd);font-weight:400;font-size:clamp(34px,8vw,56px);letter-spacing:.02em;text-transform:uppercase;line-height:1;margin:6px 0}
@@ -464,7 +464,7 @@ html{overflow-anchor:none;scroll-behavior:auto}
 .cb header{display:flex;justify-content:space-between;align-items:baseline;gap:10px;padding:10px 14px;background:var(--hc,var(--accent));color:var(--hk,#fff);border-bottom:2px solid var(--edge)}
 .cb header h4{font-family:var(--fd);font-weight:400;font-size:22px;letter-spacing:.04em;text-transform:uppercase;margin:0}
 .cb header .mono{font-size:11px;opacity:.85}
-.cb-core{--hc:var(--red)}.cb-see{--hc:var(--accent)}.cb-reach{--hc:#111612}.cb-eat{--hc:var(--gold);--hk:#111}.cb-trad{--hc:#7A2F12}.cb-buy{--hc:#1D5A3A}.cb-chill{--hc:#5C8F6B}.cb-eve{--hc:#111612;--hk:var(--gold)}.cb-care{--hc:#F7E39A;--hk:#111}
+.cb-core{--hc:var(--red)}.cb-see{--hc:var(--accent)}.cb-reach{--hc:#111612}.cb-eat{--hc:var(--gold);--hk:#111}.cb-trad{--hc:#7A2F12}.cb-buy{--hc:#1D5A3A}.cb-chill{--hc:#47775A}.cb-eve{--hc:#111612;--hk:var(--gold)}.cb-care{--hc:#F7E39A;--hk:#111}
 .cb ul{list-style:none;margin:0;padding:0}
 .ci{padding:12px 14px;border-top:1.5px solid var(--line)}.ci:first-child{border-top:0}
 .cit{display:flex;gap:10px;align-items:baseline;justify-content:space-between}
@@ -671,6 +671,53 @@ details.tdl>summary{cursor:pointer;font:700 18px var(--fd);list-style:none;paddi
 .edday{display:inline-flex;align-items:center;gap:8px;margin-top:8px;font:500 12px var(--fm);text-transform:uppercase;letter-spacing:.06em}
 .edday select{width:auto;padding:6px 8px}
 .tier .mono{font-size:11px;color:var(--ink-2);margin-left:6px}
+/* collapsible hero */
+.pheb{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:36px}
+.phtog{appearance:none;flex:none;width:36px;height:36px;display:grid;place-items:center;border:2px solid var(--gold);border-radius:50%;background:transparent;color:var(--gold);cursor:pointer;padding:0;margin:-4px -4px -4px 0;-webkit-tap-highlight-color:transparent}
+.phtog svg{transition:transform .28s ease}
+.phtog:focus-visible{outline:3px solid #F6F1E2;outline-offset:2px}
+.phx{display:grid;grid-template-rows:1fr;transition:grid-template-rows .28s ease}
+.phx>div{overflow:hidden;min-height:0;padding:0 6px 6px;margin:0 -6px -6px}
+.phero[data-c] .phx{grid-template-rows:0fr}
+.phero[data-c] .phx>div{padding-bottom:0;margin-bottom:0}
+.phero[data-c] .phtog svg{transform:rotate(180deg)}
+.phero[data-c]{gap:0!important}
+@media (prefers-reduced-motion:reduce){.phx,.phtog svg{transition:none}}
+/* spacing scale: page 24 / group 16 / tight 8 (desktop: page 32) */
+:root{--sp-1:8px;--sp-2:12px;--sp-3:16px;--sp-4:24px}
+@media (min-width:900px){:root{--sp-4:32px}}
+#app{gap:var(--sp-4)}
+.body{gap:var(--sp-4)}
+.plan{gap:var(--sp-4);padding:0 2px 40px}
+.sthead,.addbar,.cgrid{margin:0}
+.jump{margin:0 -2px;padding:4px 2px 8px}
+.days{gap:var(--sp-3)}
+.cgrid{gap:var(--sp-3)}
+.ph{margin-bottom:var(--sp-2)}
+.edfoot{margin-top:var(--sp-2)}
+.phero{padding:20px!important;gap:var(--sp-2)!important}
+.phero h2,.phero .edh{margin:4px 0 var(--sp-2)}
+.phero[data-c] h2,.phero[data-c] .edh,.phero[data-c] .tripline{margin-bottom:0}
+.phero .tripline{margin:4px 0 0}
+.phero{border-radius:var(--r)!important}
+.edwrap,.edhero{border-radius:var(--r)}
+.sthead{padding:20px!important}
+.tdl{background:var(--panel);color:var(--ink);border:2px solid var(--edge);border-radius:var(--r);box-shadow:5px 5px 0 var(--hs);padding:10px 14px 14px}
+.tdl .hint{color:var(--ink-2)}
+.back,.addbar .btn.ghost{background:var(--panel);color:var(--ink);border-color:var(--edge)}
+.addbar label,.ps>.ph,.plan>.hint{color:#F6F1E2}
+.eyebrow2{color:#FFE066}
+.edfoot{opacity:1}
+.btn.ghost.back,.ps>.btns .btn.ghost,.ps>.btns a.ghost{background:var(--panel);color:var(--ink);border-color:var(--edge)}
+.ps>.hint{color:#F6F1E2}
+.phero .trinfo b{color:#FFE066}
+.plan>.hint .btn.ghost{background:var(--panel);color:var(--ink);border-color:var(--edge)}
+.phero .tripnote .hint{opacity:1}
+.cb header .mono{opacity:1}
+.chip .hint{color:inherit;opacity:.78}
+:root[data-theme="black"] .cb-core{--hk:#111612}
+:root[data-theme="black"] .cb-see{--hk:var(--accent-ink)}
+.stayrow{grid-template-columns:minmax(0,1fr);min-width:0}
 </style>
 <script>(function(){var d=document.documentElement,ok=0,done=function(){if(ok)return;ok=1;d.classList.add('fok')};setTimeout(done,2500);
 addEventListener('load',function(){if(!document.fonts||!document.fonts.load){done();return}
@@ -2079,7 +2126,7 @@ function editorialHTML(){
    return`<button class="edrow" data-act="edopen" data-e="${e.id}"><span class="edno mono">${e.no}</span><span class="edmain"><span class="edby mono">${esc(e.by)} · ${esc(e.date)}</span><span class="edti">${esc(e.title)}</span><span class="edbl">${esc(e.blurb)}</span><span class="edmeta mono">${f}</span></span><span class="edth ${t.on?'on':'pend'}" data-gk="${imgKey(t.spec.key)}" data-spec="${esc(JSON.stringify(t.spec))}" style="${t.bg}"><span class="mg">${esc(e.no)}</span></span></button>`;}).join('');
   body=rows?`<div class="edlist">${rows}</div>`:'<p class="hint">No source has places for this combination.</p>';
  }
- return`<div class="phero"><div><div class="eyebrow2">Editorial</div><h2 class="edh">What the magazines suggest</h2><p class="edlead">Itineraries and picks from design magazines and curators, only places named on their pages. Filter by city or type, or open a source.</p></div></div>
+ return`${heroHTML('ed','Editorial','<h2 class="edh">What the magazines suggest</h2>','<p class="edlead">Itineraries and picks from design magazines and curators, only places named on their pages. Filter by city or type, or open a source.</p>')}
  <section class="ps"><div class="edwrap">${tabs}${edFilters(all)}${body}</div><p class="hint edfoot">Cover images are Wikipedia photos of a place from each piece, not the magazines’ own pictures. “Stay” items are reference only.</p></section>`;
 }
 function edItem([n,note,area,fl],g,d,src){const on=hasItem(d,n);
@@ -2664,7 +2711,7 @@ function homeHTML(){
   out+=legBtn(i+1);
  });
  const todo=TODO.map(([k,t,u,n])=>`<label class="td"><input type="checkbox" data-act="todo" data-k="${k}" ${S.todo[k]?'checked':''}><span>${esc(t)}${n?`<br><span class="hint">${esc(n)}</span>`:''}</span>${u?`<a class="btn ghost sm" href="${esc(u)}" target="_blank" rel="noopener noreferrer">Link ↗</a>`:'<span></span>'}</label>`).join('');
- return`<div class="phero"><div><div class="eyebrow2">8–22 December</div><div class="tripline"><b>${c.total}</b><span>nights</span><b>${c.st.length}</b><span>stops</span><b>≈ ${fmtH(c.hAll)}</b><span>by car and boat</span></div><div class="btns" style="margin-top:12px"><a class="btn ghost" href="${esc(tripDirUrl(c))}" target="_blank" rel="noopener noreferrer">Trip on Google Maps ↗</a></div></div></div>
+ return`${heroHTML('pl','8–22 December',`<div class="tripline"><b>${c.total}</b><span>nights</span><b>${c.st.length}</b><span>stops</span><b>≈ ${fmtH(c.hAll)}</b><span>by car and boat</span></div>`,`<div class="btns"><a class="btn ghost" href="${esc(tripDirUrl(c))}" target="_blank" rel="noopener noreferrer">Trip on Google Maps ↗</a></div>`)}
  <section class="ps"><div class="places">${out}</div></section>
  <section id="p-todo" class="ps"><details class="tdl" ${S.todoOpen?'open':''}><summary>To book and to check</summary>${todo}<p class="hint">Hotels being updated (Marina is handling them). Car: pick-up on 8 Dec at the airport, return on the 22nd.</p></details></section>`;
 }
@@ -2702,7 +2749,7 @@ const SHORT={pm:'P. Morelos',hol:'Holbox',val:'Valladolid',mer:'Mérida',ism:'I.
 const itName=id=>S.its[id].name;
 
 /* ===== BUILD ===== */
-function imgTestHTML(){return`<div class="panel" style="margin-bottom:12px"><h3 class="lab">Photos</h3><p class="hint">${GKEY()?'Photos come from Google Maps (your key).':'Without a key, photos come from Wikipedia and only for landmarks.'} To get the Google Maps photos of each place, paste a Google Maps Platform API key (Places API (New) enabled). It stays on this phone only.</p><input id="gkey" type="password" autocomplete="off" placeholder="${GKEY()?'key saved — paste a new one to replace':'AIza…'}"> <button class="btn sm" data-act="gkeysave" style="margin:6px 0">Save key</button> <button class="btn ghost sm" data-act="gkeyoff" style="margin:6px 0">Remove key</button><br><button class="btn sm" data-act="imgtest">Test photos</button> <button class="btn ghost sm" data-act="imgclear">Clear photo cache</button><p class="hint" id="imgmsg">${esc(S.imgmsg||'')}</p></div>`;}
+function imgTestHTML(){return`<div class="panel"><h3 class="lab">Photos</h3><p class="hint">${GKEY()?'Photos come from Google Maps (your key).':'Without a key, photos come from Wikipedia and only for landmarks.'} To get the Google Maps photos of each place, paste a Google Maps Platform API key (Places API (New) enabled). It stays on this phone only.</p><input id="gkey" type="password" autocomplete="off" placeholder="${GKEY()?'key saved — paste a new one to replace':'AIza…'}"> <button class="btn sm" data-act="gkeysave" style="margin:6px 0">Save key</button> <button class="btn ghost sm" data-act="gkeyoff" style="margin:6px 0">Remove key</button><br><button class="btn sm" data-act="imgtest">Test photos</button> <button class="btn ghost sm" data-act="imgclear">Clear photo cache</button><p class="hint" id="imgmsg">${esc(S.imgmsg||'')}</p></div>`;}
 function bldHTML(){
  const id=S.bld,it=S.its[id],c=computeIt(it);
  const meter=c.st.map(s=>`<i style="width:${s.n/Math.max(14,c.total)*100}%;background:${BCOL[s.b]};border-right:1.5px solid var(--edge)" title="${esc(s.base.n)} ${s.n}"></i>`).join('');
@@ -2889,13 +2936,17 @@ function dayHTML(d,c){
 function daysHTML(){
  const c=computeIt(S.its.D);let h='';
  for(let d=0;d<=c.total;d++)h+=dayHTML(d,c);
- return`<div class="phero"><div><div class="eyebrow2">Day by day</div><h2>${c.total+1} days</h2><div class="trinfo"><b>${dshort(0)} – ${dshort(c.total)} · ${c.total} nights</b><span class="mono">Land ${dshort(0)} 15:05 · Fly home ${dshort(c.total)} 16:55</span></div><p>You decide what to do: pick from each day’s suggestions or write your own activity. Everything stays saved in this browser.</p>
- <div class="btns" style="margin-top:12px"><a class="btn" href="${esc(tripDirUrl(c))}" target="_blank" rel="noopener noreferrer">Whole trip on Google Maps ↗</a><button class="btn ghost" data-act="dopenall">Open all</button><button class="btn ghost" data-act="dcloseall">Close all</button></div></div>
- </div><div class="tripnote panel"><h3 class="lab">Trip notes</h3><textarea id="tripnote" rows="4" placeholder="Ideas, things not to miss…">${esc(S.trip)}</textarea><p class="hint">Saved in this browser. Lucha libre and danzadores spirits are already here: dates and details are still to find.</p></div>
+ return`${heroHTML('dy','Day by day',`<h2>${c.total+1} days</h2>`,`<div class="trinfo"><b>${dshort(0)} – ${dshort(c.total)} · ${c.total} nights</b><span class="mono">Land ${dshort(0)} 15:05 · Fly home ${dshort(c.total)} 16:55</span></div><p>You decide what to do: pick from each day’s suggestions or write your own activity. Everything stays saved in this browser.</p><div class="btns"><a class="btn" href="${esc(tripDirUrl(c))}" target="_blank" rel="noopener noreferrer">Whole trip on Google Maps ↗</a><button class="btn ghost" data-act="dopenall">Open all</button><button class="btn ghost" data-act="dcloseall">Close all</button></div>`,`<div class="tripnote panel"><h3 class="lab">Trip notes</h3><textarea id="tripnote" rows="4" placeholder="Ideas, things not to miss…">${esc(S.trip)}</textarea><p class="hint">Saved in this browser. Lucha libre and danzadores spirits are already here: dates and details are still to find.</p></div>`)}
 <div class="days">${h}</div>
  <p class="hint">Legs marked “my estimate” are not verified. If you change the nights in Edit, activities stay tied to the dates: re-check the transfer days. <button class="btn ghost sm" data-act="dreset">${S.cfm?'Confirm: clear all days':'Clear all days'}</button></p>`;
 }
 const APPS=[['airalo','Airalo','eSIM for Mexico, set up before flying'],['gmaps','Google Maps','download the offline map of Yucatán and Quintana Roo'],['klm','KLM','boarding passes and check-in'],['wa','WhatsApp','hotels and drivers answer there'],['tr','Google Translate','download Spanish offline']];
+/* ===== shared hero (collapsible) ===== */
+let PHC={};try{PHC=JSON.parse(localStorage.getItem('yuc-phc')||'{}')||{};}catch(e){}
+function heroHTML(k,eyebrow,title,body,after){
+ const c=PHC[k]?1:0;
+ return`<div class="phero"${c?' data-c="1"':''} data-hk="${k}"><div class="phc"><div class="pheb"><div class="eyebrow2">${eyebrow}</div><button type="button" class="phtog" data-act="phtog" data-k="${k}" aria-expanded="${c?'false':'true'}" aria-label="${c?'Expand':'Collapse'} panel"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div>${title}${body?`<div class="phx"><div>${body}</div></div>`:''}</div>${after?`<div class="phx"><div>${after}</div></div>`:''}</div>`;
+}
 /* ===== EUR <-> MXN converter (rate: ECB reference via Frankfurter, cached; fallback is a rough estimate) ===== */
 let FX={r:19.9,d:'',live:0};
 try{const x=JSON.parse(localStorage.getItem('yuc-fx')||'null');if(x&&x.r>5&&x.r<60)FX=x;}catch(e){}
@@ -2917,7 +2968,7 @@ function overviewHTML(){
  const hot=c.st.map(st=>{const h=O.hot[st.b]||{};return`<div class="hcard" style="--bc:${BCOL[st.b]}"><div class="hh"><b>${esc(st.base.n)}</b><span class="mono">${dwd(st.from)} ${dshort(st.from)} – ${dshort(st.to)} · ${st.n} nights</span></div><input class="ovh" data-hb="${st.b}" data-hf="name" type="text" value="${esc(h.name||'')}" placeholder="Hotel name" aria-label="Hotel in ${esc(st.base.n)}"><textarea class="ovh" data-hb="${st.b}" data-hf="ref" rows="2" placeholder="Booking ref, address, check-in time…" aria-label="Notes for ${esc(st.base.n)}">${esc(h.ref||'')}</textarea>${stayHTML(st.b,1)}</div>`;}).join('');
  const swr=(k,inner)=>`<div class="swr"><button class="swd" data-act="ovappdel" data-k="${esc(k)}" aria-label="Delete" type="button"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4h8v2M6 6l1 14h10l1-14M10 11v5M14 11v5"/></svg></button><div class="sw-in">${inner}</div></div>`;
  const apps=APPS.filter(x=>!(O.hide||{})[x[0]]).map(([k,n,d])=>swr(k,`<label class="td"><input type="checkbox" data-act="ovapp" data-k="${k}" ${O.apps[k]?'checked':''}><span>${esc(n)}<br><span class="hint">${esc(d)}</span></span><span></span></label>`)).join('')+O.xapps.map(n=>swr('x:'+n,`<label class="td"><input type="checkbox" data-act="ovapp" data-k="x:${esc(n)}" ${O.apps['x:'+n]?'checked':''}><span>${esc(n)}</span><span></span></label>`)).join('');
- return`<div class="phero"><div><div class="eyebrow2">Overview</div><h2 class="edh">Before you go</h2><p class="edlead">Flights, hotels, apps and notes in one place. Everything here is yours to edit and stays on this phone. Hotels you enter also show up on the stop and day pages.</p></div></div>
+ return`${heroHTML('ov','Before you go','<h2 class="edh">Overview</h2>','<p class="edlead">Flights, hotels, apps and notes in one place. Everything here is yours to edit and stays on this phone. Hotels you enter also show up on the stop and day pages.</p>')}
  ${fxHTML()}
  <section class="ps"><div class="cb cb-core"><header><h4>Flights</h4><span class="mono">KLM · BLQ ⇄ CUN</span></header><div class="ovw"><textarea class="ovt" data-ov="fl1" rows="3">${esc(O.fl1)}</textarea><textarea class="ovt" data-ov="fl2" rows="3">${esc(O.fl2)}</textarea><textarea class="ovt" data-ov="ref" rows="2" placeholder="Booking reference, flight numbers, seats…">${esc(O.ref)}</textarea><p class="hint">Dates and times from what you told me, not from a ticket. Check against your booking.</p></div></div></section>
  <section class="ps"><div class="cb cb-buy"><header><h4>Hotels</h4><span class="mono">One per stop</span></header><div class="ovw"><p class="hint">One per stop, following your itinerary. Add the Maps link to make distances start from it.</p>${hot}</div></div></section>
@@ -3048,6 +3099,7 @@ document.addEventListener('click',e=>{
   case'staysave':{const inp=t.closest('.stayrow').querySelector('.stayin'),r=parseMaps(inp?inp.value:'');if(!r){S.stayMsg[d.b]='Paste a link or coordinates first.';break;}if(r.err){S.stayMsg[d.b]=r.err;break;}S.stay[d.b]={url:r.url,lat:r.lat,lon:r.lon,name:r.name};delete S.stayMsg[d.b];delete S.stayEdit[d.b];break;}
   case'sadd':{const q=POI[d.id];if(q)ensDay(+d.d).items.push({t:q.n,p:q.id,done:false});break;}
   case'goday':S.view='days';S.dopen[d.d]=true;S.toDay=d.d;break;
+  case'phtog':{const k=d.k,h=t.closest('.phero');PHC[k]=PHC[k]?0:1;try{localStorage.setItem('yuc-phc',JSON.stringify(PHC));}catch(e){}if(h){h.toggleAttribute('data-c',!!PHC[k]);t.setAttribute('aria-expanded',PHC[k]?'false':'true');t.setAttribute('aria-label',(PHC[k]?'Expand':'Collapse')+' panel');}return;}
   case'dopenall':for(let i=0;i<=14;i++)S.dopen[i]=true;break;
   case'dcloseall':S.dopen={};break;
   case'dreset':if(S.cfm){S.days={};S.cfm=false;}else{S.cfm=true;}break;
