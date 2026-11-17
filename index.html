@@ -630,7 +630,14 @@ details.tdl>summary{cursor:pointer;font:700 18px var(--fd);list-style:none;paddi
 .hcard .stayrow{min-width:0;box-sizing:border-box}.hcard .stayform{display:flex;gap:8px;min-width:0}.hcard .stayform input{width:auto;flex:1 1 0;min-width:0}.hcard .staychip{flex-wrap:wrap}
 .cb .ovw .hint{margin:0}
 .ovt,.ovh{width:100%;border:1.5px solid var(--edge);border-radius:9px;background:var(--bg);color:var(--ink);padding:9px 10px;font:inherit;font-size:13.5px;line-height:1.45;resize:vertical}
-.fxw{display:grid;grid-template-columns:1fr 1fr;gap:6px 8px;align-items:end;border:2px solid var(--edge);border-radius:var(--r);background:var(--panel);box-shadow:5px 5px 0 var(--hs);padding:14px}.fxw label{display:grid;gap:4px;font-size:12px;font-weight:600;min-width:0}.fxw input{box-sizing:border-box;width:100%;border:1.5px solid var(--edge);border-radius:10px;background:var(--bg);color:var(--ink);padding:12px 12px;font:inherit;font-size:24px;font-weight:600}.fxn{grid-column:1/-1;margin:0}
+.fxw{display:grid;grid-template-columns:1fr 1fr;gap:6px;align-items:stretch}
+.fxb{display:grid;gap:4px;align-content:center;min-width:0;padding:12px 14px 14px;border:2px solid #111612;border-radius:var(--r);box-shadow:5px 5px 0 var(--hs);font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
+.fxe{background:#F2C200;color:#111612}
+.fxm{background:#111612;color:#F2C200;border-color:#F2C200}
+.fxb input{box-sizing:border-box;width:100%;min-width:0;border:0;border-bottom:3px solid currentColor;border-radius:0;background:transparent;color:inherit;padding:2px 0 4px;font:inherit;font-size:28px;font-weight:700;letter-spacing:0;text-transform:none;outline:none}
+.fxb input::placeholder{color:currentColor;opacity:.55}
+.fxb:focus-within{outline:3px solid #F6F1E2;outline-offset:2px}
+.fxn{grid-column:1/-1;margin:2px 2px 0;color:#F6F1E2;font-size:11.5px}
 .hcard{border:2px solid var(--line);border-left:8px solid var(--bc);border-radius:12px;padding:10px 12px;display:grid;gap:8px;min-width:0}
 .hcard .hh{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;align-items:baseline}
 .hcard .hh b{font:700 20px/1 var(--fd);text-transform:uppercase}
@@ -2901,7 +2908,7 @@ function fxCalc(from){
 }
 function fxRefresh(){const el=document.getElementById('fxnote');if(el)el.textContent=fxNote();if(fxVal.last==='fxe')fxCalc('fxe');else if(fxVal.m)fxCalc('fxm');}
 function fxFetch(){try{fetch('https://api.frankfurter.dev/v1/latest?base=EUR&symbols=MXN').then(r=>r.json()).then(j=>{const r=j&&j.rates&&j.rates.MXN;if(r>5&&r<60){FX={r,d:j.date||'',live:1};try{localStorage.setItem('yuc-fx',JSON.stringify({r,d:FX.d,live:0}));}catch(e){}fxRefresh();}}).catch(()=>{});}catch(e){}}
-function fxHTML(){return`<section class="ps"><div class="fxw"><label>Euro<input id="fxe" type="text" inputmode="decimal" autocomplete="off" placeholder="€" value="${esc(fxVal.e)}" aria-label="Euro"></label><label>Pesos<input id="fxm" type="text" inputmode="decimal" autocomplete="off" placeholder="MXN" value="${esc(fxVal.m)}" aria-label="Mexican pesos"></label><p class="hint fxn" id="fxnote">${esc(fxNote())}</p><p class="hint fxn">Mid-market rate. At an ATM or with a card you usually get a few % less.</p></div></section>`;}
+function fxHTML(){return`<section class="ps"><div class="fxw"><label class="fxb fxe">Euro<input id="fxe" type="text" inputmode="decimal" autocomplete="off" placeholder="€" value="${esc(fxVal.e)}" aria-label="Euro"></label><label class="fxb fxm">Pesos<input id="fxm" type="text" inputmode="decimal" autocomplete="off" placeholder="MXN" value="${esc(fxVal.m)}" aria-label="Mexican pesos"></label><p class="hint fxn" id="fxnote">${esc(fxNote())}</p><p class="hint fxn">Mid-market rate. At an ATM or with a card you usually get a few % less.</p></div></section>`;}
 function overviewHTML(){
  const c=computeIt(S.its.D),O=S.ov;
  const hot=c.st.map(st=>{const h=O.hot[st.b]||{};return`<div class="hcard" style="--bc:${BCOL[st.b]}"><div class="hh"><b>${esc(st.base.n)}</b><span class="mono">${dwd(st.from)} ${dshort(st.from)} – ${dshort(st.to)} · ${st.n} nights</span></div><input class="ovh" data-hb="${st.b}" data-hf="name" type="text" value="${esc(h.name||'')}" placeholder="Hotel name" aria-label="Hotel in ${esc(st.base.n)}"><textarea class="ovh" data-hb="${st.b}" data-hf="ref" rows="2" placeholder="Booking ref, address, check-in time…" aria-label="Notes for ${esc(st.base.n)}">${esc(h.ref||'')}</textarea>${stayHTML(st.b,1)}</div>`;}).join('');
