@@ -630,7 +630,7 @@ details.tdl>summary{cursor:pointer;font:700 18px var(--fd);list-style:none;paddi
 .hcard .stayrow{min-width:0;box-sizing:border-box}.hcard .stayform{display:flex;gap:8px;min-width:0}.hcard .stayform input{width:auto;flex:1 1 0;min-width:0}.hcard .staychip{flex-wrap:wrap}
 .cb .ovw .hint{margin:0}
 .ovt,.ovh{width:100%;border:1.5px solid var(--edge);border-radius:9px;background:var(--bg);color:var(--ink);padding:9px 10px;font:inherit;font-size:13.5px;line-height:1.45;resize:vertical}
-.fxw{display:grid;grid-template-columns:1fr auto 1fr;gap:6px 10px;align-items:end;border:2px solid var(--edge);border-radius:var(--r);background:var(--panel);box-shadow:5px 5px 0 var(--hs);padding:14px}.fxw label{display:grid;gap:3px;font-size:11px;font-weight:600;min-width:0}.fxw input{box-sizing:border-box;width:100%;border:1.5px solid var(--edge);border-radius:9px;background:var(--bg);color:var(--ink);padding:9px 10px;font:inherit;font-size:18px}.fxar{padding-bottom:10px;font-size:18px}.fxn{grid-column:1/-1;margin:0}
+.fxw{display:grid;grid-template-columns:1fr auto 1fr;gap:6px 10px;align-items:end;border:2px solid var(--edge);border-radius:var(--r);background:var(--panel);box-shadow:5px 5px 0 var(--hs);padding:14px}.fxw label{display:grid;gap:3px;font-size:11px;font-weight:600;min-width:0}.fxw input{box-sizing:border-box;width:100%;border:1.5px solid var(--edge);border-radius:9px;background:var(--bg);color:var(--ink);padding:9px 10px;font:inherit;font-size:18px}.fxar{appearance:none;border:2px solid var(--edge);border-radius:50%;background:var(--bg);color:var(--ink);width:40px;height:40px;font:inherit;font-size:18px;line-height:1;cursor:pointer;margin-bottom:0}.fxf label:first-child{order:3}.fxf label:last-of-type{order:1}.fxf .fxar{order:2}.fxn{grid-column:1/-1;margin:0;order:9}
 .hcard{border:2px solid var(--line);border-left:8px solid var(--bc);border-radius:12px;padding:10px 12px;display:grid;gap:8px;min-width:0}
 .hcard .hh{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;align-items:baseline}
 .hcard .hh b{font:700 20px/1 var(--fd);text-transform:uppercase}
@@ -2890,6 +2890,7 @@ const APPS=[['airalo','Airalo','eSIM for Mexico, set up before flying'],['gmaps'
 let FX={r:19.9,d:'',live:0};
 try{const x=JSON.parse(localStorage.getItem('yuc-fx')||'null');if(x&&x.r>5&&x.r<60)FX=x;}catch(e){}
 const fxVal={e:'',m:'',last:'e'};
+let fxFlip=0;try{fxFlip=+localStorage.getItem('yuc-fxflip')||0;}catch(e){}
 const fxNum=v=>{v=String(v||'').trim().replace(/\s/g,'');if(!v)return NaN;if(/^\d{1,3}(\.\d{3})+(,\d+)?$/.test(v))v=v.replace(/\./g,'').replace(',','.');else v=v.replace(',','.');return/^\d*\.?\d+$|^\d+\.$/.test(v)?parseFloat(v):NaN;};
 const fxFmt=(n,d)=>isFinite(n)?n.toLocaleString('it-IT',{maximumFractionDigits:d,minimumFractionDigits:0,useGrouping:true}):'';
 function fxNote(){const dt=FX.d?new Date(FX.d+'T12:00:00').toLocaleDateString('en-GB',{day:'numeric',month:'short'}):'';return`1 € = ${FX.r.toFixed(2)} pesos · ${FX.live?'ECB rate, '+dt:(FX.d?'last saved rate, '+dt:'rough estimate, not updated yet')}`;}
@@ -2901,7 +2902,7 @@ function fxCalc(from){
 }
 function fxRefresh(){const el=document.getElementById('fxnote');if(el)el.textContent=fxNote();if(fxVal.last==='fxe')fxCalc('fxe');else if(fxVal.m)fxCalc('fxm');}
 function fxFetch(){try{fetch('https://api.frankfurter.dev/v1/latest?base=EUR&symbols=MXN').then(r=>r.json()).then(j=>{const r=j&&j.rates&&j.rates.MXN;if(r>5&&r<60){FX={r,d:j.date||'',live:1};try{localStorage.setItem('yuc-fx',JSON.stringify({r,d:FX.d,live:0}));}catch(e){}fxRefresh();}}).catch(()=>{});}catch(e){}}
-function fxHTML(){return`<section class="ps"><div class="fxw"><label>Euro<input id="fxe" type="text" inputmode="decimal" autocomplete="off" placeholder="€" value="${esc(fxVal.e)}" aria-label="Euro"></label><span class="fxar" aria-hidden="true">⇄</span><label>Pesos<input id="fxm" type="text" inputmode="decimal" autocomplete="off" placeholder="MXN" value="${esc(fxVal.m)}" aria-label="Mexican pesos"></label><p class="hint fxn" id="fxnote">${esc(fxNote())}</p><p class="hint fxn">Mid-market rate. At an ATM or with a card you usually get a few % less.</p></div></section>`;}
+function fxHTML(){return`<section class="ps"><div class="fxw${fxFlip?' fxf':''}"><label>Euro<input id="fxe" type="text" inputmode="decimal" autocomplete="off" placeholder="€" value="${esc(fxVal.e)}" aria-label="Euro"></label><button type="button" class="fxar" data-act="fxflip" aria-label="Swap sides">⇄</button><label>Pesos<input id="fxm" type="text" inputmode="decimal" autocomplete="off" placeholder="MXN" value="${esc(fxVal.m)}" aria-label="Mexican pesos"></label><p class="hint fxn" id="fxnote">${esc(fxNote())}</p><p class="hint fxn">Mid-market rate. At an ATM or with a card you usually get a few % less.</p></div></section>`;}
 function overviewHTML(){
  const c=computeIt(S.its.D),O=S.ov;
  const hot=c.st.map(st=>{const h=O.hot[st.b]||{};return`<div class="hcard" style="--bc:${BCOL[st.b]}"><div class="hh"><b>${esc(st.base.n)}</b><span class="mono">${dwd(st.from)} ${dshort(st.from)} – ${dshort(st.to)} · ${st.n} nights</span></div><input class="ovh" data-hb="${st.b}" data-hf="name" type="text" value="${esc(h.name||'')}" placeholder="Hotel name" aria-label="Hotel in ${esc(st.base.n)}"><textarea class="ovh" data-hb="${st.b}" data-hf="ref" rows="2" placeholder="Booking ref, address, check-in time…" aria-label="Notes for ${esc(st.base.n)}">${esc(h.ref||'')}</textarea>${stayHTML(st.b,1)}</div>`;}).join('');
@@ -3033,6 +3034,7 @@ document.addEventListener('click',e=>{
   case'gadd':{const v=d.n;if(v)ensDay(+d.d).items.push({t:v,done:false});break;}
   case'icat':S.idea[+d.d]=d.m;break;
   case'imore':S.imore[d.d+'|'+d.m]=true;break;
+  case'fxflip':fxFlip=fxFlip?0:1;try{localStorage.setItem('yuc-fxflip',String(fxFlip));}catch(e){}break;
   case'stayedit':S.stayEdit[d.b]=true;break;
   case'stayclear':delete S.stay[d.b];delete S.stayMsg[d.b];delete S.stayEdit[d.b];break;
   case'staysave':{const inp=t.closest('.stayrow').querySelector('.stayin'),r=parseMaps(inp?inp.value:'');if(!r){S.stayMsg[d.b]='Paste a link or coordinates first.';break;}if(r.err){S.stayMsg[d.b]=r.err;break;}S.stay[d.b]={url:r.url,lat:r.lat,lon:r.lon,name:r.name};delete S.stayMsg[d.b];delete S.stayEdit[d.b];break;}
