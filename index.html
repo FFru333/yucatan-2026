@@ -641,6 +641,7 @@ details.tdl>summary{cursor:pointer;font:700 18px var(--fd);list-style:none;paddi
 .edwrap{background:var(--panel);border:2px solid var(--edge);border-radius:16px;padding:4px 14px 14px;color:var(--ink)}
 .edlist{border-top:0}.edrow:last-child{border-bottom:0}
 .edlead{font-size:14px;line-height:1.5;opacity:.9;max-width:52ch}
+.edfl{margin:10px 0 12px;display:flex;flex-direction:column;gap:6px}.edflh{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-2);margin-top:4px}.edvw{margin-bottom:6px}.edfl .chip[aria-pressed=true] .hint,.edvw .chip[aria-pressed=true] .hint{color:inherit;opacity:.85}.edfl .chip{cursor:pointer}.edsrcl{font-size:11px;letter-spacing:.04em;color:var(--ink-2);margin:-2px 0 4px}.edwrap .chips{max-width:100%}
 .edfoot{margin-top:10px;color:#fff;opacity:.85}
 .edhero+.edwrap{margin-top:0}
 .edrow{display:grid;grid-template-columns:30px 1fr 96px;gap:12px;align-items:start;width:100%;text-align:left;border:0;border-bottom:2px solid var(--edge);background:transparent;color:inherit;padding:16px 0}
@@ -2041,19 +2042,42 @@ function edThumb(e,cls){
  const spec={...e.cover,key:'ed-'+e.id,any:1},c=IMGC[imgKey(spec.key)],bg=c&&c.ph&&c.ph[0]?`background-image:url('${esc(c.ph[0].m)}')`:'';
  return{spec,bg,on:!!bg};
 }
+const ED_CITY=[['Valladolid','Valladolid',['Valladolid','Uayma','Tahmuy']],['Izamal','Izamal',['Izamal']],['Mérida','Mérida',['Mérida','Tixkokob','Sisal']],['Uxmal & south','Uxmal',['Uxmal','Yaxcopoil','Ticul']],['Holbox','Holbox',['Holbox']],['Tulum area','Tulum',['Tulum','Francisco Uh May']]];
+const edCity=area=>{const c=ED_CITY.find(x=>x[2].includes(area));return c?c[0]:'Other';};
+const edType=g=>/^Eat/.test(g)?'Eat & drink':/^(See|Route)/.test(g)?'See':/^Shop/.test(g)?'Shop':'Stay';
+const ED_TYPES=['Eat & drink','See','Shop','Stay'];
+function edAll(){const o=[];EDITORIAL.forEach(e=>e.groups.forEach(([g,l])=>l.forEach(it=>o.push({e,g,it,c:edCity(it[2]),t:edType(g)}))));return o;}
+function edFilters(all){
+ const okC=x=>!S.edc||x.c===S.edc,okT=x=>!S.edt||x.t===S.edt;
+ const cc=n=>all.filter(x=>okT(x)&&x.c===n).length,tc=n=>all.filter(x=>okC(x)&&x.t===n).length;
+ const cities=ED_CITY.map(c=>c[0]).filter(n=>all.some(x=>x.c===n));
+ const ch=(act,k,v,n,on)=>`<button class="chip" data-act="${act}" data-v="${esc(v)}" aria-pressed="${on}">${esc(k)} <span class="mono hint">${n}</span></button>`;
+ return`<div class="edfl"><div class="edflh mono">City</div><div class="chips">${ch('edc','All','',all.filter(okT).length,!S.edc)}${cities.map(n=>ch('edc',n,n,cc(n),S.edc===n)).join('')}</div>
+ <div class="edflh mono">Type</div><div class="chips">${ch('edt','All','',all.filter(okC).length,!S.edt)}${ED_TYPES.filter(n=>all.some(x=>x.t===n)).map(n=>ch('edt',n,n,tc(n),S.edt===n)).join('')}</div></div>`;
+}
 function editorialHTML(){
  if(S.ed){const e=EDITORIAL.find(x=>x.id===S.ed);if(e)return edDetail(e);}
- const rows=EDITORIAL.map(e=>{const t=edThumb(e);
-  return`<button class="edrow" data-act="edopen" data-e="${e.id}"><span class="edno mono">${e.no}</span><span class="edmain"><span class="edby mono">${esc(e.by)} · ${esc(e.date)}</span><span class="edti">${esc(e.title)}</span><span class="edbl">${esc(e.blurb)}</span><span class="edmeta mono">${edCount(e)} places →</span></span><span class="edth ${t.on?'on':'pend'}" data-gk="${imgKey(t.spec.key)}" data-spec="${esc(JSON.stringify(t.spec))}" style="${t.bg}"><span class="mg">${esc(e.no)}</span></span></button>`;}).join('');
- return`<div class="phero"><div><div class="eyebrow2">Editorial</div><h2 class="edh">What the magazines suggest</h2><p class="edlead">Itineraries and picks from design magazines and curators, only places named on their pages. Open one, check it, add what you like to a day.</p></div></div>
- <section class="ps"><div class="edwrap"><div class="edlist">${rows}</div></div><p class="hint edfoot">Cover images are Wikipedia photos of a place from each piece, not the magazines’ own pictures. All three are about Mérida and nearby: no Holbox or Bacalar here.</p></section>`;
+ const all=edAll(),pass=all.filter(x=>(!S.edc||x.c===S.edc)&&(!S.edt||x.t===S.edt));
+ const tabs=`<div class="chips edvw"><button class="chip" data-act="edv" data-v="src" aria-pressed="${S.edv!=='pl'}">Sources <span class="mono hint">${EDITORIAL.length}</span></button><button class="chip" data-act="edv" data-v="pl" aria-pressed="${S.edv==='pl'}">All places <span class="mono hint">${pass.length}</span></button></div>`;
+ let body;
+ if(S.edv==='pl'){
+  const d=S.edDay,opts=Array.from({length:15},(_,i)=>`<option value="${i}" ${i===d?'selected':''}>${dshort(i)}</option>`).join('');
+  body=pass.length?`<div class="edintro"><label class="edday">Add to <select id="edday" aria-label="Day to add to">${opts}</select></label></div><ul class="ideas">${pass.map(x=>edItem(x.it,x.g,d,x.e.by.replace(/ \(.*/,''))).join('')}</ul>`:'<p class="hint">Nothing for this combination.</p>';
+ }else{
+  const rows=EDITORIAL.map(e=>{const n=all.filter(x=>x.e===e&&(!S.edc||x.c===S.edc)&&(!S.edt||x.t===S.edt)).length;if(!n)return'';const t=edThumb(e),f=n<edCount(e)?`${n} of ${edCount(e)} places →`:`${edCount(e)} places →`;
+   return`<button class="edrow" data-act="edopen" data-e="${e.id}"><span class="edno mono">${e.no}</span><span class="edmain"><span class="edby mono">${esc(e.by)} · ${esc(e.date)}</span><span class="edti">${esc(e.title)}</span><span class="edbl">${esc(e.blurb)}</span><span class="edmeta mono">${f}</span></span><span class="edth ${t.on?'on':'pend'}" data-gk="${imgKey(t.spec.key)}" data-spec="${esc(JSON.stringify(t.spec))}" style="${t.bg}"><span class="mg">${esc(e.no)}</span></span></button>`;}).join('');
+  body=rows?`<div class="edlist">${rows}</div>`:'<p class="hint">No source has places for this combination.</p>';
+ }
+ return`<div class="phero"><div><div class="eyebrow2">Editorial</div><h2 class="edh">What the magazines suggest</h2><p class="edlead">Itineraries and picks from design magazines and curators, only places named on their pages. Filter by city or type, or open a source.</p></div></div>
+ <section class="ps"><div class="edwrap">${tabs}${edFilters(all)}${body}</div><p class="hint edfoot">Cover images are Wikipedia photos of a place from each piece, not the magazines’ own pictures. “Stay” items are reference only.</p></section>`;
 }
+function edItem([n,note,area,fl],g,d,src){const on=hasItem(d,n);
+  return`<li class="idea"><div class="cit"><b>${esc(n)}</b><span class="mono pill tag">${esc(area)}</span></div>${src?`<div class="edsrcl mono">via ${esc(src)}</div>`:''}<p>${esc(note)}</p>${galHTML({name:n,q:n+' '+area+' Yucatán',v:(g==='See'||n==='Izamal'||/^Iglesia/.test(n))?0:1})}${fl==='p'?'<p class="hint">Private on that trip, not open to visit. Check before planning around it.</p>':fl==='c'?'<p class="hint">Older article: check it still exists.</p>':''}<div class="cia"><a href="${esc(edMaps(n,area))}" target="_blank" rel="noopener noreferrer">Maps ↗</a><a href="${esc('https://www.google.com/search?tbm=isch&q='+encodeURIComponent(n+' '+area+' Yucatán'))}" target="_blank" rel="noopener noreferrer">Photos ↗</a><button class="btn sm ${on?'ghost':''}" data-act="gadd" data-d="${d}" data-n="${esc(n)}" ${on||fl==='p'?'disabled':''}>${on?'✓ in the day':fl==='p'?'—':'+ Add'}</button></div></li>`;}
 function edDetail(e){
  const t=edThumb(e);
  const opts=Array.from({length:15},(_,d)=>`<option value="${d}" ${d===S.edDay?'selected':''}>${dshort(d)}</option>`).join('');
  const d=S.edDay;
- const gs=e.groups.map(([g,list])=>`<h5 class="tier">${esc(g)} <span class="mono">${list.length}</span></h5><ul class="ideas">${list.map(([n,note,area,fl])=>{const on=hasItem(d,n);
-  return`<li class="idea"><div class="cit"><b>${esc(n)}</b><span class="mono pill tag">${esc(area)}</span></div><p>${esc(note)}</p>${galHTML({name:n,q:n+' '+area+' Yucatán',v:(g==='See'||n==='Izamal'||/^Iglesia/.test(n))?0:1})}${fl==='p'?'<p class="hint">Private on that trip, not open to visit. Check before planning around it.</p>':fl==='c'?'<p class="hint">Older article: check it still exists.</p>':''}<div class="cia"><a href="${esc(edMaps(n,area))}" target="_blank" rel="noopener noreferrer">Maps ↗</a><a href="${esc('https://www.google.com/search?tbm=isch&q='+encodeURIComponent(n+' '+area+' Yucatán'))}" target="_blank" rel="noopener noreferrer">Photos ↗</a><button class="btn sm ${on?'ghost':''}" data-act="gadd" data-d="${d}" data-n="${esc(n)}" ${on||fl==='p'?'disabled':''}>${on?'✓ in the day':fl==='p'?'—':'+ Add'}</button></div></li>`;}).join('')}</ul>`).join('');
+ const gs=e.groups.map(([g,list])=>`<h5 class="tier">${esc(g)} <span class="mono">${list.length}</span></h5><ul class="ideas">${list.map(it=>edItem(it,g,d,'')).join('')}</ul>`).join('');
  return`<button class="btn sm back" data-act="edback">← Editorial</button>
  <div class="edhero ${t.on?'on':'pend'} hero-img" data-gk="${imgKey(t.spec.key)}" data-spec="${esc(JSON.stringify(t.spec))}" style="${t.bg}"><span class="hi"><span class="hm">${esc(e.by)} · ${esc(e.date)}</span><span class="hn">${esc(e.title)}</span></span></div>
  <div class="edwrap"><div class="edintro"><p>${esc(e.blurb)}</p><p class="hint">By ${esc(e.author)}. <a href="${esc(e.url)}" target="_blank" rel="noopener noreferrer">Read the original ↗</a> Hours and opening days not checked.</p>
@@ -2235,7 +2259,7 @@ const dwd=o=>WD[dt(o).getUTCDay()];
 /* ===== STATE ===== */
 const KEY='yuc-mappa-4',KEY_OLD=['yuc-mappa-3','yuc-mappa-2'];
 const PX_=lon=>(lon+91.3)*Math.cos(20.3*Math.PI/180)*200,PY_=lat=>(21.95-lat)*200;
-const S={view:'ov',ov:{fl1:'Outbound · Tue 8 Dec\nBologna → Amsterdam → Cancún (KLM)\nLands at Cancún 15:05',fl2:'Return · Tue 22 Dec\nCancún → Amsterdam → Bologna (KLM)\nDeparts Cancún 16:55 (routing to confirm)',ref:'',car:'Rental car: pick-up at Cancún airport on 8 Dec, return on 22 Dec.',notes:'',apps:{},xapps:[],hot:{}},ed:null,edDay:3,todo:{},sel:null,dtab:'near',th:'',
+const S={view:'ov',edv:'src',edc:'',edt:'',ov:{fl1:'Outbound · Tue 8 Dec\nBologna → Amsterdam → Cancún (KLM)\nLands at Cancún 15:05',fl2:'Return · Tue 22 Dec\nCancún → Amsterdam → Bologna (KLM)\nDeparts Cancún 16:55 (routing to confirm)',ref:'',car:'Rental car: pick-up at Cancún airport on 8 Dec, return on 22 Dec.',notes:'',apps:{},xapps:[],hot:{}},ed:null,edDay:3,todo:{},sel:null,dtab:'near',th:'',
  f:{q:'',tags:[],mode:'any',itin:{D:true,A:false,B:false,C:false,M:false},reach:1.5,radIt:'',rad:2,labels:true,road:true,legs:true,hide:false,onlyWish:false},
  wish:[],its:clone(ITS0),bld:'D',
  days:{},stay:{},idea:{},imore:{},stayMsg:{},stayEdit:{},trip:TRIP_NOTE_DEF,dopen:{0:true},cx:0,cy:0,vbw:0,drag:0,meas:{on:false,pts:[]},toMap:0,toTop:0};
@@ -2926,7 +2950,7 @@ function render(){
    while(hd.nextSibling)hd.nextSibling.remove();
    hd.insertAdjacentHTML('afterend',bodyHTML());
   }else ap2.innerHTML=headHTML()+bodyHTML();}
- try{sessionStorage.setItem('yuc-nav',JSON.stringify({view:S.view,ed:S.ed,cur:S.cur,sel:S.sel,bld:S.bld,dtab:S.dtab,cx:S.cx,cy:S.cy,vbw:S.vbw}));}catch(_){}
+ try{sessionStorage.setItem('yuc-nav',JSON.stringify({view:S.view,ed:S.ed,edv:S.edv,edc:S.edc,edt:S.edt,cur:S.cur,sel:S.sel,bld:S.bld,dtab:S.dtab,cx:S.cx,cy:S.cy,vbw:S.vbw}));}catch(_){}
  S.toMap=0;if(S.toDay!=null){const el=document.querySelector('.day[data-d="'+S.toDay+'"]');S.toDay=null;S.toTop=0;if(el)el.scrollIntoView({block:'start'});}else if(S.toTop){S.toTop=0;window.scrollTo({top:0,behavior:'instant'});}else window.scrollTo({top:y,behavior:'instant'});
  if(ap)ap.style.minHeight='';
  const host=$('#mapsvg');if(host){bindMap(host);drawMap();}
@@ -2971,6 +2995,9 @@ document.addEventListener('click',e=>{
   case'ovappdel':{const k=d.k;if(k.startsWith('x:')){S.ov.xapps=S.ov.xapps.filter(x=>'x:'+x!==k);delete S.ov.apps[k];}else{(S.ov.hide||(S.ov.hide={}))[k]=true;}break;}
   case'imgclear':IMGC={};imgSave();S.imgmsg='Cache cleared. Open Places to reload photos.';break;
   case'imgtest':{S.imgmsg='Testing…';const m=document.getElementById('imgmsg');if(m)m.textContent=S.imgmsg;(async()=>{let out=[];if(GKEY()){try{const ph=await googlePhotos('Picheta Mérida Yucatán');out.push('Google OK · '+ph.length+' photos');if(ph[0])await new Promise(res=>{const im=new Image();im.onload=()=>{out.push('image OK '+im.naturalWidth+'px');res();};im.onerror=()=>{out.push('image FAILED');res();};im.src=ph[0].t;});}catch(e){out.push('ERROR '+e.message);}S.imgmsg=out.join(' · ');const m3=document.getElementById('imgmsg');if(m3)m3.textContent=S.imgmsg;return;}try{const r=await fetch(WAPI+'w/api.php?action=query&generator=search&gsrsearch=Casa%20Montejo&gsrlimit=1&prop=pageimages&piprop=thumbnail&pithumbsize=330&format=json&origin=*');out.push('API '+r.status);const j=await r.json();const p=Object.values(j.query.pages)[0];out.push(p.title);const u=p.thumbnail&&p.thumbnail.source;if(u){await new Promise(res=>{const im=new Image();im.onload=()=>{out.push('image OK '+im.naturalWidth+'px');res();};im.onerror=()=>{out.push('image FAILED');res();};im.src=u;});}else out.push('no thumbnail');}catch(e){out.push('ERROR '+e.message);}S.imgmsg=out.join(' · ');const m2=document.getElementById('imgmsg');if(m2)m2.textContent=S.imgmsg;})();return;}
+  case'edv':S.edv=d.v;break;
+  case'edc':S.edc=S.edc===d.v?'':d.v;break;
+  case'edt':S.edt=S.edt===d.v?'':d.v;break;
   case'edback':S.ed=null;S.toTop=1;break;
   case'stop':S.view='stop';S.cur=d.b;S.addDay=null;S.toTop=1;break;
   case'leg':S.view='leg';S.cur=+d.i;S.addDay=null;S.toTop=1;break;
@@ -3088,7 +3115,7 @@ window.addEventListener('resize',()=>{drawMap();});
  try{const n=JSON.parse(sessionStorage.getItem('yuc-nav')||'null');
   if(n&&['ov','plan','stop','leg','days','map','ed','bld'].includes(n.view)){
    const okStop=n.view!=='stop'||(n.cur&&STOPS[n.cur]),okLeg=n.view!=='leg'||typeof n.cur==='number';
-   if(okStop&&okLeg){S.view=n.view;if(n.ed&&typeof EDITORIAL!=='undefined'&&EDITORIAL.some(x=>x.id===n.ed))S.ed=n.ed;if(n.cur!=null)S.cur=n.cur;if(n.sel&&(n.sel.t==='p'?POI[n.sel.id]:BASES[n.sel.id]))S.sel=n.sel;
+   if(okStop&&okLeg){S.view=n.view;if(n.ed&&typeof EDITORIAL!=='undefined'&&EDITORIAL.some(x=>x.id===n.ed))S.ed=n.ed;if(n.edv)S.edv=n.edv;S.edc=n.edc||'';S.edt=n.edt||'';if(n.cur!=null)S.cur=n.cur;if(n.sel&&(n.sel.t==='p'?POI[n.sel.id]:BASES[n.sel.id]))S.sel=n.sel;
     if(n.bld&&S.its[n.bld])S.bld=n.bld;if(n.dtab)S.dtab=n.dtab;if(typeof n.cx==='number'&&n.cx){S.cx=n.cx;S.cy=n.cy;S.vbw=n.vbw||0;}}}
   const y=+sessionStorage.getItem('yuc-y')||0;
   render();
