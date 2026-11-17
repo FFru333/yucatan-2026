@@ -2272,6 +2272,9 @@ S.cx=PX_(-88.2);S.cy=PY_(20.1);
   if(r.th)S.th=r.th;
  }catch(e){}
 })();
+/* Hotels booked by Marina (from her bookings screen, 17 Nov). Filled only where the field is still empty, so edits on the phone win. */
+const HOT0={val:['Olbil Hotel Boutique','8–10 Dec · € 434,68 · Confirmed'],hol:['MAJO Hotel Boutique','13–17 Dec · € 235,91 · Confirmed'],bac:['7 Cielos Bacalar','17–20 Dec · € 415,98 · Confirmed'],pm:['Villas Kaàn','20–22 Dec · € 138,28 · Confirmed']};
+for(const b in HOT0){const h=S.ov.hot[b]||(S.ov.hot[b]={});if(!h.name){h.name=HOT0[b][0];if(!h.ref)h.ref=HOT0[b][1];}}
 function save(){try{localStorage.setItem(KEY,JSON.stringify({todo:S.todo,f:S.f,wish:S.wish,its:S.its,th:S.th,days:S.days,stay:S.stay,ov:S.ov,trip:S.trip}));}catch(e){}}
 
 /* ===== TIMES ===== */
