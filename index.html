@@ -632,8 +632,9 @@ details.tdl>summary{cursor:pointer;font:700 18px var(--fd);list-style:none;paddi
 .ovt,.ovh{width:100%;border:1.5px solid var(--edge);border-radius:9px;background:var(--bg);color:var(--ink);padding:9px 10px;font:inherit;font-size:13.5px;line-height:1.45;resize:vertical}
 .fxw{display:grid;grid-template-columns:1fr 1fr;gap:6px;align-items:stretch}
 .fxb{display:grid;gap:4px;align-content:center;min-width:0;padding:12px 14px 14px;border:2px solid #F6F1E2;border-radius:var(--r);box-shadow:5px 5px 0 #111612;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
-.fxe{background:#F2C200;color:#111612}
-.fxm{background:#1D5A3A;color:#FFFFFF}
+.fxe{background:var(--accent);color:var(--accent-ink)}
+.fxm{background:var(--gold);color:#111612}
+:root[data-theme="black"] .fxm{background:#F6F1E2}
 .fxb input{box-sizing:border-box;width:100%;min-width:0;border:0;border-bottom:3px solid currentColor;border-radius:0;background:transparent;color:inherit;padding:2px 0 4px;font:inherit;font-size:28px;font-weight:700;letter-spacing:0;text-transform:none;outline:none}
 .fxb input::placeholder{color:currentColor;opacity:.7}
 .fxb:focus-within{outline:3px solid #111612;outline-offset:2px}
