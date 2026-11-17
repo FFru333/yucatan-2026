@@ -1906,7 +1906,38 @@ const EDITORIAL=[
    ['Stay (reference only)',[
     ['Cigno','Adults-only hotel in a 19th-century hacienda in central Mérida: cenote-style pool, speakeasy in the old cistern.','Mérida'],
     ['Club de Patos','Former duck-hunting lodge on the Sisal coast, now a nine-room modernist hotel.','Sisal'],
-    ['Hacienda San Antonio Millet','Restored henequen-era hacienda with tiles, folk art and gardens.','Tixkokob']]]]}
+    ['Hacienda San Antonio Millet','Restored henequen-era hacienda with tiles, folk art and gardens.','Tixkokob']]]]},
+ {id:'monocle-merida',no:'04',by:'Monocle · The Escapist',author:'Monocle (no byline shown)',date:'2019 (from the URL)',
+  title:'Mérida, Mexico',day:3,
+  blurb:'Monocle’s take on Mérida as a magnet for artists, architects and chefs. The page shows no date, the URL says 2019: some places may have changed or closed. Hotels left out.',
+  url:'https://monocle.com/culture/merida-mexico-travel-guide/',
+  cover:{name:'Paseo de Montejo',q:'Paseo de Montejo Mérida'},
+  groups:[
+   ['Eat and drink',[
+    ['La Negrita','Mérida’s oldest cantina (from 1917): live Cuban music, lively crowd, decent prices. The article says it closes at 22:00.','Mérida'],
+    ['La Fundación Mezcalería','Mezcal bar the article recommends.','Mérida'],
+    ['Malahat','One of the two speakeasies the article mentions (the other is unnamed, corner of Calle 53 and 56).','Mérida','c'],
+    ['Casa Chica','Cuban-inspired bar and restaurant branded by the local agency Bienal.','Mérida'],
+    ['Volta Café','Downtown café the article lists.','Mérida'],
+    ['Cafetería Impala','Old-school café on Paseo de Montejo, from 1958.','Mérida'],
+    ['Te Extraño Extraño','Restaurant inside Lagalá. The article suggests the chilaquiles.','Mérida'],
+    ['Néctar','Chef Roberto Solís’s restaurant in north Mérida.','Mérida'],
+    ['Huniik','Then a planned high-end restaurant by Solís with interiors by Jorge Pardo, cooking pit-style.','Mérida'],
+    ['Apoala','Oaxacan restaurant run by chef Sara Arnaud.','Mérida'],
+    ['Oliva','Italian: the article mentions the octopus and clams.','Mérida'],
+    ['Taquería La Lupita','Local institution: breakfast tacos, cochinita pibil, relleno negro.','Mérida'],
+    ['Mercado de Santiago','Late-night snack stop (queso relleno and beer).','Mérida'],
+    ['Esquina Carmesí','Planned café and cultural centre, food by Arnaud. Status unknown today.','Mérida','c']]],
+   ['See',[
+    ['Paseo de Montejo','Gilded-age mansions; also a Walmart and a McDonald’s. Walk it and stop for coffee.','Mérida'],
+    ['Quinta Montes Molina','Mansion turned museum showing henequen-era wealth.','Mérida'],
+    ['Casas Gemelas','Twin French-style stone mansions on Paseo de Montejo.','Mérida'],
+    ['Palacio de la Música','Modern music hall and museum, next to the 17th-century Templo de la Tercera Orden.','Mérida'],
+    ['Hacienda Yaxcopoil','South of town, double-arched entrance. The article says some restoration is weak.','Yaxcopoil'],
+    ['Uxmal','Maya pyramids, a day trip from Mérida.','Uxmal']]],
+   ['Shop',[
+    ['Lagalá','Shopping gallery co-founded by Ana Carolina Levya: art gallery, restaurant and a boutique with jewellery, ceramics and clothes.','Mérida'],
+    ['Región','Brand by the artists Uxi and Áurea Sian-ka’an: Maya-inspired homewares such as katalox-wood cutlery. No address in the article.','Mérida','c']]]]}
 ];
 const edMaps=(n,a)=>'https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(n+' '+a+' Yucatán');
 const edCount=e=>e.groups.reduce((s,g)=>s+g[1].length,0);
@@ -1926,7 +1957,7 @@ function edDetail(e){
  const opts=Array.from({length:15},(_,d)=>`<option value="${d}" ${d===S.edDay?'selected':''}>${dshort(d)}</option>`).join('');
  const d=S.edDay;
  const gs=e.groups.map(([g,list])=>`<h5 class="tier">${esc(g)} <span class="mono">${list.length}</span></h5><ul class="ideas">${list.map(([n,note,area,fl])=>{const on=hasItem(d,n);
-  return`<li class="idea"><div class="cit"><b>${esc(n)}</b><span class="mono pill tag">${esc(area)}</span></div><p>${esc(note)}</p>${galHTML({name:n,q:n+' '+area+' Yucatán',v:(g==='See'||n==='Izamal'||/^Iglesia/.test(n))?0:1})}${fl==='p'?'<p class="hint">Private on that trip, not open to visit. Check before planning around it.</p>':''}<div class="cia"><a href="${esc(edMaps(n,area))}" target="_blank" rel="noopener noreferrer">Maps ↗</a><a href="${esc('https://www.google.com/search?tbm=isch&q='+encodeURIComponent(n+' '+area+' Yucatán'))}" target="_blank" rel="noopener noreferrer">Photos ↗</a><button class="btn sm ${on?'ghost':''}" data-act="gadd" data-d="${d}" data-n="${esc(n)}" ${on||fl==='p'?'disabled':''}>${on?'✓ in the day':fl==='p'?'—':'+ Add'}</button></div></li>`;}).join('')}</ul>`).join('');
+  return`<li class="idea"><div class="cit"><b>${esc(n)}</b><span class="mono pill tag">${esc(area)}</span></div><p>${esc(note)}</p>${galHTML({name:n,q:n+' '+area+' Yucatán',v:(g==='See'||n==='Izamal'||/^Iglesia/.test(n))?0:1})}${fl==='p'?'<p class="hint">Private on that trip, not open to visit. Check before planning around it.</p>':fl==='c'?'<p class="hint">Older article: check it still exists.</p>':''}<div class="cia"><a href="${esc(edMaps(n,area))}" target="_blank" rel="noopener noreferrer">Maps ↗</a><a href="${esc('https://www.google.com/search?tbm=isch&q='+encodeURIComponent(n+' '+area+' Yucatán'))}" target="_blank" rel="noopener noreferrer">Photos ↗</a><button class="btn sm ${on?'ghost':''}" data-act="gadd" data-d="${d}" data-n="${esc(n)}" ${on||fl==='p'?'disabled':''}>${on?'✓ in the day':fl==='p'?'—':'+ Add'}</button></div></li>`;}).join('')}</ul>`).join('');
  return`<button class="btn sm back" data-act="edback">← Editorial</button>
  <div class="edhero ${t.on?'on':'pend'} hero-img" data-gk="${imgKey(t.spec.key)}" data-spec="${esc(JSON.stringify(t.spec))}" style="${t.bg}"><span class="hi"><span class="hm">${esc(e.by)} · ${esc(e.date)}</span><span class="hn">${esc(e.title)}</span></span></div>
  <div class="edwrap"><div class="edintro"><p>${esc(e.blurb)}</p><p class="hint">By ${esc(e.author)}. <a href="${esc(e.url)}" target="_blank" rel="noopener noreferrer">Read the original ↗</a> Hours and opening days not checked.</p>
